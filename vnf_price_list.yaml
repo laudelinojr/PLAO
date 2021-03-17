@@ -21,4 +21,4 @@
     price: 40
   - vim_url: http://10.159.205.12:5000/v3
     vim_name: openstack2
-    price: 33
+    price: 55
