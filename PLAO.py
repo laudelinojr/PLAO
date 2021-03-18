@@ -6,16 +6,20 @@ import time
 #requisites1 SearchChangeVNFDPrice
 FILE_VNF_PRICE="C:/Temp/artigo/vnf_price_list.yaml"
 NAME_VNFD="VNFB"
-URL_VNFD='http://10.159.205.12:5000/v3'
-PRICE_VNFD=33
+VIM_URL='http://10.159.205.6:5000/v3'
+PRICE_VNFD=14
 
 #requisites SearchChangePriceLatencyJitterPILL
 FILE_PILL_PRICE="C:/Temp/artigo/pill_price_list.yaml"
 OPENSTACK_FROM="openstack1"
 OPENSTACK_TO="openstack2"
-PRICE=11
-LATENCY=31
+PRICE=14
+LATENCY=34
 JITTER=44
+
+#requisites for change all price of specif VIM (Cloud)
+GROW_RATE_PRICE=2
+THRESHOLD=90
 
 ####################################### First Phase Program
 
@@ -29,10 +33,11 @@ def SearchVNFD(NAME_VNFD,B):
     else:
         return -1
 
-def ChangeCostVNFPrice(COD_VNFD,VIMURL,PRICE,B):
+def ChangeVNFPrice(COD_VNFD,VIMURL,PRICE,B):
 #First, use the SearchVNFD function, after, this
-#Change cost of specific VIMNAME OF VNFD
+#Change price of specific VIMNAME OF VNFD
 #If no result, return -1  
+# In this, the target is to change the price cloud for specif Cloud (VIM)
     C = len(B[COD_VNFD]['prices']) #Elements
 
     if COD_VNFD < 0:
@@ -40,23 +45,48 @@ def ChangeCostVNFPrice(COD_VNFD,VIMURL,PRICE,B):
     for i in range(C):
         if B[COD_VNFD]['prices'][i]['vim_url'] == VIMURL: #Compare VIMURL between YAML and the new
             if B[COD_VNFD]['prices'][i]['price'] != PRICE:  #Compare new PRICE with actual Price, if equal, no change
-                B[COD_VNFD]['prices'][i]['price']=PRICE #Change the VNF Cost
+                B[COD_VNFD]['prices'][i]['price']=PRICE #Change the VNF Price
                 return i
             else:
                 return -1
     else:
         return -1
 
-def SearchChangeVNFDPrice(NAME_VNFD,URL_VNFD,PRICE_VNFD):
+def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
     A=open(FILE_VNF_PRICE, )
     B=yaml.full_load(A)
 
-    if (ChangeCostVNFPrice(SearchVNFD(NAME_VNFD,B),URL_VNFD,PRICE_VNFD,B)) != -1: #Change cost of specific VIM in specific VNFD
+    if (ChangeVNFPrice(SearchVNFD(NAME_VNFD,B),VIM_URL,PRICE_VNFD,B)) != -1: #Change price of specific VIM in specific VNFD
         with open(FILE_VNF_PRICE, 'w') as file:
             documents = yaml.dump(B, file, sort_keys=False) #Export changes to file without order, equal original file
         print("File changed")
+        print("Copy file to container pla...")
     else:
         print ("File not changed")
+
+def SearchGrowUpVimPrice(VIM_URL,GROW_RATE_PRICE):
+
+    A=open(FILE_VNF_PRICE, )
+    B=yaml.full_load(A)
+    C = len(B)
+    D = len(B[0]['prices'])
+    PRICE=0
+    CHANGED_PRICE_VIM_URL=0
+
+    for i in range(C): #Search and change all the all vim url price for specific cloud
+        for f in range(D):
+            if B[i]['prices'][f]['vim_url'] == VIM_URL: #Compare VIMURL between YAML and the new
+                    PRICE=B[i]['prices'][f]['price']
+                    B[i]['prices'][f]['price']=PRICE*GROW_RATE_PRICE #Change the VNF Price with the rate price
+                    PRICE=0
+                    CHANGED_PRICE_VIM_URL=CHANGED_PRICE_VIM_URL+1
+
+
+    with open(FILE_VNF_PRICE, 'w') as file:
+        documents = yaml.dump(B, file, sort_keys=False) #Export changes to file without order, equal original file
+    print("File changed")
+    print ("Changed "+str(CHANGED_PRICE_VIM_URL)+" PRICES VIM_URL (CLOUDS).")
+
 
 
 def SearchChangePILLPrice(OPENSTACK_FROM,OPENSTACK_TO,B):  #Search in file the cloud math between from and to, in this order. If located, stop the search
@@ -76,7 +106,7 @@ def ChangePriceLatencyJitterPILL(CLOUD_COD,PRICE,LATENCY,JITTER,B):
     else:
         return -1
 
-def SearchChangePriceLatencyJitterPILL(PRICE,LATENCY,JITTER):
+def SearchChangePriceLatencyJitterPILL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENSTACK_TO):
 
     A=open(FILE_PILL_PRICE, )
     B=yaml.full_load(A)
@@ -93,8 +123,13 @@ def SearchChangePriceLatencyJitterPILL(PRICE,LATENCY,JITTER):
     else:
         print('The cloud math did not locate.')
 
-####################################### Second Phase Program
 
+#SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD)
+#SearchChangePriceLatencyJitterPILL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENSTACK_TO)
+SearchGrowUpVimPrice(VIM_URL,GROW_RATE_PRICE)
+
+####################################### Second Phase Program
+""" 
 def printCloudsDict():
     while True:
         time.sleep(15)
@@ -127,6 +162,7 @@ def requestDataCloud():
               #  connection.sendall(mensagem.encode('utf8'))
                # commands.update({(ID): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOURS(),'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': STATUS,'CONEXAO': connection}})
 
+
 def DATEHOURS():
     DATEHOUR = datetime.datetime.now().strftime('%d.%m.%y-%H:%M:%S')  # converte hora para string do cliente
     return DATEHOURS
@@ -152,23 +188,28 @@ def conectado(connection, enderecoCliente):
                 CLOUDTONAME = msg[5] #NAME OF CLOUD TO
                 CLOUDTOIP = msg[6] #IP OF CLOUD TO
                 STATUS = msg[7] #SERVER OR CLIENT
-                COST = msg[8] #COST
+                PRICE = msg[8] #PRICE
                 LATENCY = msg[9] #LATENCY
                 JITTER = msg[10] #JITTER
                 CPU = msg[11] #CPU
                 MEMORY = msg[12] #MEMORY
                 if TIPO == 'REGIS': #check for the first time the type protocol and send the id number
                     clouds.update({(str(len(clouds)+1)):{'CLOUD': CLOUD,'CLOUDIP':CLOUDIP}})
-                    mensagem = 'REGIS#' + str(len(clouds)) + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + COST + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#'  #preparing message
+                    mensagem = 'REGIS#' + str(len(clouds)) + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#'  #preparing message
                     connection.sendall(mensagem.encode('utf8'))  #sending in first time the command to client
-                    commands.update({(ID): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': STATUS, 'COST': COST, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY ,'CONEXAO': connection}})
+                    commands.update({(ID): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': STATUS, 'PRICE': PRICE, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY ,'CONEXAO': connection}})
                 if TIPO == 'SENDS':  #check the type protocol
-                    mensagem = 'SENDC#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + COST + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#'
+                    mensagem = 'SENDC#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#'
                     connection.sendall(mensagem.encode('utf8'))
-                    commands.update({(ID): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': STATUS, 'COST': COST, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY, 'CONEXAO': connection}})                   
+                    commands.update({(ID): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': STATUS, 'PRICE': PRICE, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY, 'CONEXAO': connection}})                   
                     nomearquivo=CLOUD+'_'+CLOUDIP+'_history.txt' #write data in file
                     with open(nomearquivo, 'a') as arquivo:
-                        arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ COST + ","+LATENCY+","+JITTER + "," + CPU + "," + MEMORY +'\r\n')
+                        arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ PRICE + ","+LATENCY+","+JITTER + "," + CPU + "," + MEMORY +'\r\n')
+                    SearchChangePriceLatencyJitterPILL(PRICE,LATENCY,CLOUD,CLOUDTONAME) #execute function that search and change price pill
+
+                    if CPU > THRESHOLD:
+                        SearchGrowUpVimPrice(VIM_URL,GROW_RATE_PRICE) #The cost is multiplied by the GROW_RATE_PRICE if CPU is bigger than 
+
                 if TIPO == 'EXCL': #Delete registry cloud in Dict
                     if ID.isdigit():
                         clouds.pop(ID)
@@ -207,16 +248,15 @@ finally:
     print ("DEBUG: finalinzando thread")
     socketServer.close()
 
-#SearchChangeVNFDPrice(NAME_VNFD,URL_VNFD,PRICE_VNFD)
-#SearchChangePriceLatencyJitterPILL(PRICE,LATENCY,JITTER)
+
 
 #proximos passos
 #Executar o iperf como client e como server
 # viabilizar estes comandos a cada 10 segundos( ver com oficará a fila se demorar) de preferencia via thread
 #corrigir envio custo sem dados, so nome variavel
 # latencia para o usuario e aterar pesos vnf baseado nisto
-# alterar os pesos em caso de cpu alta
 # ver se existe metrica de quantidade de vnf alocada
 # ver se existe metrica para quantidade de cpu de um total da nuvem
 # alterar aquivo no container a cada mudança
 # fazer simulações com tc
+ """
