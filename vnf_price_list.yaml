@@ -2,31 +2,31 @@
   prices:
   - vim_url: http://10.159.205.6:5000/v3
     vim_name: openstack1
-    price: 16
+    price: 524288
   - vim_url: http://10.159.205.12:5000/v3
     vim_name: openstack2
-    price: 8
+    price: 4194304
 - vnfd: VNFA
   prices:
   - vim_url: http://10.159.205.6:5000/v3
     vim_name: openstack1
-    price: 24
+    price: 1048576
   - vim_url: http://10.159.205.12:5000/v3
     vim_name: openstack2
-    price: 30
+    price: 15728640
 - vnfd: VNFB
   prices:
   - vim_url: http://10.159.205.6:5000/v3
     vim_name: openstack1
-    price: 32
+    price: 1572864
   - vim_url: http://10.159.205.12:5000/v3
     vim_name: openstack2
-    price: 22
+    price: 11534336
 - vnfd: VNFC
   prices:
   - vim_url: http://10.159.205.6:5000/v3
     vim_name: openstack1
-    price: 40
+    price: 2097152
   - vim_url: http://10.159.205.12:5000/v3
     vim_name: openstack2
-    price: 22
+    price: 11534336
