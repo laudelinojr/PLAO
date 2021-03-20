@@ -210,7 +210,7 @@ def conectado(connection, enderecoCliente):
 
             if len(msg) > 5:  # se true indica que existe protocolo trafegando
                 if debug == 1: print ("DEBUG: dentro primeiro while true conectado2")
-                # TIPOS: REGD - Send new ID request
+                # TIPOS:REGIS - First comunication between server and client for register the cloud
                 #       SENDS - Send command to Server
                 #       SENDC - Send command to client
                 TIPO = msg[0] 
@@ -233,16 +233,17 @@ def conectado(connection, enderecoCliente):
                     connection.sendall(mensagem.encode('utf8'))  #sending in first time the command to client
                     commands.update({(ID): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': STATUS, 'PRICE': PRICE, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY ,'CONEXAO': connection}})
                 if TIPO == 'SENDS':  #check the type protocol
-                    nomearquivo=CLOUD+'_'+CLOUDIP+'_history.txt' #write data in file
 
                     if int(CPU) > THRESHOLD:
                         CPU_STATUS_NOW=1   #Values: 0-cpu normal, 1-cpu high and cost value going to change
                         VIMURL=clouds.get(str(ID)).get('VIMURL')
                         SearchGrowUpVimPrice(VIMURL,GROW_RATE_PRICE,ID,CPU_STATUS_NOW) #The cost is multiplied by the GROW_RATE_PRICE if CPU is bigger than 
-
-                    with open(nomearquivo, 'a') as arquivo:
-                        arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ PRICE + ","+LATENCY+","+JITTER + "," + CPU + "," + MEMORY +'\n')
-                    SearchChangePriceLatencyJitterPILL(PRICE,LATENCY,JITTER,CLOUD,CLOUDTONAME) #execute function that search and change price pill                
+                    
+                    nomearquivo=CLOUD+'_'+CLOUDIP+'_history.txt' #write data in file
+                    if PRICE != "PRICE": #If is sending real data, this going to a file
+                        with open(nomearquivo, 'a') as arquivo:
+                            arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ PRICE + ","+LATENCY+","+JITTER + "," + CPU + "," + MEMORY +'\n')
+                        SearchChangePriceLatencyJitterPILL(PRICE,LATENCY,JITTER,CLOUD,CLOUDTONAME) #execute function that search and change price pill                
                    
                     if len(clouds) == 2:
                         CLOUD=(clouds.get('1').get('CLOUD'))
