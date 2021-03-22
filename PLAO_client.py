@@ -131,21 +131,21 @@ def OpenStackHypervisorStats(): #criar file hypervisor_stats.txt in openstack di
     return hypervisorStats
 
 def GetJitter(CLOUDTOIP,QUANTITY_PCK,STATUS):
-    if STATUS == "CLIENT":
-        iperf = subprocess.run(["iperf3", "-s", "-1", "-D"])
-        iperf2 = subprocess.check_output(["iperf3", "-c", CLOUDTOIP,"-u", "-t", QUANTITY_PCK])
-        jitter = iperf2.split()[-11]
-        print (jitter)
-        resp = str(jitter, 'utf-8')
-        return resp
-    if STATUS == "SERVER":
-        iperf = subprocess.check_output(["iperf3", "-c", CLOUDTOIP,"-u", "-t", QUANTITY_PCK])
-        iperf = subprocess.run(["iperf3", "-s", "-1", "-D"])        
-        #iperf = subprocess.check_output([DIR_IPERF+"iperf3", "-c", CLOUDTOIP,"-u", "-t", QUANTITY_PCK])
-        jitter = iperf.split()[-11]
-        print (jitter)
-        resp = str(jitter, 'utf-8')
-        return resp
+    #if STATUS == "CLIENT":
+    iperf = subprocess.run(["iperf3", "-s", "-1", "-D"])
+    iperf2 = subprocess.check_output(["iperf3", "-c", CLOUDTOIP,"-u", "-t", QUANTITY_PCK])
+    jitter = iperf2.split()[-11]
+    print (jitter)
+    resp = str(jitter, 'utf-8')
+    return resp
+    #if STATUS == "SERVER":
+    #    iperf = subprocess.check_output(["iperf3", "-c", CLOUDTOIP,"-u", "-t", QUANTITY_PCK])
+    #    iperf2 = subprocess.run(["iperf3", "-s", "-1", "-D"])        
+    #    #iperf = subprocess.check_output([DIR_IPERF+"iperf3", "-c", CLOUDTOIP,"-u", "-t", QUANTITY_PCK])
+    #    jitter = iperf.split()[-11]
+    #    print (jitter)
+    #    resp = str(jitter, 'utf-8')
+    #    return resp
 
 ID_CONF="" #Local variable with uniq identifier cloud
 
