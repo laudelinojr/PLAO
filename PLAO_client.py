@@ -124,20 +124,14 @@ def GetLatency(TARGET,QUANTITY_PCK):
         resp3=resp2.split("ms")[0]
         return resp3
 
-def OpenStackHypervisorStats(): #criar file hypervisor_stats.txt in openstack directory
-    adminrc = subprocess.run(["source", "admin.rc"]) 
-    hypervisorStats = subprocess.check_output(["openstack", "hypervisor", "stats", "show"])      
-    print (hypervisorStats)
-    return hypervisorStats
-
 def GetJitter(CLOUDTOIP,QUANTITY_PCK,STATUS):
     #if STATUS == "CLIENT":
     #iperf = subprocess.run(["iperf3", "-s", "-1", "-D"])
     try:
         iperf2 = subprocess.check_output(["iperf3", "-c", CLOUDTOIP,"-u", "-t", QUANTITY_PCK])
     except:
-        return ''
-    jitter = iperf2.split()[-11]
+        return -1
+    jitter = iperf2.split()[-7]
     print (jitter)
     resp = str(jitter, 'utf-8')
     return resp
@@ -205,7 +199,7 @@ try:
                         #if STATUS == 'SERVER':
                         print('DEBUG: Command received, exec iperf SERVER')
                         time.sleep(5)
-                        if (CLOUDTOIP != "CLOUDTOIP"):
+                        if (CLOUDTOIP != "CLOUDTOIP" and CLOUDTOIP == "10.159.205.6" ):
                             print("antes latencica")
                             LATENCY=str(round(float(GetLatency(CLOUDTOIP,QUANTITY_PCK)))) #Get latency with ping, is necessary set quantity packages
                             print("depois latencia antes price")
