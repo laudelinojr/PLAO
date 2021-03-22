@@ -132,12 +132,14 @@ def OpenStackHypervisorStats(): #criar file hypervisor_stats.txt in openstack di
 
 def GetJitter(CLOUDTOIP,QUANTITY_PCK,STATUS):
     if STATUS == "CLIENT":
-        iperf = subprocess.run([DIR_IPERF+"iperf3", "-s", "-1", "-D"])      
+        iperf = subprocess.run(["iperf", "-s", "-1", "-D"])
+        #iperf = subprocess.run([DIR_IPERF+"iperf3", "-s", "-1", "-D"])      
         #jitter = iperf.split()[-4]
         #print (jitter)
         #return iperf
     if STATUS == "SERVER":
-        iperf = subprocess.check_output([DIR_IPERF+"iperf3", "-c", CLOUDTOIP,"-u", "-t", QUANTITY_PCK])
+        iperf = subprocess.check_output(["iperf", "-c", CLOUDTOIP,"-u", "-t", QUANTITY_PCK])
+        #iperf = subprocess.check_output([DIR_IPERF+"iperf3", "-c", CLOUDTOIP,"-u", "-t", QUANTITY_PCK])
         jitter = iperf.split()[-11]
         print (jitter)
         resp = str(jitter, 'utf-8')
