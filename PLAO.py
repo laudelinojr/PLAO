@@ -202,7 +202,7 @@ def conectado(connection, enderecoCliente):
                     commands.update({('ID'): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': 'SERVER', 'PRICE': PRICE, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY, 'CONEXAO': connection}})
                     mensagem = 'SENDC#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + 'JITTER' + '#' + 'CPU' + '#' + 'MEMORY' + '#'
                     connection.sendall(mensagem.encode('utf8'))
-                       ''' if ID == "2":
+                       '''  if ID == "2":
                             CLOUD=(clouds.get('2').get('CLOUD'))
                             CLOUDIP=(clouds.get('2').get('CLOUDIP'))
                             CLOUDTONAME=(clouds.get('1').get('CLOUD'))
