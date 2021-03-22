@@ -195,10 +195,10 @@ def conectado(connection, enderecoCliente):
                     print ("tamanhoclouds: "+str(len(clouds)))
                     #if len(clouds) = 2:
                         #if ID == "1":
-                    CLOUD=(clouds.get('1').get('CLOUD'))
-                    CLOUDIP=(clouds.get('1').get('CLOUDIP'))
-                    CLOUDTONAME=(clouds.get('2').get('CLOUD'))
-                    CLOUDTOIP=(clouds.get('2').get('CLOUDIP'))
+                    #CLOUD=(clouds.get('1').get('CLOUD'))
+                    #CLOUDIP=(clouds.get('1').get('CLOUDIP'))
+                    #CLOUDTONAME=(clouds.get('2').get('CLOUD'))
+                    #CLOUDTOIP=(clouds.get('2').get('CLOUDIP'))
                     commands.update({('ID'): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': 'SERVER', 'PRICE': PRICE, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY, 'CONEXAO': connection}})
                     mensagem = 'SENDC#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + 'JITTER' + '#' + 'CPU' + '#' + 'MEMORY' + '#'
                     connection.sendall(mensagem.encode('utf8'))
