@@ -50,7 +50,7 @@ def ChangeVNFPrice(COD_VNFD,VIMURL,PRICE,B):
 
 def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
     A=open(FILE_VNF_PRICE, )
-    B=yaml.f  full_load(A)
+    B=yaml.full_load(A)
 
     if (ChangeVNFPrice(SearchVNFD(NAME_VNFD,B),VIM_URL,PRICE_VNFD,B)) != -1: #Change price of specific VIM in specific VNFD
         with open(FILE_VNF_PRICE, 'w') as file:
