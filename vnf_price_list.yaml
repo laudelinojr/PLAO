@@ -2,7 +2,7 @@
   prices:
   - vim_url: http://10.159.205.6:5000/v3
     vim_name: openstack1
-    price: 8
+    price: 28
   - vim_url: http://10.159.205.12:5000/v3
     vim_name: openstack2
     price: 10
@@ -10,7 +10,7 @@
   prices:
   - vim_url: http://10.159.205.6:5000/v3
     vim_name: openstack1
-    price: 6
+    price: 26
   - vim_url: http://10.159.205.12:5000/v3
     vim_name: openstack2
     price: 7
@@ -18,7 +18,7 @@
   prices:
   - vim_url: http://10.159.205.6:5000/v3
     vim_name: openstack1
-    price: 8
+    price: 28
   - vim_url: http://10.159.205.12:5000/v3
     vim_name: openstack2
     price: 8
@@ -26,7 +26,7 @@
   prices:
   - vim_url: http://10.159.205.6:5000/v3
     vim_name: openstack1
-    price: 5
+    price: 25
   - vim_url: http://10.159.205.12:5000/v3
     vim_name: openstack2
     price: 7

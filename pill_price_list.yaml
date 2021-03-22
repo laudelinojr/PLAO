@@ -1,7 +1,7 @@
 pil:
 - pil_description: Link between OpenStack1 and OpenStack2
-  pil_price: 0
-  pil_latency: 0
+  pil_price: 1
+  pil_latency: 1
   pil_jitter: 0
   pil_endpoints:
   - openstack1

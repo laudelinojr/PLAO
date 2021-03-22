@@ -105,10 +105,13 @@ def SearchChangePILLPrice(OPENSTACK_FROM,OPENSTACK_TO,B):  #Search in file the c
     return -1
 
 def ChangePriceLatencyJitterPILL(CLOUD_COD,PRICE,LATENCY,JITTER,B):
+    PRICE=round(float(PRICE))
+    LATENCY=round(float(LATENCY))
+    JITTER=round(float(JITTER))
     if ((B['pil'][CLOUD_COD]['pil_price'] != PRICE) or (B['pil'][CLOUD_COD]['pil_latency'] != LATENCY) or (B['pil'][CLOUD_COD]['pil_jitter'] != JITTER)): #Change just one this values is different of the entry
-        B['pil'][CLOUD_COD]['pil_price']=int(PRICE) #change the price
-        B['pil'][CLOUD_COD]['pil_latency']=int(LATENCY) #change the latency - same price
-        B['pil'][CLOUD_COD]['pil_jitter']=int(JITTER) #change the jitter
+        B['pil'][CLOUD_COD]['pil_price']=PRICE #change the price
+        B['pil'][CLOUD_COD]['pil_latency']=LATENCY #change the latency - same price
+        B['pil'][CLOUD_COD]['pil_jitter']=JITTER #change the jitter
         return 0
     else:
         return -1
@@ -176,8 +179,7 @@ def conectado(connection, enderecoCliente):
                     if int(CPU) > THRESHOLD:
                         CPU_STATUS_NOW=1   #Values: 0-cpu normal, 1-cpu high and cost value going to change
                         VIMURL=clouds.get(str(ID)).get('VIMURL')
-                        SearchGrowUpVimPrice(VIMURL,GROW_ADD_PRICE,ID,CPU_STATUS_NOW) #The cost is add by the GROW_ADD_PRICE if CPU is bigger than 
-                    
+                        SearchGrowUpVimPrice(VIMURL,GROW_ADD_PRICE,ID,CPU_STATUS_NOW) #The cost is add by CPU bigger
                     nomearquivo1=CLOUD+'_'+CLOUDIP+'_history.txt' #write data in file
                     nomearquivo2='LINK_'+CLOUD+'_'+CLOUDTONAME+'_history.txt' #write data in file
                     if PRICE != "PRICE": #If is sending real data, this going to a file
@@ -249,7 +251,6 @@ except Exception as e:
 finally:
     socketServer.close()
 
-# viabilizar estes comandos a cada 10 segundos( ver com oficará a fila se demorar) de preferencia via thread
 #corrigir envio custo sem dados, so nome variavel
 # latencia para o usuario e aterar pesos vnf baseado nisto
 # ver se existe metrica de quantidade de vnf alocada
