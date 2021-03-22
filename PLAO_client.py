@@ -203,9 +203,13 @@ try:
                         print('DEBUG: Command received, exec iperf SERVER')
                         time.sleep(5)
                         if (CLOUDTOIP != "CLOUDTOIP"):
+                            print("antes latencica")
                             LATENCY=str(round(float(GetLatency(CLOUDTOIP,QUANTITY_PCK)))) #Get latency with ping, is necessary set quantity packages
+                            print("depois latencia antes price")
                             PRICE=LATENCY
+                            print("antes jitter")
                             JITTER=str(round(float(GetJitter(CLOUDTOIP,QUANTITY_PCK,STATUS)))) #Get Jitter with iperf, is necessary set quantity packages
+                            print("depois jitter")
                         print("antes cpu")
                         CPU=GetHypervisorStats(CLOUDIP,"vcpu_use_percent")
                         print("depois cpu")
