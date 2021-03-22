@@ -184,13 +184,13 @@ def conectado(connection, enderecoCliente):
                     nomearquivo1=CLOUD+'_'+CLOUDIP+'_history.txt' #write data in file
                     nomearquivo2='LINK_'+CLOUD+'_'+CLOUDTONAME+'_history.txt' #write data in file
 
-                    if PRICE != "PRICE": #If is sending real data, this going to a file
-                        print(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ PRICE + ","+LATENCY+","+JITTER + "," + CPU + "," + MEMORY)
-                        with open(nomearquivo1, 'a') as arquivo:
-                            arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ CPU + "," + MEMORY +'\n')
-                        with open(nomearquivo2, 'a') as arquivo:
-                            arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ PRICE + ","+LATENCY+","+JITTER+'\n')
-                        SearchChangePriceLatencyJitterPILL(PRICE,LATENCY,JITTER,CLOUD,CLOUDTONAME) #execute function that search and change price pill                
+#                    if PRICE != "PRICE": #If is sending real data, this going to a file
+                    print(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ PRICE + ","+LATENCY+","+JITTER + "," + CPU + "," + MEMORY)
+                    with open(nomearquivo1, 'a') as arquivo:
+                        arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ CPU + "," + MEMORY +'\n')
+                    with open(nomearquivo2, 'a') as arquivo:
+                        arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ PRICE + ","+LATENCY+","+JITTER+'\n')
+                    SearchChangePriceLatencyJitterPILL(PRICE,LATENCY,JITTER,CLOUD,CLOUDTONAME) #execute function that search and change price pill                
 
                     print ("tamanhoclouds: "+str(len(clouds)))
                     if len(clouds) == 2:
