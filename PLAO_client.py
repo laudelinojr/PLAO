@@ -133,12 +133,14 @@ def OpenStackHypervisorStats(): #criar file hypervisor_stats.txt in openstack di
 def GetJitter(CLOUDTOIP,QUANTITY_PCK,STATUS):
     if STATUS == "CLIENT":
         iperf = subprocess.run(["iperf3", "-s", "-1", "-D"])
-        #iperf = subprocess.run([DIR_IPERF+"iperf3", "-s", "-1", "-D"])      
-        #jitter = iperf.split()[-4]
-        #print (jitter)
-        #return iperf
+        iperf2 = subprocess.check_output(["iperf3", "-c", CLOUDTOIP,"-u", "-t", QUANTITY_PCK])
+        jitter = iperf2.split()[-11]
+        print (jitter)
+        resp = str(jitter, 'utf-8')
+        return resp
     if STATUS == "SERVER":
         iperf = subprocess.check_output(["iperf3", "-c", CLOUDTOIP,"-u", "-t", QUANTITY_PCK])
+        iperf = subprocess.run(["iperf3", "-s", "-1", "-D"])        
         #iperf = subprocess.check_output([DIR_IPERF+"iperf3", "-c", CLOUDTOIP,"-u", "-t", QUANTITY_PCK])
         jitter = iperf.split()[-11]
         print (jitter)
@@ -195,18 +197,19 @@ try:
                 if TIPO == 'SENDC':
                     if CLOUDIP_LOCAL == CLOUDIP:
                         print(CLOUDTOIP)
-                        if STATUS == 'SERVER':
-                            print('DEBUG: Command received, exec iperf SERVER')
-                            time.sleep(5)
-                            if (CLOUDTOIP != "CLOUDTOIP"):
-                                LATENCY=str(round(float(GetLatency(CLOUDTOIP,QUANTITY_PCK)))) #Get latency with ping, is necessary set quantity packages
-                                PRICE=LATENCY
-                                JITTER=str(round(float(GetJitter(CLOUDTOIP,QUANTITY_PCK,STATUS)))) #Get Jitter with iperf, is necessary set quantity packages
-                            CPU=GetHypervisorStats(CLOUDIP,"vcpu_use_percent")
-                            MEMORY=''
-                            mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#'
-                            print (mensagem)
-                            tcp.sendall(mensagem.encode('utf8')) #send to server colletion data
+                        #if STATUS == 'SERVER':
+                        print('DEBUG: Command received, exec iperf SERVER')
+                        time.sleep(5)
+                        if (CLOUDTOIP != "CLOUDTOIP"):
+                            LATENCY=str(round(float(GetLatency(CLOUDTOIP,QUANTITY_PCK)))) #Get latency with ping, is necessary set quantity packages
+                            PRICE=LATENCY
+                            JITTER=str(round(float(GetJitter(CLOUDTOIP,QUANTITY_PCK,STATUS)))) #Get Jitter with iperf, is necessary set quantity packages
+                        CPU=GetHypervisorStats(CLOUDIP,"vcpu_use_percent")
+                        MEMORY=''
+                        mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#'
+                        print (mensagem)
+                        tcp.sendall(mensagem.encode('utf8')) #send to server colletion data
+                         '''   
                         if STATUS == 'CLIENT':
                             print('DEBUG: Command received, exec iperf CLIENT')
                             time.sleep(5)
@@ -224,6 +227,7 @@ try:
                             mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#'
                             print (mensagem)
                             tcp.sendall(mensagem.encode('utf8'))  #send to server colletion data
+                            '''
         if not msg: break
 except KeyboardInterrupt:
     print('Tecla de interrupção acionada, saindo... e solicitando exclusao do dispositivo no servidor.')
