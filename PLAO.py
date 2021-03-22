@@ -121,6 +121,13 @@ def SearchGrowUpVimPrice(VIM_URL,GROW_ADD_PRICE,CLOUD_COD,STATUS_CPU_NOW,DATEHOU
         nomearquivo3='CPU_'+CLOUD+'_history.txt' #write data in file
         with open(nomearquivo3, 'a') as arquivo:
             arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ str(STATUS_CPU_NOW)+'\n')
+            
+        with open(FILE_PILL_PRICE, 'w') as file:
+            documents = yaml.dump(B, file, sort_keys=False) #Export changes to file without order, equal original file
+        try:
+        changefile = subprocess.check_output(["runuser", "-l", "mano","-c", "'docker cp /opt/PLAO/osm/pill_price_list.yaml $(docker ps -qf name=osm_pla):/placement/.'"])
+        except:
+            return -1
 
 
 def SearchChangePILLPrice(OPENSTACK_FROM,OPENSTACK_TO,B):  #Search in file the cloud math between from and to, in this order. If located, stop the search
