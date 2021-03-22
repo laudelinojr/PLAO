@@ -3,6 +3,24 @@ import socket
 import threading
 import time
 
+#CPU - O LIMITE É CONFIGURAVEL E ESTA EM 90%, QUANDO O MESMO É ATINGIDO, OS PRICES DA 
+# NUVEM_2 SÃO ALTERADOS PARA TODOS OS VNFDS DO ARQUIVO DE CONFIGURAÇÃO
+# O PERCENTUAL SERÁ SEMPRE INTEIRO, DADO GUARDADO EM ARQUIVO TXT TAMBEM
+#Arquivo CPU_CLOUD_history.txt' - DATEHOURS,CLOUD,CLOUDIP,CPU
+
+#JITTER E LATENCIA, AMBOS SÃO CONVERTIDOS PARA INTEIRO, POIS O ARQUIVO DE CONFIGURAÇÃO DO OSM SÓ ACEITA INTEIRO
+# DADO GUARDADO EM ARQUIVO TEXTO TAMBÉM COM O NOME LINK
+#Arquivo LINK_CLOUD_history.txt' - DATEHOUR, CLOUD,CLOUDIP,PRICE,LATENCY,JITTER
+#O PREÇO ESTÁ O MESMO VALOR DA LATENCIA
+
+#QUANTIDADE DE VNF POR CLOUD
+#49ba3bef-0b9c-42a3-a546-109de123db05 (1)
+#3a75c592-952a-49ca-8ce2-42360ee6cec0 (2)
+#Arquivo CLOUD_CLOUDIP_history.txt - DATEHOUR,CLOUD,CLOUDIP,CPU,QT_VM
+
+
+
+
 #Debug mode is 1
 debug=0
 
@@ -55,6 +73,10 @@ def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
     if (ChangeVNFPrice(SearchVNFD(NAME_VNFD,B),VIM_URL,PRICE_VNFD,B)) != -1: #Change price of specific VIM in specific VNFD
         with open(FILE_VNF_PRICE, 'w') as file:
             documents = yaml.dump(B, file, sort_keys=False) #Export changes to file without order, equal original file
+        try:
+            changefile = subprocess.check_output(["runuser", "-l", "mano","-c", "'docker cp /opt/PLAO/osm/vnf_price_list.yaml $(docker ps -qf name=osm_pla):/placement/.'"])
+        except:
+            return -1     
         if debug ==1: print("DEBUG: File changed")
         if debug ==1: print("DEBUG: Copy file to container pla...")
     else:
@@ -93,7 +115,12 @@ def SearchGrowUpVimPrice(VIM_URL,GROW_ADD_PRICE,CLOUD_COD,STATUS_CPU_NOW):
     if CHANGED_PRICE_VIM_URL > 0:
         with open(FILE_VNF_PRICE, 'w') as file:
             documents = yaml.dump(B, file, sort_keys=False) #Export changes to file without order, equal original file
-        print ("File pill_price changed because CPU.")
+        print ("CPU CHANGE: File pill_price changed because High CPU.")
+        with open(FILE_VNF_PRICE, 'w') as file:
+            documents = yaml.dump(B, file, sort_keys=False)
+        nomearquivo2='CPU_'+CLOUD+'_history.txt' #write data in file
+        with open(nomearquivo3, 'a') as arquivo:
+            arquivo.write(DATEHOURS + ','+ CLOUD + ","+ CLOUDIP +","+ CPU+'\n')
 
 
 def SearchChangePILLPrice(OPENSTACK_FROM,OPENSTACK_TO,B):  #Search in file the cloud math between from and to, in this order. If located, stop the search
@@ -126,6 +153,10 @@ def SearchChangePriceLatencyJitterPILL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENS
         if (ChangePriceLatencyJitterPILL(CLOUD_COD,PRICE,LATENCY,JITTER,B)) != -1: #Change Price Latency and Jitter
             with open(FILE_PILL_PRICE, 'w') as file:
                 documents = yaml.dump(B, file, sort_keys=False) #Export changes to file without order, equal original file
+            try:
+                changefile = subprocess.check_output(["runuser", "-l", "mano","-c", "'docker cp /opt/PLAO/osm/pill_price_list.yaml $(docker ps -qf name=osm_pla):/placement/.'"])
+            except:
+                return -1
             print("File pill_price changed")
         else:
             print ("File pill_price not changed")
@@ -182,7 +213,7 @@ def conectado(connection, enderecoCliente):
                         SearchGrowUpVimPrice(VIMURL,GROW_ADD_PRICE,ID,CPU_STATUS_NOW) #The cost is add by CPU bigger
 
                     nomearquivo1=CLOUD+'_'+CLOUDIP+'_history.txt' #write data in file
-                    nomearquivo2='LINK_'+CLOUD+'_'+CLOUDTONAME+'_history.txt' #write data in file
+                    nomearquivo2='LINK_'+CLOUD+'_history.txt' #write data in file
 
                     with open(nomearquivo1, 'a') as arquivo:
                         arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ CPU + "," + MEMORY +'\n')

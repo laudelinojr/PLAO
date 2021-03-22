@@ -197,21 +197,14 @@ try:
                     if CLOUDIP_LOCAL == CLOUDIP:
                         print(CLOUDTOIP)
                         #if STATUS == 'SERVER':
-                        print('DEBUG: Command received, exec iperf SERVER')
                         time.sleep(5)
                         if (CLOUDTOIP != "CLOUDTOIP" ):
-                            print("antes latencica")
                             LATENCY=str(round(float(GetLatency(CLOUDTOIP,QUANTITY_PCK)))) #Get latency with ping, is necessary set quantity packages
-                            print("depois latencia antes price")
                             PRICE=LATENCY
-                            print("antes jitter")
                             if (CLOUDTOIP ==  "10.159.205.6"):
                                 JITTER=str(round(float(GetJitter(CLOUDTOIP,QUANTITY_PCK,STATUS)))) #Get Jitter with iperf, is necessary set quantity packages
-                            print("depois jitter")
-                        print("antes cpu")
                         CPU=GetHypervisorStats(CLOUDIP,"vcpu_use_percent")
-                        print("depois cpu")
-                        MEMORY=''
+                        MEMORY=GetHypervisorStats(CLOUDIP,"running_vms")
                         mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#'
                         print (mensagem)
                         tcp.sendall(mensagem.encode('utf8')) #send to server colletion data
