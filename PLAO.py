@@ -74,7 +74,7 @@ def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
         with open(FILE_VNF_PRICE, 'w') as file:
             documents = yaml.dump(B, file, sort_keys=False) #Export changes to file without order, equal original file
         try:
-            changefile = subprocess.check_output(["runuser", "-l", "mano","-c", "'docker cp /opt/PLAO/osm/vnf_price_list.yaml $(docker ps -qf name=osm_pla):/placement/.'"])
+            changefile = subprocess.check_output(["/opt/PLAO/osm/script.sh"])
         except:
             return -1     
         if debug ==1: print("DEBUG: File changed")
@@ -125,7 +125,8 @@ def SearchGrowUpVimPrice(VIM_URL,GROW_ADD_PRICE,CLOUD_COD,STATUS_CPU_NOW,DATEHOU
         with open(FILE_PILL_PRICE, 'w') as file:
             documents = yaml.dump(B, file, sort_keys=False) #Export changes to file without order, equal original file
         try:
-            changefile = subprocess.check_output(["runuser", "-l", "mano","-c", "'docker cp /opt/PLAO/osm/pill_price_list.yaml $(docker ps -qf name=osm_pla):/placement/.'"])
+            changefile = subprocess.check_output(["/opt/PLAO/osm/script.sh"])
+            #changefile = subprocess.check_output(["runuser", "-l", "mano","-c", "'docker cp /opt/PLAO/osm/pill_price_list.yaml $(docker ps -qf name=osm_pla):/placement/.'"])
         except:
             return -1
 
@@ -161,7 +162,8 @@ def SearchChangePriceLatencyJitterPILL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENS
             with open(FILE_PILL_PRICE, 'w') as file:
                 documents = yaml.dump(B, file, sort_keys=False) #Export changes to file without order, equal original file
             try:
-                changefile = subprocess.check_output(["runuser", "-l", "mano","-c", "'docker cp /opt/PLAO/osm/pill_price_list.yaml $(docker ps -qf name=osm_pla):/placement/.'"])
+                changefile = subprocess.check_output(["/opt/PLAO/osm/script.sh"])
+                #changefile = subprocess.check_output(["runuser", "-l", "mano","-c", "'docker cp /opt/PLAO/osm/pill_price_list.yaml $(docker ps -qf name=osm_pla):/placement/.'"])
             except:
                 return -1
             print("File pill_price changed")
