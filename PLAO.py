@@ -82,7 +82,7 @@ def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
     else:
         if debug ==1: print ("DEBUG: File not changed")
 
-def SearchGrowUpVimPrice(VIM_URL,GROW_ADD_PRICE,CLOUD_COD,STATUS_CPU_NOW,DATAHOUR):
+def SearchGrowUpVimPrice(VIM_URL,GROW_ADD_PRICE,CLOUD_COD,STATUS_CPU_NOW,DATEHOUR):
     #Receive the CPU STATUS NOW and update in list cloud, the CLOUD_STATUS_CPU
     A=open(FILE_VNF_PRICE, )
     B=yaml.full_load(A)
@@ -210,7 +210,7 @@ def conectado(connection, enderecoCliente):
                     if int(CPU) > THRESHOLD:
                         CPU_STATUS_NOW=1   #Values: 0-cpu normal, 1-cpu high and cost value going to change
                         VIMURL=clouds.get(str(ID)).get('VIMURL')
-                        SearchGrowUpVimPrice(VIMURL,GROW_ADD_PRICE,ID,CPU_STATUS_NOW,DATAHOUR) #The cost is add by CPU bigger
+                        SearchGrowUpVimPrice(VIMURL,GROW_ADD_PRICE,ID,CPU_STATUS_NOW,DATEHOUR) #The cost is add by CPU bigger
 
                     nomearquivo1=CLOUD+'_'+CLOUDIP+'_history.txt' #write data in file
                     nomearquivo2='LINK_'+CLOUD+'_history.txt' #write data in file
