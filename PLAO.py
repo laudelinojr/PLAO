@@ -180,27 +180,31 @@ def conectado(connection, enderecoCliente):
                         CPU_STATUS_NOW=1   #Values: 0-cpu normal, 1-cpu high and cost value going to change
                         VIMURL=clouds.get(str(ID)).get('VIMURL')
                         SearchGrowUpVimPrice(VIMURL,GROW_ADD_PRICE,ID,CPU_STATUS_NOW) #The cost is add by CPU bigger
+
                     nomearquivo1=CLOUD+'_'+CLOUDIP+'_history.txt' #write data in file
                     nomearquivo2='LINK_'+CLOUD+'_'+CLOUDTONAME+'_history.txt' #write data in file
-                    if PRICE != "PRICE": #If is sending real data, this going to a file
-                        
-                        print(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ PRICE + ","+LATENCY+","+JITTER + "," + CPU + "," + MEMORY)
 
+                    if PRICE != "PRICE": #If is sending real data, this going to a file
+                        print(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ PRICE + ","+LATENCY+","+JITTER + "," + CPU + "," + MEMORY)
                         with open(nomearquivo1, 'a') as arquivo:
                             arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ CPU + "," + MEMORY +'\n')
-
                         with open(nomearquivo2, 'a') as arquivo:
                             arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ PRICE + ","+LATENCY+","+JITTER+'\n')
                         SearchChangePriceLatencyJitterPILL(PRICE,LATENCY,JITTER,CLOUD,CLOUDTONAME) #execute function that search and change price pill                
 
                     print ("tamanhoclouds: "+str(len(clouds)))
-                    #if len(clouds) = 2:
-                        #if ID == "1":
-                    #CLOUD=(clouds.get('1').get('CLOUD'))
-                    #CLOUDIP=(clouds.get('1').get('CLOUDIP'))
-                    #CLOUDTONAME=(clouds.get('2').get('CLOUD'))
-                    #CLOUDTOIP=(clouds.get('2').get('CLOUDIP'))
-                    commands.update({('ID'): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': 'SERVER', 'PRICE': PRICE, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY, 'CONEXAO': connection}})
+                    if len(clouds) = 2:
+                        if ID == "1":
+                            CLOUD=(clouds.get('1').get('CLOUD'))
+                            CLOUDIP=(clouds.get('1').get('CLOUDIP'))
+                            CLOUDTONAME=(clouds.get('2').get('CLOUD'))
+                            CLOUDTOIP=(clouds.get('2').get('CLOUDIP'))
+                        if ID == "2":
+                            CLOUD=(clouds.get('2').get('CLOUD'))
+                            CLOUDIP=(clouds.get('2').get('CLOUDIP'))
+                            CLOUDTONAME=(clouds.get('1').get('CLOUD'))
+                            CLOUDTOIP=(clouds.get('1').get('CLOUDIP'))
+                    commands.update({('ID'): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': STATUS, 'PRICE': PRICE, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY, 'CONEXAO': connection}})
                     mensagem = 'SENDC#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + 'JITTER' + '#' + 'CPU' + '#' + 'MEMORY' + '#'
                     connection.sendall(mensagem.encode('utf8'))
 
