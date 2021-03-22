@@ -160,8 +160,8 @@ tcp.sendall(mensagem.encode('utf8')) #Sending to Server
 print ('DEGUG: Sent first REGIS')
 
 try:
-    desligar = False
-    while desligar == False:
+    #desligar = False
+    while True; #desligar == False:
         msg = tcp.recv(1024).decode("utf8")  #receive the message socket in byte and to convert in utf-8
         msg = msg.split('#')  #split message separeted in # symbol
         if len(msg) > 5:
@@ -217,6 +217,10 @@ try:
                             CPU=GetHypervisorStats(CLOUDIP,"vcpu_use_percent")
                             print("CPU: "+CPU)
                             MEMORY=''
+                            mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#'
+                            print (mensagem)
+                            tcp.sendall(mensagem.encode('utf8'))  #send to server colletion data
+                        else:
                             mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#'
                             print (mensagem)
                             tcp.sendall(mensagem.encode('utf8'))  #send to server colletion data
