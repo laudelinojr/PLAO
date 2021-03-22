@@ -1,0 +1,32 @@
+- vnfd: hackfest1-vnf
+  prices:
+  - vim_url: http://10.159.205.6:5000/v3
+    vim_name: openstack1
+    price: 28
+  - vim_url: http://10.159.205.12:5000/v3
+    vim_name: openstack2
+    price: 10
+- vnfd: VNFA
+  prices:
+  - vim_url: http://10.159.205.6:5000/v3
+    vim_name: openstack1
+    price: 26
+  - vim_url: http://10.159.205.12:5000/v3
+    vim_name: openstack2
+    price: 7
+- vnfd: VNFB
+  prices:
+  - vim_url: http://10.159.205.6:5000/v3
+    vim_name: openstack1
+    price: 28
+  - vim_url: http://10.159.205.12:5000/v3
+    vim_name: openstack2
+    price: 8
+- vnfd: VNFC
+  prices:
+  - vim_url: http://10.159.205.6:5000/v3
+    vim_name: openstack1
+    price: 25
+  - vim_url: http://10.159.205.12:5000/v3
+    vim_name: openstack2
+    price: 7
