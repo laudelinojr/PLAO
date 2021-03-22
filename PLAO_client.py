@@ -163,7 +163,7 @@ print ('DEGUG: Sent first REGIS')
 
 try:
     #desligar = False
-    while True; #desligar == False:
+    while True: #desligar == False:
         msg = tcp.recv(1024).decode("utf8")  #receive the message socket in byte and to convert in utf-8
         msg = msg.split('#')  #split message separeted in # symbol
         if len(msg) > 5:
