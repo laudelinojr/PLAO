@@ -202,20 +202,6 @@ def conectado(connection, enderecoCliente):
                     commands.update({('ID'): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': 'SERVER', 'PRICE': PRICE, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY, 'CONEXAO': connection}})
                     mensagem = 'SENDC#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + 'JITTER' + '#' + 'CPU' + '#' + 'MEMORY' + '#'
                     connection.sendall(mensagem.encode('utf8'))
-                       '''  if ID == "2":
-                            CLOUD=(clouds.get('2').get('CLOUD'))
-                            CLOUDIP=(clouds.get('2').get('CLOUDIP'))
-                            CLOUDTONAME=(clouds.get('1').get('CLOUD'))
-                            CLOUDTOIP=(clouds.get('1').get('CLOUDIP'))
-                            commands.update({(ID): {'CLOUD': CLOUDTONAME,'CLOUDIP': CLOUDTOIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUD, 'CLOUDTOIP': CLOUDIP, 'STATUS': 'CLIENT', 'PRICE': PRICE, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY, 'CONEXAO': connection}})
-                            mensagem = 'SENDC#' + "2" + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + 'CLIENT' + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + 'JITTER' + '#' + 'CPU' + '#' + 'MEMORY' + '#'
-                            connection.sendall(mensagem.encode('utf8'))
-                    else:
-                        mensagem = 'SENDC#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + 'JITTER' + '#' + 'CPU' + '#' + 'MEMORY' + '#'
-                        print(mensagem)
-                        connection.sendall(mensagem.encode('utf8'))
-                        commands.update({(ID): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': 'SERVER', 'PRICE': PRICE, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY, 'CONEXAO': connection}})                   
-                        '''
 
                 if TIPO == 'EXCL': #Delete registry cloud in Dict
                     if ID.isdigit():
