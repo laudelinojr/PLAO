@@ -50,11 +50,11 @@ def ChangeVNFPrice(COD_VNFD,VIMURL,PRICE,B):
 
 def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
     A=open(FILE_VNF_PRICE, )
-    B=yaml.full_load(A)
+    B=yaml.f  full_load(A)
 
     if (ChangeVNFPrice(SearchVNFD(NAME_VNFD,B),VIM_URL,PRICE_VNFD,B)) != -1: #Change price of specific VIM in specific VNFD
         with open(FILE_VNF_PRICE, 'w') as file:
-            documents = yaml.dump(B, file, sort_keys=False) #Export changes to file without order, equal original file
+            documents = yaml. .dump(B, file, sort_keys=False) #Export changes to file without order, equal original file
         if debug ==1: print("DEBUG: File changed")
         if debug ==1: print("DEBUG: Copy file to container pla...")
     else:
@@ -211,7 +211,7 @@ def conectado(connection, enderecoCliente):
                             mensagem = 'SENDC#' + "2" + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + 'CLIENT' + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + 'JITTER' + '#' + 'CPU' + '#' + 'MEMORY' + '#'
                             connection.sendall(mensagem.encode('utf8'))
                     else:
-                        mensagem = 'SENDC#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + 'SERVER' + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + 'JITTER' + '#' + 'CPU' + '#' + 'MEMORY' + '#'
+                        mensagem = 'SENDC#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + 'JITTER' + '#' + 'CPU' + '#' + 'MEMORY' + '#'
                         print(mensagem)
                         connection.sendall(mensagem.encode('utf8'))
                         commands.update({(ID): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': 'SERVER', 'PRICE': PRICE, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY, 'CONEXAO': connection}})                   
