@@ -193,7 +193,7 @@ def conectado(connection, enderecoCliente):
                         SearchChangePriceLatencyJitterPILL(PRICE,LATENCY,JITTER,CLOUD,CLOUDTONAME) #execute function that search and change price pill                
 
                     print ("tamanhoclouds: "+str(len(clouds)))
-                    if len(clouds) = 2:
+                    if len(clouds) == 2:
                         if ID == "1":
                             CLOUD=(clouds.get('1').get('CLOUD'))
                             CLOUDIP=(clouds.get('1').get('CLOUDIP'))
