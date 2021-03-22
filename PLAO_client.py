@@ -71,7 +71,7 @@ def GetHypervisorStats(OPENSTACK_FROM, PARAMETER):
     # Get hypervisor statistics over all compute nodes
     stats = nova.hypervisor_stats.statistics()._info
     hypervisors = nova.hypervisors.list()
-    print ("dentro antes do if parameter")
+    #print ("dentro antes do if parameter")
     if PARAMETER == "memory_use_percent":
         memory_mb_used=stats['memory_mb_used']
         memory_mb=stats['memory_mb']
@@ -82,7 +82,6 @@ def GetHypervisorStats(OPENSTACK_FROM, PARAMETER):
         vcpus=stats['vcpus']
         vcpus_used=stats['vcpus_used']        
         vcpu_use_percent=(vcpus_used*100)/vcpus
-        print("PASSOU PERCENT CPU")
         return str(round(vcpu_use_percent))
 
     if PARAMETER == "local_gb_percent":
@@ -119,7 +118,6 @@ def GetLatency(TARGET,QUANTITY_PCK):
             return "" #if return with error, return empty
         latency = ping.split()[-1]
         resp = str(latency, 'utf-8')
-        print (resp)
         resp2= resp.split("=")[0]
         resp3=resp2.split("ms")[0]
         return resp3
@@ -132,7 +130,6 @@ def GetJitter(CLOUDTOIP,QUANTITY_PCK,STATUS):
     except:
         return -1
     jitter = iperf2.split()[-7]
-    print (jitter)
     resp = str(jitter, 'utf-8')
     return resp
     #if STATUS == "SERVER":
@@ -156,7 +153,6 @@ print ('To quit, use CTRL+C\n')
 #First comunication with the server
 mensagem = 'REGIS' + '#' + 'ID' + '#' +CLOUDNAME_LOCAL + '#' + CLOUDIP_LOCAL + '#' + 'DATAHORAC()' + '#' + 'CLOUDTONAME' + '#' + 'CLOUDTOIP' + '#' + 'STATUS' + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + 'JITTER' + '#' + '0' + '#' + 'MEMORY' + '#'
 tcp.sendall(mensagem.encode('utf8')) #Sending to Server
-print ('DEGUG: Sent first REGIS')
 
 try:
     #desligar = False
@@ -182,20 +178,19 @@ try:
             MEMORY = msg[12] #MEMORY
 
             if TIPO == 'REGIS':  #check if the protocol is type registry
-                print ("DEBUG: recebido comando do servidor com registro")
-                print(TIPO+ID+CLOUD+CLOUDIP+DATEHOUR+CLOUDTONAME,CLOUDTONAME,STATUS)
+                #print ("DEBUG: recebido comando do servidor com registro")
+                #print(TIPO+ID+CLOUD+CLOUDIP+DATEHOUR+CLOUDTONAME,CLOUDTONAME,STATUS)
                 if ID != 'ID':
                     ID_CONF = ID  #Store ID in global variable
-                    print("DEBUG: ID stored")
+                    #print("DEBUG: ID stored")
             if ID_CONF == ID:
                 if TIPO == 'REGIS':
-                    print("entrei segundo regis")
                     mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#'
                     tcp.sendall(mensagem.encode('utf8'))
-                    print("envie sends do REGIS")
+                    #print("envie sends do REGIS")
                 if TIPO == 'SENDC':
                     if CLOUDIP_LOCAL == CLOUDIP:
-                        print(CLOUDTOIP)
+                        #print(CLOUDTOIP)
                         #if STATUS == 'SERVER':
                         time.sleep(5)
                         if (CLOUDTOIP != "CLOUDTOIP" ):

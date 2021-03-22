@@ -6,6 +6,7 @@ import time
 #CPU - O LIMITE É CONFIGURAVEL E ESTA EM 90%, QUANDO O MESMO É ATINGIDO, OS PRICES DA 
 # NUVEM_2 SÃO ALTERADOS PARA TODOS OS VNFDS DO ARQUIVO DE CONFIGURAÇÃO
 # O PERCENTUAL SERÁ SEMPRE INTEIRO, DADO GUARDADO EM ARQUIVO TXT TAMBEM
+# O valor a ser acrescido no PRICE é parametrizado, e atualmente é 10.
 #Arquivo CPU_CLOUD_history.txt' - DATEHOURS,CLOUD,CLOUDIP,CPU
 
 #JITTER E LATENCIA, AMBOS SÃO CONVERTIDOS PARA INTEIRO, POIS O ARQUIVO DE CONFIGURAÇÃO DO OSM SÓ ACEITA INTEIRO
@@ -18,6 +19,10 @@ import time
 #3a75c592-952a-49ca-8ce2-42360ee6cec0 (2)
 #Arquivo CLOUD_CLOUDIP_history.txt - DATEHOUR,CLOUD,CLOUDIP,CPU,QT_VM
 
+#Para simulacao
+#OSM - ej /opt/PLAO: digitar python3 PLAO.py
+#Openstack1- em /opt/PLAO/, digitar: python3 PLAO_client.py 10.159.205.10 openstack1 10.159.205.6
+#Openstack2 - em /opt/PLAO/, digitar: python3 PLAO_client.py 10.159.205.10 openstack2 10.159.205.12
 
 
 
