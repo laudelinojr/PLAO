@@ -192,8 +192,10 @@ try:
                     print("DEBUG: ID stored")
             if ID_CONF == ID:
                 if TIPO == 'REGIS':
+                    print("entrei segundo regis")
                     mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#'
                     tcp.sendall(mensagem.encode('utf8'))
+                    print("envie sends do REGIS")
                 if TIPO == 'SENDC':
                     if CLOUDIP_LOCAL == CLOUDIP:
                         print(CLOUDTOIP)
