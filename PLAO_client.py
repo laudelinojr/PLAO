@@ -211,7 +211,7 @@ try:
                         mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#'
                         print (mensagem)
                         tcp.sendall(mensagem.encode('utf8')) #send to server colletion data
-                         '''   
+                        '''   
                         if STATUS == 'CLIENT':
                             print('DEBUG: Command received, exec iperf CLIENT')
                             time.sleep(5)
