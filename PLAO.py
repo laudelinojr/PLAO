@@ -11,13 +11,13 @@ GROW_ADD_PRICE=10 #Number to add vnf Price
 THRESHOLD=90 #THRESHOLD of CPU to apply rate in Cloud's price
 
 #requisites1 SearchChangeVNFDPrice
-FILE_VNF_PRICE="osm/vnf_price_list.yaml"
+FILE_VNF_PRICE="/opt/PLAO/osm/vnf_price_list.yaml"
 NAME_VNFD="VNFB"
 #VIM_URL='http://10.159.205.6:5000/v3'
 PRICE_VNFD=14
 
 #requisites SearchChangePriceLatencyJitterPILL
-FILE_PILL_PRICE="osm/pill_price_list.yaml"
+FILE_PILL_PRICE="/opt/PLAO/osm/pill_price_list.yaml"
 
 def SearchVNFD(NAME_VNFD,B):
 #Search VNFD in configuration file vnf_price and return position
