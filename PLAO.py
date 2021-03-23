@@ -87,7 +87,7 @@ def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
     else:
         if debug ==1: print ("DEBUG: File not changed")
 
-def SearchDownUpVimPrice(VIM_URL,UP_DOWN_PRICE,CLOUD_COD,STATUS_CPU_NOW,DATEHOUR):
+def SearchDownUpVimPrice(VIM_URL,CLOUD_COD,STATUS_CPU_NOW,DATEHOUR):
     #Receive the CPU STATUS NOW and update in list cloud, the CLOUD_STATUS_CPU
     A=open(FILE_VNF_PRICE, )
     B=yaml.full_load(A)
@@ -104,16 +104,16 @@ def SearchDownUpVimPrice(VIM_URL,UP_DOWN_PRICE,CLOUD_COD,STATUS_CPU_NOW,DATEHOUR
         for f in range(D):
             if B[i]['prices'][f]['vim_url'] == VIM_URL: #Compare VIMURL between YAML and the new
                     PRICE=B[i]['prices'][f]['price']  #Select the price of this vim_url
-                    if PRICE > 0:
+                    if PRICE >= 0:
                         if STATUS_CPU_NOW == 1 and CLOUD_STATUS_CPU == 0: #If the cloud CPU now is high (1), but in dict is normal (0), we need change dict to(1);
                             clouds.update({str(CLOUD_COD):{'CLOUD': CLOUD,'CLOUDIP':CLOUDIP,'VIMURL': VIMURL,'CPU':'1'}})
-                            B[i]['prices'][f]['price']=PRICE+UP_DOWN_PRICE #Change the VNF Price with the rate price
+                            B[i]['prices'][f]['price']=PRICE+DOWN_UP_PRICE #Change the VNF Price with the rate price
                             CHANGED_PRICE_VIM_URL=CHANGED_PRICE_VIM_URL+1 #count auxiliar variable
-                        if STATUS_CPU_NOW == 0 and CLOUD_STATUS_CPU == 1 and PRICE >= UP_DOWN_PRICE: #If the cloud CPU now is ok (0), but in dict is high (1), we need change dict to (0)
+                        if STATUS_CPU_NOW == 0 and CLOUD_STATUS_CPU == 1 and PRICE >= DOWN_UP_PRICE: #If the cloud CPU now is ok (0), but in dict is high (1), we need change dict to (0)
                             clouds.update({str(CLOUD_COD):{'CLOUD': CLOUD,'CLOUDIP':CLOUDIP,'VIMURL': VIMURL,'CPU':'0'}})
-                            B[i]['prices'][f]['price']=int(PRICE-UP_DOWN_PRICE) #Change the VNF Price with the rate price
+                            B[i]['prices'][f]['price']=int(PRICE-DOWN_UP_PRICE) #Change the VNF Price with the rate price
                             CHANGED_PRICE_VIM_URL=CHANGED_PRICE_VIM_URL+1 #count auxiliar variable
-                        if STATUS_CPU_NOW == 0 and CLOUD_STATUS_CPU == 1 and PRICE <= UP_DOWN_PRICE: #If the cloud CPU now is ok (0), but in dict is high (1), we need change dict to (0)
+                        if STATUS_CPU_NOW == 0 and CLOUD_STATUS_CPU == 1 and PRICE <= DOWN_UP_PRICE: #If the cloud CPU now is ok (0), but in dict is high (1), we need change dict to (0)
                             clouds.update({str(CLOUD_COD):{'CLOUD': CLOUD,'CLOUDIP':CLOUDIP,'VIMURL': VIMURL,'CPU':'0'}})
                             B[i]['prices'][f]['price']=0 #Change the VNF Price with the rate price
                             CHANGED_PRICE_VIM_URL=CHANGED_PRICE_VIM_URL+1 #count auxiliar variable
@@ -230,11 +230,11 @@ def conectado(connection, enderecoCliente):
                     if (int(CPU) > THRESHOLD) and (CLOUD_STATUS_CPU == 0):
                         CPU_STATUS_NOW=1   #Values: 0-cpu normal, 1-cpu high and cost value going to change
                         VIMURL=clouds.get(str(ID)).get('VIMURL')
-                        SearchDownUpVimPrice(VIMURL,DOWN_UP_PRICE,ID,CPU_STATUS_NOW,DATEHOUR) #The cost is add by CPU bigger
+                        SearchDownUpVimPrice(VIMURL,ID,CPU_STATUS_NOW,DATEHOUR) #The cost is add by CPU bigger
                     if (int(CPU) < THRESHOLD) and (CLOUD_STATUS_CPU == 1):
                         CPU_STATUS_NOW=0   #Values: 0-cpu normal, 1-cpu high and cost value going to change
                         VIMURL=clouds.get(str(ID)).get('VIMURL')
-                        SearchDownUpVimPrice(VIMURL,DOWN_UP_PRICE,ID,CPU_STATUS_NOW,DATEHOUR) #The cost is add by CPU bigger
+                        SearchDownUpVimPrice(VIMURL,ID,CPU_STATUS_NOW,DATEHOUR) #The cost is add by CPU bigger
 
                     nomearquivo1=PATH_LOG+CLOUD+'_'+CLOUDIP+'_history.txt' #write data in file
                     nomearquivo2=PATH_LOG+'LINK_'+CLOUD+'_history.txt' #write data in file
