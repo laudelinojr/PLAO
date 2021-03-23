@@ -151,7 +151,7 @@ print ('Starting OSM collector ... '+ CLOUDNAME_LOCAL)
 print ('To quit, use CTRL+C\n')
 
 #First comunication with the server
-mensagem = 'REGIS' + '#' + 'ID' + '#' +CLOUDNAME_LOCAL + '#' + CLOUDIP_LOCAL + '#' + 'DATAHORAC()' + '#' + 'CLOUDTONAME' + '#' + 'CLOUDTOIP' + '#' + 'STATUS' + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + 'JITTER' + '#' + '0' + '#' + 'MEMORY' + '#'
+mensagem = 'REGIS' + '#' + 'ID' + '#' +CLOUDNAME_LOCAL + '#' + CLOUDIP_LOCAL + '#' + 'DATAHORAC()' + '#' + 'CLOUDTONAME' + '#' + 'CLOUDTOIP' + '#' + 'STATUS' + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + 'JITTER' + '#' + '0' + '#' + 'MEMORY'+ '#' + 'DISK'+ '#' + 'NVM' + '#'
 tcp.sendall(mensagem.encode('utf8')) #Sending to Server
 
 try:
@@ -174,8 +174,10 @@ try:
             PRICE = msg[8] #PRICE
             LATENCY = msg[9] #LATENCY
             JITTER = msg[10] #JITTER
-            CPU = msg[11] #CPU
-            MEMORY = msg[12] #MEMORY
+            CPU = msg[11] #CPU PERCENT USAGE
+            MEMORY = msg[12] #MEMORY PERCENT USAGE
+            DISK = msg[13] #DISK PERCENT USAGE
+            NVM = msg[14] #QUANTITY MACHINES
 
             if TIPO == 'REGIS':  #check if the protocol is type registry
                 #print ("DEBUG: recebido comando do servidor com registro")
@@ -185,7 +187,7 @@ try:
                     #print("DEBUG: ID stored")
             if ID_CONF == ID:
                 if TIPO == 'REGIS':
-                    mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#'
+                    mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK + '#' + NVM + '#'
                     tcp.sendall(mensagem.encode('utf8'))
                     #print("envie sends do REGIS")
                 if TIPO == 'SENDC':
@@ -199,8 +201,8 @@ try:
                             if (CLOUDTOIP ==  "10.159.205.6"):
                                 JITTER=str(round(float(GetJitter(CLOUDTOIP,QUANTITY_PCK,STATUS)))) #Get Jitter with iperf, is necessary set quantity packages
                         CPU=GetHypervisorStats(CLOUDIP,"vcpu_use_percent")
-                        MEMORY=GetHypervisorStats(CLOUDIP,"running_vms")
-                        mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#'
+                        NVM=GetHypervisorStats(CLOUDIP,"running_vms")
+                        mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK + '#' + NVM + '#'
                         print (mensagem)
                         tcp.sendall(mensagem.encode('utf8')) #send to server colletion data
                         '''   
@@ -214,11 +216,11 @@ try:
                             CPU=GetHypervisorStats(CLOUDIP,"vcpu_use_percent")
                             print("CPU: "+CPU)
                             MEMORY=''
-                            mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#'
+                            mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK+ '#' + NVM + '#'
                             print (mensagem)
                             tcp.sendall(mensagem.encode('utf8'))  #send to server colletion data
                         else:
-                            mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#'
+                            mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK+ '#' + NVM + '#'
                             print (mensagem)
                             tcp.sendall(mensagem.encode('utf8'))  #send to server colletion data
                             '''
@@ -228,6 +230,6 @@ except KeyboardInterrupt:
 except Exception as e:
     print("Erro no cliente. " + str(e))
 finally:
-    mensagem = 'EXCL#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + 'DATAHORAC()' + '#' + 'CLOUDTONAME' + '#' + 'CLOUDTOIP' + '#' + 'STATUS' + '#' + 'PRICE' + '#' +'LATENCY' + '#' + 'JITTER' + '#' + 'CPU' + '#' + 'MEMORY' + '#'
+    mensagem = 'EXCL#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + 'DATAHORAC()' + '#' + 'CLOUDTONAME' + '#' + 'CLOUDTOIP' + '#' + 'STATUS' + '#' + 'PRICE' + '#' +'LATENCY' + '#' + 'JITTER' + '#' + 'CPU' + '#' + 'MEMORY'+ '#' + 'DISK'+ '#' + 'NVM' + '#'
     tcp.sendall(mensagem.encode('utf8'))
     tcp.close()

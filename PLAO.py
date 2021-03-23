@@ -215,14 +215,16 @@ def conectado(connection, enderecoCliente):
                 PRICE = msg[8] #PRICE
                 LATENCY = msg[9] #LATENCY
                 JITTER = msg[10] #JITTER
-                CPU = msg[11] #CPU
-                MEMORY = msg[12] #MEMORY
+                CPU = msg[11] #CPU PERCENT USAGE
+                MEMORY = msg[12] #MEMORY PERCENT USAGE
+                DISK = msg[13] #DISK PERCENT USAGE
+                NVM = msg[14] #QUANTITY MACHINES
                 if TIPO == 'REGIS': #check for the first time the type protocol and send the id number
                     VIMURL='http://'+CLOUDIP+':5000/v3'
                     clouds.update({(str(len(clouds)+1)):{'CLOUD': CLOUD,'CLOUDIP':CLOUDIP,'VIMURL': VIMURL,'CPU':CPU}})
-                    mensagem = 'REGIS#' + str(len(clouds)) + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#'  #preparing message
+                    mensagem = 'REGIS#' + str(len(clouds)) + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK+ '#' + NVM + '#'  #preparing message
                     connection.sendall(mensagem.encode('utf8'))  #sending in first time the command to client
-                    commands.update({(ID): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': STATUS, 'PRICE': PRICE, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY ,'CONEXAO': connection}})
+                    commands.update({(ID): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': STATUS, 'PRICE': PRICE, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY ,'DISK': DISK ,'NVM': NVM ,'CONEXAO': connection}})
                 if TIPO == 'SENDS':  #check the type protocol
                     CLOUD_STATUS_CPU=int(clouds.get(str(ID)).get('CPU'))
                     if (int(CPU) > THRESHOLD) and (CLOUD_STATUS_CPU == 0):
@@ -238,10 +240,10 @@ def conectado(connection, enderecoCliente):
                     nomearquivo2=PATH_LOG+'LINK_'+CLOUD+'_history.txt' #write data in file
 
                     with open(nomearquivo1, 'a') as arquivo:
-                        arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ CPU + "," + MEMORY +'\n')
+                        arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ CPU + "," + NVM +'\n')
 
                     if PRICE != "PRICE": #If is sending real data, this going to a file
-                        print(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ PRICE + ","+LATENCY+","+JITTER + "," + CPU + "," + MEMORY)
+                        #print(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ PRICE + ","+LATENCY+","+JITTER + "," + CPU + "," + MEMORY)
                         with open(nomearquivo2, 'a') as arquivo:
                             arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ PRICE + ","+LATENCY+","+JITTER+'\n')
                         SearchChangePriceLatencyJitterPILL(PRICE,LATENCY,JITTER,CLOUD,CLOUDTONAME) #execute function that search and change price pill                
@@ -260,7 +262,7 @@ def conectado(connection, enderecoCliente):
                             CLOUDTOIP=(clouds.get('1').get('CLOUDIP'))
 
                     commands.update({('ID'): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': STATUS, 'PRICE': PRICE, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY, 'CONEXAO': connection}})
-                    mensagem = 'SENDC#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + 'JITTER' + '#' + 'CPU' + '#' + 'MEMORY' + '#'
+                    mensagem = 'SENDC#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + 'JITTER' + '#' + 'CPU' + '#' + 'MEMORY' + '#' + DISK + '#' + NVM + '#'
                     connection.sendall(mensagem.encode('utf8'))
 
                 if TIPO == 'EXCL': #Delete registry cloud in Dict
