@@ -8,7 +8,7 @@ pil:
       - openstack2
   - pil_description: Link between OpenStack1 and OpenStack3
     pil_price: 13
-    pil_latency: 120
+    pil_latency: 110
     pil_jitter: 13
     pil_endpoints:
       - OpenStack1
