@@ -130,7 +130,7 @@ def GetCpuSO():
 
 def MemorySO():
     mem = psutil.virtual_memory()
-    memoryso = mem.percent()
+    memoryso = round(mem.percent)
     return memoryso
 
 def GetJitter(CLOUDTOIP,QUANTITY_PCK,STATUS):
@@ -215,6 +215,7 @@ try:
                         CPU=GetCpuSO()
                         NVM=GetHypervisorStats(CLOUDIP,"running_vms")
                         CPUC=GetHypervisorStats(CLOUDIP,"vcpu_use_percent")
+                        MEMORY=MemorySO()
                         mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK + '#' + NVM + '#' + CPUC + '#'
                         print (mensagem)
                         tcp.sendall(mensagem.encode('utf8')) #send to server colletion data
