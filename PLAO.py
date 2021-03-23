@@ -37,8 +37,8 @@ NAME_VNFD="VNFB"
 #VIM_URL='http://10.159.205.6:5000/v3'
 PRICE_VNFD=14
 
-#requisites SearchChangePriceLatencyJitterPILL
-FILE_PILL_PRICE="/opt/PLAO/osm/pill_price_list.yaml"
+#requisites SearchChangePriceLatencyJitterPIL
+FILE_PIL_PRICE="/opt/PLAO/osm/pil_price_list.yaml"
 PATH_LOG='/opt/PLAO/log/'
 
 
@@ -124,23 +124,23 @@ def SearchDownUpVimPrice(VIM_URL,UP_DOWN_PRICE,CLOUD_COD,STATUS_CPU_NOW,DATEHOUR
     if CHANGED_PRICE_VIM_URL > 0:
         with open(FILE_VNF_PRICE, 'w') as file:
             documents = yaml.dump(B, file, sort_keys=False) #Export changes to file without order, equal original file
-        print ("CPU CHANGE: File pill_price changed because High CPU.")
+        print ("CPU CHANGE: File pil_price changed because High CPU.")
         with open(FILE_VNF_PRICE, 'w') as file:
             documents = yaml.dump(B, file, sort_keys=False)
         nomearquivo3=PATH_LOG+'CPU_TRIGGER_'+CLOUD+'_history.txt' #write data in file
         with open(nomearquivo3, 'a') as arquivo:
             arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ str(STATUS_CPU_NOW)+'\n')
 
-        with open(FILE_PILL_PRICE, 'w') as file:
+        with open(FILE_PIL_PRICE, 'w') as file:
             documents = yaml.dump(B, file, sort_keys=False) #Export changes to file without order, equal original file
         try:
             changefile = subprocess.check_output(["/opt/PLAO/osm/script.sh"])
-            #changefile = subprocess.check_output(["runuser", "-l", "mano","-c", "'docker cp /opt/PLAO/osm/pill_price_list.yaml $(docker ps -qf name=osm_pla):/placement/.'"])
+            #changefile = subprocess.check_output(["runuser", "-l", "mano","-c", "'docker cp /opt/PLAO/osm/pil_price_list.yaml $(docker ps -qf name=osm_pla):/placement/.'"])
         except:
             return -1
 
 
-def SearchChangePILLPrice(OPENSTACK_FROM,OPENSTACK_TO,B):  #Search in file the cloud math between from and to, in this order. If located, stop the search
+def SearchChangePILPrice(OPENSTACK_FROM,OPENSTACK_TO,B):  #Search in file the cloud math between from and to, in this order. If located, stop the search
     C = len(B['pil']) #Elements
     for i in range(C):
         if B['pil'][i]['pil_endpoints'][0] == OPENSTACK_FROM:# or B['pil'][i]['pil_endpoints'][0] == OPENSTACK_TO:
@@ -148,7 +148,7 @@ def SearchChangePILLPrice(OPENSTACK_FROM,OPENSTACK_TO,B):  #Search in file the c
                 return i
     return -1
 
-def ChangePriceLatencyJitterPILL(CLOUD_COD,PRICE,LATENCY,JITTER,B):
+def ChangePriceLatencyJitterPIL(CLOUD_COD,PRICE,LATENCY,JITTER,B):
     PRICE=round(float(PRICE))
     LATENCY=round(float(LATENCY))
     JITTER=round(float(JITTER))
@@ -160,24 +160,24 @@ def ChangePriceLatencyJitterPILL(CLOUD_COD,PRICE,LATENCY,JITTER,B):
     else:
         return -1
 
-def SearchChangePriceLatencyJitterPILL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENSTACK_TO):
+def SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENSTACK_TO):
     #Search cloud combination and change the price, latency and jitter
-    A=open(FILE_PILL_PRICE, )
+    A=open(FILE_PIL_PRICE, )
     B=yaml.full_load(A)
 
-    CLOUD_COD=SearchChangePILLPrice(OPENSTACK_FROM,OPENSTACK_TO,B)
+    CLOUD_COD=SearchChangePILPrice(OPENSTACK_FROM,OPENSTACK_TO,B)
     if CLOUD_COD != -1:
-        if (ChangePriceLatencyJitterPILL(CLOUD_COD,PRICE,LATENCY,JITTER,B)) != -1: #Change Price Latency and Jitter
-            with open(FILE_PILL_PRICE, 'w') as file:
+        if (ChangePriceLatencyJitterPIL(CLOUD_COD,PRICE,LATENCY,JITTER,B)) != -1: #Change Price Latency and Jitter
+            with open(FILE_PIL_PRICE, 'w') as file:
                 documents = yaml.dump(B, file, sort_keys=False) #Export changes to file without order, equal original file
             try:
                 changefile = subprocess.check_output(["/opt/PLAO/osm/script.sh"])
-                #changefile = subprocess.check_output(["runuser", "-l", "mano","-c", "'docker cp /opt/PLAO/osm/pill_price_list.yaml $(docker ps -qf name=osm_pla):/placement/.'"])
+                #changefile = subprocess.check_output(["runuser", "-l", "mano","-c", "'docker cp /opt/PLAO/osm/pil_price_list.yaml $(docker ps -qf name=osm_pla):/placement/.'"])
             except:
                 return -1
-            print("File pill_price changed")
+            print("File pil_price changed")
         else:
-            print ("File pill_price not changed")
+            print ("File pil_price not changed")
 
 def printCloudsDict():
     while True:
@@ -243,10 +243,9 @@ def conectado(connection, enderecoCliente):
                         arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ CPU + "," + NVM +'\n')
 
                     if PRICE != "PRICE": #If is sending real data, this going to a file
-                        #print(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ PRICE + ","+LATENCY+","+JITTER + "," + CPU + "," + MEMORY)
                         with open(nomearquivo2, 'a') as arquivo:
                             arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ PRICE + ","+LATENCY+","+JITTER+'\n')
-                        SearchChangePriceLatencyJitterPILL(PRICE,LATENCY,JITTER,CLOUD,CLOUDTONAME) #execute function that search and change price pill                
+                        SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,CLOUD,CLOUDTONAME) #execute function that search and change price pil                
 
                     print ("tamanhoclouds: "+str(len(clouds)))
                     if len(clouds) == 2:

@@ -33,9 +33,9 @@ if sys.argv[1] == '':
     exit()
 
 PORT = 6000 #Port Server
-CLOUDNAME_LOCAL = sys.argv[2] #Cloud Name, this may equal in PLA configuration files (pill_price_list.yaml and vnf_price_list.yaml)
+CLOUDNAME_LOCAL = sys.argv[2] #Cloud Name, this may equal in PLA configuration files (pil_price_list.yaml and vnf_price_list.yaml)
 if sys.argv[2] == '':
-    print ("Invalido: We need cloud name. Equal in PLA configuration files (pill_price_list.yaml and vnf_price_list.yaml) for OSM.")
+    print ("Invalido: We need cloud name. Equal in PLA configuration files (pil_price_list.yaml and vnf_price_list.yaml) for OSM.")
     exit()
 
 CLOUDIP_LOCAL = sys.argv[3] #Address Server Cloud IP
