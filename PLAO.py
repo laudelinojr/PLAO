@@ -125,14 +125,11 @@ def SearchDownUpVimPrice(VIM_URL,CLOUD_COD,STATUS_CPU_NOW,DATEHOUR):
         with open(FILE_VNF_PRICE, 'w') as file:
             documents = yaml.dump(B, file, sort_keys=False) #Export changes to file without order, equal original file
         print ("CPU CHANGE: File pil_price changed because High CPU.")
-        with open(FILE_VNF_PRICE, 'w') as file:
-            documents = yaml.dump(B, file, sort_keys=False)
+
         nomearquivo3=PATH_LOG+'CPU_TRIGGER_'+CLOUD+'_history.txt' #write data in file
         with open(nomearquivo3, 'a') as arquivo:
             arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ str(STATUS_CPU_NOW)+'\n')
 
-        with open(FILE_PIL_PRICE, 'w') as file:
-            documents = yaml.dump(B, file, sort_keys=False) #Export changes to file without order, equal original file
         try:
             changefile = subprocess.check_output(["/opt/PLAO/osm/script.sh"])
             #changefile = subprocess.check_output(["runuser", "-l", "mano","-c", "'docker cp /opt/PLAO/osm/pil_price_list.yaml $(docker ps -qf name=osm_pla):/placement/.'"])
