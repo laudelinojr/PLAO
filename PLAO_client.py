@@ -4,6 +4,7 @@ import sys
 import datetime
 import platform
 import subprocess
+import psutil
 
 # imports to  GetHypervisorStats
 import os
@@ -122,6 +123,16 @@ def GetLatency(TARGET,QUANTITY_PCK):
         resp3=resp2.split("ms")[0]
         return resp3
 
+def GetCpuSO():
+    cpuso = psutil.cpu_percent(interval=0.5)
+    cpuso2 = round(cpuso)
+    return cpuso2
+
+def MemorySO():
+    mem = psutil.virtual_memory()
+    memoryso = mem.percent()
+    return memoryso
+
 def GetJitter(CLOUDTOIP,QUANTITY_PCK,STATUS):
     #if STATUS == "CLIENT":
     #iperf = subprocess.run(["iperf3", "-s", "-1", "-D"])
@@ -151,7 +162,7 @@ print ('Starting OSM collector ... '+ CLOUDNAME_LOCAL)
 print ('To quit, use CTRL+C\n')
 
 #First comunication with the server
-mensagem = 'REGIS' + '#' + 'ID' + '#' +CLOUDNAME_LOCAL + '#' + CLOUDIP_LOCAL + '#' + 'DATAHORAC()' + '#' + 'CLOUDTONAME' + '#' + 'CLOUDTOIP' + '#' + 'STATUS' + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + 'JITTER' + '#' + '0' + '#' + 'MEMORY'+ '#' + 'DISK'+ '#' + 'NVM' + '#'
+mensagem = 'REGIS' + '#' + 'ID' + '#' +CLOUDNAME_LOCAL + '#' + CLOUDIP_LOCAL + '#' + 'DATAHORAC()' + '#' + 'CLOUDTONAME' + '#' + 'CLOUDTOIP' + '#' + 'STATUS' + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + 'JITTER' + '#' + '0' + '#' + 'MEMORY'+ '#' + 'DISK'+ '#' + 'NVM' + '#' + 'CPUC' + '#'
 tcp.sendall(mensagem.encode('utf8')) #Sending to Server
 
 try:
@@ -178,6 +189,7 @@ try:
             MEMORY = msg[12] #MEMORY PERCENT USAGE
             DISK = msg[13] #DISK PERCENT USAGE
             NVM = msg[14] #QUANTITY MACHINES
+            CPUC = msg[15] #PERCENT CPU IN TOTAL OF CLOUD
 
             if TIPO == 'REGIS':  #check if the protocol is type registry
                 #print ("DEBUG: recebido comando do servidor com registro")
@@ -187,7 +199,7 @@ try:
                     #print("DEBUG: ID stored")
             if ID_CONF == ID:
                 if TIPO == 'REGIS':
-                    mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK + '#' + NVM + '#'
+                    mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK + '#' + NVM + '#' + CPUC + '#'
                     tcp.sendall(mensagem.encode('utf8'))
                     #print("envie sends do REGIS")
                 if TIPO == 'SENDC':
@@ -200,9 +212,10 @@ try:
                             PRICE=LATENCY
                             if (CLOUDTOIP ==  "10.159.205.6"):
                                 JITTER=str(round(float(GetJitter(CLOUDTOIP,QUANTITY_PCK,STATUS)))) #Get Jitter with iperf, is necessary set quantity packages
-                        CPU=GetHypervisorStats(CLOUDIP,"vcpu_use_percent")
+                        CPU=GetCpuSO()
                         NVM=GetHypervisorStats(CLOUDIP,"running_vms")
-                        mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK + '#' + NVM + '#'
+                        CPUC=GetHypervisorStats(CLOUDIP,"vcpu_use_percent")
+                        mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK + '#' + NVM + '#' + CPUC + '#'
                         print (mensagem)
                         tcp.sendall(mensagem.encode('utf8')) #send to server colletion data
                         '''   
@@ -216,11 +229,11 @@ try:
                             CPU=GetHypervisorStats(CLOUDIP,"vcpu_use_percent")
                             print("CPU: "+CPU)
                             MEMORY=''
-                            mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK+ '#' + NVM + '#'
+                            mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK+ '#' + NVM + '#' + 'CPUC' + '#'
                             print (mensagem)
                             tcp.sendall(mensagem.encode('utf8'))  #send to server colletion data
                         else:
-                            mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK+ '#' + NVM + '#'
+                            mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK+ '#' + NVM + '#' + 'CPUC' + '#'
                             print (mensagem)
                             tcp.sendall(mensagem.encode('utf8'))  #send to server colletion data
                             '''
@@ -230,6 +243,6 @@ except KeyboardInterrupt:
 except Exception as e:
     print("Erro no cliente. " + str(e))
 finally:
-    mensagem = 'EXCL#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + 'DATAHORAC()' + '#' + 'CLOUDTONAME' + '#' + 'CLOUDTOIP' + '#' + 'STATUS' + '#' + 'PRICE' + '#' +'LATENCY' + '#' + 'JITTER' + '#' + 'CPU' + '#' + 'MEMORY'+ '#' + 'DISK'+ '#' + 'NVM' + '#'
+    mensagem = 'EXCL#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + 'DATAHORAC()' + '#' + 'CLOUDTONAME' + '#' + 'CLOUDTOIP' + '#' + 'STATUS' + '#' + 'PRICE' + '#' +'LATENCY' + '#' + 'JITTER' + '#' + 'CPU' + '#' + 'MEMORY'+ '#' + 'DISK'+ '#' + 'NVM' + '#' + 'CPUC' + '#'
     tcp.sendall(mensagem.encode('utf8'))
     tcp.close()
