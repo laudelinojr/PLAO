@@ -15,7 +15,7 @@ pil:
       - OpenStack3
   - pil_description: Link between OpenStack1 and OpenStack4
     pil_price: 14
-    pil_latency: 140
+    pil_latency: 130
     pil_jitter: 14
     pil_endpoints:
       - OpenStack1
