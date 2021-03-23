@@ -15,8 +15,6 @@ import time
 #O PREÇO ESTÁ O MESMO VALOR DA LATENCIA
 
 #QUANTIDADE DE VNF POR CLOUD
-#49ba3bef-0b9c-42a3-a546-109de123db05 (1)
-#3a75c592-952a-49ca-8ce2-42360ee6cec0 (2)
 #Arquivo CLOUD_CLOUDIP_history.txt - DATEHOUR,CLOUD,CLOUDIP,CPU,QT_VM
 
 #Para simulacao
@@ -41,6 +39,8 @@ PRICE_VNFD=14
 
 #requisites SearchChangePriceLatencyJitterPILL
 FILE_PILL_PRICE="/opt/PLAO/osm/pill_price_list.yaml"
+PATH_LOG='/opt/PLAO/log/'
+
 
 def SearchVNFD(NAME_VNFD,B):
 #Search VNFD in configuration file vnf_price and return position
@@ -123,7 +123,7 @@ def SearchGrowUpVimPrice(VIM_URL,GROW_ADD_PRICE,CLOUD_COD,STATUS_CPU_NOW,DATEHOU
         print ("CPU CHANGE: File pill_price changed because High CPU.")
         with open(FILE_VNF_PRICE, 'w') as file:
             documents = yaml.dump(B, file, sort_keys=False)
-        nomearquivo3='CPU_'+CLOUD+'_history.txt' #write data in file
+        nomearquivo3=PATH_LOG+'CPU_'+CLOUD+'_history.txt #write data in file
         with open(nomearquivo3, 'a') as arquivo:
             arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ str(STATUS_CPU_NOW)+'\n')
 
@@ -226,8 +226,8 @@ def conectado(connection, enderecoCliente):
                         VIMURL=clouds.get(str(ID)).get('VIMURL')
                         SearchGrowUpVimPrice(VIMURL,GROW_ADD_PRICE,ID,CPU_STATUS_NOW,DATEHOUR) #The cost is add by CPU bigger
 
-                    nomearquivo1=CLOUD+'_'+CLOUDIP+'_history.txt' #write data in file
-                    nomearquivo2='LINK_'+CLOUD+'_history.txt' #write data in file
+                    nomearquivo1=PATH_LOG+CLOUD+'_'+CLOUDIP+'_history.txt' #write data in file
+                    nomearquivo2=PATH_LOG+'LINK_'+CLOUD+'_history.txt' #write data in file
 
                     with open(nomearquivo1, 'a') as arquivo:
                         arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ CPU + "," + MEMORY +'\n')
@@ -290,8 +290,5 @@ except Exception as e:
 finally:
     socketServer.close()
 
-#corrigir envio custo sem dados, so nome variavel
-# latencia para o usuario e aterar pesos vnf baseado nisto
-# ver se existe metrica de quantidade de vnf alocada
-# alterar aquivo no container a cada mudança
-# fazer simulações com tc
+#49ba3bef-0b9c-42a3-a546-109de123db05 (1)
+#3a75c592-952a-49ca-8ce2-42360ee6cec0 (2)
