@@ -13,3 +13,5 @@
 
 docker cp /opt/PLAO/osm/vnf_price_list.yaml $(docker ps -qf name=osm_pla):/placement/
 docker cp /opt/PLAO/osm/pil_price_list.yaml $(docker ps -qf name=osm_pla):/placement/
+
+echo date "- copiado arquivos para container placement" >> /opt/PLAO/osm/copy_to_docker.txt
