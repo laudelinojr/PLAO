@@ -123,7 +123,7 @@ def SearchGrowUpVimPrice(VIM_URL,GROW_ADD_PRICE,CLOUD_COD,STATUS_CPU_NOW,DATEHOU
         print ("CPU CHANGE: File pill_price changed because High CPU.")
         with open(FILE_VNF_PRICE, 'w') as file:
             documents = yaml.dump(B, file, sort_keys=False)
-        nomearquivo3=PATH_LOG+'CPU_'+CLOUD+'_history.txt #write data in file
+        nomearquivo3=PATH_LOG+'CPU_'+CLOUD+'_history.txt' #write data in file
         with open(nomearquivo3, 'a') as arquivo:
             arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ str(STATUS_CPU_NOW)+'\n')
 
