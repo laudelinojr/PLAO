@@ -224,13 +224,11 @@ def conectado(connection, enderecoCliente):
                     connection.sendall(mensagem.encode('utf8'))  #sending in first time the command to client
                     commands.update({(ID): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': STATUS, 'PRICE': PRICE, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY ,'CONEXAO': connection}})
                 if TIPO == 'SENDS':  #check the type protocol
-
                     CLOUD_STATUS_CPU=int(clouds.get(str(ID).get('CPU'))
                     if (int(CPU) > THRESHOLD) and (CLOUD_STATUS_CPU == 0):
                         CPU_STATUS_NOW=1   #Values: 0-cpu normal, 1-cpu high and cost value going to change
                         VIMURL=clouds.get(str(ID)).get('VIMURL')
                         SearchDownUpVimPrice(VIMURL,DOWN_UP_PRICE,ID,CPU_STATUS_NOW,DATEHOUR) #The cost is add by CPU bigger
-
                     if (int(CPU) < THRESHOLD) and (CLOUD_STATUS_CPU == 1):
                         CPU_STATUS_NOW=0   #Values: 0-cpu normal, 1-cpu high and cost value going to change
                         VIMURL=clouds.get(str(ID)).get('VIMURL')
