@@ -113,7 +113,7 @@ def SearchDownUpVimPrice(VIM_URL,UP_DOWN_PRICE,CLOUD_COD,STATUS_CPU_NOW,DATEHOUR
                             clouds.update({str(CLOUD_COD):{'CLOUD': CLOUD,'CLOUDIP':CLOUDIP,'VIMURL': VIMURL,'CPU':'0'}})
                             B[i]['prices'][f]['price']=int(PRICE-UP_DOWN_PRICE) #Change the VNF Price with the rate price
                             CHANGED_PRICE_VIM_URL=CHANGED_PRICE_VIM_URL+1 #count auxiliar variable
-                        if STATUS_CPU_NOW == 0 and CLOUD_STATUS_CPU == 1 and PRICE =< UP_DOWN_PRICE: #If the cloud CPU now is ok (0), but in dict is high (1), we need change dict to (0)
+                        if STATUS_CPU_NOW == 0 and CLOUD_STATUS_CPU == 1 and PRICE <= UP_DOWN_PRICE: #If the cloud CPU now is ok (0), but in dict is high (1), we need change dict to (0)
                             clouds.update({str(CLOUD_COD):{'CLOUD': CLOUD,'CLOUDIP':CLOUDIP,'VIMURL': VIMURL,'CPU':'0'}})
                             B[i]['prices'][f]['price']=0 #Change the VNF Price with the rate price
                             CHANGED_PRICE_VIM_URL=CHANGED_PRICE_VIM_URL+1 #count auxiliar variable
