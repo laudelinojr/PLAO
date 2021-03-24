@@ -165,7 +165,7 @@ print ('Starting OSM collector ... '+ CLOUDNAME_LOCAL)
 print ('To quit, use CTRL+C\n')
 
 #First comunication with the server
-mensagem = 'REGIS' + '#' + 'ID' + '#' +CLOUDNAME_LOCAL + '#' + CLOUDIP_LOCAL + '#' + 'DATAHORAC()' + '#' + 'CLOUDTONAME' + '#' + 'CLOUDTOIP' + '#' + 'STATUS' + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + 'JITTER' + '#' + '0' + '#' + 'MEMORY'+ '#' + 'DISK'+ '#' + 'NVM' + '#' + '0' + '#'
+mensagem = 'REGIS' + '#' + 'ID' + '#' +CLOUDNAME_LOCAL + '#' + CLOUDIP_LOCAL + '#' + 'DATAHORAC()' + '#' + 'CLOUDTONAME' + '#' + 'CLOUDTOIP' + '#' + 'STATUS' + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + 'JITTER' + '#' + '0' + '#' + 'MEMORY'+ '#' + 'DISK'+ '#' + 'NVM' + '#' + '0' + '#' + 'MEMORYC' + '#' + 'DISKC' + '#'
 tcp.sendall(mensagem.encode('utf8')) #Sending to Server
 
 try:
@@ -192,8 +192,12 @@ try:
             DISK = msg[13] #DISK PERCENT USAGE
             NVM = msg[14] #QUANTITY MACHINES
             CPUC = msg[15] #PERCENT CPU IN TOTAL OF CLOUD
+            MEMORYC = msg[16] #PERCENT CPU IN TOTAL OF CLOUD
+            DISKC = msg[17] #PERCENT CPU IN TOTAL OF CLOUD
 
-            if debug == 1: print ('TIPO: '+TIPO+' CLOUD: '+CLOUD+' CLOUDIP: '+CLOUDIP+' DATEHOUR: '+DATEHOUR+' CLOUDTONAME: '+CLOUDTONAME+' CLOUDTOIP: '+CLOUDTOIP+' STATUS: '+STATUS+' PRICE: '+PRICE+' LATENCY: '+LATENCY+' JITTER: '+JITTER+' CPU: '+CPU+' MEMORY: '+MEMORY+' DISK: '+DISK+' NVM: '+NVM+' CPUC: '+CPUC)
+
+
+            if debug == 1: print ('TIPO: '+TIPO+' CLOUD: '+CLOUD+' CLOUDIP: '+CLOUDIP+' DATEHOUR: '+DATEHOUR+' CLOUDTONAME: '+CLOUDTONAME+' CLOUDTOIP: '+CLOUDTOIP+' STATUS: '+STATUS+' PRICE: '+PRICE+' LATENCY: '+LATENCY+' JITTER: '+JITTER+' CPU: '+CPU+' MEMORY: '+MEMORY+' DISK: '+DISK+' NVM: '+NVM+' CPUC: '+CPUC+' CPUC: '+MEMORYC+' DISKC: '+DISKC)
 
             if TIPO == 'REGIS':  #check if the protocol is type registry
                 #print ("DEBUG: recebido comando do servidor com registro")
@@ -203,7 +207,7 @@ try:
                     #print("DEBUG: ID stored")
             if ID_CONF == ID:
                 if TIPO == 'REGIS':
-                    mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK + '#' + NVM + '#' + CPUC + '#'
+                    mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK + '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#' + DISKC + '#'
                     tcp.sendall(mensagem.encode('utf8'))
                     #print("envie sends do REGIS")
                 if TIPO == 'SENDC':
@@ -220,8 +224,9 @@ try:
                         NVM=GetHypervisorStats(CLOUDIP,"running_vms")                       
                         CPUC=GetHypervisorStats(CLOUDIP,"vcpu_use_percent")
                         MEMORY=MemorySO()
-                        print (type(CPU))
-                        mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK + '#' + NVM + '#' + CPUC + '#'
+                        MEMORYC=GetHypervisorStats(CLOUDIP,"memory_use_percent")
+                        DISKC=GetHypervisorStats(CLOUDIP,"local_gb_percent")
+                        mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK + '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#' + DISKC + '#'
                         tcp.sendall(mensagem.encode('utf8')) #send to server colletion data
                         '''   
                         if STATUS == 'CLIENT':
