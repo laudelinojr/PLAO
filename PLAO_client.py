@@ -131,7 +131,7 @@ def GetCpuSO():
     print(cpuso)
     cpuso2 = round(cpuso)
     print(cpuso2)
-    return cpuso2
+    return str(cpuso2)
 
 def MemorySO():
     mem = psutil.virtual_memory()
@@ -219,8 +219,7 @@ try:
                             if (CLOUDTOIP ==  "10.159.205.6"):
                                 JITTER=str(round(float(GetJitter(CLOUDTOIP,QUANTITY_PCK,STATUS)))) #Get Jitter with iperf, is necessary set quantity packages
                         CPU=GetCpuSO()
-                        NVM=""
-                        #NVM=GetHypervisorStats(CLOUDIP,"running_vms")                       
+                        NVM=GetHypervisorStats(CLOUDIP,"running_vms")                       
                         CPUC=GetHypervisorStats(CLOUDIP,"vcpu_use_percent")
                         MEMORY=MemorySO()
                         mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK + '#' + NVM + '#' + CPUC + '#'
