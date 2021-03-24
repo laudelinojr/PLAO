@@ -145,6 +145,7 @@ def GetJitter(CLOUDTOIP,QUANTITY_PCK,STATUS):
         return -1
     jitter = iperf2.split()[-7]
     resp = str(jitter, 'utf-8')
+    print(resp)
     return resp
     #if STATUS == "SERVER":
     #    iperf = subprocess.check_output(["iperf3", "-c", CLOUDTOIP,"-u", "-t", QUANTITY_PCK])
@@ -165,7 +166,7 @@ print ('Starting OSM collector ... '+ CLOUDNAME_LOCAL)
 print ('To quit, use CTRL+C\n')
 
 #First comunication with the server
-mensagem = 'REGIS' + '#' + 'ID' + '#' +CLOUDNAME_LOCAL + '#' + CLOUDIP_LOCAL + '#' + 'DATAHORAC()' + '#' + 'CLOUDTONAME' + '#' + 'CLOUDTOIP' + '#' + 'STATUS' + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + 'JITTER' + '#' + '0' + '#' + 'MEMORY'+ '#' + 'DISK'+ '#' + 'NVM' + '#' + '0' + '#' + 'MEMORYC' + '#' + 'DISKC' + '#'
+mensagem = 'REGIS' + '#' + 'ID' + '#' +CLOUDNAME_LOCAL + '#' + CLOUDIP_LOCAL + '#' + 'DATAHORAC()' + '#' + 'CLOUDTONAME' + '#' + 'CLOUDTOIP' + '#' + 'STATUS' + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + '0' + '#' + '0' + '#' + 'MEMORY'+ '#' + 'DISK'+ '#' + 'NVM' + '#' + '0' + '#' + 'MEMORYC' + '#' + 'DISKC' + '#'
 tcp.sendall(mensagem.encode('utf8')) #Sending to Server
 
 try:
