@@ -79,7 +79,7 @@ def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
         with open(FILE_VNF_PRICE, 'w') as file:
             documents = yaml.dump(B, file, sort_keys=False) #Export changes to file without order, equal original file
         try:
-            changefile = subprocess.check_output(["/opt/PLAO/osm/script.sh","vnf_price_list.yaml"])
+            changefile = subprocess.check_output(['/bin/bash','/opt/PLAO/osm/script.sh','vnf_price_list.yaml'])
         except:
             return -1     
         if debug ==1: print("DEBUG: File changed")
@@ -131,7 +131,7 @@ def SearchDownUpVimPrice(VIM_URL,CLOUD_COD,STATUS_CPU_NOW,DATEHOUR):
             arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ str(STATUS_CPU_NOW)+'\n')
 
         try:
-            changefile = subprocess.check_output(["/opt/PLAO/osm/script.sh","vnf_price_list.yaml"])
+            changefile = subprocess.check_output(['/bin/bash','/opt/PLAO/osm/script.sh',"vnf_price_list.yaml'])
             #changefile = subprocess.check_output(["runuser", "-l", "mano","-c", "'docker cp /opt/PLAO/osm/pil_price_list.yaml $(docker ps -qf name=osm_pla):/placement/.'"])
         except:
             return -1
@@ -168,7 +168,7 @@ def SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENST
             with open(FILE_PIL_PRICE, 'w') as file:
                 documents = yaml.dump(B, file, sort_keys=False) #Export changes to file without order, equal original file
             try:
-                changefile = subprocess.check_output(["/opt/PLAO/osm/script.sh","pil_price_list.yaml"])
+                changefile = subprocess.check_output(['/bin/bash','/opt/PLAO/osm/script.sh','pil_price_list.yaml'])
                 #changefile = subprocess.check_output(["runuser", "-l", "mano","-c", "'docker cp /opt/PLAO/osm/pil_price_list.yaml $(docker ps -qf name=osm_pla):/placement/.'"])
             except:
                 return -1
