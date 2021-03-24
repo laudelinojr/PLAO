@@ -19,7 +19,7 @@ from keystoneauth1 import session
 from novaclient import client as nova_client
 
 #Debug mode is 1
-debug=1
+debug=0
 
 #/opt/plao   root of application withc .py
 #/opt/plao/utils/ local iperf
