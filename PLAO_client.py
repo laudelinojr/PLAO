@@ -215,6 +215,7 @@ try:
                         CPU=GetCpuSO()
                         NVM=GetHypervisorStats(CLOUDIP,"running_vms")
                         CPUC=GetHypervisorStats(CLOUDIP,"vcpu_use_percent")
+                        print (CPUC)
                         MEMORY=MemorySO()
                         mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK + '#' + NVM + '#' + CPUC + '#'
                         print (mensagem)
