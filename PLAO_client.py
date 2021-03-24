@@ -218,8 +218,8 @@ try:
                             PRICE=LATENCY
                             if (CLOUDTOIP ==  "10.159.205.6"):
                                 JITTER=str(round(float(GetJitter(CLOUDTOIP,QUANTITY_PCK,STATUS)))) #Get Jitter with iperf, is necessary set quantity packages
-                        CPU=GetCpuSO()
-                        NVM=GetHypervisorStats(CLOUDIP,"running_vms")                       
+                        #CPU=GetCpuSO()
+                        #NVM=GetHypervisorStats(CLOUDIP,"running_vms")                       
                         print ('nvm: '+ NVM)
                         #CPUC=GetHypervisorStats(CLOUDIP,"vcpu_use_percent")
                         #print ('cPUC: '+CPUC + (type(CPUC)))
