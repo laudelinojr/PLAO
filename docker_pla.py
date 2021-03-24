@@ -1,4 +1,5 @@
 import os
+import sys
 
 FILE_VNF_PRICE="/opt/PLAO/osm/vnf_price_list.yaml"
 FILE_PIL_PRICE="/opt/PLAO/osm/pil_price_list.yaml"
