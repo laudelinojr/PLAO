@@ -83,9 +83,9 @@ def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
             #changefile = subprocess.check_output(['/bin/bash','/opt/PLAO/script.sh','vnf_price_list.yaml'])
             nomearquivo4=PATH_LOG+'COPY_CONFIG_OSM_history.txt' #write data in file
             with open(nomearquivo4, 'a') as arquivo:
-                arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + 'para o container PLA.' +'\n')
+                arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + ' para o container PLA.' +'\n')
             arquivo.close()
-            subprocess.call(['python3', '/opt/PLAO/docker_pla.py'])
+            subprocess.call(['python3', '/opt/PLAO/docker_pla.py', 'vnf_price_list'])
             #subprocess.call("/opt/PLAO/test1.py", shell=True)
             #os.system('docker cp '+FILE_VNF_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
         except:
@@ -142,9 +142,9 @@ def SearchDownUpVimPrice(VIM_URL,CLOUD_COD,STATUS_CPU_NOW,DATEHOUR):
         try:
             nomearquivo4=PATH_LOG+'COPY_CONFIG_OSM_history.txt' #write data in file
             with open(nomearquivo4, 'a') as arquivo:
-                arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + 'para o container PLA.' +'\n')
+                arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + ' para o container PLA.' +'\n')
             arquivo.close()
-            subprocess.call(['python3', '/opt/PLAO/docker_pla.py'])
+            subprocess.call(['python3', '/opt/PLAO/docker_pla.py', 'vnf_price_list'])
             #subprocess.call("/opt/PLAO/test1.py")
             #os.system('docker cp '+FILE_VNF_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
         except:
@@ -184,9 +184,9 @@ def SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENST
             try:
                 nomearquivo4=PATH_LOG+'COPY_CONFIG_OSM_history.txt' #write data in file
                 with open(nomearquivo4, 'a') as arquivo:
-                    arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_PIL_PRICE + 'para o container PLA.' +'\n')
+                    arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_PIL_PRICE + ' para o container PLA.' +'\n')
                 arquivo.close()
-                subprocess.call(['python3', '/opt/PLAO/docker_pla.py'])
+                subprocess.call(['python3', '/opt/PLAO/docker_pla.py', 'pil_price_list'])
                 #os.system('docker cp '+FILE_PIL_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
             except:
                 return -1
@@ -321,6 +321,3 @@ except Exception as e:
     print("Erro no cliente. " + str(e))
 finally:
     socketServer.close()
-
-#49ba3bef-0b9c-42a3-a546-109de123db05 (1)
-#3a75c592-952a-49ca-8ce2-42360ee6cec0 (2)
