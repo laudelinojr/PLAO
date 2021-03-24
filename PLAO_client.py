@@ -18,6 +18,9 @@ from keystoneauth1.identity import v3
 from keystoneauth1 import session
 from novaclient import client as nova_client
 
+#Debug mode is 1
+debug=1
+
 #/opt/plao   root of application withc .py
 #/opt/plao/utils/ local iperf
 #/opt/plao/logs  aquivos de log
@@ -166,8 +169,7 @@ mensagem = 'REGIS' + '#' + 'ID' + '#' +CLOUDNAME_LOCAL + '#' + CLOUDIP_LOCAL + '
 tcp.sendall(mensagem.encode('utf8')) #Sending to Server
 
 try:
-    #desligar = False
-    while True: #desligar == False:
+    while True:
         msg = tcp.recv(1024).decode("utf8")  #receive the message socket in byte and to convert in utf-8
         msg = msg.split('#')  #split message separeted in # symbol
         if len(msg) > 5:
@@ -190,6 +192,8 @@ try:
             DISK = msg[13] #DISK PERCENT USAGE
             NVM = msg[14] #QUANTITY MACHINES
             CPUC = msg[15] #PERCENT CPU IN TOTAL OF CLOUD
+
+            if debug == 1: print ('TIPO: '+TIPO+' CLOUD: '+CLOUD+' CLOUDIP: '+CLOUDIP+' DATEHOUR: '+DATEHOUR+' CLOUDTONAME: '+CLOUDTONAME+' CLOUDTOIP: '+CLOUDTOIP+' STATUS: '+STATUS+' PRICE: '+PRICE+' LATENCY: '+LATENCY+' JITTER: '+JITTER+' CPU: '+CPU+' MEMORY: '+MEMORY+' DISK: '+DISK+' NVM: '+NVM+' CPUC: '+CPUC)
 
             if TIPO == 'REGIS':  #check if the protocol is type registry
                 #print ("DEBUG: recebido comando do servidor com registro")
