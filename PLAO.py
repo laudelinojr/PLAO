@@ -257,7 +257,7 @@ def conectado(connection, enderecoCliente):
                         CLOUDIP=(clouds.get('2').get('CLOUDIP'))
                         mensagem = 'VNFSENDC#' + '1' + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK+ '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#'+ DISKC + '#'  #preparing message
                         connection.sendall(mensagem.encode('utf8'))  #sending in first time the command to client
-                if TIPO = 'VNFSENDS':
+                if TIPO == 'VNFSENDS':
                     PRICE_VNFD=JITTER
                     NAME_VNFD=CLOUD
                     print (type(PRICE_VNFD))
