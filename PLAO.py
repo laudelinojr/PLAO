@@ -131,7 +131,7 @@ def SearchDownUpVimPrice(VIM_URL,CLOUD_COD,STATUS_CPU_NOW,DATEHOUR):
             arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ str(STATUS_CPU_NOW)+'\n')
 
         try:
-            changefile = subprocess.check_output(['/bin/bash','/opt/PLAO/osm/script.sh',"vnf_price_list.yaml'])
+            changefile = subprocess.check_output(['/bin/bash','/opt/PLAO/osm/script.sh','vnf_price_list.yaml'])
             #changefile = subprocess.check_output(["runuser", "-l", "mano","-c", "'docker cp /opt/PLAO/osm/pil_price_list.yaml $(docker ps -qf name=osm_pla):/placement/.'"])
         except:
             return -1
