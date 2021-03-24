@@ -21,12 +21,6 @@ from novaclient import client as nova_client
 #Debug mode is 1
 debug=1
 
-#/opt/plao   root of application withc .py
-#/opt/plao/utils/ local iperf
-#/opt/plao/logs  aquivos de log
-#/opt/plao/osm arquivos configuracaoOSM
-#/opt/plao/openstack
-
 # The values in config files of OSM need to be integer
 QUANTITY_PCK="5" #Quantity packages to use in ping command 
 DIR_IPERF="C:/Temp/artigo/utils/iperf/" #directory of iperf application
@@ -97,12 +91,6 @@ def GetHypervisorStats(OPENSTACK_FROM, PARAMETER):
     if PARAMETER == "running_vms":
         running_vms=stats['running_vms']
         return str(round(running_vms))
-
-    #print(GetHypervisorStats("memory_use_percent"))
-    #print(GetHypervisorStats("vcpu_use_percent"))
-    #print(GetHypervisorStats("running_vms"))
-    #print(GetHypervisorStats("local_gb_percent"))
-
 
 def GetLatency(TARGET,QUANTITY_PCK):
     #Test with ping to get latency.
@@ -213,14 +201,12 @@ try:
                     if CLOUDIP_LOCAL == CLOUDIP:
                         #print(CLOUDTOIP)
                         #if STATUS == 'SERVER':
-                        time.sleep(5)
+                        time.sleep(2)
                         if (CLOUDTOIP != "CLOUDTOIP" ):
                             LATENCY=str(round(float(GetLatency(CLOUDTOIP,QUANTITY_PCK)))) #Get latency with ping, is necessary set quantity packages
                             PRICE=LATENCY
                             if (CLOUDTOIP ==  "10.159.205.6"):
-                                print ("antes"+JITTER)
                                 JITTER=str(round(float(GetJitter(CLOUDTOIP,QUANTITY_PCK,STATUS)))) #Get Jitter with iperf, is necessary set quantity packages
-                                print ("depois"+JITTER)
                         CPU=GetCpuSO()
                         NVM=GetHypervisorStats(CLOUDIP,"running_vms")                       
                         CPUC=GetHypervisorStats(CLOUDIP,"vcpu_use_percent")
@@ -229,25 +215,6 @@ try:
                         DISKC=GetHypervisorStats(CLOUDIP,"local_gb_percent")
                         mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK + '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#' + DISKC + '#'
                         tcp.sendall(mensagem.encode('utf8')) #send to server colletion data
-                        '''   
-                        if STATUS == 'CLIENT':
-                            print('DEBUG: Command received, exec iperf CLIENT')
-                            time.sleep(5)
-                            PRICE='' #In first time, in example case, the server is openstack1 and client openstack2. Is not necessary this colletc.
-                            LATENCY='' #In first time, in example case, the server is openstack1 and client openstack2. Is not necessary this colletc.
-                            GetJitter(CLOUDTOIP,QUANTITY_PCK,STATUS) #Start Jitter as daemon for receive 1 conection, is necessary set quantity packages
-                            JITTER="" #The client going to collect this
-                            CPU=GetHypervisorStats(CLOUDIP,"vcpu_use_percent")
-                            print("CPU: "+CPU)
-                            MEMORY=''
-                            mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK+ '#' + NVM + '#' + 'CPUC' + '#'
-                            print (mensagem)
-                            tcp.sendall(mensagem.encode('utf8'))  #send to server colletion data
-                        else:
-                            mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK+ '#' + NVM + '#' + 'CPUC' + '#'
-                            print (mensagem)
-                            tcp.sendall(mensagem.encode('utf8'))  #send to server colletion data
-                            '''
         if not msg: break
 except KeyboardInterrupt:
     print('Tecla de interrupção acionada, saindo... e solicitando exclusao do dispositivo no servidor.')
