@@ -128,15 +128,13 @@ def GetLatency(TARGET,QUANTITY_PCK):
 
 def GetCpuSO():
     cpuso = psutil.cpu_percent(interval=0.5)
-    print(cpuso)
     cpuso2 = round(cpuso)
-    print(cpuso2)
     return cpuso2
 
 def MemorySO():
     mem = psutil.virtual_memory()
     memoryso = round(mem.percent)
-    return memoryso
+    return str(memoryso)
 
 def GetJitter(CLOUDTOIP,QUANTITY_PCK,STATUS):
     #if STATUS == "CLIENT":
