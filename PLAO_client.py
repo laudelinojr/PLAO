@@ -19,7 +19,7 @@ from keystoneauth1 import session
 from novaclient import client as nova_client
 
 #Debug mode is 1
-debug=0
+debug=1
 
 #/opt/plao   root of application withc .py
 #/opt/plao/utils/ local iperf
@@ -194,8 +194,6 @@ try:
             CPUC = msg[15] #PERCENT CPU IN TOTAL OF CLOUD
             MEMORYC = msg[16] #PERCENT CPU IN TOTAL OF CLOUD
             DISKC = msg[17] #PERCENT CPU IN TOTAL OF CLOUD
-
-
 
             if debug == 1: print ('TIPO: '+TIPO+' CLOUD: '+CLOUD+' CLOUDIP: '+CLOUDIP+' DATEHOUR: '+DATEHOUR+' CLOUDTONAME: '+CLOUDTONAME+' CLOUDTOIP: '+CLOUDTOIP+' STATUS: '+STATUS+' PRICE: '+PRICE+' LATENCY: '+LATENCY+' JITTER: '+JITTER+' CPU: '+CPU+' MEMORY: '+MEMORY+' DISK: '+DISK+' NVM: '+NVM+' CPUC: '+CPUC+' MEMORYC: '+MEMORYC+' DISKC: '+DISKC)
 

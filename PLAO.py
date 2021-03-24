@@ -221,7 +221,7 @@ def conectado(connection, enderecoCliente):
                 MEMORYC = msg[16] #PERCENT CPU IN TOTAL OF CLOUD
                 DISKC = msg[17] #PERCENT CPU IN TOTAL OF CLOUD
                 
-                if debug == 1: print ('TIPO: '+TIPO+' CLOUD: '+CLOUD+' CLOUDIP: '+CLOUDIP+' DATEHOUR: '+DATEHOUR+' CLOUDTONAME: '+CLOUDTONAME+' CLOUDTOIP: '+CLOUDTOIP+' STATUS: '+STATUS+' PRICE: '+PRICE+' LATENCY: '+LATENCY+' JITTER: '+JITTER+' CPU: '+CPU+' MEMORY: '+MEMORY+' DISK: '+DISK+' NVM: '+NVM+' CPUC: '+CPUC+' MEMORYC: '+MEMORYC+' DISKC: '+DISKC)
+                if debug == 1: print ('TIPO: '+TIPO+' CLOUD: '+CLOUD+' CLOUDIP: '+CLOUDIP+' DATEHOUR: '+DATEHOUR+' CLOUDTONAME: '+CLOUDTONAME+' CLOUDTOIP: '+CLOUDTOIP+' STATUS: '+STATUS+' PRICE: '+PRICE+' LATENCY: '+LATENCY+' JITTER: '+JITTER+' CPU: '+CPU+' MEMORY: '+MEMORY+' DISK: '+DISK+' NVM: '+NVM+' CPUC: '+ CPUC+' MEMORYC: '+ MEMORYC +' DISKC: '+DISKC )
 
                 if TIPO == 'REGIS': #check for the first time the type protocol and send the id number
                     VIMURL='http://'+CLOUDIP+':5000/v3'
