@@ -85,7 +85,7 @@ def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
             with open(nomearquivo4, 'a') as arquivo:
                 arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + 'para o container PLA.' +'\n')
             arquivo.close()
-            os.system('docker cp'+FILE_VNF_PRICE+'$(docker ps -qf name=osm_pla):/placement/')
+            os.system('docker cp '+FILE_VNF_PRICE+' $(docker ps -qf name=osm_pla):/placement/')
         except:
             return -1     
         if debug ==1: print("DEBUG: File changed")
@@ -143,7 +143,7 @@ def SearchDownUpVimPrice(VIM_URL,CLOUD_COD,STATUS_CPU_NOW,DATEHOUR):
             with open(nomearquivo4, 'a') as arquivo:
                 arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + 'para o container PLA.' +'\n')
             arquivo.close()
-            os.system('docker cp'+FILE_VNF_PRICE+'$(docker ps -qf name=osm_pla):/placement/')
+            os.system('docker cp '+FILE_VNF_PRICE+' $(docker ps -qf name=osm_pla):/placement/')
             #changefile = subprocess.check_output(["runuser", "-l", "mano","-c", "'docker cp /opt/PLAO/osm/pil_price_list.yaml $(docker ps -qf name=osm_pla):/placement/.'"])
         except:
             return -1
@@ -185,7 +185,7 @@ def SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENST
                 with open(nomearquivo4, 'a') as arquivo:
                     arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_PIL_PRICE + 'para o container PLA.' +'\n')
                 arquivo.close()
-                os.system('docker cp'+FILE_PIL_PRICE+'$(docker ps -qf name=osm_pla):/placement/')
+                os.system('docker cp '+FILE_PIL_PRICE+' $(docker ps -qf name=osm_pla):/placement/')
                 #changefile = subprocess.check_output(["runuser", "-l", "mano","-c", "'docker cp /opt/PLAO/osm/pil_price_list.yaml $(docker ps -qf name=osm_pla):/placement/.'"])
             except:
                 return -1
