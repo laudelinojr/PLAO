@@ -244,7 +244,7 @@ def conectado(connection, enderecoCliente):
                     nomearquivo2=PATH_LOG+'LINK_'+CLOUD+'_history.txt' #write data in file
 
                     with open(nomearquivo1, 'a') as arquivo:
-                        arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ CPU + "," + MEMORY + "," + NVM + "," + CPUC + MEMORYC + DISKC +'\n')
+                        arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ CPU + "," + MEMORY + "," + NVM + "," + CPUC + "," + MEMORYC + ","+ DISKC +'\n')
 
                     if PRICE != "PRICE": #If is sending real data, this going to a file
                         with open(nomearquivo2, 'a') as arquivo:
