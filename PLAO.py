@@ -265,7 +265,7 @@ def conectado(connection, enderecoCliente):
                             CLOUDTOIP=(clouds.get('1').get('CLOUDIP'))
 
                     commands.update({('ID'): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': STATUS, 'PRICE': PRICE, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY, 'CPUC': CPUC ,'MEMORYC': MEMORYC ,'DISKC': DISKC , 'CONEXAO': connection}})
-                    mensagem = 'SENDC#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + 'JITTER' + '#' + 'CPU' + '#' + 'MEMORY' + '#' + DISK + '#' + NVM + '#' + CPUC + '#'+ MEMORYC + '#'+ DISKC + '#'
+                    mensagem = 'SENDC#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + 'JITTER' + '#' + 'CPU' + '#' + 'MEMORY' + '#' + 'DISK' + '#' + 'NVM' + '#' + 'CPUC' + '#'+ 'MEMORYC' + '#'+ 'DISKC' + '#'
                     connection.sendall(mensagem.encode('utf8'))
 
                 if TIPO == 'EXCL': #Delete registry cloud in Dict
