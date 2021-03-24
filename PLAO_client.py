@@ -218,15 +218,11 @@ try:
                             PRICE=LATENCY
                             if (CLOUDTOIP ==  "10.159.205.6"):
                                 JITTER=str(round(float(GetJitter(CLOUDTOIP,QUANTITY_PCK,STATUS)))) #Get Jitter with iperf, is necessary set quantity packages
-                        #CPU=GetCpuSO()
-                        NVM=GetHypervisorStats(CLOUDIP,"running_vms")                       
-                        print ('nvm: '+ NVM)
+                        CPU=GetCpuSO()
+                        #NVM=GetHypervisorStats(CLOUDIP,"running_vms")                       
                         CPUC=GetHypervisorStats(CLOUDIP,"vcpu_use_percent")
-                        print ('cPUC: '+CPUC + (type(CPUC)))
                         MEMORY=MemorySO()
-                        print ("MEMORY:"+MEMORY+ (type(MEMORY)))
                         mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK + '#' + NVM + '#' + CPUC + '#'
-                        print (mensagem)
                         tcp.sendall(mensagem.encode('utf8')) #send to server colletion data
                         '''   
                         if STATUS == 'CLIENT':
