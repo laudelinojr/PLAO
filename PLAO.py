@@ -240,7 +240,7 @@ def conectado(connection, enderecoCliente):
                 
                 if debug == 1: print ('TIPO: '+TIPO+' CLOUD: '+CLOUD+' CLOUDIP: '+CLOUDIP+' DATEHOUR: '+DATEHOUR+' CLOUDTONAME: '+CLOUDTONAME+' CLOUDTOIP: '+CLOUDTOIP+' STATUS: '+STATUS+' PRICE: '+PRICE+' LATENCY: '+LATENCY+' JITTER: '+JITTER+' CPU: '+CPU+' MEMORY: '+MEMORY+' DISK: '+DISK+' NVM: '+NVM+' CPUC: '+ CPUC+' MEMORYC: '+ MEMORYC +' DISKC: '+DISKC )
 
-                if TIPO = 'CVNFSENDS':
+                if TIPO == 'CVNFSENDS':
                     #CLOUD=NOMEVNF
                     #CLOUDIP=IPUSUARIO
                     #executar no cliente: PLAO_client.sh 127.0.0.1 VNFD IPUSUARIO
