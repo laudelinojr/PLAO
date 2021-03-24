@@ -221,10 +221,10 @@ try:
                         CPU=GetCpuSO()
                         NVM=GetHypervisorStats(CLOUDIP,"running_vms")                       
                         print ('nvm: '+ NVM)
-                        CPUC=GetHypervisorStats(CLOUDIP,"vcpu_use_percent")
-                        print ('cPUC: '+CPUC + (type(CPUC)))
-                        MEMORY=MemorySO()
-                        print ("MEMORY:"+MEMORY+ (type(MEMORY)))
+                        #CPUC=GetHypervisorStats(CLOUDIP,"vcpu_use_percent")
+                        #print ('cPUC: '+CPUC + (type(CPUC)))
+                        #MEMORY=MemorySO()
+                        #print ("MEMORY:"+MEMORY+ (type(MEMORY)))
                         mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK + '#' + NVM + '#' + CPUC + '#'
                         print (mensagem)
                         tcp.sendall(mensagem.encode('utf8')) #send to server colletion data
