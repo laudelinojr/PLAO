@@ -83,6 +83,7 @@ def GetHypervisorStats(OPENSTACK_FROM, PARAMETER):
         vcpus=stats['vcpus']
         vcpus_used=stats['vcpus_used']        
         vcpu_use_percent=(vcpus_used*100)/vcpus
+        print vcpu_use_percent
         return str(round(vcpu_use_percent))
 
     if PARAMETER == "local_gb_percent":
