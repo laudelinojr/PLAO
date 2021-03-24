@@ -25,7 +25,7 @@ import time
 
 
 #Debug mode is 1
-debug=0
+debug=1
 
 #requisites for change all price of specif VIM (Cloud)
 DOWN_UP_PRICE=10 #Number to add vnf Price
@@ -217,6 +217,7 @@ def conectado(connection, enderecoCliente):
                 DISK = msg[13] #DISK PERCENT USAGE
                 NVM = msg[14] #QUANTITY MACHINES
                 CPUC = msg[15] #PERCENT CPU IN TOTAL OF CLOUD
+                if debug == 1: print ('TIPO: '+TIPO+'CLOUD: '+CLOUD+'CLOUDIP: '+CLOUDIP+'DATEHOUR: '+DATEHOUR+'CLOUDTONAME: '+CLOUDTONAME+'CLOUDTOIP: '+CLOUDTOIP+'STATUS: '+STATUS+'PRICE: '+PRICE+'LATENCY: '+LATENCY+'JITTER: '+JITTER+'CPU: '+CPU+'MEMORY: '+MEMORY+'DISK: '+DISK+'NVM: '+NVM+'CPUC: '+CPUC)
                 if TIPO == 'REGIS': #check for the first time the type protocol and send the id number
                     VIMURL='http://'+CLOUDIP+':5000/v3'
                     clouds.update({(str(len(clouds)+1)):{'CLOUD': CLOUD,'CLOUDIP':CLOUDIP,'VIMURL': VIMURL,'CPU':CPU}})
