@@ -131,7 +131,7 @@ def GetCpuSO():
     print(cpuso)
     cpuso2 = round(cpuso)
     print(cpuso2)
-    return str(cpuso2)
+    return cpuso2
 
 def MemorySO():
     mem = psutil.virtual_memory()
@@ -222,6 +222,7 @@ try:
                         NVM=GetHypervisorStats(CLOUDIP,"running_vms")                       
                         CPUC=GetHypervisorStats(CLOUDIP,"vcpu_use_percent")
                         MEMORY=MemorySO()
+                        print (type(MEMORY))
                         mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK + '#' + NVM + '#' + CPUC + '#'
                         tcp.sendall(mensagem.encode('utf8')) #send to server colletion data
                         '''   
