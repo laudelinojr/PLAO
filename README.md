@@ -31,3 +31,7 @@ ssh root@10.159.205.6
 cd /opt/PLAO
 python3 PLAO_client.py 10.159.205.10 openstack1 10.159.205.6
 
+
+Para simular Latencia nos openstacks
+tc qdisc add dev eth0 root netem delay 100ms
+tc qdisc del dev eth0 root
