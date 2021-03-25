@@ -194,7 +194,9 @@ def UsersManager():
     while True:
         time.sleep(5)
 
-        for i in len(users):
+    
+
+        for i in range(len(users)):
             print (users.get(i))
        
 
