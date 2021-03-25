@@ -185,7 +185,7 @@ def UsersAdd():
         VIMURL = valores[3]
         COMMAND = valores[4]        
         #users.update({((str(len(users)+1)): {'USERIP': USERIP,'VNFD': VNFD, 'LATENCY': LATENCY,'VIMURL': VIMURL, 'COMMAND': COMMAND }})
-        users.update({((str(len(users)+1)): {'USERIP': USERIP,'LATENCY': LATENCY,'COMMAND': COMMAND }})
+        users.update({(str(len(users)+1))}: {'USERIP': USERIP,'LATENCY': LATENCY,'COMMAND': COMMAND }})
     arquivo.close()
 
 def UsersManager():
