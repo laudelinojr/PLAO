@@ -155,6 +155,7 @@ print ('To quit, use CTRL+C\n')
 
 #First comunication with the server
 if CLOUDIP_LOCAL == '127.0.0.1':
+    print (CLOUDIP_LOCAL)
     mensagem = 'CVNFSENDS#' + '1' + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK+ '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#'+ DISKC + '#'  #preparing message
     tcp.sendall(mensagem.encode('utf8')) #Sending to Server    
 else:
@@ -205,6 +206,7 @@ try:
                     LATENCY=str(round(float(GetLatency(CLOUDTOIP,QUANTITY_PCK)))) #Get latency with ping, is necessary set quantity packages
                     mensagem = 'VNFSENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK + '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#' + DISKC + '#'
                     tcp.sendall(mensagem.encode('utf8')) #send to server colletion data
+                    break
                 if TIPO == 'SENDC':
                     if CLOUDIP_LOCAL == CLOUDIP:
                         #print(CLOUDTOIP)
