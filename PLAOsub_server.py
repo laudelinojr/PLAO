@@ -86,8 +86,7 @@ def conectado(connection, enderecoCliente):
                     arquivo = open(nomearquivo1,'w')
                     linha = arquivo.write(mensagem)
                     arquivo.close()
-                fi
-
+                
                 if TIPO == 'EXCL': #Delete registry cloud in Dict
                     print("saindo")
                     #if ID.isdigit():
