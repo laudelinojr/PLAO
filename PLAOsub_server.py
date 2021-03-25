@@ -76,11 +76,12 @@ def conectado(connection, enderecoCliente):
                     connection.sendall(mensagem.encode('utf8'))  #sending in first time the command to client
 
                 if LATENCY != 'LATENCY':
+                    print("entrei aqui")
                     nomearquivo1='user_vnfd.txt'
                     arquivo = open(nomearquivo1,'w')
                     linha = arquivo.readline()
                     arquivo.close()
-        
+
                     nomearquivo2='user_vnfd_latencia.txt'
                     arquivo = open(nomearquivo1,'w')
                     linha = arquivo.write(mensagem)
