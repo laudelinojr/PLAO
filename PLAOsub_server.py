@@ -54,16 +54,12 @@ def conectado(connection, enderecoCliente):
              
                 #fico lendo arquivo TXT USERIP,VNFD,COMANDO
                 #se aparecer algo, os clientes irao verificar, fazer o ping e retornar  o valor, que será posto em outro arquivo txt
-                #PING_FILA
 
                 nomearquivo1='user_vnfd.txt'
                 arquivo = open(nomearquivo1,'r')
                 linha = arquivo.readline()
                 arquivo.close()
-
                 print(linha)
-
-
                 #arquivo.write(DATEHOUR + ','+ USERIP + ","+ CLOUDIP +","+ CPU + "," + MEMORY + "," + NVM + "," + CPUC + "," + MEMORYC + ","+ DISKC +'\n')
 
                 if TIPO == 'PINGSENDS':
