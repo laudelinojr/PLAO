@@ -79,7 +79,7 @@ def conectado(connection, enderecoCliente):
                     print("entrei aqui")
                     nomearquivo1='user_vnfd.txt'
                     arquivo = open(nomearquivo1,'w')
-                    linha = arquivo.readline()
+                    arquivo.write("")
                     arquivo.close()
 
                     nomearquivo2='user_vnfd_latencia.txt'
