@@ -60,13 +60,13 @@ def conectado(connection, enderecoCliente):
                 arquivo = open(nomearquivo1,'r')
                 linha = arquivo.readline()
                 arquivo.close()
-                print(linha)
 
-                msg2 = linha.split('#') 
-                USERIP = msg2[0]
-                VNFD1 = msg2[1]
-                VNFD2 = msg2[2]
-                COMMAND = msg2[3]
+                if len(msg) > 4:
+                    msg2 = linha.split('#') 
+                    USERIP = msg2[0]
+                    VNFD1 = msg2[1]
+                    VNFD2 = msg2[2]
+                    COMMAND = msg2[3]
 
                 if TIPO == 'PINGSENDS':
                     #sleep.time(5)
