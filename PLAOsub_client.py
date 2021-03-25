@@ -58,6 +58,7 @@ print ('Starting PING Collector ... ')
 print ('To quit, use CTRL+C\n')
 
 mensagem = 'PINGSENDS#' + '1' + '#' + 'CLOUDNAME_LOCAL' + '#' + 'CLOUDIP_LOCAL' + '#' + 'DATAHORAC()' + '#' + 'CLOUDTONAME' + '#' + 'CLOUDTOIP' + '#' + 'STATUS' + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + '0' + '#' + '0' + '#' + 'MEMORY'+ '#' + 'DISK'+ '#' + 'NVM' + '#' + '0' + '#' + 'MEMORYC' + '#' + 'DISKC' + '#'
+tcp.sendall(mensagem.encode('utf8')) #send to server colletion data
 
 try:
     while True:
