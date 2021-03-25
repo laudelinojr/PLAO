@@ -57,7 +57,7 @@ tcp.connect(dest)
 print ('Starting PING Collector ... ')
 print ('To quit, use CTRL+C\n')
 
-mensagem = 'PINGSENDS#' + '1' + '#' + CLOUDNAME_LOCAL + '#' + 'CLOUDIP_LOCAL' + '#' + 'DATAHORAC()' + '#' + 'CLOUDTONAME' + '#' + CLOUDTOIP + '#' + 'STATUS' + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + '0' + '#' + '0' + '#' + 'MEMORY'+ '#' + 'DISK'+ '#' + 'NVM' + '#' + '0' + '#' + 'MEMORYC' + '#' + 'DISKC' + '#'
+mensagem = 'PINGSENDS#' + '1' + '#' + 'CLOUDNAME_LOCAL' + '#' + 'CLOUDIP_LOCAL' + '#' + 'DATAHORAC()' + '#' + 'CLOUDTONAME' + '#' + 'CLOUDTOIP' + '#' + 'STATUS' + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + '0' + '#' + '0' + '#' + 'MEMORY'+ '#' + 'DISK'+ '#' + 'NVM' + '#' + '0' + '#' + 'MEMORYC' + '#' + 'DISKC' + '#'
 
 try:
     while True:
