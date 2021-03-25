@@ -187,7 +187,7 @@ def UsersAdd():
         #users.update({((str(len(users)+1)): {'USERIP': USERIP,'VNFD': VNFD, 'LATENCY': LATENCY,'VIMURL': VIMURL, 'COMMAND': COMMAND }})
         users.update({(str(len(users)+1)):{'USERIP': USERIP,'LATENCY': LATENCY,'COMMAND': COMMAND }})
         #clouds.update({(str(len(clouds)+1)):{'CLOUD': CLOUD,'CLOUDIP':CLOUDIP,'VIMURL': VIMURL,'CPU':CPU}})
-        CLOUD=(clouds.get('1').get('CLOUD'))
+        
     arquivo.close()
 
 def UsersManager():
