@@ -177,7 +177,7 @@ def UsersAdd():
     arquivo = open(nomearquivo1,'r')
     linha = arquivo.readline()
     for linha in arquivo:
-        valores=linha.split(#)
+        valores=linha.split('#')
 
         USERIP = valores[0]
         VNFD = valores[1]
