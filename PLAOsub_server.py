@@ -83,7 +83,7 @@ def conectado(connection, enderecoCliente):
 
 
 
-#Configurations for socket enviroment
+#Configurations for socket envirome
 socketServer = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 HOST = "0.0.0.0"#address ip to server
 PORT = 6001 #port to server
