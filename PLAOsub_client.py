@@ -78,7 +78,7 @@ try:
 
             if TIPO == 'PINGSENDC':
                 time.sleep(2)
-                LATENCY=str(round(float(GetLatency(CLOUDTOIP,QUANTITY_PCK))))
+                LATENCY=str(round(float(GetLatency(USERIP,QUANTITY_PCK))))
                 #LATENCY=str(GetLatency(USERIP,QUANTITY_PCK)) #Get latency with ping, is necessary set quantity packages
                 PRICE=LATENCY              
                 mensagem = 'PINGSENDS#'+ ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ USERIP + '#' + VNFD + '#' + COMMAND + '#' + LATENCY + '#'
