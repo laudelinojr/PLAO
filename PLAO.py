@@ -178,11 +178,12 @@ def UsersAdd():
     linha = arquivo.readline()
     for linha in arquivo:
         valores=linha.split(#)
-        USERIP = linha[0]
-        VNFD = linha[1]
-        LATENCY = linha[2]
-        VIMURL = linha[3]
-        COMMAND = linha[4]        
+
+        USERIP = valores[0]
+        VNFD = valores[1]
+        LATENCY = valores[2]
+        VIMURL = valores[3]
+        COMMAND = valores[4]        
         #users.update({((str(len(users)+1)): {'USERIP': USERIP,'VNFD': VNFD, 'LATENCY': LATENCY,'VIMURL': VIMURL, 'COMMAND': COMMAND }})
         users.update({((str(len(users)+1)): {'USERIP': USERIP,'LATENCY': LATENCY,'COMMAND': COMMAND }})
     arquivo.close()
