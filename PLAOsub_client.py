@@ -61,14 +61,6 @@ tcp.connect(dest)
 print ('Starting PING Collector ... ')
 print ('To quit, use CTRL+C\n')
 
-#First comunication with the server
-if HOST == '127.0.0.1':
-    CLOUDTOIP=CLOUDIP_LOCAL
-    mensagem = 'CVNFSENDS#' + '1' + '#' + CLOUDNAME_LOCAL + '#' + 'CLOUDIP_LOCAL' + '#' + 'DATAHORAC()' + '#' + 'CLOUDTONAME' + '#' + CLOUDTOIP + '#' + 'STATUS' + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + '0' + '#' + '0' + '#' + 'MEMORY'+ '#' + 'DISK'+ '#' + 'NVM' + '#' + '0' + '#' + 'MEMORYC' + '#' + 'DISKC' + '#'
-    tcp.sendall(mensagem.encode('utf8')) #Sending to Server    
-else:
-    mensagem = 'REGIS' + '#' + 'ID' + '#' +CLOUDNAME_LOCAL + '#' + CLOUDIP_LOCAL + '#' + 'DATAHORAC()' + '#' + 'CLOUDTONAME' + '#' + 'CLOUDTOIP' + '#' + 'STATUS' + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + '0' + '#' + '0' + '#' + 'MEMORY'+ '#' + 'DISK'+ '#' + 'NVM' + '#' + '0' + '#' + 'MEMORYC' + '#' + 'DISKC' + '#'
-    tcp.sendall(mensagem.encode('utf8')) #Sending to Server
 
 try:
     while True:
