@@ -190,7 +190,7 @@ try:
             DISKC = msg[17] #PERCENT CPU IN TOTAL OF CLOUD
 
             print ('TIPO: '+TIPO+' CLOUD: '+CLOUD+' CLOUDIP: '+CLOUDIP+' DATEHOUR: '+DATEHOUR+' CLOUDTONAME: '+CLOUDTONAME+' CLOUDTOIP: '+CLOUDTOIP+' STATUS: '+STATUS+' PRICE: '+PRICE+' LATENCY: '+LATENCY+' JITTER: '+JITTER+' CPU: '+CPU+' MEMORY: '+MEMORY+' DISK: '+DISK+' NVM: '+NVM+' CPUC: '+CPUC+' MEMORYC: '+MEMORYC+' DISKC: '+DISKC)
-
+            print ("testepassei")
             if TIPO == 'REGIS':  #check if the protocol is type registry
                 #print ("DEBUG: recebido comando do servidor com registro")
                 #print(TIPO+ID+CLOUD+CLOUDIP+DATEHOUR+CLOUDTONAME,CLOUDTONAME,STATUS)
