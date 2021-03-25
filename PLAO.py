@@ -191,7 +191,7 @@ def UsersAdd():
     arquivo.close()
 
 def UsersManager():
-    while true:
+    while True:
         sleep.time(5)
 
         for i in len(users):
