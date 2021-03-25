@@ -73,14 +73,14 @@ try:
             DATEHOUR = msg[4] #DATA AND HOUR
             USERIP = msg[5] #
             VNFD = msg[6] #IP OF CLOUD TO
-            COMANDO = msg[7] 
+            COMMAND = msg[7] 
             LATENCY = msg[9] #LATENCY
 
             if TIPO == 'PINGSENDC':
                 time.sleep(2)
                 LATENCY=str(GetLatency(USERIP,QUANTITY_PCK)) #Get latency with ping, is necessary set quantity packages
                 PRICE=LATENCY              
-                mensagem = 'PINGSENDS#'+ ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ USERIP + '#' + VNFD + '#' + COMANDO + '#' + LATENCY + '#'
+                mensagem = 'PINGSENDS#'+ ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ USERIP + '#' + VNFD + '#' + COMMAND + '#' + LATENCY + '#'
                 print (mensagem)
                 tcp.sendall(mensagem.encode('utf8')) #send to server colletion data
 

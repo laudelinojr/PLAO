@@ -53,7 +53,7 @@ def conectado(connection, enderecoCliente):
                 COMANDO = msg[7] 
                 LATENCY = msg[9] #LATENCY
              
-                #fico lendo arquivo TXT USERIP,VNFD,COMANDO
+                #fico lendo arquivo TXT USERIP,VNFD,VNFD2,COMANDO
                 #se aparecer algo, os clientes irao verificar, fazer o ping e retornar  o valor, que será posto em outro arquivo txt
 
                 nomearquivo1='user_vnfd.txt'
@@ -62,10 +62,16 @@ def conectado(connection, enderecoCliente):
                 arquivo.close()
                 print(linha)
 
+                msg2 = linha.split('#') 
+                USERIP = msg2[0]
+                VNFD1 = msg2[1]
+                VNFD2 = msg2[2]
+                COMMAND = msg2[3]
+
                 if TIPO == 'PINGSENDS':
                     #sleep.time(5)
                     #commands.update({('ID'): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': STATUS, 'PRICE': PRICE, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY, 'CPUC': CPUC ,'MEMORYC': MEMORYC ,'DISKC': DISKC , 'CONEXAO': connection}})
-                    mensagem = 'PINGSENDC#'+ ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ USERIP + '#' + VNFD + '#' + COMANDO + '#' + LATENCY + '#'
+                    mensagem = 'PINGSENDC#'+ ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ USERIP + '#' + VNFD + '#' + COMMAND + '#' + LATENCY + '#'
                     print (mensagem)
                     connection.sendall(mensagem.encode('utf8'))  #sending in first time the command to client
 
