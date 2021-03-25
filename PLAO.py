@@ -244,7 +244,7 @@ def conectado(connection, enderecoCliente):
                     #CLOUD=NOMEVNF
                     #CLOUDIP=IPUSUARIO
                     #executar no cliente: PLAO_client.sh 127.0.0.1 VNFD IPUSUARIO
-                    #users.update({(str(len(clouds)+1)):{'USERIP':USERIP,'VNFD': VNFD, 'COMANDO': STATUS}})
+                    users.update({(str(len(clouds)+1)):{'USERIP':USERIP,'VNFD': VNFD, 'COMANDO': STATUS}})
                     #STATUS= VNFD
                     #CLOUDTOIP=USERIP
                     if len(clouds) == 2:
@@ -344,6 +344,7 @@ clouds = {}
 users = {}
 
 try:
+    subprocess.call(['python3', '/opt/PLAO/PLAOsub_server.py'])
     thread_printCloudsDict = threading.Thread(target=printCloudsDict)
     thread_printCloudsDict.start()
     while True:

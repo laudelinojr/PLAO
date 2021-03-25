@@ -50,10 +50,6 @@ def GetLatency(TARGET,QUANTITY_PCK):
         resp3=resp2.split("ms")[0]
         return resp3
 
-
-
-ID_CONF="" #Local variable with uniq identifier cloud
-
 tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 dest = (HOST,PORT)
 tcp.connect(dest)
@@ -61,6 +57,7 @@ tcp.connect(dest)
 print ('Starting PING Collector ... ')
 print ('To quit, use CTRL+C\n')
 
+#mensagem = 'CVNFSENDS#' + '1' + '#' + CLOUDNAME_LOCAL + '#' + 'CLOUDIP_LOCAL' + '#' + 'DATAHORAC()' + '#' + 'CLOUDTONAME' + '#' + CLOUDTOIP + '#' + 'STATUS' + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + '0' + '#' + '0' + '#' + 'MEMORY'+ '#' + 'DISK'+ '#' + 'NVM' + '#' + '0' + '#' + 'MEMORYC' + '#' + 'DISKC' + '#'
 
 try:
     while True:
@@ -83,7 +80,7 @@ try:
                     if (CLOUDTOIP != "CLOUDTOIP" ):
                         LATENCY=str(round(float(GetLatency(CLOUDTOIP,QUANTITY_PCK)))) #Get latency with ping, is necessary set quantity packages
                         PRICE=LATENCY
-                    print(mensagem)
+                    mensagem = 'PINGSENDS#' + '1' + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK+ '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#'+ DISKC + '#'  #preparing message
                     tcp.sendall(mensagem.encode('utf8')) #send to server colletion data
         if not msg: break
 except KeyboardInterrupt:

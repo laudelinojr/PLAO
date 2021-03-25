@@ -30,6 +30,8 @@ def printCloudsDict():
 def DATEHOURS():
     DATEHOUR = datetime.datetime.now().strftime('%d.%m.%y-%H:%M:%S')  # converte hora para string do cliente
     return DATEHOURS
+    
+    
 
 def conectado(connection, enderecoCliente):
         print('Conected with', enderecoCliente)
@@ -66,10 +68,9 @@ def conectado(connection, enderecoCliente):
 
                 if TIPO == 'PINGSENDS':
                     sleep.time(5)
-                    mensagem = "teste pingsends"
                     #USERIP':USERIP,'VNFD': VNFD, 'COMANDO': STATUS
                     #commands.update({('ID'): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': STATUS, 'PRICE': PRICE, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY, 'CPUC': CPUC ,'MEMORYC': MEMORYC ,'DISKC': DISKC , 'CONEXAO': connection}})
-                    #mensagem = 'PINGSENDC#' + '1' + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK+ '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#'+ DISKC + '#'  #preparing message
+                    mensagem = 'PINGSENDC#' + '1' + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK+ '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#'+ DISKC + '#'  #preparing message
                     connection.sendall(mensagem.encode('utf8'))  #sending in first time the command to client
 
                 if TIPO == 'PINGSENDC':
@@ -83,6 +84,8 @@ def conectado(connection, enderecoCliente):
                         ping.pop(ID)
         print('Closing connection with client', enderecoCliente)
         connection.close()
+
+
 
 #Configurations for socket enviroment
 socketServer = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
