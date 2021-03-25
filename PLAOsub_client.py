@@ -33,7 +33,7 @@ def GetLatency(TARGET,QUANTITY_PCK):
     #Test with ping to get latency.
     if platform.system().lower() == "linux":
         try:
-            ping = subprocess.check_output(["ping", "-c", QUANTITY_PCK, TARGET])
+            ping = subprocess.check_output(["/usr/sbin/ping", "-c", QUANTITY_PCK, TARGET])
         except:
             return "" #if return with error, return empty
         latency = ping.split()[-2]
@@ -42,7 +42,7 @@ def GetLatency(TARGET,QUANTITY_PCK):
         return resp2
     else: # platform.system().lower() == "windows":
         try:
-            ping = subprocess.check_output(["ping", "-n", QUANTITY_PCK, TARGET])
+            ping = subprocess.check_output(["/usr/sbin/pingg", "-n", QUANTITY_PCK, TARGET])
         except:
             return "" #if return with error, return empty
         latency = ping.split()[-1]
