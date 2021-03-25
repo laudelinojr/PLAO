@@ -57,7 +57,7 @@ tcp.connect(dest)
 print ('Starting PING Collector ... ')
 print ('To quit, use CTRL+C\n')
 
-mensagem = 'PINGSENDS#' + '1' + '#' + 'CLOUDNAME_LOCAL' + '#' + 'CLOUDIP_LOCAL' + '#' + 'DATAHORAC()' + '#' + 'CLOUDTONAME' + '#' + 'CLOUDTOIP' + '#' + 'STATUS' + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + '0' + '#' + '0' + '#' + 'MEMORY'+ '#' + 'DISK'+ '#' + 'NVM' + '#' + '0' + '#' + 'MEMORYC' + '#' + 'DISKC' + '#'
+mensagem = 'PINGSENDS#' + '1' + '#' + 'CLOUDNAME_LOCAL' + '#' + 'CLOUDIP_LOCAL' + '#' + 'DATAHORAC()' + '#' + '#' + 'CLOUDTOIP' + '#' + 'STATUS' + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + '0' + '#' + '0' + '#' + 'MEMORY'+ '#' + 'DISK'+ '#' + 'NVM' + '#' + '0' + '#' + 'MEMORYC' + '#' + 'DISKC' + '#'
 tcp.sendall(mensagem.encode('utf8')) #send to server colletion data
 
 try:
@@ -90,6 +90,6 @@ except KeyboardInterrupt:
 except Exception as e:
     print("Erro no cliente. " + str(e))
 finally:
-    mensagem = 'EXCL#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + 'DATAHORAC()' + '#' + 'CLOUDTONAME' + '#' + 'CLOUDTOIP' + '#' + 'STATUS' + '#' + 'PRICE' + '#' +'LATENCY' + '#' + 'JITTER' + '#' + 'CPU' + '#' + 'MEMORY'+ '#' + 'DISK'+ '#' + 'NVM' + '#' + 'CPUC' + '#'
+    mensagem = 'EXCL#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + 'DATAHORAC()' + '#' + 'CLOUDTOIP' + '#' + 'STATUS' + '#' + 'PRICE' + '#' +'LATENCY' + '#' + 'JITTER' + '#' + 'CPU' + '#' + 'MEMORY'+ '#' + 'DISK'+ '#' + 'NVM' + '#' + 'CPUC' + '#'
     tcp.sendall(mensagem.encode('utf8'))
     tcp.close()
