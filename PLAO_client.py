@@ -154,7 +154,7 @@ print ('Starting OSM collector ... '+ CLOUDNAME_LOCAL)
 print ('To quit, use CTRL+C\n')
 
 #First comunication with the server
-if CLOUDIP_LOCAL == '127.0.0.1':
+if CLOUDIP_LOCAL == "127.0.0.1":
     print (CLOUDIP_LOCAL)
     mensagem = 'CVNFSENDS#' + '1' + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK+ '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#'+ DISKC + '#'  #preparing message
     tcp.sendall(mensagem.encode('utf8')) #Sending to Server    
