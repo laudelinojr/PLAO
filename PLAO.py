@@ -193,10 +193,9 @@ def UsersAdd():
 def UsersManager():
     while True:
         time.sleep(5)
-
-    
-
+  
         for i in range(len(users)):
+            print("entrei aqui")
             print (users.get(i))
        
 
