@@ -75,6 +75,18 @@ def conectado(connection, enderecoCliente):
                     print (mensagem)
                     connection.sendall(mensagem.encode('utf8'))  #sending in first time the command to client
 
+                if LATENCY != 'LATENCY':
+                    nomearquivo1='user_vnfd.txt'
+                    arquivo = open(nomearquivo1,'w')
+                    linha = arquivo.readline()
+                    arquivo.close()
+        
+                    nomearquivo2='user_vnfd_latencia.txt'
+                    arquivo = open(nomearquivo1,'w')
+                    linha = arquivo.write(mensagem)
+                    arquivo.close()
+                fi
+
                 if TIPO == 'EXCL': #Delete registry cloud in Dict
                     print("saindo")
                     #if ID.isdigit():
