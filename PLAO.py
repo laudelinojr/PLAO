@@ -256,8 +256,11 @@ def conectado(connection, enderecoCliente):
                         CLOUD=(clouds.get('2').get('CLOUD'))
                         CLOUDIP=(clouds.get('2').get('CLOUDIP'))
                         mensagem = 'VNFSENDC#' + '1' + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK+ '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#'+ DISKC + '#'  #preparing message
+                        print ("dentro cvnfsends")
+                        print(mensagem)
                         connection.sendall(mensagem.encode('utf8'))  #sending in first time the command to client
                 if TIPO == 'VNFSENDS':
+                    print("estou vnfsends")
                     PRICE_VNFD=JITTER
                     NAME_VNFD=CLOUD
                     print (type(PRICE_VNFD))
@@ -273,9 +276,12 @@ def conectado(connection, enderecoCliente):
                     VIMURL='http://'+CLOUDIP+':5000/v3'
                     clouds.update({(str(len(clouds)+1)):{'CLOUD': CLOUD,'CLOUDIP':CLOUDIP,'VIMURL': VIMURL,'CPU':CPU}})
                     mensagem = 'REGIS#' + str(len(clouds)) + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK+ '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#'+ DISKC + '#'  #preparing message
+                    print("estou regis")
+                    print (mensagem)
                     connection.sendall(mensagem.encode('utf8'))  #sending in first time the command to client
                     commands.update({(ID): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': STATUS, 'PRICE': PRICE, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY ,'DISK': DISK ,'NVM': NVM ,'CPUC': CPUC,'MEMORYC': MEMORYC,'DISKC': DISKC ,'CONEXAO': connection}})
                 if TIPO == 'SENDS':  #check the type protocol
+                    print ("estou sends")
                     CLOUD_STATUS_CPU=int(clouds.get(str(ID)).get('CPU'))
                     if (int(CPUC) > THRESHOLD) and (CLOUD_STATUS_CPU == 0):
                         CPU_STATUS_NOW=1   #Values: 0-cpu normal, 1-cpu high and cost value going to change
@@ -314,6 +320,8 @@ def conectado(connection, enderecoCliente):
 
                     commands.update({('ID'): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': STATUS, 'PRICE': PRICE, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY, 'CPUC': CPUC ,'MEMORYC': MEMORYC ,'DISKC': DISKC , 'CONEXAO': connection}})
                     mensagem = 'SENDC#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + '0' + '#' + 'CPU' + '#' + 'MEMORY' + '#' + 'DISK' + '#' + 'NVM' + '#' + 'CPUC' + '#'+ 'MEMORYC' + '#'+ 'DISKC' + '#'
+                    print("saindo sendc")
+                    print (mensagem)
                     connection.sendall(mensagem.encode('utf8'))
 
                 if TIPO == 'EXCL': #Delete registry cloud in Dict
