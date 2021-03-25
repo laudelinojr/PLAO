@@ -8,6 +8,7 @@ import psutil
 import os
 import datetime
 import uuid
+import os
 
 
 HOST = sys.argv[1] #Address Server OSM IP
