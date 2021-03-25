@@ -208,7 +208,6 @@ try:
                     LATENCY=str(round(float(GetLatency(CLOUDTOIP,QUANTITY_PCK)))) #Get latency with ping, is necessary set quantity packages
                     mensagem = 'VNFSENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK + '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#' + DISKC + '#'
                     tcp.sendall(mensagem.encode('utf8')) #send to server colletion data
-                    break
                 if TIPO == 'SENDC':
                     print ("entrei sendc")
                     if CLOUDIP_LOCAL == CLOUDIP:
