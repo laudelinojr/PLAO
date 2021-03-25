@@ -76,13 +76,13 @@ try:
             LATENCY = msg[9] #LATENCY
 
             if TIPO == 'PINGSENDC':
-                if CLOUDIP_LOCAL == CLOUDIP:
-                    time.sleep(2)
-                    if (CLOUDTOIP != "CLOUDTOIP" ):
-                        LATENCY=str(round(float(GetLatency(CLOUDTOIP,QUANTITY_PCK)))) #Get latency with ping, is necessary set quantity packages
-                        PRICE=LATENCY
-                    mensagem = 'PINGSENDC#'+ ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ USERIP + '#' + VNFD + '#' + COMANDO + '#' + LATENCY + '#'
-                    tcp.sendall(mensagem.encode('utf8')) #send to server colletion data
+                #if CLOUDIP_LOCAL == CLOUDIP:
+                time.sleep(2)
+                if (CLOUDTOIP != "CLOUDTOIP" ):
+                    LATENCY=str(round(float(GetLatency(CLOUDTOIP,QUANTITY_PCK)))) #Get latency with ping, is necessary set quantity packages
+                    PRICE=LATENCY
+                mensagem = 'PINGSENDC#'+ ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ USERIP + '#' + VNFD + '#' + COMANDO + '#' + LATENCY + '#'
+                tcp.sendall(mensagem.encode('utf8')) #send to server colletion data
 
         if not msg: break
 except KeyboardInterrupt:
