@@ -42,7 +42,7 @@ def GetLatency(TARGET,QUANTITY_PCK):
         return resp2
     else: # platform.system().lower() == "windows":
         try:
-            ping = subprocess.check_output(["/usr/sbin/pingg", "-n", QUANTITY_PCK, TARGET])
+            ping = subprocess.check_output(["/usr/sbin/ping", "-n", QUANTITY_PCK, TARGET])
         except:
             return "" #if return with error, return empty
         latency = ping.split()[-1]
@@ -78,7 +78,8 @@ try:
 
             if TIPO == 'PINGSENDC':
                 time.sleep(2)
-                LATENCY=str(GetLatency(USERIP,QUANTITY_PCK)) #Get latency with ping, is necessary set quantity packages
+                LATENCY=str(round(float(GetLatency(CLOUDTOIP,QUANTITY_PCK))))
+                #LATENCY=str(GetLatency(USERIP,QUANTITY_PCK)) #Get latency with ping, is necessary set quantity packages
                 PRICE=LATENCY              
                 mensagem = 'PINGSENDS#'+ ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ USERIP + '#' + VNFD + '#' + COMMAND + '#' + LATENCY + '#'
                 print (mensagem)
