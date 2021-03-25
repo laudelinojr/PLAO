@@ -266,8 +266,8 @@ def conectado(connection, enderecoCliente):
                     if (SearchVNFD != -1): #Check if exists the VNFD in cofiguration file
                         print("entre no search")
                         SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD)    #if ok
-                    else # if no ok, is necessary to create the file
-                        sera necessario criar no xml mais vim
+                    #else # if no ok, is necessary to create the file
+                        #sera necessario criar no xml mais vim
                 #    print("ja posso executar o comando para subir o NS")
                 if TIPO == 'REGIS': #check for the first time the type protocol and send the id number
                     VIMURL='http://'+CLOUDIP+':5000/v3'
