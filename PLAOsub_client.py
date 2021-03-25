@@ -10,6 +10,11 @@ import datetime
 import uuid
 
 
+HOST = sys.argv[1] #Address Server OSM IP
+if sys.argv[1] == '':
+    print ("Invalido: We need the IP OSM Sever.")
+    exit()
+
 #Debug mode is 1
 debug=1
 
