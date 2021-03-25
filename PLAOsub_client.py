@@ -77,12 +77,9 @@ try:
             LATENCY = msg[9] #LATENCY
 
             if TIPO == 'PINGSENDC':
-                #if CLOUDIP_LOCAL == CLOUDIP:
                 time.sleep(2)
-                #if (CLOUDTOIP != "CLOUDTOIP" ):
-                #LATENCY=str(GetLatency(USERIP,QUANTITY_PCK)) #Get latency with ping, is necessary set quantity packages
-                PRICE=LATENCY
-                
+                LATENCY=str(GetLatency(USERIP,QUANTITY_PCK)) #Get latency with ping, is necessary set quantity packages
+                PRICE=LATENCY              
                 mensagem = 'PINGSENDS#'+ ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ USERIP + '#' + VNFD + '#' + COMANDO + '#' + LATENCY + '#'
                 print (mensagem)
                 tcp.sendall(mensagem.encode('utf8')) #send to server colletion data
