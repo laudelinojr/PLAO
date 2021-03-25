@@ -68,6 +68,7 @@ def conectado(connection, enderecoCliente):
                     connection.sendall(mensagem.encode('utf8'))  #sending in first time the command to client
 
                 if TIPO == 'EXCL': #Delete registry cloud in Dict
+                    print("saindo")
                     #if ID.isdigit():
                         #ping.pop(ID)
         print('Closing connection with client', enderecoCliente)
