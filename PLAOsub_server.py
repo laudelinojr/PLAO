@@ -66,7 +66,7 @@ def conectado(connection, enderecoCliente):
                     #sleep.time(5)
                     #USERIP':USERIP,'VNFD': VNFD, 'COMANDO': STATUS
                     #commands.update({('ID'): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': STATUS, 'PRICE': PRICE, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY, 'CPUC': CPUC ,'MEMORYC': MEMORYC ,'DISKC': DISKC , 'CONEXAO': connection}})
-                    mensagem = 'PINGSENDC#' + '1' + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK+ '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#'+ DISKC + '#'  #preparing message
+                    mensagem = 'PINGSENDC#' + '1' + '#' + 'CLOUD' + '#' + 'CLOUDIP' + '#' + 'DATEHOUR' + '#'+ 'CLOUDTONAME' + '#' + 'CLOUDTOIP' + '#' + 'STATUS' + '#'   #preparing message
                     connection.sendall(mensagem.encode('utf8'))  #sending in first time the command to client
 
                 if TIPO == 'PINGSENDC':
