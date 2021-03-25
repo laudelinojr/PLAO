@@ -81,8 +81,9 @@ try:
                     if (CLOUDTOIP != "CLOUDTOIP" ):
                         LATENCY=str(round(float(GetLatency(CLOUDTOIP,QUANTITY_PCK)))) #Get latency with ping, is necessary set quantity packages
                         PRICE=LATENCY
-                    mensagem = 'PINGSENDS#' + '1' + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK+ '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#'+ DISKC + '#'  #preparing message
+                    mensagem = 'PINGSENDC#'+ ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ USERIP + '#' + VNFD + '#' + COMANDO + '#' + LATENCY + '#'
                     tcp.sendall(mensagem.encode('utf8')) #send to server colletion data
+
         if not msg: break
 except KeyboardInterrupt:
     print('Tecla de interrupção acionada, saindo... e solicitando exclusao do dispositivo no servidor.')
