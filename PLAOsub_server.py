@@ -63,7 +63,7 @@ def conectado(connection, enderecoCliente):
                 #arquivo.write(DATEHOUR + ','+ USERIP + ","+ CLOUDIP +","+ CPU + "," + MEMORY + "," + NVM + "," + CPUC + "," + MEMORYC + ","+ DISKC +'\n')
 
                 if TIPO == 'PINGSENDS':
-                    sleep.time(5)
+                    #sleep.time(5)
                     #USERIP':USERIP,'VNFD': VNFD, 'COMANDO': STATUS
                     #commands.update({('ID'): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': STATUS, 'PRICE': PRICE, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY, 'CPUC': CPUC ,'MEMORYC': MEMORYC ,'DISKC': DISKC , 'CONEXAO': connection}})
                     mensagem = 'PINGSENDC#' + '1' + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK+ '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#'+ DISKC + '#'  #preparing message
