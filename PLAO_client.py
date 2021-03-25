@@ -154,13 +154,13 @@ print ('Starting OSM collector ... '+ CLOUDNAME_LOCAL)
 print ('To quit, use CTRL+C\n')
 
 #First comunication with the server
-if HOST == '127.0.0.1':
-    print (CLOUDIP_LOCAL)
-    mensagem = 'CVNFSENDS#' + '1' + '#' + CLOUDNAME_LOCAL + '#' + CLOUDIP_LOCAL + '#' + 'DATAHORAC()' + '#' + 'CLOUDTONAME' + '#' + 'CLOUDTOIP' + '#' + 'STATUS' + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + '0' + '#' + '0' + '#' + 'MEMORY'+ '#' + 'DISK'+ '#' + 'NVM' + '#' + '0' + '#' + 'MEMORYC' + '#' + 'DISKC' + '#'
-    tcp.sendall(mensagem.encode('utf8')) #Sending to Server    
-else:
-    mensagem = 'REGIS' + '#' + 'ID' + '#' +CLOUDNAME_LOCAL + '#' + CLOUDIP_LOCAL + '#' + 'DATAHORAC()' + '#' + 'CLOUDTONAME' + '#' + 'CLOUDTOIP' + '#' + 'STATUS' + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + '0' + '#' + '0' + '#' + 'MEMORY'+ '#' + 'DISK'+ '#' + 'NVM' + '#' + '0' + '#' + 'MEMORYC' + '#' + 'DISKC' + '#'
-    tcp.sendall(mensagem.encode('utf8')) #Sending to Server
+#if HOST == '127.0.0.1':
+#    print (CLOUDIP_LOCAL)
+#    mensagem = 'CVNFSENDS#' + '1' + '#' + CLOUDNAME_LOCAL + '#' + CLOUDIP_LOCAL + '#' + 'DATAHORAC()' + '#' + 'CLOUDTONAME' + '#' + 'CLOUDTOIP' + '#' + 'STATUS' + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + '0' + '#' + '0' + '#' + 'MEMORY'+ '#' + 'DISK'+ '#' + 'NVM' + '#' + '0' + '#' + 'MEMORYC' + '#' + 'DISKC' + '#'
+#    tcp.sendall(mensagem.encode('utf8')) #Sending to Server    
+#else:
+mensagem = 'REGIS' + '#' + 'ID' + '#' +CLOUDNAME_LOCAL + '#' + CLOUDIP_LOCAL + '#' + 'DATAHORAC()' + '#' + 'CLOUDTONAME' + '#' + 'CLOUDTOIP' + '#' + 'STATUS' + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + '0' + '#' + '0' + '#' + 'MEMORY'+ '#' + 'DISK'+ '#' + 'NVM' + '#' + '0' + '#' + 'MEMORYC' + '#' + 'DISKC' + '#'
+tcp.sendall(mensagem.encode('utf8')) #Sending to Server
 
 try:
     while True:
@@ -203,13 +203,12 @@ try:
                     mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK + '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#' + DISKC + '#'
                     tcp.sendall(mensagem.encode('utf8'))
                     #print("envie sends do REGIS")
-                if TIPO == 'VNFSENDC':
-                    print("entrei vnfsendc")
-                    LATENCY=str(round(float(GetLatency(CLOUDTOIP,QUANTITY_PCK)))) #Get latency with ping, is necessary set quantity packages
-                    mensagem = 'VNFSENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK + '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#' + DISKC + '#'
-                    tcp.sendall(mensagem.encode('utf8')) #send to server colletion data
+               # if TIPO == 'VNFSENDC':
+               #     print("entrei vnfsendc")
+               #     LATENCY=str(round(float(GetLatency(CLOUDTOIP,QUANTITY_PCK)))) #Get latency with ping, is necessary set quantity packages
+               #     mensagem = 'VNFSENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK + '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#' + DISKC + '#'
+               #     tcp.sendall(mensagem.encode('utf8')) #send to server colletion data
                 if TIPO == 'SENDC':
-                    print ("entrei sendc")
                     if CLOUDIP_LOCAL == CLOUDIP:
                         #print(CLOUDTOIP)
                         #if STATUS == 'SERVER':

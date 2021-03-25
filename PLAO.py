@@ -240,35 +240,35 @@ def conectado(connection, enderecoCliente):
                 
                 if debug == 1: print ('TIPO: '+TIPO+' CLOUD: '+CLOUD+' CLOUDIP: '+CLOUDIP+' DATEHOUR: '+DATEHOUR+' CLOUDTONAME: '+CLOUDTONAME+' CLOUDTOIP: '+CLOUDTOIP+' STATUS: '+STATUS+' PRICE: '+PRICE+' LATENCY: '+LATENCY+' JITTER: '+JITTER+' CPU: '+CPU+' MEMORY: '+MEMORY+' DISK: '+DISK+' NVM: '+NVM+' CPUC: '+ CPUC+' MEMORYC: '+ MEMORYC +' DISKC: '+DISKC )
 
-                if TIPO == 'CVNFSENDS':
+                #if TIPO == 'CVNFSENDS':
                     #CLOUD=NOMEVNF
                     #CLOUDIP=IPUSUARIO
                     #executar no cliente: PLAO_client.sh 127.0.0.1 VNFD IPUSUARIO
                     #users.update({(str(len(clouds)+1)):{'USERIP':USERIP,'VNFD': VNFD, 'COMANDO': STATUS}})
                     #STATUS= VNFD
                     #CLOUDTOIP=USERIP
-                    if len(clouds) == 2:
-                        CLOUD=(clouds.get('1').get('CLOUD'))
-                        CLOUDIP=(clouds.get('1').get('CLOUDIP'))
-                        mensagem = 'VNFSENDC#' + '1' + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK+ '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#'+ DISKC + '#'  #preparing message
-                        connection.sendall(mensagem.encode('utf8'))  #sending in first time the command to client
+                #    if len(clouds) == 2:
+                #        CLOUD=(clouds.get('1').get('CLOUD'))
+                #        CLOUDIP=(clouds.get('1').get('CLOUDIP'))
+                #        mensagem = 'VNFSENDC#' + '1' + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK+ '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#'+ DISKC + '#'  #preparing message
+                #        connection.sendall(mensagem.encode('utf8'))  #sending in first time the command to client
 
-                        CLOUD=(clouds.get('2').get('CLOUD'))
-                        CLOUDIP=(clouds.get('2').get('CLOUDIP'))
-                        mensagem = 'VNFSENDC#' + '1' + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK+ '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#'+ DISKC + '#'  #preparing message
-                        connection.sendall(mensagem.encode('utf8'))  #sending in first time the command to client
-                if TIPO == 'VNFSENDS':
-                    PRICE_VNFD=JITTER
-                    NAME_VNFD=CLOUD
-                    print (type(PRICE_VNFD))
-                    print (type(NAME_VNFD))
-                    VIMURL=clouds.get(str(ID)).get('VIMURL')
-                    if (SearchVNFD != -1): #Check if exists the VNFD in cofiguration file
-                        print("entre no search")
-                        SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD)    #if ok
+                #        CLOUD=(clouds.get('2').get('CLOUD'))
+                #        CLOUDIP=(clouds.get('2').get('CLOUDIP'))
+                #        mensagem = 'VNFSENDC#' + '1' + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK+ '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#'+ DISKC + '#'  #preparing message
+                #        connection.sendall(mensagem.encode('utf8'))  #sending in first time the command to client
+                #if TIPO == 'VNFSENDS':
+                #    PRICE_VNFD=JITTER
+                #    NAME_VNFD=CLOUD
+                #    print (type(PRICE_VNFD))
+                #    print (type(NAME_VNFD))
+                #    VIMURL=clouds.get(str(ID)).get('VIMURL')
+                #    if (SearchVNFD != -1): #Check if exists the VNFD in cofiguration file
+                #        print("entre no search")
+                #        SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD)    #if ok
                     #else # if no ok, is necessary to create the file
                         #sera necessario criar no xml mais vim
-                    print("ja posso executar o comando para subir o NS")
+                #    print("ja posso executar o comando para subir o NS")
                 if TIPO == 'REGIS': #check for the first time the type protocol and send the id number
                     VIMURL='http://'+CLOUDIP+':5000/v3'
                     clouds.update({(str(len(clouds)+1)):{'CLOUD': CLOUD,'CLOUDIP':CLOUDIP,'VIMURL': VIMURL,'CPU':CPU}})
