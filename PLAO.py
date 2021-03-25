@@ -255,7 +255,7 @@ def conectado(connection, enderecoCliente):
 
                         CLOUD=(clouds.get('2').get('CLOUD'))
                         CLOUDIP=(clouds.get('2').get('CLOUDIP'))
-                        mensagem = 'VNFSENDC#' + '1' + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK+ '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#'+ DISKC + '#'  #preparing message
+                        mensagem = 'VNFSENDC#' + '2' + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK+ '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#'+ DISKC + '#'  #preparing message
                         print ("dentro cvnfsends")
                         print(mensagem)
                         connection.sendall(mensagem.encode('utf8'))  #sending in first time the command to client
