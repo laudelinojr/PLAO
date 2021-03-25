@@ -192,7 +192,7 @@ def UsersAdd():
 
 def UsersManager():
     while True:
-        sleep.time(5)
+        time.sleep(5)
 
         for i in len(users):
             print (users.get(i))
