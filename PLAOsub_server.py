@@ -3,6 +3,7 @@ import socket
 import threading
 import time
 import subprocess
+import sys
 
 #Debug mode is 1
 debug=0
@@ -65,6 +66,7 @@ def conectado(connection, enderecoCliente):
                     #sleep.time(5)
                     #commands.update({('ID'): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': STATUS, 'PRICE': PRICE, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY, 'CPUC': CPUC ,'MEMORYC': MEMORYC ,'DISKC': DISKC , 'CONEXAO': connection}})
                     mensagem = 'PINGSENDC#'+ ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ USERIP + '#' + VNFD + '#' + COMANDO + '#' + LATENCY + '#'
+                    print (mensagem)
                     connection.sendall(mensagem.encode('utf8'))  #sending in first time the command to client
 
                 if TIPO == 'EXCL': #Delete registry cloud in Dict

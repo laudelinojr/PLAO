@@ -82,7 +82,9 @@ try:
                 #if (CLOUDTOIP != "CLOUDTOIP" ):
                 #LATENCY=str(GetLatency(USERIP,QUANTITY_PCK)) #Get latency with ping, is necessary set quantity packages
                 PRICE=LATENCY
+                
                 mensagem = 'PINGSENDC#'+ ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ USERIP + '#' + VNFD + '#' + COMANDO + '#' + LATENCY + '#'
+                print (mensagem)
                 tcp.sendall(mensagem.encode('utf8')) #send to server colletion data
 
         if not msg: break
