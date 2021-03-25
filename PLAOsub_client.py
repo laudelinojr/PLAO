@@ -15,6 +15,8 @@ if sys.argv[1] == '':
     print ("Invalido: We need the IP OSM Sever.")
     exit()
 
+PORT = 6000 #Port Server
+
 #Debug mode is 1
 debug=1
 
