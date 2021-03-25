@@ -57,8 +57,8 @@ def conectado(connection, enderecoCliente):
                 #PING_FILA
 
                 nomearquivo1='user_vnfd.txt'
-                arquivo = open('seu-arquivo.text', 'w')
-                    linha = arquivo.readline()
+                arquivo = open(nomearquivo1,'r')
+                linha = arquivo.readline()
                 arquivo.close()
 
                 print(linha)
