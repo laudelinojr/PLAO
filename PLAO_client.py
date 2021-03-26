@@ -204,10 +204,10 @@ try:
                 if TIPO == 'SENDC':
                     if CLOUDIP_LOCAL == CLOUDIP:
                         print("dentro sendc")
-                        if(EXTRA == 1):
+                        if(EXTRA != 'EXTRA' ):
                             print("ENTROU JITTER EXTRA")
-                            JITTER_EXTRA=str(round(float(GetJitter(EXTRA,QUANTITY_PCK,STATUS)))) #Get Jitter with iperf, is necessary set quantity packages
-                            print ("JITTER EXTRA: "+ JITTER_EXTRA)
+                            EXTRA=str(round(float(GetJitter(EXTRA,QUANTITY_PCK,STATUS)))) #Get Jitter with iperf, is necessary set quantity packages
+                            print ("JITTER EXTRA: "+ EXTRA)
                         time.sleep(2)
                         if (CLOUDTOIP != "CLOUDTOIP" ):
                             LATENCY=str(round(float(GetLatency(CLOUDTOIP,QUANTITY_PCK)))) #Get latency with ping, is necessary set quantity packages

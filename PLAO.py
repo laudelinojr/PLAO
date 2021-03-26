@@ -283,6 +283,7 @@ def conectado(connection, enderecoCliente):
                     connection.sendall(mensagem.encode('utf8'))  #sending in first time the command to client
                     commands.update({(ID): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': STATUS, 'PRICE': PRICE, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY ,'DISK': DISK ,'NVM': NVM ,'CPUC': CPUC,'MEMORYC': MEMORYC,'DISKC': DISKC, 'EXTRA': EXTRA ,'CONEXAO': connection}})
                 if TIPO == 'SENDS':  #check the type protocol
+                    EXTRA='EXTRA'
                     print ("entrou sends")
 
                     #recebe extra novo e manda rodar script
