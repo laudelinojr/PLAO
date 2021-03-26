@@ -190,6 +190,7 @@ def UsersAdd():
             nomearquivo1='user_vnfd_latencia.txt'
             arquivo = open(nomearquivo1,'r')
             linha = arquivo.readline()
+            print("linha trabalhndo agora: "+ linha)
             valores=linha.split('#')
             USERIP = valores[0]
             LATENCY = valores[1]
@@ -199,8 +200,8 @@ def UsersAdd():
             arquivo.close()
             os.remove(nomearquivo1)
             users.clear
-        else:
-            print("O arquivo não existe")
+        #else:
+            #print("O arquivo não existe")
                 #users.update({'(str(len(users)+1))':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})
                 #users.update({'1':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})
             #if (len(users)>=1):
