@@ -56,22 +56,30 @@ def conectado(connection, enderecoCliente):
                 #fico lendo arquivo TXT USERIP,VNFD,VNFD2,COMANDO
                 #se aparecer algo, os clientes irao verificar, fazer o ping e retornar  o valor, que será posto em outro arquivo txt
 
-                nomearquivo1='user_vnfd.txt'
+                #USERIP#VNFD#COMMAND#LATENCIA#CLOUD_IP#READ
+                USERIPF = " "
+                VNFDF = " "
+                COMMANDF = " "
+                LATENCIAF = " "
+                CLOUDIOPF = " "
+                READCLOUDF = " "
+                nomearquivo1='user_vnfd_latencia.txt'
                 arquivo = open(nomearquivo1,'r')
                 linha = arquivo.readline()
+                for linha in arquivo:
+                    valores=linha.split(#)
+                    USERIPF = linha[0]
+                    VNFDF = linha[1]
+                    COMMANDF = linha[2]
+                    LATENCIAF = linha[3]
+                    CLOUDIOPF = linha[3]                  
+                    READCLOUDF = linha[3]  
                 arquivo.close()
-
-                if len(msg) > 4:
-                    msg2 = linha.split('#') 
-                    USERIP = msg2[0]
-                    VNFD1 = msg2[1]
-                    VNFD2 = msg2[2]
-                    COMMAND = msg2[3]
 
                 if TIPO == 'PINGSENDS':
                     #sleep.time(5)##
                     #commands.update({('ID'): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': STATUS, 'PRICE': PRICE, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY, 'CPUC': CPUC ,'MEMORYC': MEMORYC ,'DISKC': DISKC , 'CONEXAO': connection}})
-                    mensagem = 'PINGSENDC#'+ ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ USERIP + '#' + VNFD + '#' + COMMAND + '#' + LATENCY + '#'
+                    mensagem = 'PINGSENDC#'+ ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ USERIPF + '#' + VNFD + '#' + COMMAND + '#' + LATENCY + '#'
                     print (mensagem)
                     connection.sendall(mensagem.encode('utf8'))  #sending in first time the command to client
 
@@ -82,15 +90,21 @@ def conectado(connection, enderecoCliente):
                     arquivo.write("")
                     arquivo.close()
 
-                    nomearquivo2='user_vnfd_latencia.txt'
-                    arquivo = open(nomearquivo1,'w')
-                    linha = arquivo.write(mensagem)
+                    nomearquivo1='user_vnfd.txt' #write data in file
+                    with open(nomearquivo1, 'w') as arquivo:
+                        arquivo.write(''+'\n')
+                    arquivo.close()
+
+                    nomearquivo2='user_vnfd_latencia.txt' #write data in file
+                    with open(nomearquivo2, 'w') as arquivo:
+                        arquivo.write(mensagem+'\n')
                     arquivo.close()
                 
                 if TIPO == 'EXCL': #Delete registry cloud in Dict
                     print("saindo")
                     #if ID.isdigit():
                         #ping.pop(ID)
+
         print('Closing connection with client', enderecoCliente)
         connection.close()
 

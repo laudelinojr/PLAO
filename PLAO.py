@@ -265,6 +265,8 @@ def conectado(connection, enderecoCliente):
                 MEMORYC = msg[16] #PERCENT CPU IN TOTAL OF CLOUD
                 DISKC = msg[17] #PERCENT CPU IN TOTAL OF CLOUD
                 EXTRA = msg[18] 
+
+                print(EXTRA)
                 
                 if debug == 1: print ('TIPO: '+TIPO+' CLOUD: '+CLOUD+' CLOUDIP: '+CLOUDIP+' DATEHOUR: '+DATEHOUR+' CLOUDTONAME: '+CLOUDTONAME+' CLOUDTOIP: '+CLOUDTOIP+' STATUS: '+STATUS+' PRICE: '+PRICE+' LATENCY: '+LATENCY+' JITTER: '+JITTER+' CPU: '+CPU+' MEMORY: '+MEMORY+' DISK: '+DISK+' NVM: '+NVM+' CPUC: '+ CPUC+' MEMORYC: '+ MEMORYC +' DISKC: '+DISKC +' EXTRA: '+EXTRA )
                
@@ -277,7 +279,7 @@ def conectado(connection, enderecoCliente):
                 if TIPO == 'SENDS':  #check the type protocol
 
                     if (len(users)>=1):
-                        EXTRA=users.get(1)
+                        EXTRA=users.get(1).get('USERIP')
                         print(EXTRA)
 
                     CLOUD_STATUS_CPU=int(clouds.get(str(ID)).get('CPU'))
