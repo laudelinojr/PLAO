@@ -193,7 +193,7 @@ def UsersAdd():
 def UsersManager():
     while True:
         time.sleep(5)
-  
+        print("users: ")
         for i in (users):
             print(users.get(i))
 
@@ -276,6 +276,11 @@ def conectado(connection, enderecoCliente):
                     commands.update({(ID): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': STATUS, 'PRICE': PRICE, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY ,'DISK': DISK ,'NVM': NVM ,'CPUC': CPUC,'MEMORYC': MEMORYC,'DISKC': DISKC, 'EXTRA': EXTRA ,'CONEXAO': connection}})
                 if TIPO == 'SENDS':  #check the type protocol
                     print ("entrou sends")
+
+                    #recebe extra novo e manda rodar script
+
+                    #manda dar clean
+
                     if (len(users)>=1):
                         print("entrou aqui")
                         EXTRA=users.get('1').get('USERIP')
@@ -317,7 +322,7 @@ def conectado(connection, enderecoCliente):
                             CLOUDTOIP=(clouds.get('1').get('CLOUDIP'))
 
                     commands.update({('ID'): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': STATUS, 'PRICE': PRICE, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY, 'CPUC': CPUC ,'MEMORYC': MEMORYC ,'DISKC': DISKC ,'EXTRA': EXTRA, 'CONEXAO': connection}})
-                    mensagem = 'SENDC#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + '0' + '#' + 'CPU' + '#' + 'MEMORY' + '#' + 'DISK' + '#' + 'NVM' + '#' + 'CPUC' + '#'+ 'MEMORYC' + '#'+ 'DISKC'+ '#'+ 'EXTRA' + '#'
+                    mensagem = 'SENDC#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATEHOUR + '#'+ CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + '0' + '#' + 'CPU' + '#' + 'MEMORY' + '#' + 'DISK' + '#' + 'NVM' + '#' + 'CPUC' + '#'+ 'MEMORYC' + '#'+ 'DISKC'+ '#'+ EXTRA + '#'
                     print("saindo sendc")
                     print (mensagem)
                     connection.sendall(mensagem.encode('utf8'))
