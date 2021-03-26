@@ -296,7 +296,7 @@ def conectado(connection, enderecoCliente):
                     print ("entrou sends")
 
                     #Process to change price between cloud and vnfd
-                    if (len(EXTRA3) != 0):
+                    if (len(EXTRA3) != 'EXTRA'):
                         EXTRA2=EXTRA2.split(',')
                         EXTRA2SPL0=EXTRA2[0]
                         EXTRA2SPL1=EXTRA2[1]
@@ -306,7 +306,7 @@ def conectado(connection, enderecoCliente):
                         PRICE_VNFD=EXTRA3
                         SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD)
 
-                        NAME_VNFD=EXTRA2SPL0
+                        NAME_VNFD=EXTRA2SPL1
                         VIM_URL='http://'+CLOUDIP+':5000/v3'
                         PRICE_VNFD=EXTRA3
                         SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD) 
