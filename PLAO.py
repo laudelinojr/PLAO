@@ -304,6 +304,7 @@ def conectado(connection, enderecoCliente):
                         print(NAME_VNFD)
                         print(VIM_URL)
                         print(PRICE_VNFD)
+                        print(type(PRICE_VNFD))
                         SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD)
 
                     #recebe extra novo e manda rodar scripts
