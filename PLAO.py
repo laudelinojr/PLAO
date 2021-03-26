@@ -297,6 +297,7 @@ def conectado(connection, enderecoCliente):
                 if TIPO == 'SENDS':  #check the type protocol
                     print ("entrou sends")
                     print(len(EXTRA3))
+                    print(EXTRA3)
                     #Process to change price between cloud and vnfd
                     if ((EXTRA3 != 'EXTRA3') and (len(EXTRA3)!=0)):
                         EXTRA2=EXTRA2.split(',')
