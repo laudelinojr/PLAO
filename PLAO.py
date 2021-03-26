@@ -173,19 +173,22 @@ def ChangePriceLatencyJitterPIL(CLOUD_COD,PRICE,LATENCY,JITTER,B):
 
 def UsersAdd():
 
-    nomearquivo1='user_vnfd_latencia.txt'
-    arquivo = open(nomearquivo1,'r')
-    linha = arquivo.readline()
-    for linha in arquivo:
-        valores=linha.split('#')
+    while True:       
+        nomearquivo1='user_vnfd_latencia.txt'
+        arquivo = open(nomearquivo1,'r')
+        linha = arquivo.readline()
+        for linha in arquivo:
+            valores=linha.split('#')
 
-        USERIP = valores[0]
-        LATENCY = valores[1]
-        COMMAND = valores[2]        
-        VNF = valores[3]
-        users.update({(str(len(users)+1)):{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})
-    arquivo.close()
-
+            USERIP = valores[0]
+            LATENCY = valores[1]
+            COMMAND = valores[2]        
+            VNF = valores[3]
+            users.update({(str(len(users)+1)):{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})
+        arquivo.close()
+    time.sleep(60)
+    users.clear
+    time.sleep(10)
 
 def UsersManager():
     while True:
