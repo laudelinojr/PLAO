@@ -210,7 +210,7 @@ try:
                         print("dentro sendc")
                         if( len(EXTRA) != 0 ):
                             print("COLLECT LATENCY EXTRA TO: "+ EXTRA)
-                            EXTRA3=str(round(float(GetLatency(EXTRA,QUANTITY_PCK)))) #Get latency with ping, is necessary set quantity packages
+                            EXTRA3=GetLatency(EXTRA,QUANTITY_PCK) #Get latency with ping, is necessary set quantity packages
                             print ("EXTRA3 (EXTRA LATENCY): "+ EXTRA3)
                         time.sleep(2)
                         if (CLOUDTOIP != "CLOUDTOIP" ):
