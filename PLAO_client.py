@@ -183,9 +183,9 @@ try:
             CPUC = msg[15] #PERCENT CPU IN TOTAL OF CLOUD
             MEMORYC = msg[16] #PERCENT CPU IN TOTAL OF CLOUD
             DISKC = msg[17] #PERCENT CPU IN TOTAL OF CLOUD
-            EXTRA = msg[18]
-            EXTRA2 = msg[19]
-            EXTRA3 = msg[20]
+            EXTRA = msg[18] #ADDRESS IP FOR TEST LATENCY
+            EXTRA2 = msg[19] #VNFDS
+            EXTRA3 = msg[20] #LATENCY IN CLIENT
 
             #print ('TIPO: '+TIPO+' CLOUD: '+CLOUD+' CLOUDIP: '+CLOUDIP+' DATEHOUR: '+DATEHOUR+' CLOUDTONAME: '+CLOUDTONAME+' CLOUDTOIP: '+CLOUDTOIP+' STATUS: '+STATUS+' PRICE: '+PRICE+' LATENCY: '+LATENCY+' JITTER: '+JITTER+' CPU: '+CPU+' MEMORY: '+MEMORY+' DISK: '+DISK+' NVM: '+NVM+' CPUC: '+CPUC+' MEMORYC: '+MEMORYC+' DISKC: '+DISKC)
 
@@ -203,7 +203,7 @@ try:
                 if TIPO == 'SENDC':
                     if CLOUDIP_LOCAL == CLOUDIP:
                         time.sleep(2)
-                        if( EXTRA != "EXTRA" or len(EXTRA)==0 ):
+                        if( EXTRA != "EXTRA" or len(EXTRA)!=0 ):
                             print("COLLECT LATENCY TO VNF CLIENT: "+ EXTRA)
                             EXTRA3=str(round(float(GetLatency(EXTRA,QUANTITY_PCK)))) #Get latency with ping, is necessary set quantity packages
                         if (CLOUDTOIP != "CLOUDTOIP" ):

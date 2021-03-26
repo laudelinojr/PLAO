@@ -197,11 +197,11 @@ def UsersAdd():
             users.update({'0':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})
             users.update({'1':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})
         arquivo.close()
-        if (len(users)>=1):
-            print("entrou aqui userrs add")
-            EXTRA=users.get('0').get('USERIP')
-            EXTRA=users.get('1').get('USERIP')
-            print(EXTRA)
+        #if (len(users)>=1):
+            #print("entrou aqui userrs add")
+            #EXTRA=users.get('0').get('USERIP')
+        EXTRA=users.get('1').get('USERIP')
+        print(EXTRA)
         ACCESS_USER=0 #GRANT ACESS THE DICTONARY
         time.sleep(60)
         users.clear
