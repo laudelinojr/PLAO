@@ -195,7 +195,7 @@ def UsersAdd():
             VNF = valores[3]
             #users.update({'(str(len(users)+1))':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})
             users.update({'0':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})
-            users.update({'1':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})
+            #users.update({'1':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})
         arquivo.close()
         #if (len(users)>=1):
             #print("entrou aqui userrs add")
@@ -296,7 +296,7 @@ def conectado(connection, enderecoCliente):
                     commands.update({(ID): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': STATUS, 'PRICE': PRICE, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY ,'DISK': DISK ,'NVM': NVM ,'CPUC': CPUC,'MEMORYC': MEMORYC,'DISKC': DISKC, 'EXTRA': EXTRA, 'EXTRA2': EXTRA2, 'EXTRA3': 0 ,'CONEXAO': connection}})
                 if TIPO == 'SENDS':  #check the type protocol
                     print ("entrou sends")
-
+                    print(len(EXTRA3))
                     #Process to change price between cloud and vnfd
                     if ((EXTRA3 != 'EXTRA3') and (len(EXTRA3)!=0)):
                         EXTRA2=EXTRA2.split(',')
