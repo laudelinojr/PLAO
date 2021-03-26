@@ -294,7 +294,7 @@ def conectado(connection, enderecoCliente):
                         print('entrei if extra3')
                         NAME_VNFD=EXTRA2
                         VIM_URL='http://'+CLOUDIP+':5000/v3'
-                        PRICE_VNFD=EXTRA3
+                        PRICE_VNFD=EXTRA3.isdigit
                         print('dentro if extra3')
                         print(NAME_VNFD)
                         print(VIM_URL)
