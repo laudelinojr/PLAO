@@ -188,13 +188,7 @@ try:
             EXTRA3 = msg[20]
 
             #print ('TIPO: '+TIPO+' CLOUD: '+CLOUD+' CLOUDIP: '+CLOUDIP+' DATEHOUR: '+DATEHOUR+' CLOUDTONAME: '+CLOUDTONAME+' CLOUDTOIP: '+CLOUDTOIP+' STATUS: '+STATUS+' PRICE: '+PRICE+' LATENCY: '+LATENCY+' JITTER: '+JITTER+' CPU: '+CPU+' MEMORY: '+MEMORY+' DISK: '+DISK+' NVM: '+NVM+' CPUC: '+CPUC+' MEMORYC: '+MEMORYC+' DISKC: '+DISKC)
-            print("que tipo?")
-            print("extra: "+EXTRA)
-            print("extra2:"+EXTRA2)
-            print("extra3:"+EXTRA3)
-            print(type(EXTRA3))
-            print("extra3:"+EXTRA3)
-            print (TIPO)
+
             if TIPO == 'REGIS':  #check if the protocol is type registry
                 #print ("DEBUG: recebido comando do servidor com registro")
                 #print(TIPO+ID+CLOUD+CLOUDIP+DATEHOUR+CLOUDTONAME,CLOUDTONAME,STATUS)
@@ -209,13 +203,10 @@ try:
                     #print("envie sends do REGIS")
                 if TIPO == 'SENDC':
                     if CLOUDIP_LOCAL == CLOUDIP:
-                        print("dentro sendc")
-                        if( len(EXTRA) != 0 ):
-                            print("COLLECT LATENCY EXTRA TO: "+ EXTRA)
-                            EXTRA3=str(round(float(GetLatency(EXTRA,QUANTITY_PCK)))) #Get latency with ping, is necessary set quantity packages
-                            type(EXTRA3)
-                            print ("EXTRA3 (EXTRA LATENCY): "+ EXTRA3)
                         time.sleep(2)
+                        if( len(EXTRA) != 0 ):
+                            print("COLLECT LATENCY TO VNF CLIENT: "+ EXTRA)
+                            EXTRA3=str(round(float(GetLatency(EXTRA,QUANTITY_PCK)))) #Get latency with ping, is necessary set quantity packages
                         if (CLOUDTOIP != "CLOUDTOIP" ):
                             LATENCY=str(round(float(GetLatency(CLOUDTOIP,QUANTITY_PCK)))) #Get latency with ping, is necessary set quantity packages
                             PRICE=LATENCY
