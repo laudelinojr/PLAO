@@ -3,6 +3,7 @@ import socket
 import threading
 import time
 import subprocess
+ACCESS_USER=0
 
 #CPU - O LIMITE É CONFIGURAVEL E ESTA EM 90%, QUANDO O MESMO É ATINGIDO, OS PRICES DA 
 # NUVEM_2 SÃO ALTERADOS PARA TODOS OS VNFDS DO ARQUIVO DE CONFIGURAÇÃO
@@ -172,7 +173,7 @@ def ChangePriceLatencyJitterPIL(CLOUD_COD,PRICE,LATENCY,JITTER,B):
         return -1
 
 def UsersAdd():
-
+    ACCESS_USER=1 #bLOCK ACCESS THE DICT
     while True:       
         nomearquivo1='user_vnfd_latencia.txt'
         arquivo = open(nomearquivo1,'r')
@@ -186,16 +187,19 @@ def UsersAdd():
             VNF = valores[3]
             users.update({(str(len(users)+1)):{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})
         arquivo.close()
+    ACCESS_USER=0 #GRANT ACESS THE DICT
     time.sleep(60)
     users.clear
     time.sleep(10)
+  
 
 def UsersManager():
     while True:
         time.sleep(5)
-        print("users: ")
-        for i in (users):
-            print(users.get(i))
+        if ACCESS_USER == 0:
+            print("users: ")
+            for i in (users):
+                print(users.get(i))
 
 
 def SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENSTACK_TO):
