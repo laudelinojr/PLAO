@@ -203,7 +203,7 @@ try:
                 if TIPO == 'SENDC':
                     if CLOUDIP_LOCAL == CLOUDIP:
                         time.sleep(2)
-                        if( len(EXTRA) != 0 ):
+                        if( EXTRA != "EXTRA" ):
                             print("COLLECT LATENCY TO VNF CLIENT: "+ EXTRA)
                             EXTRA3=str(round(float(GetLatency(EXTRA,QUANTITY_PCK)))) #Get latency with ping, is necessary set quantity packages
                         if (CLOUDTOIP != "CLOUDTOIP" ):
