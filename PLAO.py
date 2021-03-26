@@ -196,7 +196,7 @@ def UsersAdd():
         ACCESS_USER=0 #GRANT ACESS THE DICT
         #time.sleep(60)
         #users.clear
-        time.sleep(1)
+        time.sleep(2)
   
 
 def UsersManager():
@@ -294,7 +294,7 @@ def conectado(connection, enderecoCliente):
                         print('entrei if extra3')
                         NAME_VNFD=EXTRA2
                         VIM_URL='http://'+CLOUDIP+':5000/v3'
-                        PRICE_VNFD=EXTRA2
+                        PRICE_VNFD=EXTRA3
                         print('dentro if extra3')
                         print(NAME_VNFD)
                         print(VIM_URL)
