@@ -277,6 +277,10 @@ def conectado(connection, enderecoCliente):
                 EXTRA = msg[18] 
                 EXTRA2 = msg[19]
                 EXTRA3 = msg[20]
+
+
+                print(type(EXTRA3))
+                print("extra3:"+EXTRA3)
                 
                 if debug == 1: print ('TIPO: '+TIPO+' CLOUD: '+CLOUD+' CLOUDIP: '+CLOUDIP+' DATEHOUR: '+DATEHOUR+' CLOUDTONAME: '+CLOUDTONAME+' CLOUDTOIP: '+CLOUDTOIP+' STATUS: '+STATUS+' PRICE: '+PRICE+' LATENCY: '+LATENCY+' JITTER: '+JITTER+' CPU: '+CPU+' MEMORY: '+MEMORY+' DISK: '+DISK+' NVM: '+NVM+' CPUC: '+ CPUC+' MEMORYC: '+ MEMORYC +' DISKC: '+DISKC +' EXTRA: '+EXTRA+' EXTRA2: '+EXTRA2+' EXTRA3: '+EXTRA3 )
                
