@@ -197,11 +197,11 @@ def UsersAdd():
             COMMAND = valores[2]        
             VNF = valores[3]
             users.update({'0':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})
+            print(users.get(0))
             arquivo.close()
             time.sleep(5)
             os.remove(nomearquivo1)
             users.clear()
-            print("users configuration file: "+users)
             
         #else:
             #print("O arquivo não existe")
