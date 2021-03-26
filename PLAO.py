@@ -298,7 +298,7 @@ def conectado(connection, enderecoCliente):
                     print ("entrou sends")
 
                     #Process to change price between cloud and vnfd
-                    if (EXTRA3 != 'EXTRA3'):
+                    if ((EXTRA3 != 'EXTRA3') and (len(EXTRA3)!=0)):
                         EXTRA2=EXTRA2.split(',')
                         EXTRA2SPL0=EXTRA2[0]
                         EXTRA2SPL1=EXTRA2[1]
