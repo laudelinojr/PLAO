@@ -196,9 +196,9 @@ def UsersAdd():
             LATENCY = valores[1]
             COMMAND = valores[2]        
             VNF = valores[3]
-            users.update({'0':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})
-            #print(users.get('0'))
+            users.update({'0':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})           
             arquivo.close()
+            print(users)
             time.sleep(5)
             os.remove(nomearquivo1)
             users.clear()
