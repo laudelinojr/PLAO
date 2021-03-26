@@ -192,9 +192,9 @@ def UsersAdd():
             EXTRA=users.get('1').get('USERIP')
             print(EXTRA)
         ACCESS_USER=0 #GRANT ACESS THE DICT
-        time.sleep(60)
-        users.clear
-        time.sleep(10)
+        #time.sleep(60)
+        #users.clear
+        time.sleep(1)
   
 
 def UsersManager():
