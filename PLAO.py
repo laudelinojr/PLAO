@@ -3,6 +3,8 @@ import socket
 import threading
 import time
 import subprocess
+import os
+
 ACCESS_USER=0
 
 #CPU - O LIMITE É CONFIGURAVEL E ESTA EM 90%, QUANDO O MESMO É ATINGIDO, OS PRICES DA 
