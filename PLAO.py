@@ -190,8 +190,8 @@ def UsersAdd():
         arquivo.close()
         if (len(users)>=1):
             print("entrou aqui userrs add")
+            EXTRA=users.get('0').get('USERIP')
             EXTRA=users.get('1').get('USERIP')
-            EXTRA=users.get('2').get('USERIP')
             print(EXTRA)
         ACCESS_USER=0 #GRANT ACESS THE DICT
         #time.sleep(60)
