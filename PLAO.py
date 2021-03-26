@@ -187,6 +187,9 @@ def UsersAdd():
             VNF = valores[3]
             users.update({(str(len(users)+1)):{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})
         arquivo.close()
+        if (len(users)>=1):
+            print("entrou aqui userrs add")
+            EXTRA=users.get('1').get('USERIP')
     ACCESS_USER=0 #GRANT ACESS THE DICT
     time.sleep(60)
     users.clear
