@@ -29,7 +29,7 @@ ACCESS_USER=0
 
 
 #Debug mode is 1
-debug=1
+debug=0
 
 #requisites for change all price of specif VIM (Cloud)
 DOWN_UP_PRICE=10 #Number to add vnf Price

@@ -19,7 +19,7 @@ from keystoneauth1 import session
 from novaclient import client as nova_client
 
 #Debug mode is 1
-debug=1
+debug=0
 
 # The values in config files of OSM need to be integer
 QUANTITY_PCK="5" #Quantity packages to use in ping command 
