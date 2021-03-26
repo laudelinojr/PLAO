@@ -198,9 +198,10 @@ def UsersAdd():
             VNF = valores[3]
             users.update({'0':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})
             arquivo.close()
-            os.remove(nomearquivo1)
-            users.clear
             time.sleep(5)
+            os.remove(nomearquivo1)
+            users.clear()
+            
         #else:
             #print("O arquivo não existe")
                 #users.update({'(str(len(users)+1))':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})
