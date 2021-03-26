@@ -154,7 +154,7 @@ print ('Starting OSM collector ... '+ CLOUDNAME_LOCAL)
 print ('To quit, use CTRL+C\n')
 
 #First comunication with the server
-mensagem = 'REGIS' + '#' + 'ID' + '#' +CLOUDNAME_LOCAL + '#' + CLOUDIP_LOCAL + '#' + 'DATAHORAC()' + '#' + 'CLOUDTONAME' + '#' + 'CLOUDTOIP' + '#' + 'STATUS' + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + '0' + '#' + '0' + '#' + 'MEMORY'+ '#' + 'DISK'+ '#' + 'NVM' + '#' + '0' + '#' + 'MEMORYC' + '#' + 'DISKC' + '#'+ 'EXTRA' + '#'+ '#'+ 'EXTRA' + '#' + 'EXTRA2' + '#' + 'EXTRA3' + '#'
+mensagem = 'REGIS' + '#' + 'ID' + '#' +CLOUDNAME_LOCAL + '#' + CLOUDIP_LOCAL + '#' + 'DATAHORAC()' + '#' + 'CLOUDTONAME' + '#' + 'CLOUDTOIP' + '#' + 'STATUS' + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + '0' + '#' + '0' + '#' + 'MEMORY'+ '#' + 'DISK'+ '#' + 'NVM' + '#' + '0' + '#' + 'MEMORYC' + '#' + 'DISKC' + '#'+ 'EXTRA' + '#'+ '#'+ 'EXTRA2' + '#' + 'EXTRA3' + '#'
 tcp.sendall(mensagem.encode('utf8')) #Sending to Server
 
 try:
@@ -199,7 +199,6 @@ try:
                 if TIPO == 'REGIS':
                     mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK + '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#' + DISKC + '#'  + EXTRA + '#'+ EXTRA2 + '#'+ EXTRA3 + '#'
                     tcp.sendall(mensagem.encode('utf8'))
-                    #print("envie sends do REGIS")
                 if TIPO == 'SENDC':
                     if CLOUDIP_LOCAL == CLOUDIP:
                         time.sleep(2)
