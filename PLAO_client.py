@@ -153,10 +153,8 @@ tcp.connect(dest)
 print ('Starting OSM collector ... '+ CLOUDNAME_LOCAL)
 print ('To quit, use CTRL+C\n')
 
-EXTRA3=0
-
 #First comunication with the server
-mensagem = 'REGIS' + '#' + 'ID' + '#' +CLOUDNAME_LOCAL + '#' + CLOUDIP_LOCAL + '#' + 'DATAHORAC()' + '#' + 'CLOUDTONAME' + '#' + 'CLOUDTOIP' + '#' + 'STATUS' + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + '0' + '#' + '0' + '#' + 'MEMORY'+ '#' + 'DISK'+ '#' + 'NVM' + '#' + '0' + '#' + 'MEMORYC' + '#' + 'DISKC' + '#'+ 'EXTRA' + '#'+ '#'+ 'EXTRA' + '#' + 'EXTRA2' + '#' + EXTRA3 + '#'
+mensagem = 'REGIS' + '#' + 'ID' + '#' +CLOUDNAME_LOCAL + '#' + CLOUDIP_LOCAL + '#' + 'DATAHORAC()' + '#' + 'CLOUDTONAME' + '#' + 'CLOUDTOIP' + '#' + 'STATUS' + '#' + 'PRICE' + '#' + 'LATENCY' + '#' + '0' + '#' + '0' + '#' + 'MEMORY'+ '#' + 'DISK'+ '#' + 'NVM' + '#' + '0' + '#' + 'MEMORYC' + '#' + 'DISKC' + '#'+ 'EXTRA' + '#'+ '#'+ 'EXTRA' + '#' + 'EXTRA2' + '#' + '0' + '#'
 tcp.sendall(mensagem.encode('utf8')) #Sending to Server
 
 try:
@@ -229,6 +227,7 @@ try:
                         MEMORY=MemorySO()
                         MEMORYC=GetHypervisorStats(CLOUDIP,"memory_use_percent")
                         DISKC=GetHypervisorStats(CLOUDIP,"local_gb_percent")
+                        print(type(CPU),type(NVM),type(CPU),type(MEMORY),type(MEMORYC),type(DISKC))
                         mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK + '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#' + DISKC + '#' + EXTRA + '#'+ EXTRA2 + '#'+ EXTRA3 + '#'
                         print(mensagem)
                         tcp.sendall(mensagem.encode('utf8')) #send to server colletion data
