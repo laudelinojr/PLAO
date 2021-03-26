@@ -184,10 +184,12 @@ try:
             MEMORYC = msg[16] #PERCENT CPU IN TOTAL OF CLOUD
             DISKC = msg[17] #PERCENT CPU IN TOTAL OF CLOUD
             EXTRA = msg[18]
+            EXTRA2 = msg[19]
 
             #print ('TIPO: '+TIPO+' CLOUD: '+CLOUD+' CLOUDIP: '+CLOUDIP+' DATEHOUR: '+DATEHOUR+' CLOUDTONAME: '+CLOUDTONAME+' CLOUDTOIP: '+CLOUDTOIP+' STATUS: '+STATUS+' PRICE: '+PRICE+' LATENCY: '+LATENCY+' JITTER: '+JITTER+' CPU: '+CPU+' MEMORY: '+MEMORY+' DISK: '+DISK+' NVM: '+NVM+' CPUC: '+CPUC+' MEMORYC: '+MEMORYC+' DISKC: '+DISKC)
             print("que tipo?")
-            print(EXTRA)
+            print("extra: "+EXTRA)
+            print("extra2:"+EXTRA2)
             print (TIPO)
             if TIPO == 'REGIS':  #check if the protocol is type registry
                 #print ("DEBUG: recebido comando do servidor com registro")
@@ -198,16 +200,16 @@ try:
             if ID_CONF == ID:
                 if TIPO == 'REGIS':
                     print("entrei regis")
-                    mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK + '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#' + DISKC + '#'  + EXTRA + '#'
+                    mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK + '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#' + DISKC + '#'  + EXTRA + '#'+ EXTRA2 + '#'
                     tcp.sendall(mensagem.encode('utf8'))
                     #print("envie sends do REGIS")
                 if TIPO == 'SENDC':
                     if CLOUDIP_LOCAL == CLOUDIP:
                         print("dentro sendc")
-                        if(EXTRA != 'EXTRA' ):
-                            print("ENTROU JITTER EXTRA")
-                            EXTRA=str(round(float(GetLatency(EXTRA,QUANTITY_PCK)))) #Get latency with ping, is necessary set quantity packages
-                            print ("EXTRA: "+ EXTRA)
+                        if(EXTRA != '' ):
+                            print("COLLECT LATENCY EXTRA TO: "+ EXTRA)
+                            EXTRA2=str(round(float(GetLatency(EXTRA,QUANTITY_PCK)))) #Get latency with ping, is necessary set quantity packages
+                            print ("EXTRA2 (EXTRA LATENCY): "+ EXTRA2)
                         time.sleep(2)
                         if (CLOUDTOIP != "CLOUDTOIP" ):
                             LATENCY=str(round(float(GetLatency(CLOUDTOIP,QUANTITY_PCK)))) #Get latency with ping, is necessary set quantity packages
@@ -220,7 +222,7 @@ try:
                         MEMORY=MemorySO()
                         MEMORYC=GetHypervisorStats(CLOUDIP,"memory_use_percent")
                         DISKC=GetHypervisorStats(CLOUDIP,"local_gb_percent")
-                        mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK + '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#' + DISKC + '#' + EXTRA + '#'
+                        mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK + '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#' + DISKC + '#' + EXTRA + '#'+ EXTRA2 + '#'
                         print(mensagem)
                         tcp.sendall(mensagem.encode('utf8')) #send to server colletion data
         if not msg: break
@@ -229,6 +231,6 @@ except KeyboardInterrupt:
 except Exception as e:
     print("Erro no cliente. " + str(e))
 finally:
-    mensagem = 'EXCL#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + 'DATAHORAC()' + '#' + 'CLOUDTONAME' + '#' + 'CLOUDTOIP' + '#' + 'STATUS' + '#' + 'PRICE' + '#' +'LATENCY' + '#' + 'JITTER' + '#' + 'CPU' + '#' + 'MEMORY'+ '#' + 'DISK'+ '#' + 'NVM' + '#' + 'CPUC' + '#'
+    mensagem = 'EXCL#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + 'DATAHORAC()' + '#' + 'CLOUDTONAME' + '#' + 'CLOUDTOIP' + '#' + 'STATUS' + '#' + 'PRICE' + '#' +'LATENCY' + '#' + 'JITTER' + '#' + 'CPU' + '#' + 'MEMORY'+ '#' + 'DISK'+ '#' + 'NVM' + '#' + 'CPUC' + '#' + 'MEMORYC' + '#' + 'DISKC' + '#' + 'EXTRA' + '#'+ 'EXTRA2' + '#'
     tcp.sendall(mensagem.encode('utf8'))
     tcp.close()

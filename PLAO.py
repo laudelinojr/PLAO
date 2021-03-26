@@ -180,16 +180,18 @@ def UsersAdd():
         linha = arquivo.readline()
         for linha in arquivo:
             valores=linha.split('#')
-
             USERIP = valores[0]
             LATENCY = valores[1]
             COMMAND = valores[2]        
             VNF = valores[3]
-            users.update({(str(len(users)+1)):{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})
+            #users.update({'(str(len(users)+1))':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})
+            users.update({'0':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})
+            users.update({'1':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})
         arquivo.close()
         if (len(users)>=1):
             print("entrou aqui userrs add")
             EXTRA=users.get('1').get('USERIP')
+            EXTRA=users.get('2').get('USERIP')
             print(EXTRA)
         ACCESS_USER=0 #GRANT ACESS THE DICT
         #time.sleep(60)
@@ -287,13 +289,20 @@ def conectado(connection, enderecoCliente):
                     print ("imprimindo extra: "+EXTRA + "impi: "+ EXTRA2)
                     print ("entrou sends")
 
+                    if (EXTRA2 != ""):
+                        print('entrei if extra2')
+                        NAME_VNFD=users.get('0').get('VNF')
+                        VIM_URL='http://'+users.get('0').get('USERIP')+':5000/v3'
+                        PRICE_VNFD=EXTRA2
+                        SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD)
                     #recebe extra novo e manda rodar script
 
                     #manda dar clean
 
                     if (len(users)>=1):
-                        print("entrou aqui")
-                        EXTRA=users.get('1').get('USERIP')
+                        print("entrou aqui if users")
+                        EXTRA=users.get('0').get('USERIP')
+                        EXTRA2=users.get('0').get('VNF')
 
                     CLOUD_STATUS_CPU=int(clouds.get(str(ID)).get('CPU'))
                     if (int(CPUC) > THRESHOLD) and (CLOUD_STATUS_CPU == 0):
