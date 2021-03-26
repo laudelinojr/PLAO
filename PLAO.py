@@ -201,6 +201,7 @@ def UsersAdd():
             time.sleep(5)
             os.remove(nomearquivo1)
             users.clear()
+            print("users configuration file: "+users)
             
         #else:
             #print("O arquivo não existe")
@@ -213,16 +214,6 @@ def UsersAdd():
                 #print(EXTRA)
     #        ACCESS_USER=0 #GRANT ACESS THE DICTONARY
             #time.sleep(60)
-            
-  
-
-def UsersManager():
-    while True:
-        time.sleep(5)
-        if ACCESS_USER == 0:
-            print("users configuration file: ")
-            for i in (users):
-                print(users.get(i))
 
 
 def SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENSTACK_TO):
@@ -398,8 +389,6 @@ try:
     #subprocess.call(['python3', '/opt/PLAO/PLAOsub_server.py'])
     thread_usersADD = threading.Thread(target=UsersAdd)
     thread_usersADD.start()
-    thread_usersManager = threading.Thread(target=UsersManager)
-    thread_usersManager.start()
     thread_printCloudsDict = threading.Thread(target=printCloudsDict)
     thread_printCloudsDict.start()
     while True:
