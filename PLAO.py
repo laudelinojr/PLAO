@@ -193,7 +193,7 @@ def UsersAdd():
             EXTRA=users.get('0').get('USERIP')
             EXTRA=users.get('1').get('USERIP')
             print(EXTRA)
-        ACCESS_USER=0 #GRANT ACESS THE DICT
+        ACCESS_USER=0 #GRANT ACESS THE DICTONARY
         #time.sleep(60)
         #users.clear
         time.sleep(2)
