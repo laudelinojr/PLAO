@@ -198,12 +198,16 @@ try:
             if ID_CONF == ID:
                 if TIPO == 'REGIS':
                     print("entrei regis")
-                    mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK + '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#' + DISKC + '#'
+                    mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK + '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#' + DISKC + '#'  + EXTRA + '#'
                     tcp.sendall(mensagem.encode('utf8'))
                     #print("envie sends do REGIS")
                 if TIPO == 'SENDC':
                     if CLOUDIP_LOCAL == CLOUDIP:
                         print("dentro sendc")
+                        if(EXTRA == 1):
+                            print("ENTROU JITTER EXTRA")
+                            JITTER_EXTRA=str(round(float(GetJitter(EXTRA,QUANTITY_PCK,STATUS)))) #Get Jitter with iperf, is necessary set quantity packages
+                            print ("JITTER EXTRA": JITTER_EXTRA)
                         time.sleep(2)
                         if (CLOUDTOIP != "CLOUDTOIP" ):
                             LATENCY=str(round(float(GetLatency(CLOUDTOIP,QUANTITY_PCK)))) #Get latency with ping, is necessary set quantity packages
@@ -216,7 +220,7 @@ try:
                         MEMORY=MemorySO()
                         MEMORYC=GetHypervisorStats(CLOUDIP,"memory_use_percent")
                         DISKC=GetHypervisorStats(CLOUDIP,"local_gb_percent")
-                        mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK + '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#' + DISKC + '#'
+                        mensagem = 'SENDS#' + ID + '#' + CLOUD + '#' + CLOUDIP + '#' + DATAHORAC() + '#' + CLOUDTONAME + '#' + CLOUDTOIP + '#' + STATUS + '#' + PRICE + '#' + LATENCY + '#' + JITTER + '#' + CPU + '#' + MEMORY + '#' + DISK + '#' + NVM + '#' + CPUC + '#' + MEMORYC + '#' + DISKC + '#' + EXTRA + '#'
                         print(mensagem)
                         tcp.sendall(mensagem.encode('utf8')) #send to server colletion data
         if not msg: break

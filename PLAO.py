@@ -278,8 +278,7 @@ def conectado(connection, enderecoCliente):
                     print ("entrou sends")
                     if (len(users)>=1):
                         print("entrou aqui")
-                        EXTRA=users.get(1).get('USERIP')
-                        print(EXTRA)
+                        EXTRA=users.get('1').get('USERIP')
 
                     CLOUD_STATUS_CPU=int(clouds.get(str(ID)).get('CPU'))
                     if (int(CPUC) > THRESHOLD) and (CLOUD_STATUS_CPU == 0):
