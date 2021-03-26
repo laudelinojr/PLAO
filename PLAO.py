@@ -100,7 +100,7 @@ def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
 def RunCommandOSM():
     COMMAND=users.get('0').get('COMMAND')
     print("rodando comando")
-    subprocess.call(['/bin/bash', COMMAND])
+    subprocess.call([COMMAND])
 
 def SearchDownUpVimPrice(VIM_URL,CLOUD_COD,STATUS_CPU_NOW,DATEHOUR):
     #Receive the CPU STATUS NOW and update in list cloud, the CLOUD_STATUS_CPU
