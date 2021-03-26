@@ -192,6 +192,8 @@ try:
             print("extra: "+EXTRA)
             print("extra2:"+EXTRA2)
             print("extra3:"+EXTRA3)
+            type(EXTRA3)
+            print("extra3:"+EXTRA3)
             print (TIPO)
             if TIPO == 'REGIS':  #check if the protocol is type registry
                 #print ("DEBUG: recebido comando do servidor com registro")
@@ -210,7 +212,7 @@ try:
                         print("dentro sendc")
                         if( len(EXTRA) != 0 ):
                             print("COLLECT LATENCY EXTRA TO: "+ EXTRA)
-                            EXTRA3=round(float(GetLatency(EXTRA,QUANTITY_PCK))) #Get latency with ping, is necessary set quantity packages
+                            EXTRA3=str(round(float(GetLatency(EXTRA,QUANTITY_PCK)))) #Get latency with ping, is necessary set quantity packages
                             type(EXTRA3)
                             print ("EXTRA3 (EXTRA LATENCY): "+ EXTRA3)
                         time.sleep(2)
