@@ -100,7 +100,7 @@ def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
 def RunCommandOSM():
     COMMAND=users.get('0').get('COMMAND')
     print("rodando comando")
-    subprocess.call([COMMAND])
+    subprocess.call('/usr/bin/osm',COMMAND)
 
 def SearchDownUpVimPrice(VIM_URL,CLOUD_COD,STATUS_CPU_NOW,DATEHOUR):
     #Receive the CPU STATUS NOW and update in list cloud, the CLOUD_STATUS_CPU
@@ -200,9 +200,8 @@ def UsersAdd():
             EXTRA=users.get('1').get('USERIP')
             print(EXTRA)
         ACCESS_USER=0 #GRANT ACESS THE DICTONARY
-        #time.sleep(60)
-        #users.clear
-        time.sleep(2)
+        time.sleep(60)
+        users.clear
   
 
 def UsersManager():
@@ -311,6 +310,8 @@ def conectado(connection, enderecoCliente):
                         PRICE_VNFD=EXTRA3
                         SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD) 
                         RunCommandOSM() #Run command to instanciate machine
+                        user.clean
+
 
                     #manda dar clean no dicinoario do arquivo e no arquivo - criar funcao para isto
 
