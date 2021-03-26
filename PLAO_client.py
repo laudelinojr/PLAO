@@ -192,7 +192,7 @@ try:
             print("extra: "+EXTRA)
             print("extra2:"+EXTRA2)
             print("extra3:"+EXTRA3)
-            type(EXTRA3)
+            print(type(EXTRA3))
             print("extra3:"+EXTRA3)
             print (TIPO)
             if TIPO == 'REGIS':  #check if the protocol is type registry
