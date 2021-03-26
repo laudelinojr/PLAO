@@ -66,7 +66,7 @@ def ChangeVNFPrice(COD_VNFD,VIMURL,PRICE,B):
     for i in range(C):
         if B[COD_VNFD]['prices'][i]['vim_url'] == VIMURL: #Compare VIMURL between YAML and the new
             if B[COD_VNFD]['prices'][i]['price'] != PRICE:  #Compare new PRICE with actual Price, if equal, no change
-                B[COD_VNFD]['prices'][i]['price']=PRICE #Change the VNF Price
+                B[COD_VNFD]['prices'][i]['price']=int(PRICE) #Change the VNF Price
                 return i
             else:
                 return -1
@@ -298,8 +298,7 @@ def conectado(connection, enderecoCliente):
                         print('entrei if extra3')
                         NAME_VNFD=EXTRA2
                         VIM_URL='http://'+CLOUDIP+':5000/v3'
-                        PRICE_VNFD=int(EXTRA3)
-                        #print type(EXTRA3)
+                        PRICE_VNFD=EXTRA3
                         print('dentro if extra3')
                         print(NAME_VNFD)
                         print(VIM_URL)
