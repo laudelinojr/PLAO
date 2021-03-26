@@ -190,10 +190,11 @@ def UsersAdd():
         if (len(users)>=1):
             print("entrou aqui userrs add")
             EXTRA=users.get('1').get('USERIP')
-    ACCESS_USER=0 #GRANT ACESS THE DICT
-    time.sleep(60)
-    users.clear
-    time.sleep(10)
+            print(EXTRA)
+        ACCESS_USER=0 #GRANT ACESS THE DICT
+        time.sleep(60)
+        users.clear
+        time.sleep(10)
   
 
 def UsersManager():
