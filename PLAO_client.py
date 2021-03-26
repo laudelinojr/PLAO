@@ -207,7 +207,7 @@ try:
                         if(EXTRA == 1):
                             print("ENTROU JITTER EXTRA")
                             JITTER_EXTRA=str(round(float(GetJitter(EXTRA,QUANTITY_PCK,STATUS)))) #Get Jitter with iperf, is necessary set quantity packages
-                            print ("JITTER EXTRA": JITTER_EXTRA)
+                            print ("JITTER EXTRA: "+ JITTER_EXTRA)
                         time.sleep(2)
                         if (CLOUDTOIP != "CLOUDTOIP" ):
                             LATENCY=str(round(float(GetLatency(CLOUDTOIP,QUANTITY_PCK)))) #Get latency with ping, is necessary set quantity packages
