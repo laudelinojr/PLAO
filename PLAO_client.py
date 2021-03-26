@@ -188,9 +188,11 @@ try:
             CPUC = msg[15] #PERCENT CPU IN TOTAL OF CLOUD
             MEMORYC = msg[16] #PERCENT CPU IN TOTAL OF CLOUD
             DISKC = msg[17] #PERCENT CPU IN TOTAL OF CLOUD
+            EXTRA = msg[18]
 
             #print ('TIPO: '+TIPO+' CLOUD: '+CLOUD+' CLOUDIP: '+CLOUDIP+' DATEHOUR: '+DATEHOUR+' CLOUDTONAME: '+CLOUDTONAME+' CLOUDTOIP: '+CLOUDTOIP+' STATUS: '+STATUS+' PRICE: '+PRICE+' LATENCY: '+LATENCY+' JITTER: '+JITTER+' CPU: '+CPU+' MEMORY: '+MEMORY+' DISK: '+DISK+' NVM: '+NVM+' CPUC: '+CPUC+' MEMORYC: '+MEMORYC+' DISKC: '+DISKC)
             print("que tipo?")
+            print(EXTRA)
             print (TIPO)
             if TIPO == 'REGIS':  #check if the protocol is type registry
                 #print ("DEBUG: recebido comando do servidor com registro")
