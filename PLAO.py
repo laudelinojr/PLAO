@@ -4,6 +4,7 @@ import threading
 import time
 import subprocess
 import os
+import os.path
 
 ACCESS_USER=0
 
@@ -183,35 +184,40 @@ def ChangePriceLatencyJitterPIL(CLOUD_COD,PRICE,LATENCY,JITTER,B):
 
 def UsersAdd():
     ACCESS_USER=1 #bLOCK ACCESS THE DICT
-    while True:       
-        nomearquivo1='user_vnfd_latencia.txt'
-        arquivo = open(nomearquivo1,'r')
-        linha = arquivo.readline()
-        for linha in arquivo:
+    while True:
+        if(os.path.exists('user_vnfd_latencia.txt')):
+            print("O arquivo existe")
+            nomearquivo1='user_vnfd_latencia.txt'
+            arquivo = open(nomearquivo1,'r')
+            linha = arquivo.readline()
             valores=linha.split('#')
             USERIP = valores[0]
             LATENCY = valores[1]
             COMMAND = valores[2]        
             VNF = valores[3]
-            #users.update({'(str(len(users)+1))':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})
             users.update({'0':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})
-            #users.update({'1':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})
-        arquivo.close()
-        #if (len(users)>=1):
-            #print("entrou aqui userrs add")
-            #EXTRA=users.get('0').get('USERIP')
-            #EXTRA=users.get('1').get('USERIP')
-            #print(EXTRA)
-        ACCESS_USER=0 #GRANT ACESS THE DICTONARY
-        time.sleep(60)
-        users.clear
+            arquivo.close()
+            os.remove(nomearquivo1)
+            users.clear
+        else:
+            print("O arquivo não existe")
+                #users.update({'(str(len(users)+1))':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})
+                #users.update({'1':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})
+            #if (len(users)>=1):
+                #print("entrou aqui userrs add")
+                #EXTRA=users.get('0').get('USERIP')
+                #EXTRA=users.get('1').get('USERIP')
+                #print(EXTRA)
+    #        ACCESS_USER=0 #GRANT ACESS THE DICTONARY
+            #time.sleep(60)
+            
   
 
 def UsersManager():
     while True:
         time.sleep(5)
         if ACCESS_USER == 0:
-            print("users: ")
+            print("users configuration file: ")
             for i in (users):
                 print(users.get(i))
 
