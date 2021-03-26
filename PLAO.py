@@ -180,24 +180,19 @@ def UsersAdd():
         valores=linha.split('#')
 
         USERIP = valores[0]
-        VNFD = valores[1]
-        LATENCY = valores[2]
-        VIMURL = valores[3]
-        COMMAND = valores[4]        
-        #users.update({((str(len(users)+1)): {'USERIP': USERIP,'VNFD': VNFD, 'LATENCY': LATENCY,'VIMURL': VIMURL, 'COMMAND': COMMAND }})
-        users.update({(str(len(users)+1)):{'USERIP': USERIP,'LATENCY': LATENCY,'COMMAND': COMMAND }})
-        #clouds.update({(str(len(clouds)+1)):{'CLOUD': CLOUD,'CLOUDIP':CLOUDIP,'VIMURL': VIMURL,'CPU':CPU}})
-        
+        LATENCY = valores[1]
+        COMMAND = valores[2]        
+        VNF = valores[3]
+        users.update({(str(len(users)+1)):{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})
     arquivo.close()
+
 
 def UsersManager():
     while True:
         time.sleep(5)
   
-        for i in range(len(users)):
-            print("entrei aqui")
-            print (users.get(i).get('USERIP'))
-       
+        for i in (users):
+            print(users.get(i))
 
 
 def SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENSTACK_TO):
@@ -277,6 +272,11 @@ def conectado(connection, enderecoCliente):
                     connection.sendall(mensagem.encode('utf8'))  #sending in first time the command to client
                     commands.update({(ID): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': STATUS, 'PRICE': PRICE, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY ,'DISK': DISK ,'NVM': NVM ,'CPUC': CPUC,'MEMORYC': MEMORYC,'DISKC': DISKC ,'CONEXAO': connection}})
                 if TIPO == 'SENDS':  #check the type protocol
+
+                    if (len(users)>=1):
+                        EXTRA=users.get(1)
+                        print(EXTRA)
+
                     CLOUD_STATUS_CPU=int(clouds.get(str(ID)).get('CPU'))
                     if (int(CPUC) > THRESHOLD) and (CLOUD_STATUS_CPU == 0):
                         CPU_STATUS_NOW=1   #Values: 0-cpu normal, 1-cpu high and cost value going to change
