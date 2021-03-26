@@ -201,7 +201,7 @@ def UsersAdd():
             #print("entrou aqui userrs add")
             #EXTRA=users.get('0').get('USERIP')
             #EXTRA=users.get('1').get('USERIP')
-        print(EXTRA)
+            #print(EXTRA)
         ACCESS_USER=0 #GRANT ACESS THE DICTONARY
         time.sleep(60)
         users.clear
