@@ -97,6 +97,11 @@ def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
     else:
         if debug ==1: print ("DEBUG: File not changed")
 
+def RunCommandOSM():
+    COMMAND=users.get('0').get('COMMAND')
+    print("rodando comando")
+    subprocess.call(['python3', COMMAND'])
+
 def SearchDownUpVimPrice(VIM_URL,CLOUD_COD,STATUS_CPU_NOW,DATEHOUR):
     #Receive the CPU STATUS NOW and update in list cloud, the CLOUD_STATUS_CPU
     A=open(FILE_VNF_PRICE, )
@@ -278,10 +283,6 @@ def conectado(connection, enderecoCliente):
                 EXTRA = msg[18] 
                 EXTRA2 = msg[19]
                 EXTRA3 = msg[20]
-
-
-                print(type(EXTRA3))
-                print("extra3:"+EXTRA3)
                 
                 if debug == 1: print ('TIPO: '+TIPO+' CLOUD: '+CLOUD+' CLOUDIP: '+CLOUDIP+' DATEHOUR: '+DATEHOUR+' CLOUDTONAME: '+CLOUDTONAME+' CLOUDTOIP: '+CLOUDTOIP+' STATUS: '+STATUS+' PRICE: '+PRICE+' LATENCY: '+LATENCY+' JITTER: '+JITTER+' CPU: '+CPU+' MEMORY: '+MEMORY+' DISK: '+DISK+' NVM: '+NVM+' CPUC: '+ CPUC+' MEMORYC: '+ MEMORYC +' DISKC: '+DISKC +' EXTRA: '+EXTRA+' EXTRA2: '+EXTRA2+' EXTRA3: '+EXTRA3 )
                
@@ -292,25 +293,28 @@ def conectado(connection, enderecoCliente):
                     connection.sendall(mensagem.encode('utf8'))  #sending in first time the command to client
                     commands.update({(ID): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': STATUS, 'PRICE': PRICE, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY ,'DISK': DISK ,'NVM': NVM ,'CPUC': CPUC,'MEMORYC': MEMORYC,'DISKC': DISKC, 'EXTRA': EXTRA, 'EXTRA2': EXTRA2, 'EXTRA3': 0 ,'CONEXAO': connection}})
                 if TIPO == 'SENDS':  #check the type protocol
-                    print ("imprimindo extra: "+EXTRA + "impi: "+ EXTRA2)
                     print ("entrou sends")
 
+                    #Process to change price between cloud and vnfd
                     if (len(EXTRA3) != 0):
-                        print('entrei if extra3')
-                        NAME_VNFD=EXTRA2
+                        EXTRA2=EXTRA2.split(',')
+                        EXTRA2SPL0=EXTRA2[0]
+                        EXTRA2SPL1=EXTRA2[1]
+
+                        NAME_VNFD=EXTRA2SPL0
                         VIM_URL='http://'+CLOUDIP+':5000/v3'
                         PRICE_VNFD=EXTRA3
-                        print('dentro if extra3')
-                        print(NAME_VNFD)
-                        print(VIM_URL)
-                        print(PRICE_VNFD)
-                        print(type(PRICE_VNFD))
                         SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD)
 
-                    #recebe extra novo e manda rodar scripts
+                        NAME_VNFD=EXTRA2SPL0
+                        VIM_URL='http://'+CLOUDIP+':5000/v3'
+                        PRICE_VNFD=EXTRA3
+                        SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD) 
+                        RunCommandOSM() #Run command to instanciate machine
 
-                    #manda dar clean
+                    #manda dar clean no dicinoario do arquivo e no arquivo - criar funcao para isto
 
+                    #Check Dict that have information about user entry
                     if (len(users)>=1):
                         print("entrou aqui if users")
                         EXTRA=users.get('0').get('USERIP')
