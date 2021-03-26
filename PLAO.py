@@ -265,8 +265,6 @@ def conectado(connection, enderecoCliente):
                 MEMORYC = msg[16] #PERCENT CPU IN TOTAL OF CLOUD
                 DISKC = msg[17] #PERCENT CPU IN TOTAL OF CLOUD
                 EXTRA = msg[18] 
-
-                print(EXTRA)
                 
                 if debug == 1: print ('TIPO: '+TIPO+' CLOUD: '+CLOUD+' CLOUDIP: '+CLOUDIP+' DATEHOUR: '+DATEHOUR+' CLOUDTONAME: '+CLOUDTONAME+' CLOUDTOIP: '+CLOUDTOIP+' STATUS: '+STATUS+' PRICE: '+PRICE+' LATENCY: '+LATENCY+' JITTER: '+JITTER+' CPU: '+CPU+' MEMORY: '+MEMORY+' DISK: '+DISK+' NVM: '+NVM+' CPUC: '+ CPUC+' MEMORYC: '+ MEMORYC +' DISKC: '+DISKC +' EXTRA: '+EXTRA )
                
@@ -277,8 +275,9 @@ def conectado(connection, enderecoCliente):
                     connection.sendall(mensagem.encode('utf8'))  #sending in first time the command to client
                     commands.update({(ID): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': STATUS, 'PRICE': PRICE, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY ,'DISK': DISK ,'NVM': NVM ,'CPUC': CPUC,'MEMORYC': MEMORYC,'DISKC': DISKC, 'EXTRA': EXTRA ,'CONEXAO': connection}})
                 if TIPO == 'SENDS':  #check the type protocol
-
+                    print ("entrou sends")
                     if (len(users)>=1):
+                        print("entrou aqui")
                         EXTRA=users.get(1).get('USERIP')
                         print(EXTRA)
 
@@ -345,7 +344,8 @@ users = {}
 
 try:
     #subprocess.call(['python3', '/opt/PLAO/PLAOsub_server.py'])
-    UsersAdd()
+    thread_usersADD = threading.Thread(target=UsersAdd)
+    thread_usersADD.start()
     thread_usersManager = threading.Thread(target=UsersManager)
     thread_usersManager.start()
     thread_printCloudsDict = threading.Thread(target=printCloudsDict)
