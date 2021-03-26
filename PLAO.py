@@ -313,7 +313,6 @@ def conectado(connection, enderecoCliente):
                         PRICE_VNFD=EXTRA3
                         SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD) 
                         RunCommandOSM() #Run command to instanciate machine
-                        user.clean
 
 
                     #manda dar clean no dicinoario do arquivo e no arquivo - criar funcao para isto
