@@ -86,7 +86,7 @@ def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
         try:
             #changefile = subprocess.check_output(['/bin/bash','/opt/PLAO/script.sh','vnf_price_list.yaml'])
             nomearquivo4=PATH_LOG+'COPY_CONFIG_OSM_history.txt' #write data in file
-            with open(nomearquivo4, 'a') as arquivo:
+            with open(nomearquivo4, 'a+') as arquivo:
                 print("alterado arquivo")
                 arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + ' para o container PLA.' +'\n')
             arquivo.close()
