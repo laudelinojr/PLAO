@@ -205,7 +205,7 @@ def UsersAdd():
             arquivo.flush()          
             arquivo.close()
         LOCK_USER = 1
-        if (LOCK_USER == 1)
+        if (LOCK_USER == 1):
             users.update({'0':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND,'RC1': RC1, 'RC2': RC2}}) 
         print(users)
         time.sleep(3)
