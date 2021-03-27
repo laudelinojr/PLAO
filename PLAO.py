@@ -321,10 +321,10 @@ def conectado(connection, enderecoCliente):
                         PRICE_VNFD=EXTRA3
                         SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD) 
                         RunCommandOSM() #Run command to instanciate machine
-                        if (ID == 1):   #If receive and processing data about user, this is marked in dictionary
+                        if (ID == "1"):   #If receive and processing data about user, this is marked in dictionary
                             print("vou colocar rc1 igual a 1")
                             RC1=1
-                        if (ID == 2):
+                        if (ID == "2"):
                             print("vou colocar rc2 igual a 1")
                             RC2=1
 
