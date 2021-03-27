@@ -301,7 +301,7 @@ def conectado(connection, enderecoCliente):
                         SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD) 
                         RunCommandOSM() #Run command to instanciate machine
                         EXTRA='EXTRA'
-                        users.update({'0':{'USERIP': 'EXTRA','LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})
+                        users.update({'0':{'USERIP': 'EXTRA','LATENCY': 'LATENCY','VNF': 'VNF','COMMAND': 'COMMAND'}})
 
                     #Check Dict that have information about user entry
                     if (len(users)>=1):
