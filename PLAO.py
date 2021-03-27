@@ -187,7 +187,7 @@ def ChangePriceLatencyJitterPIL(CLOUD_COD,PRICE,LATENCY,JITTER,B):
     else:
         return -1
 
-def UsersAdd():
+def UsersAdd(LOCK_USER):
     print("PRINTANDO LOCK USER:"+LOCK_USER)
     USERIP=""
     LATENCY=""
@@ -399,7 +399,7 @@ clouds = {}
 users = {}
 
 try:
-    thread_usersADD = threading.Thread(target=UsersAdd)
+    thread_usersADD = threading.Thread(target=UsersAdd(LOCK_USER))
     thread_usersADD.start()
     thread_printCloudsDict = threading.Thread(target=printCloudsDict)
     thread_printCloudsDict.start()
