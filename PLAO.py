@@ -8,6 +8,8 @@ import os.path
 
 ACCESS_USER=0
 OKTOCLEAN=0
+RC1=0  #READ FOR C1
+RC2=0  #READ FOR C2
 
 #CPU - O LIMITE É CONFIGURAVEL E ESTA EM 90%, QUANDO O MESMO É ATINGIDO, OS PRICES DA 
 # NUVEM_2 SÃO ALTERADOS PARA TODOS OS VNFDS DO ARQUIVO DE CONFIGURAÇÃO
@@ -197,12 +199,13 @@ def UsersAdd():
             LATENCY = valores[1]
             COMMAND = valores[2]        
             VNF = valores[3]
-            users.update({'0':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}}) 
+            users.update({'0':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND},'RC1': RC1, 'RC2': RC2}}) 
             arquivo.flush()          
             arquivo.close()
             print(users)
-            time.sleep(5)
-            #users.clear()     
+            time.sleep(3)
+            if ( users.get('0').get('RC1') == 1) and ( users.get('0').get('RC2') == 1):
+                users.clear()     
             os.remove(nomearquivo1)
             
 
@@ -303,14 +306,24 @@ def conectado(connection, enderecoCliente):
                         PRICE_VNFD=EXTRA3
                         SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD) 
                         RunCommandOSM() #Run command to instanciate machine
-                        EXTRA='EXTRA'
-                        users.update({'0':{'USERIP': 'EXTRA','LATENCY': 'LATENCY','VNF': 'VNF','COMMAND': 'COMMAND'}})
+                        if (ID == 0):   #If receive and processing data about user, this is marked in dictionary
+                            RC1=1
+                        if (ID == 1):
+                            RC2=1
 
                     #Check Dict that have information about user entry
                     if (len(users)>=1):
                         print("entrou aqui if users")
-                        EXTRA=users.get('0').get('USERIP')
-                        EXTRA2=users.get('0').get('VNF')
+                        if (EXTRA=users.get('0').get('RC1')==0 and ID == 0 ):
+                            EXTRA=users.get('0').get('USERIP')
+                            EXTRA2=users.get('0').get('VNF')
+                        if (EXTRA=users.get('0').get('RC2')==0 and ID == 1 ):
+                            EXTRA=users.get('0').get('USERIP')
+                            EXTRA2=users.get('0').get('VNF')
+                        else:
+                            EXTRA='EXTRA'
+                            EXTRA2='EXTRA2'
+                        
 
                     CLOUD_STATUS_CPU=int(clouds.get(str(ID)).get('CPU'))
                     if (int(CPUC) > THRESHOLD) and (CLOUD_STATUS_CPU == 0):
