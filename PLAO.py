@@ -161,8 +161,11 @@ def SearchDownUpVimPrice(VIM_URL,CLOUD_COD,STATUS_CPU_NOW,DATEHOUR):
                 arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + ' para o container PLA. - SearchDownUpVimPrice' +'\n')
             arquivo.flush()
             arquivo.close()
-            print("vai copiar arquivo SearchDownUpVimPrice ")
-            subprocess.call(['python3 /opt/PLAO/docker_pla.py vnf_price_list'])
+            COD_DOCKER =os.system('docker ps -qf name=osm_pla')
+            print (COD_DOCKER)
+            os.system('docker cp '+ FILE_VNF_PRICE+  ':/placement/')
+            #print("vai copiar arquivo SearchDownUpVimPrice ")
+            #subprocess.call(['python3 /opt/PLAO/docker_pla.py vnf_price_list'])
         except:
             return -1
 
