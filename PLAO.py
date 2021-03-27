@@ -198,9 +198,8 @@ def UsersAdd():
             users.update({'0':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})           
             arquivo.close()
             print(users)
-            sleep 10
-            if OKTOCLEAN == 1:
-                users.clear()     
+            sleep 60
+            #users.clear()     
             os.remove(nomearquivo1)
             
 
@@ -302,13 +301,13 @@ def conectado(connection, enderecoCliente):
                         SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD) 
                         RunCommandOSM() #Run command to instanciate machine
                         EXTRA='EXTRA'
+                        users.update({'0':{'USERIP': 'EXTRA','LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})
 
                     #Check Dict that have information about user entry
                     if (len(users)>=1):
                         print("entrou aqui if users")
                         EXTRA=users.get('0').get('USERIP')
                         EXTRA2=users.get('0').get('VNF')
-                        OKTOCLEAN=1
 
                     CLOUD_STATUS_CPU=int(clouds.get(str(ID)).get('CPU'))
                     if (int(CPUC) > THRESHOLD) and (CLOUD_STATUS_CPU == 0):
