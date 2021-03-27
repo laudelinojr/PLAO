@@ -332,7 +332,7 @@ def conectado(connection, enderecoCliente):
                         EXTRA='EXTRA'
                         EXTRA2='EXTRA2'
                     
-                    if ((users.get('0').get('RC1') == 1 and (users.get('0').get('RC2') == 1):
+                    if ((users.get('0').get('RC1') == 1) and (users.get('0').get('RC2') == 1)):
                         print ("vamos rodar o comando")
                         RunCommandOSM() #Run command to instanciate machine
 
