@@ -262,6 +262,8 @@ def DATEHOURS():
 
 def conectado(connection, enderecoCliente):
         print('Conected with', enderecoCliente)
+        global RC1
+        global RC2
         while True:
             msg = connection.recv(1024).decode('utf8')
             msg = msg.split('#')  # quebra o texto unico com o separador #
