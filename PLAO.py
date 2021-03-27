@@ -91,7 +91,7 @@ def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
             with open(nomearquivo4, 'a') as arquivo:
                 print("alterado arquivo")
                 arquivo.write(DATEHOURS + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + ' para o container PLA.' +'\n')
-            fileWriter.flush()
+            arquivo.flush()
             arquivo.close()
             print("vai copiar arquivo SearchChangeVNFDPrice ")
         except:
@@ -155,6 +155,7 @@ def SearchDownUpVimPrice(VIM_URL,CLOUD_COD,STATUS_CPU_NOW,DATEHOUR):
             nomearquivo4=PATH_LOG+'COPY_CONFIG_OSM_history.txt' #write data in file
             with open(nomearquivo4, 'a') as arquivo:
                 arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + ' para o container PLA.' +'\n')
+            arquivo.flush()
             arquivo.close()
             print("vai copiar arquivo SearchDownUpVimPrice ")
             subprocess.call(['python3', '/opt/PLAO/docker_pla.py', 'vnf_price_list'])
@@ -196,7 +197,8 @@ def UsersAdd():
             LATENCY = valores[1]
             COMMAND = valores[2]        
             VNF = valores[3]
-            users.update({'0':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})           
+            users.update({'0':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}}) 
+            arquivo.flush()          
             arquivo.close()
             print(users)
             time.sleep(5)
