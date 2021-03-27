@@ -92,7 +92,7 @@ def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
             nomearquivo4=PATH_LOG+'COPY_CONFIG_OSM_history.txt' #write data in file
             with open(nomearquivo4, 'a') as arquivo:
                 if debug == 1: print("alterado arquivo")
-                arquivo.write(DATEHOURS + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + ' para o container PLA.' +'\n')
+                arquivo.write(DATEHOURS + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + ' para o container PLA. - SearchChangeVNFDPrice' +'\n')
             arquivo.flush()
             arquivo.close()
             if debug == 1: print("vai copiar arquivo SearchChangeVNFDPrice ")
@@ -158,7 +158,7 @@ def SearchDownUpVimPrice(VIM_URL,CLOUD_COD,STATUS_CPU_NOW,DATEHOUR):
         try:
             nomearquivo4=PATH_LOG+'COPY_CONFIG_OSM_history.txt' #write data in file
             with open(nomearquivo4, 'a') as arquivo:
-                arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + ' para o container PLA.' +'\n')
+                arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + ' para o container PLA. - SearchDownUpVimPrice' +'\n')
             arquivo.flush()
             arquivo.close()
             print("vai copiar arquivo SearchDownUpVimPrice ")
@@ -236,7 +236,7 @@ def SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENST
             try:
                 nomearquivo4=PATH_LOG+'COPY_CONFIG_OSM_history.txt' #write data in file
                 with open(nomearquivo4, 'a') as arquivo:
-                    arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_PIL_PRICE + ' para o container PLA.' +'\n')
+                    arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_PIL_PRICE + ' para o container PLA. SearchChangePriceLatencyJitterPIL' +'\n')
                 arquivo.close()
                 if debug == 1: print("vai copiar arquivo SearchChangePriceLatencyJitterPIL ")
                 subprocess.call(['python3', '/opt/PLAO/docker_pla.py', 'pil_price_list'])
