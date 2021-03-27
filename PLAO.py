@@ -6,7 +6,7 @@ import subprocess
 import os
 import os.path
 
-ACCESS_USER=0
+LOCK_USER=0 #bLOCK ACCESS THE DICT USERS
 OKTOCLEAN=0
 RC1=0  #READ FOR C1
 RC2=0  #READ FOR C2
@@ -186,7 +186,10 @@ def ChangePriceLatencyJitterPIL(CLOUD_COD,PRICE,LATENCY,JITTER,B):
         return -1
 
 def UsersAdd():
-    ACCESS_USER=1 #bLOCK ACCESS THE DICT
+    USERIP=""
+    LATENCY=""
+    VNF=""
+    COMMAND=""
     while True:
         if(os.path.exists('user_vnfd_latencia.txt')):
             print("O arquivo existe")
@@ -198,15 +201,17 @@ def UsersAdd():
             USERIP = valores[0]
             LATENCY = valores[1]
             COMMAND = valores[2]        
-            VNF = valores[3]
-            users.update({'0':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND,'RC1': RC1, 'RC2': RC2}}) 
+            VNF = valores[3]           
             arquivo.flush()          
             arquivo.close()
-            print(users)
-            time.sleep(3)
-            if ( users.get('0').get('RC1') == 1) and ( users.get('0').get('RC2') == 1):
-                users.clear()     
-            os.remove(nomearquivo1)
+        LOCK_USER = 1
+        if (LOCK_USER == 1)
+            users.update({'0':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND,'RC1': RC1, 'RC2': RC2}}) 
+        print(users)
+        time.sleep(3)
+        #if ( users.get('0').get('RC1') == 1) and ( users.get('0').get('RC2') == 1):
+        #users.clear()     
+        os.remove(nomearquivo1)
             
 
 def SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENSTACK_TO):
@@ -314,10 +319,10 @@ def conectado(connection, enderecoCliente):
                     #Check Dict that have information about user entry
                     if (len(users)>=1):
                         print("entrou aqui if users")
-                        if (users.get('0').get('RC1')==0 and ID == 0 ):
+                        if (users.get('0').get('RC1')==0 and ID == 0 and (LOCK_USER==0) ):
                             EXTRA=users.get('0').get('USERIP')
                             EXTRA2=users.get('0').get('VNF')
-                        if (users.get('0').get('RC2')==0 and ID == 1 ):
+                        if (users.get('0').get('RC2')==0 and ID == 1 and (LOCK_USER==0) ):
                             EXTRA=users.get('0').get('USERIP')
                             EXTRA2=users.get('0').get('VNF')
                         else:
