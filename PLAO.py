@@ -321,9 +321,11 @@ def conectado(connection, enderecoCliente):
                         PRICE_VNFD=EXTRA3
                         SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD) 
                         RunCommandOSM() #Run command to instanciate machine
-                        if (ID == 0):   #If receive and processing data about user, this is marked in dictionary
+                        if (ID == 1):   #If receive and processing data about user, this is marked in dictionary
+                            print("vou colocar rc1 igual a 1")
                             RC1=1
-                        if (ID == 1):
+                        if (ID == 2):
+                            print("vou colocar rc2 igual a 1")
                             RC2=1
 
                     #Check Dict that have information about user entry
@@ -347,8 +349,6 @@ def conectado(connection, enderecoCliente):
                         EXTRA='EXTRA'
                         EXTRA2='EXTRA2'
                         
-                    print(EXTRA)
-                    print(EXTRA2)
                     CLOUD_STATUS_CPU=int(clouds.get(str(ID)).get('CPU'))
                     if (int(CPUC) > THRESHOLD) and (CLOUD_STATUS_CPU == 0):
                         CPU_STATUS_NOW=1   #Values: 0-cpu normal, 1-cpu high and cost value going to change
