@@ -199,7 +199,7 @@ def UsersAdd():
             LATENCY = valores[1]
             COMMAND = valores[2]        
             VNF = valores[3]
-            users.update({'0':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND},'RC1': RC1, 'RC2': RC2}}) 
+            users.update({'0':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND,'RC1': RC1, 'RC2': RC2}}) 
             arquivo.flush()          
             arquivo.close()
             print(users)
