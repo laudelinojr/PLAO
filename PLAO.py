@@ -6,7 +6,7 @@ import subprocess
 import os
 import os.path
 
-LOCK_USER='0' #bLOCK ACCESS THE DICT USERS
+#LOCK_USER='0' #bLOCK ACCESS THE DICT USERS
 OKTOCLEAN=0
 RC1=0  #READ FOR C1
 RC2=0  #READ FOR C2
@@ -188,6 +188,7 @@ def ChangePriceLatencyJitterPIL(CLOUD_COD,PRICE,LATENCY,JITTER,B):
         return -1
 
 def UsersAdd(LOCK_USER):
+    LOCK_USER='0' #bLOCK ACCESS THE DICT USERS
     print("PRINTANDO LOCK USER:"+LOCK_USER)
     USERIP=""
     LATENCY=""
@@ -399,7 +400,7 @@ clouds = {}
 users = {}
 
 try:
-    thread_usersADD = threading.Thread(target=UsersAdd(LOCK_USER))
+    thread_usersADD = threading.Thread(target=UsersAdd)
     thread_usersADD.start()
     thread_printCloudsDict = threading.Thread(target=printCloudsDict)
     thread_printCloudsDict.start()
