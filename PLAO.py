@@ -332,11 +332,11 @@ def conectado(connection, enderecoCliente):
                         print("ID: "+str(ID))
                         print(users.get('0').get('RC1'))
                         print("entrou aqui if users")
-                        if (users.get('0').get('RC1')==0 and ID == 0 and (LOCK_USER==0) ):
+                        if (users.get('0').get('RC1')==0 and ID == "1" and (LOCK_USER==0) ):
                             print("entrou primeiro if")
                             EXTRA=users.get('0').get('USERIP')
                             EXTRA2=users.get('0').get('VNF')
-                        if (users.get('0').get('RC2')==0 and ID == 1 and (LOCK_USER==0) ):
+                        if (users.get('0').get('RC2')==0 and ID == "2" and (LOCK_USER==0) ):
                             print("entrou segundo if")
                             EXTRA=users.get('0').get('USERIP')
                             EXTRA2=users.get('0').get('VNF')
