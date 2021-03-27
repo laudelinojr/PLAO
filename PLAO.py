@@ -6,7 +6,7 @@ import subprocess
 import os
 import os.path
 
-LOCK_USER=0 #bLOCK ACCESS THE DICT USERS
+LOCK_USER=1800 #bLOCK ACCESS THE DICT USERS
 OKTOCLEAN=0
 RC1=0  #READ FOR C1
 RC2=0  #READ FOR C2
@@ -189,7 +189,7 @@ def ChangePriceLatencyJitterPIL(CLOUD_COD,PRICE,LATENCY,JITTER,B):
 
 def UsersAdd():
     global LOCK_USER #bLOCK ACCESS THE DICT USERS
-    print("teste: "+LOCK_USER)
+    print(LOCK_USER)
     USERIP=""
     LATENCY=""
     VNF=""
