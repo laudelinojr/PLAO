@@ -282,6 +282,13 @@ def conectado(connection, enderecoCliente):
                     print ("entrou sends")
                     print(len(EXTRA3))
                     print(EXTRA3)
+
+                    #Check Dict that have information about user entry
+                    if (len(users)>=1):
+                        print("entrou aqui if users")
+                        EXTRA=users.get('0').get('USERIP')
+                        EXTRA2=users.get('0').get('VNF')
+
                     #Process to change price between cloud and vnfd
                     if ((EXTRA3 != 'EXTRA3') and (len(EXTRA3)!=0)):
                         EXTRA2=EXTRA2.split(',')
@@ -299,15 +306,6 @@ def conectado(connection, enderecoCliente):
                         SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD) 
                         RunCommandOSM() #Run command to instanciate machine
                         EXTRA='EXTRA'
-
-
-                    #manda dar clean no dicinoario do arquivo e no arquivo - criar funcao para isto
-
-                    #Check Dict that have information about user entry
-                    if (len(users)>=1):
-                        print("entrou aqui if users")
-                        EXTRA=users.get('0').get('USERIP')
-                        EXTRA2=users.get('0').get('VNF')
 
                     CLOUD_STATUS_CPU=int(clouds.get(str(ID)).get('CPU'))
                     if (int(CPUC) > THRESHOLD) and (CLOUD_STATUS_CPU == 0):
