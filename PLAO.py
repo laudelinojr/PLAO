@@ -189,7 +189,7 @@ def ChangePriceLatencyJitterPIL(CLOUD_COD,PRICE,LATENCY,JITTER,B):
 
 def UsersAdd():
     global LOCK_USER #bLOCK ACCESS THE DICT USERS
-    print(LOCK_USER)
+    print("teste: "+LOCK_USER)
     USERIP=""
     LATENCY=""
     VNF=""
@@ -215,6 +215,7 @@ def UsersAdd():
             print("lock user lockado")
             users.update({'0':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND,'RC1': RC1, 'RC2': RC2}}) 
             LOCK_USER = 0
+            print("lock user deslockado")
         print(users)
         time.sleep(3)
         #if ( users.get('0').get('RC1') == 1) and ( users.get('0').get('RC2') == 1):
