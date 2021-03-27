@@ -343,6 +343,7 @@ def conectado(connection, enderecoCliente):
                             EXTRA=users.get('0').get('USERIP')
                             EXTRA2=users.get('0').get('VNF')
                         else:
+                            print("estou no else nao sei porque")
                             EXTRA='EXTRA'
                             EXTRA2='EXTRA2'
                         
