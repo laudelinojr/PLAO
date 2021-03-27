@@ -98,7 +98,7 @@ def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
             if debug == 1: print("vai copiar arquivo SearchChangeVNFDPrice ")
         except:
             return -1     
-        debug ==1: print("DEBUG: File changed")
+        if debug ==1: print("DEBUG: File changed")
         if debug ==1: print("DEBUG: Copy file to container pla...")
     else:
         if debug ==1: print ("DEBUG: File not changed")
