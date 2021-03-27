@@ -100,7 +100,7 @@ def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
     else:
         if debug ==1: print ("DEBUG: File not changed")
 
-def RunCommandOSM(COMMAND):
+def RunCommandOSM():
     print("rodando comando")
     COMMAND=users.get('0').get('COMMAND')
     #subprocess.call('/usr/bin/osm',COMMAND)
