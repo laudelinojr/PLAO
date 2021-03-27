@@ -82,31 +82,31 @@ def ChangeVNFPrice(COD_VNFD,VIMURL,PRICE,B):
 def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
     A=open(FILE_VNF_PRICE, )
     B=yaml.full_load(A)
-    print("dentro SearchChangeVNFDPrice")
+    if debug == 1: print("dentro SearchChangeVNFDPrice")
     if (ChangeVNFPrice(SearchVNFD(NAME_VNFD,B),VIM_URL,PRICE_VNFD,B)) != -1: #Change price of specific VIM in specific VNFD
-        print("dentro ChangeVNFPrice(SearchVNFD")
+        if debug == 1: print("dentro ChangeVNFPrice(SearchVNFD")
         with open(FILE_VNF_PRICE, 'w') as file:
             documents = yaml.dump(B, file, sort_keys=False) #Export changes to file without order, equal original file
         try:
             subprocess.call(['python3', '/opt/PLAO/docker_pla.py', 'vnf_price_list'])
             nomearquivo4=PATH_LOG+'COPY_CONFIG_OSM_history2.txt' #write data in file
             with open(nomearquivo4, 'a') as arquivo:
-                print("alterado arquivo")
+                if debug == 1: print("alterado arquivo")
                 arquivo.write(DATEHOURS + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + ' para o container PLA.' +'\n')
             arquivo.flush()
             arquivo.close()
-            print("vai copiar arquivo SearchChangeVNFDPrice ")
+            if debug == 1: print("vai copiar arquivo SearchChangeVNFDPrice ")
         except:
             return -1     
-        if debug ==1: print("DEBUG: File changed")
-        if debug ==1: print("DEBUG: Copy file to container pla...")
+        if debug == 1: if debug ==1: print("DEBUG: File changed")
+        if debug == 1: if debug ==1: print("DEBUG: Copy file to container pla...")
     else:
         if debug ==1: print ("DEBUG: File not changed")
 
 def RunCommandOSM():
-    print ("metodo para rodar comando")
+    if debug == 1: print ("metodo para rodar comando")
     if (LOCK_USER == 0):
-        print("rodando comando")
+        if debug == 1: print("rodando comando")
         COMMAND=users.get('0').get('COMMAND')
         os.system(COMMAND)
    
@@ -197,11 +197,11 @@ def UsersAdd():
     COMMAND=""
     while True:
         if(os.path.exists('user_vnfd_latencia.txt')):
-            print("O arquivo existe")
+            if debug == 1: print("O arquivo existe")
             nomearquivo1='user_vnfd_latencia.txt'
             arquivo = open(nomearquivo1,'r')
             linha = arquivo.readline()
-            print("linha trabalhando agora: "+ linha)
+            if debug == 1: print("linha trabalhando agora: "+ linha)
             valores=linha.split('#')
             USERIP = valores[0]
             LATENCY = valores[1]
@@ -213,11 +213,11 @@ def UsersAdd():
         
         if LOCK_USER == 0:
             LOCK_USER = 1
-            print("lock user lockado")
+            if debug == 1: print("lock user lockado")
             users.update({'0':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND,'RC1': RC1, 'RC2': RC2}}) 
             LOCK_USER = 0
-            print("lock user deslockado")
-        print(users)
+            if debug == 1: print("lock user deslockado")
+        if debug == 1: print(users)
         time.sleep(3)
         #if ( users.get('0').get('RC1') == 1) and ( users.get('0').get('RC2') == 1):
         #users.clear()     
@@ -238,23 +238,23 @@ def SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENST
                 with open(nomearquivo4, 'a') as arquivo:
                     arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_PIL_PRICE + ' para o container PLA.' +'\n')
                 arquivo.close()
-                print("vai copiar arquivo SearchChangePriceLatencyJitterPIL ")
+                if debug == 1: print("vai copiar arquivo SearchChangePriceLatencyJitterPIL ")
                 subprocess.call(['python3', '/opt/PLAO/docker_pla.py', 'pil_price_list'])
             except:
                 return -1
-            print("File pil_price changed")
+            if debug == 1: print("File pil_price changed")
         else:
-            print ("File pil_price not changed")
+            if debug == 1: print ("File pil_price not changed")
 
 def printCloudsDict():
     while True:
         time.sleep(15)
-        print('Printing Cloud Dict:')
+        if debug == 1: print('Printing Cloud Dict:')
         if len(clouds) > 0:
             for i in clouds:
                 print (i+str(clouds.get(i)))
         else:
-            print('Cloud Dict Empty')
+            if debug == 1: print('Cloud Dict Empty')
 
 def DATEHOURS():
     DATEHOUR = datetime.datetime.now().strftime('%d.%m.%y-%H:%M:%S')  # converte hora para string do cliente
@@ -322,7 +322,7 @@ def conectado(connection, enderecoCliente):
                         VIM_URL='http://'+CLOUDIP+':5000/v3'
                         PRICE_VNFD=EXTRA3
                         SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD) 
-                        RunCommandOSM() #Run command to instanciate machine
+                        
                         if (ID == "1"):   #If receive and processing data about user, this is marked in dictionary
                             print("vou colocar rc1 igual a 1")
                             RC1=1
@@ -331,7 +331,10 @@ def conectado(connection, enderecoCliente):
                             RC2=1
                         EXTRA='EXTRA'
                         EXTRA2='EXTRA2'
-
+                    
+                    if (users.get('0').get('RC1') == 1 and (users.get('0').get('RC2') == 1:
+                        print ("vamos rodar o comando")
+                        RunCommandOSM() #Run command to instanciate machine
 
                     #Check Dict that have information about user entry
                     if (len(users)>=1):
