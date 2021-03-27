@@ -39,9 +39,9 @@ THRESHOLD=90 #THRESHOLD of CPU to apply rate in Cloud's price
 
 #requisites1 SearchChangeVNFDPrice
 FILE_VNF_PRICE="/opt/PLAO/osm/vnf_price_list.yaml"
-NAME_VNFD="VNFB"
+#NAME_VNFD="VNFB"
 #VIM_URL='http://10.159.205.6:5000/v3'
-PRICE_VNFD=14
+#PRICE_VNFD=14
 
 #requisites SearchChangePriceLatencyJitterPIL
 FILE_PIL_PRICE="/opt/PLAO/osm/pil_price_list.yaml"
@@ -91,6 +91,7 @@ def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
             with open(nomearquivo4, 'a') as arquivo:
                 print("alterado arquivo")
                 arquivo.write(DATEHOURS + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + ' para o container PLA.' +'\n')
+            fileWriter.flush()
             arquivo.close()
             print("vai copiar arquivo SearchChangeVNFDPrice ")
         except:
