@@ -329,9 +329,9 @@ def conectado(connection, enderecoCliente):
                         if (ID == "2"):
                             print("vou colocar rc2 igual a 1")
                             RC2=1
-                    else:
                         EXTRA='EXTRA'
-                        EXTRA2='EXTRA2'                        
+                        EXTRA2='EXTRA2'
+
 
                     #Check Dict that have information about user entry
                     if (len(users)>=1):
