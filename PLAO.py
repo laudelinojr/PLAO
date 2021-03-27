@@ -314,10 +314,10 @@ def conectado(connection, enderecoCliente):
                     #Check Dict that have information about user entry
                     if (len(users)>=1):
                         print("entrou aqui if users")
-                        if (EXTRA=users.get('0').get('RC1')==0 and ID == 0 ):
+                        if (users.get('0').get('RC1')==0 and ID == 0 ):
                             EXTRA=users.get('0').get('USERIP')
                             EXTRA2=users.get('0').get('VNF')
-                        if (EXTRA=users.get('0').get('RC2')==0 and ID == 1 ):
+                        if (users.get('0').get('RC2')==0 and ID == 1 ):
                             EXTRA=users.get('0').get('USERIP')
                             EXTRA2=users.get('0').get('VNF')
                         else:
