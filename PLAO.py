@@ -282,9 +282,9 @@ def conectado(connection, enderecoCliente):
                 CPUC = msg[15] #PERCENT CPU IN TOTAL OF CLOUD
                 MEMORYC = msg[16] #PERCENT CPU IN TOTAL OF CLOUD
                 DISKC = msg[17] #PERCENT CPU IN TOTAL OF CLOUD
-                EXTRA = msg[18] 
-                EXTRA2 = msg[19]
-                EXTRA3 = msg[20]
+                EXTRA = msg[18]  #ADDRESS IP FOR TEST LATENCY
+                EXTRA2 = msg[19] #VNFDS
+                EXTRA3 = msg[20] #LATENCY IN CLIENT
                 
                 if debug == 1: print ('TIPO: '+TIPO+' CLOUD: '+CLOUD+' CLOUDIP: '+CLOUDIP+' DATEHOUR: '+DATEHOUR+' CLOUDTONAME: '+CLOUDTONAME+' CLOUDTOIP: '+CLOUDTOIP+' STATUS: '+STATUS+' PRICE: '+PRICE+' LATENCY: '+LATENCY+' JITTER: '+JITTER+' CPU: '+CPU+' MEMORY: '+MEMORY+' DISK: '+DISK+' NVM: '+NVM+' CPUC: '+ CPUC+' MEMORYC: '+ MEMORYC +' DISKC: '+DISKC +' EXTRA: '+EXTRA+' EXTRA2: '+EXTRA2+' EXTRA3: '+EXTRA3 )
                
@@ -314,6 +314,7 @@ def conectado(connection, enderecoCliente):
                         PRICE_VNFD=EXTRA3
                         SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD) 
                         RunCommandOSM() #Run command to instanciate machine
+                        EXTRA='EXTRA'
 
 
                     #manda dar clean no dicinoario do arquivo e no arquivo - criar funcao para isto
