@@ -79,12 +79,12 @@ def ChangeVNFPrice(COD_VNFD,VIMURL,PRICE,B):
 def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
     A=open(FILE_VNF_PRICE, )
     B=yaml.full_load(A)
-
+    print("dentro SearchChangeVNFDPrice")
     if (ChangeVNFPrice(SearchVNFD(NAME_VNFD,B),VIM_URL,PRICE_VNFD,B)) != -1: #Change price of specific VIM in specific VNFD
+        print("dentro ChangeVNFPrice(SearchVNFD")
         with open(FILE_VNF_PRICE, 'w') as file:
             documents = yaml.dump(B, file, sort_keys=False) #Export changes to file without order, equal original file
         try:
-            #changefile = subprocess.check_output(['/bin/bash','/opt/PLAO/script.sh','vnf_price_list.yaml'])
             nomearquivo4=PATH_LOG+'COPY_CONFIG_OSM_history.txt' #write data in file
             with open(nomearquivo4, 'a+') as arquivo:
                 print("alterado arquivo")
@@ -92,8 +92,6 @@ def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
             arquivo.close()
             print("vai copiar arquivo SearchChangeVNFDPrice ")
             subprocess.call(['python3', '/opt/PLAO/docker_pla.py', 'vnf_price_list'])
-            #subprocess.call("/opt/PLAO/test1.py", shell=True)
-            #os.system('docker cp '+FILE_VNF_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
         except:
             return -1     
         if debug ==1: print("DEBUG: File changed")
@@ -158,8 +156,6 @@ def SearchDownUpVimPrice(VIM_URL,CLOUD_COD,STATUS_CPU_NOW,DATEHOUR):
             arquivo.close()
             print("vai copiar arquivo SearchDownUpVimPrice ")
             subprocess.call(['python3', '/opt/PLAO/docker_pla.py', 'vnf_price_list'])
-            #subprocess.call("/opt/PLAO/test1.py")
-            #os.system('docker cp '+FILE_VNF_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
         except:
             return -1
 
@@ -203,26 +199,12 @@ def UsersAdd():
             print(users)
             time.sleep(60)
             os.remove(nomearquivo1)
-            users.clear()
-            
-        #else:
-            #print("O arquivo não existe")
-                #users.update({'(str(len(users)+1))':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})
-                #users.update({'1':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})
-            #if (len(users)>=1):
-                #print("entrou aqui userrs add")
-                #EXTRA=users.get('0').get('USERIP')
-                #EXTRA=users.get('1').get('USERIP')
-                #print(EXTRA)
-    #        ACCESS_USER=0 #GRANT ACESS THE DICTONARY
-            #time.sleep(60)
-
+            users.clear()     
 
 def SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENSTACK_TO):
-    #Search cloud combination and change the price, latency and jitter
     A=open(FILE_PIL_PRICE, )
     B=yaml.full_load(A)
-
+    #Search cloud combination and change the price, latency and jitter
     CLOUD_COD=SearchChangePILPrice(OPENSTACK_FROM,OPENSTACK_TO,B)
     if CLOUD_COD != -1:
         if (ChangePriceLatencyJitterPIL(CLOUD_COD,PRICE,LATENCY,JITTER,B)) != -1: #Change Price Latency and Jitter
@@ -235,7 +217,6 @@ def SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENST
                 arquivo.close()
                 print("vai copiar arquivo SearchChangePriceLatencyJitterPIL ")
                 subprocess.call(['python3', '/opt/PLAO/docker_pla.py', 'pil_price_list'])
-                #os.system('docker cp '+FILE_PIL_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
             except:
                 return -1
             print("File pil_price changed")
