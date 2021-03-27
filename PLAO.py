@@ -104,10 +104,12 @@ def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
         if debug ==1: print ("DEBUG: File not changed")
 
 def RunCommandOSM():
-    print("rodando comando")
-    COMMAND=users.get('0').get('COMMAND')
-    #subprocess.call('/usr/bin/osm',COMMAND)
-    os.system(COMMAND)
+    print ("metodo para rodar comando")
+    if (LOCK_USER == 0):
+        print("rodando comando")
+        COMMAND=users.get('0').get('COMMAND')
+        os.system(COMMAND)
+   
 
 def SearchDownUpVimPrice(VIM_URL,CLOUD_COD,STATUS_CPU_NOW,DATEHOUR):
     #Receive the CPU STATUS NOW and update in list cloud, the CLOUD_STATUS_CPU
@@ -196,7 +198,7 @@ def UsersAdd():
             nomearquivo1='user_vnfd_latencia.txt'
             arquivo = open(nomearquivo1,'r')
             linha = arquivo.readline()
-            print("linha trabalhndo agora: "+ linha)
+            print("linha trabalhando agora: "+ linha)
             valores=linha.split('#')
             USERIP = valores[0]
             LATENCY = valores[1]
@@ -207,6 +209,7 @@ def UsersAdd():
             os.remove(nomearquivo1)
         LOCK_USER = 1
         if (LOCK_USER == 1):
+            print("lock user lockado")
             users.update({'0':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND,'RC1': RC1, 'RC2': RC2}}) 
         print(users)
         time.sleep(3)
