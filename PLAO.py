@@ -86,13 +86,13 @@ def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
         with open(FILE_VNF_PRICE, 'w') as file:
             documents = yaml.dump(B, file, sort_keys=False) #Export changes to file without order, equal original file
         try:
+            subprocess.call(['python3', '/opt/PLAO/docker_pla.py', 'vnf_price_list'])
             nomearquivo4=PATH_LOG+'COPY_CONFIG_OSM_history2.txt' #write data in file
             with open(nomearquivo4, 'a') as arquivo:
                 print("alterado arquivo")
-                arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + ' para o container PLA.' +'\n')
+                arquivo.write(DATEHOURS + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + ' para o container PLA.' +'\n')
             arquivo.close()
             print("vai copiar arquivo SearchChangeVNFDPrice ")
-            subprocess.call(['python3', '/opt/PLAO/docker_pla.py', 'vnf_price_list'])
         except:
             return -1     
         if debug ==1: print("DEBUG: File changed")
@@ -371,7 +371,6 @@ clouds = {}
 users = {}
 
 try:
-    #subprocess.call(['python3', '/opt/PLAO/PLAOsub_server.py'])
     thread_usersADD = threading.Thread(target=UsersAdd)
     thread_usersADD.start()
     thread_printCloudsDict = threading.Thread(target=printCloudsDict)
