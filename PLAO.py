@@ -204,6 +204,7 @@ def UsersAdd():
             VNF = valores[3]           
             arquivo.flush()          
             arquivo.close()
+            os.remove(nomearquivo1)
         LOCK_USER = 1
         if (LOCK_USER == 1):
             users.update({'0':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND,'RC1': RC1, 'RC2': RC2}}) 
@@ -211,7 +212,7 @@ def UsersAdd():
         time.sleep(3)
         #if ( users.get('0').get('RC1') == 1) and ( users.get('0').get('RC2') == 1):
         #users.clear()     
-        os.remove(nomearquivo1)
+       
             
 
 def SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENSTACK_TO):
