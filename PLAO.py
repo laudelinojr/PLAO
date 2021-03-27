@@ -239,7 +239,8 @@ def SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENST
                     arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_PIL_PRICE + ' para o container PLA. SearchChangePriceLatencyJitterPIL' +'\n')
                 arquivo.close()
                 if debug == 1: print("vai copiar arquivo SearchChangePriceLatencyJitterPIL ")
-                subprocess.call(['python3', '/opt/PLAO/docker_pla.py', 'pil_price_list'])
+                #subprocess.call(['python3', '/opt/PLAO/docker_pla.py', 'pil_price_list'])
+                subprocess.call([python3 /opt/PLAO/docker_pla.py pil_price_list])
             except:
                 return -1
             if debug == 1: print("File pil_price changed")
