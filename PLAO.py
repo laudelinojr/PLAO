@@ -336,6 +336,8 @@ def conectado(connection, enderecoCliente):
                             print("entrou primeiro if")
                             EXTRA=users.get('0').get('USERIP')
                             EXTRA2=users.get('0').get('VNF')
+                            print(EXTRA)
+                            print(EXTRA2)
                         if (users.get('0').get('RC2')==0 and ID == "2" and (LOCK_USER==0) ):
                             print("entrou segundo if")
                             EXTRA=users.get('0').get('USERIP')
