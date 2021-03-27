@@ -7,6 +7,7 @@ import os
 import os.path
 
 ACCESS_USER=0
+OKTOCLEAN=0
 
 #CPU - O LIMITE É CONFIGURAVEL E ESTA EM 90%, QUANDO O MESMO É ATINGIDO, OS PRICES DA 
 # NUVEM_2 SÃO ALTERADOS PARA TODOS OS VNFDS DO ARQUIVO DE CONFIGURAÇÃO
@@ -197,9 +198,11 @@ def UsersAdd():
             users.update({'0':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})           
             arquivo.close()
             print(users)
-            time.sleep(60)
+            sleep 10
+            if OKTOCLEAN == 1:
+                users.clear()     
             os.remove(nomearquivo1)
-            users.clear()     
+            
 
 def SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENSTACK_TO):
     A=open(FILE_PIL_PRICE, )
@@ -282,13 +285,6 @@ def conectado(connection, enderecoCliente):
                     print ("entrou sends")
                     print(len(EXTRA3))
                     print(EXTRA3)
-
-                    #Check Dict that have information about user entry
-                    if (len(users)>=1):
-                        print("entrou aqui if users")
-                        EXTRA=users.get('0').get('USERIP')
-                        EXTRA2=users.get('0').get('VNF')
-
                     #Process to change price between cloud and vnfd
                     if ((EXTRA3 != 'EXTRA3') and (len(EXTRA3)!=0)):
                         EXTRA2=EXTRA2.split(',')
@@ -306,6 +302,13 @@ def conectado(connection, enderecoCliente):
                         SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD) 
                         RunCommandOSM() #Run command to instanciate machine
                         EXTRA='EXTRA'
+
+                    #Check Dict that have information about user entry
+                    if (len(users)>=1):
+                        print("entrou aqui if users")
+                        EXTRA=users.get('0').get('USERIP')
+                        EXTRA2=users.get('0').get('VNF')
+                        OKTOCLEAN=1
 
                     CLOUD_STATUS_CPU=int(clouds.get(str(ID)).get('CPU'))
                     if (int(CPUC) > THRESHOLD) and (CLOUD_STATUS_CPU == 0):
