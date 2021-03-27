@@ -155,11 +155,11 @@ def SearchDownUpVimPrice(VIM_URL,CLOUD_COD,STATUS_CPU_NOW,DATEHOUR):
             arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ str(STATUS_CPU_NOW)+'\n')
         arquivo.close()
 
-        try:
-            COD_DOCKER =os.system('docker ps -qf name=osm_pla')
-            print (COD_DOCKER)
-            os.system('docker cp '+ FILE_VNF_PRICE+ ' '+ COD_DOCKER+':/placement/')
+        COD_DOCKER =os.system('docker ps -qf name=osm_pla')
+        print (COD_DOCKER)
+        os.system('docker cp '+ FILE_VNF_PRICE+ ' '+ COD_DOCKER+':/placement/')
 
+        try:
             nomearquivo4=PATH_LOG+'COPY_CONFIG_OSM_history.txt' #write data in file
             with open(nomearquivo4, 'a') as arquivo:
                 arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + ' para o container PLA. - SearchDownUpVimPrice' +'\n')
