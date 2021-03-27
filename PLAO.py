@@ -88,8 +88,8 @@ def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
         with open(FILE_VNF_PRICE, 'w') as file:
             documents = yaml.dump(B, file, sort_keys=False) #Export changes to file without order, equal original file
         try:
-            subprocess.call(['python3', '/opt/PLAO/docker_pla.py', 'vnf_price_list'])
-            nomearquivo4=PATH_LOG+'COPY_CONFIG_OSM_history2.txt' #write data in file
+            subprocess.call(['python3 /opt/PLAO/docker_pla.py vnf_price_list'])
+            nomearquivo4=PATH_LOG+'COPY_CONFIG_OSM_history.txt' #write data in file
             with open(nomearquivo4, 'a') as arquivo:
                 if debug == 1: print("alterado arquivo")
                 arquivo.write(DATEHOURS + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + ' para o container PLA.' +'\n')
@@ -108,7 +108,7 @@ def RunCommandOSM():
     if (LOCK_USER == 0):
         if debug == 1: print("rodando comando")
         COMMAND=users.get('0').get('COMMAND')
-        os.system(COMMAND)
+        #os.system(COMMAND)
    
 
 def SearchDownUpVimPrice(VIM_URL,CLOUD_COD,STATUS_CPU_NOW,DATEHOUR):
@@ -332,6 +332,8 @@ def conectado(connection, enderecoCliente):
                         EXTRA='EXTRA'
                         EXTRA2='EXTRA2'
                     
+                    print(users.get('0').get('RC1'))
+                    print(users.get('0').get('RC2'))
                     if ((users.get('0').get('RC1') == '1') and (users.get('0').get('RC2') == '1')):
                         print ("vamos rodar o comando")
                         RunCommandOSM() #Run command to instanciate machine
