@@ -198,7 +198,7 @@ def UsersAdd():
             users.update({'0':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})           
             arquivo.close()
             print(users)
-            sleep 60
+            time.sleep(5)
             #users.clear()     
             os.remove(nomearquivo1)
             
