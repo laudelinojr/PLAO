@@ -328,7 +328,9 @@ def conectado(connection, enderecoCliente):
 
                     #Check Dict that have information about user entry
                     if (len(users)>=1):
-                        print(str(LOCK_USER))
+                        print("LOCKUSER: "+str(LOCK_USER))
+                        print("ID: "+str(ID))
+                        print(users.get('0').get('RC1'))
                         print("entrou aqui if users")
                         if (users.get('0').get('RC1')==0 and ID == 0 and (LOCK_USER==0) ):
                             print("entrou primeiro if")
