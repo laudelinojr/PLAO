@@ -197,11 +197,11 @@ def UsersAdd():
     COMMAND=""
     while True:
         if(os.path.exists('user_vnfd_latencia.txt')):
-            if debug == 1: print("O arquivo existe")
+            #if debug == 1: print("O arquivo existe")
             nomearquivo1='user_vnfd_latencia.txt'
             arquivo = open(nomearquivo1,'r')
             linha = arquivo.readline()
-            if debug == 1: print("linha trabalhando agora: "+ linha)
+            #if debug == 1: print("linha trabalhando agora: "+ linha)
             valores=linha.split('#')
             USERIP = valores[0]
             LATENCY = valores[1]
@@ -213,12 +213,12 @@ def UsersAdd():
         
         if LOCK_USER == 0:
             LOCK_USER = 1
-            if debug == 1: print("lock user lockado")
+            #if debug == 1: print("lock user lockado")
             users.update({'0':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND,'RC1': RC1, 'RC2': RC2}}) 
             LOCK_USER = 0
-            if debug == 1: print("lock user deslockado")
-        if debug == 1: print(users)
-        time.sleep(3)
+            #if debug == 1: print("lock user deslockado")
+        #if debug == 1: print(users)
+        #time.sleep(3)
         #if ( users.get('0').get('RC1') == 1) and ( users.get('0').get('RC2') == 1):
         #users.clear()     
        
@@ -295,7 +295,7 @@ def conectado(connection, enderecoCliente):
                 EXTRA2 = msg[19] #VNFDS
                 EXTRA3 = msg[20] #LATENCY IN CLIENT
                 
-                if debug == 1: print ('TIPO: '+TIPO+' CLOUD: '+CLOUD+' CLOUDIP: '+CLOUDIP+' DATEHOUR: '+DATEHOUR+' CLOUDTONAME: '+CLOUDTONAME+' CLOUDTOIP: '+CLOUDTOIP+' STATUS: '+STATUS+' PRICE: '+PRICE+' LATENCY: '+LATENCY+' JITTER: '+JITTER+' CPU: '+CPU+' MEMORY: '+MEMORY+' DISK: '+DISK+' NVM: '+NVM+' CPUC: '+ CPUC+' MEMORYC: '+ MEMORYC +' DISKC: '+DISKC +' EXTRA: '+EXTRA+' EXTRA2: '+EXTRA2+' EXTRA3: '+EXTRA3 )
+                #if debug == 1: print ('TIPO: '+TIPO+' CLOUD: '+CLOUD+' CLOUDIP: '+CLOUDIP+' DATEHOUR: '+DATEHOUR+' CLOUDTONAME: '+CLOUDTONAME+' CLOUDTOIP: '+CLOUDTOIP+' STATUS: '+STATUS+' PRICE: '+PRICE+' LATENCY: '+LATENCY+' JITTER: '+JITTER+' CPU: '+CPU+' MEMORY: '+MEMORY+' DISK: '+DISK+' NVM: '+NVM+' CPUC: '+ CPUC+' MEMORYC: '+ MEMORYC +' DISKC: '+DISKC +' EXTRA: '+EXTRA+' EXTRA2: '+EXTRA2+' EXTRA3: '+EXTRA3 )
                
                 if TIPO == 'REGIS': #check for the first time the type protocol and send the id number
                     VIMURL='http://'+CLOUDIP+':5000/v3'
@@ -304,9 +304,9 @@ def conectado(connection, enderecoCliente):
                     connection.sendall(mensagem.encode('utf8'))  #sending in first time the command to client
                     commands.update({(ID): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': STATUS, 'PRICE': PRICE, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY ,'DISK': DISK ,'NVM': NVM ,'CPUC': CPUC,'MEMORYC': MEMORYC,'DISKC': DISKC, 'EXTRA': EXTRA, 'EXTRA2': EXTRA2, 'EXTRA3': 0 ,'CONEXAO': connection}})
                 if TIPO == 'SENDS':  #check the type protocol
-                    print ("entrou sends")
-                    print(len(EXTRA3))
-                    print(EXTRA3)
+                    #print ("entrou sends")
+                    #print(len(EXTRA3))
+                    #print(EXTRA3)
                     #Process to change price between cloud and vnfd
                     if ((EXTRA3 != 'EXTRA3') and (len(EXTRA3)!=0)):
                         EXTRA2=EXTRA2.split(',')
@@ -324,38 +324,38 @@ def conectado(connection, enderecoCliente):
                         SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD) 
                         
                         if (ID == "1"):   #If receive and processing data about user, this is marked in dictionary
-                            print("vou colocar rc1 igual a 1")
+                            #print("vou colocar rc1 igual a 1")
                             RC1=1
                         if (ID == "2"):
-                            print("vou colocar rc2 igual a 1")
+                            #print("vou colocar rc2 igual a 1")
                             RC2=1
                         EXTRA='EXTRA'
                         EXTRA2='EXTRA2'
                     
-                    print(users.get('0').get('RC1'))
-                    print(users.get('0').get('RC2'))
+                    #print(users.get('0').get('RC1'))
+                    #print(users.get('0').get('RC2'))
                     if ((users.get('0').get('RC1') == '1') and (users.get('0').get('RC2') == '1')):
-                        print ("vamos rodar o comando")
+                        #print ("vamos rodar o comando")
                         RunCommandOSM() #Run command to instanciate machine
 
                     #Check Dict that have information about user entry
                     if (len(users)>=1):
-                        print("LOCKUSER: "+str(LOCK_USER))
-                        print("ID: "+str(ID))
-                        print(users.get('0').get('RC1'))
-                        print("entrou aqui if users")
+                        #print("LOCKUSER: "+str(LOCK_USER))
+                        #print("ID: "+str(ID))
+                        #print(users.get('0').get('RC1'))
+                        #print("entrou aqui if users")
                         if (users.get('0').get('RC1')==0 and ID == "1" and (LOCK_USER==0) ):
-                            print("entrou primeiro if")
+                            #print("entrou primeiro if")
                             EXTRA=users.get('0').get('USERIP')
                             EXTRA2=users.get('0').get('VNF')
-                            print(EXTRA)
-                            print(EXTRA2)
+                            #print(EXTRA)
+                            #print(EXTRA2)
                         if (users.get('0').get('RC2')==0 and ID == "2" and (LOCK_USER==0) ):
-                            print("entrou segundo if")
+                            #print("entrou segundo if")
                             EXTRA=users.get('0').get('USERIP')
                             EXTRA2=users.get('0').get('VNF')
                     else:
-                        print("estou no else nao sei porque")
+                        #print("estou no else nao sei porque")
                         EXTRA='EXTRA'
                         EXTRA2='EXTRA2'
                         
@@ -382,7 +382,7 @@ def conectado(connection, enderecoCliente):
                         arquivo.close()
                         SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,CLOUD,CLOUDTONAME) #execute function that search and change price pil                
 
-                    print ("tamanhoclouds: "+str(len(clouds)))
+                    #print ("tamanhoclouds: "+str(len(clouds)))
                     if len(clouds) == 2:
                         if ID == "1":
                             CLOUD=(clouds.get('1').get('CLOUD'))
