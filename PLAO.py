@@ -34,6 +34,7 @@ RC2=0  #READ FOR C2
 
 #Debug mode is 1
 debug=1
+debug_file = 0 #keep 0
 
 #requisites for change all price of specif VIM (Cloud)
 DOWN_UP_PRICE=10 #Number to add vnf Price
@@ -87,15 +88,15 @@ def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
         if debug == 1: print("dentro ChangeVNFPrice(SearchVNFD")
         with open(FILE_VNF_PRICE, 'w') as file:
             documents = yaml.dump(B, file, sort_keys=False) #Export changes to file without order, equal original file
+        if debug == 1: print("vai copiar arquivo SearchChangeVNFDPrice ")
+        ExecuteCommand('docker cp '+FILE_VNF_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
         try:
-            subprocess.call(['python3 /opt/PLAO/docker_pla.py vnf_price_list'])
             nomearquivo4=PATH_LOG+'COPY_CONFIG_OSM_history.txt' #write data in file
             with open(nomearquivo4, 'a') as arquivo:
                 if debug == 1: print("alterado arquivo")
                 arquivo.write(DATEHOURS + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + ' para o container PLA. - SearchChangeVNFDPrice' +'\n')
             arquivo.flush()
             arquivo.close()
-            if debug == 1: print("vai copiar arquivo SearchChangeVNFDPrice ")
         except:
             return -1     
         if debug ==1: print("DEBUG: File changed")
@@ -154,19 +155,13 @@ def SearchDownUpVimPrice(VIM_URL,CLOUD_COD,STATUS_CPU_NOW,DATEHOUR):
         with open(nomearquivo3, 'a') as arquivo:
             arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ str(STATUS_CPU_NOW)+'\n')
         arquivo.close()
-
-        COD_DOCKER =os.system('docker ps -qf name=osm_pla')
-        print (COD_DOCKER)
-        os.system('docker cp '+ FILE_VNF_PRICE+ ' '+ str(COD_DOCKER)+':/placement/')
-
+        ExecuteCommand('docker cp '+FILE_VNF_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
         try:
             nomearquivo4=PATH_LOG+'COPY_CONFIG_OSM_history.txt' #write data in file
             with open(nomearquivo4, 'a') as arquivo:
                 arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + ' para o container PLA. - SearchDownUpVimPrice' +'\n')
             arquivo.flush()
             arquivo.close()
-            #print("vai copiar arquivo SearchDownUpVimPrice ")
-            #subprocess.call(['python3 /opt/PLAO/docker_pla.py vnf_price_list'])
         except:
             return -1
 
@@ -225,8 +220,20 @@ def UsersAdd():
         #time.sleep(3)
         #if ( users.get('0').get('RC1') == 1) and ( users.get('0').get('RC2') == 1):
         #users.clear()     
-       
-            
+
+def ExecuteCommand(exec_command):
+    try:
+        ret = subprocess.run(exec_command, universal_newlines=True, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, executable='/bin/bash')
+        if debug_file == 1:
+            print("DEBUG ON")
+            print("CMD - " + exec_command)
+            print("RETURN - \n" + ret.stdout)
+        return ret.returncode
+    except:
+        print('FAIL IN COMMAND EXECUTE')
+        print("CMD - " + exec_command)
+        print("ERROR - " + ret)
+        return ret.returncode
 
 def SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENSTACK_TO):
     A=open(FILE_PIL_PRICE, )
@@ -237,18 +244,13 @@ def SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENST
         if (ChangePriceLatencyJitterPIL(CLOUD_COD,PRICE,LATENCY,JITTER,B)) != -1: #Change Price Latency and Jitter
             with open(FILE_PIL_PRICE, 'w') as file:
                 documents = yaml.dump(B, file, sort_keys=False) #Export changes to file without order, equal original file
+            if debug == 1: print("vai copiar arquivo SearchChangePriceLatencyJitterPIL ")
+            ExecuteCommand('docker cp '+FILE_PIL_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
             try:
                 nomearquivo4=PATH_LOG+'COPY_CONFIG_OSM_history.txt' #write data in file
                 with open(nomearquivo4, 'a') as arquivo:
                     arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_PIL_PRICE + ' para o container PLA. SearchChangePriceLatencyJitterPIL' +'\n')
                 arquivo.close()
-                if debug == 1: print("vai copiar arquivo SearchChangePriceLatencyJitterPIL ")
-                #subprocess.call(['python3', '/opt/PLAO/docker_pla.py', 'pil_price_list'])
-
-                COD_DOCKER =os.system('docker ps -qf name=osm_pla')
-                print (COD_DOCKER)
-                os.system('docker cp '+ FILE_VNF_PRICE+  ':/placement/')
-                #subprocess.call([python3 /opt/PLAO/docker_pla.py pil_price_list])
             except:
                 return -1
             if debug == 1: print("File pil_price changed")
