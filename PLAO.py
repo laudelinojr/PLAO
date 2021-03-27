@@ -208,7 +208,7 @@ def UsersAdd():
             arquivo.close()
             os.remove(nomearquivo1)
         
-        if (LOCK_USER == 0):
+        if LOCK_USER == 0:
             LOCK_USER = 1
             print("lock user lockado")
             users.update({'0':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND,'RC1': RC1, 'RC2': RC2}}) 
