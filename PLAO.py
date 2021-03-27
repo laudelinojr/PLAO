@@ -187,7 +187,7 @@ def ChangePriceLatencyJitterPIL(CLOUD_COD,PRICE,LATENCY,JITTER,B):
     else:
         return -1
 
-def UsersAdd(LOCK_USER):
+def UsersAdd():
     global LOCK_USER #bLOCK ACCESS THE DICT USERS
     print("PRINTANDO LOCK USER:"+LOCK_USER)
     USERIP=""
