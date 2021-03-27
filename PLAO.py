@@ -162,7 +162,7 @@ def SearchDownUpVimPrice(VIM_URL,CLOUD_COD,STATUS_CPU_NOW,DATEHOUR):
             arquivo.flush()
             arquivo.close()
             print("vai copiar arquivo SearchDownUpVimPrice ")
-            subprocess.call(['python3', '/opt/PLAO/docker_pla.py', 'vnf_price_list'])
+            subprocess.call(['python3 /opt/PLAO/docker_pla.py vnf_price_list'])
         except:
             return -1
 
