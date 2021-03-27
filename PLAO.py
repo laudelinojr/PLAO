@@ -102,6 +102,7 @@ def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
 
 def RunCommandOSM(COMMAND):
     print("rodando comando")
+    COMMAND=users.get('0').get('COMMAND')
     #subprocess.call('/usr/bin/osm',COMMAND)
     os.system(COMMAND)
 
@@ -198,7 +199,7 @@ def UsersAdd():
             users.update({'0':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND}})           
             arquivo.close()
             print(users)
-            time.sleep(5)
+            time.sleep(60)
             os.remove(nomearquivo1)
             users.clear()
             
@@ -299,9 +300,6 @@ def conectado(connection, enderecoCliente):
                     print(EXTRA3)
                     #Process to change price between cloud and vnfd
                     if ((EXTRA3 != 'EXTRA3') and (len(EXTRA3)!=0)):
-                        COMMAND=users.get('0').get('COMMAND')
-                        COMMAND2=COMMAND
-
                         EXTRA2=EXTRA2.split(',')
                         EXTRA2SPL0=EXTRA2[0]
                         EXTRA2SPL1=EXTRA2[1]
@@ -315,7 +313,7 @@ def conectado(connection, enderecoCliente):
                         VIM_URL='http://'+CLOUDIP+':5000/v3'
                         PRICE_VNFD=EXTRA3
                         SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD) 
-                        RunCommandOSM(COMMAND2) #Run command to instanciate machine
+                        RunCommandOSM() #Run command to instanciate machine
 
 
                     #manda dar clean no dicinoario do arquivo e no arquivo - criar funcao para isto
