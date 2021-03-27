@@ -346,7 +346,8 @@ def conectado(connection, enderecoCliente):
                             EXTRA='EXTRA'
                             EXTRA2='EXTRA2'
                         
-
+                    print(EXTRA)
+                    print(EXTRA2)
                     CLOUD_STATUS_CPU=int(clouds.get(str(ID)).get('CPU'))
                     if (int(CPUC) > THRESHOLD) and (CLOUD_STATUS_CPU == 0):
                         CPU_STATUS_NOW=1   #Values: 0-cpu normal, 1-cpu high and cost value going to change
