@@ -34,7 +34,7 @@ RC2=0  #READ FOR C2
 
 #Debug mode is 1
 debug=1
-debug_file = 0 #keep 0
+debug_file = 1 #keep 0
 
 #requisites for change all price of specif VIM (Cloud)
 DOWN_UP_PRICE=10 #Number to add vnf Price
