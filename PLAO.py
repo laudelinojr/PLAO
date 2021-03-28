@@ -394,6 +394,7 @@ def conectado(connection, enderecoCliente):
                         arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ CPU + "," + MEMORY + "," + NVM + "," + CPUC + "," + MEMORYC + ","+ DISKC +'\n')
 
                     print(PRICE)
+                    print(type(PRICE))                    
                     if PRICE != "PRICE": #If is sending real data, this going to a file
                         print("price changed, we will to try change PILL PRICE")
                         with open(nomearquivo2, 'a') as arquivo:
