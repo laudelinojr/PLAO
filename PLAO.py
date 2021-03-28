@@ -393,6 +393,7 @@ def conectado(connection, enderecoCliente):
                         arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ CPU + "," + MEMORY + "," + NVM + "," + CPUC + "," + MEMORYC + ","+ DISKC +'\n')
 
                     if PRICE != "PRICE": #If is sending real data, this going to a file
+                        print("price changed, we will to try change PILL PRICE")
                         with open(nomearquivo2, 'a') as arquivo:
                             arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ PRICE + ","+LATENCY+","+JITTER+'\n')
                         SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,CLOUD,CLOUDTONAME) #execute function that search and change price pil                
