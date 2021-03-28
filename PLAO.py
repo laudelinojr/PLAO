@@ -186,8 +186,7 @@ def UsersAdd():
                 COMMAND = valores[1]        
                 VNF = valores[2]           
             #print("vai excluir arquivo")
-            os.remove(nomearquivo5)
-            #os.remove(nomearquivo1)
+            os.remove(nomearquivo7)
             #print("excluiu o arquivo")
         
         if LOCK_USER == 0:
