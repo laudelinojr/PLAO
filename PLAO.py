@@ -238,7 +238,7 @@ def SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENST
 
             nomearquivo8=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
             with open(nomearquivo8, 'a') as arquivo:
-                arquivo.write( str(DATEHOURS()) + '- Alterado e copiado arquivo '+FILE_PIL_PRICE + ' para o container PLA. SearchChangePriceLatencyJitterPIL' +'\n')
+                arquivo.write( DATEHOURS() + '- Alterado e copiado arquivo '+FILE_PIL_PRICE + ' para o container PLA. SearchChangePriceLatencyJitterPIL' +'\n')
 
             try:
                 print('TESTE')
@@ -263,7 +263,7 @@ def printCloudsDict():
 
 def DATEHOURS():
     DATEHOUR = datetime.datetime.now().strftime('%d.%m.%y-%H:%M:%S')  # converte hora para string do cliente
-    return DATEHOURS
+    return str(DATEHOURS)
 
 def conectado(connection, enderecoCliente):
         print('Conected with', enderecoCliente)
