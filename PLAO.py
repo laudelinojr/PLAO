@@ -232,19 +232,13 @@ def SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENST
         if (ChangePriceLatencyJitterPIL(CLOUD_COD,PRICE,LATENCY,JITTER,B)) != -1: #Change Price Latency and Jitter
             with open(FILE_PIL_PRICE, 'w') as file:
                 documents = yaml.dump(B, file, sort_keys=False) #Export changes to file without order, equal original file
-            if debug == 1: print("Copying file FILE_PIL_PRICE" +" SearchChangePriceLatencyJitterPIL." )
 
             ExecuteCommand('docker cp '+FILE_PIL_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
 
-            nomearquivo8=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
-            with open(nomearquivo8, 'a') as arquivo:
-                arquivo.write( DATEHOURS() + '- Alterado e copiado arquivo '+FILE_PIL_PRICE + ' para o container PLA. SearchChangePriceLatencyJitterPIL' +'\n')
-
             try:
-                print('TESTE')
-                #nomearquivo8=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
-                #with open(nomearquivo8, 'a') as arquivo:
-                #    arquivo.write(DATEHOURS() + '- Alterado e copiado arquivo '+FILE_PIL_PRICE + ' para o container PLA. SearchChangePriceLatencyJitterPIL' +'\n')
+                nomearquivo8=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
+                with open(nomearquivo8, 'a') as arquivo:
+                    arquivo.write( DATEHOURS() + '- Alterado e copiado arquivo '+FILE_PIL_PRICE + ' para o container PLA. SearchChangePriceLatencyJitterPIL' +'\n')
             except:
                 return -1
             if debug == 1: print("File pil_price changed")
