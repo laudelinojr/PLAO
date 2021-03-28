@@ -6,7 +6,6 @@ import subprocess
 import os
 import os.path
 
-global LOCK_USER
 LOCK_USER=0 #bLOCK ACCESS THE DICT USERS
 OKTOCLEAN=0
 RC1=0  #READ FOR C1
@@ -277,6 +276,7 @@ def conectado(connection, enderecoCliente):
         print('Conected with', enderecoCliente)
         global RC1
         global RC2
+        global LOCK_USER
         while True:
             msg = connection.recv(1024).decode('utf8')
             msg = msg.split('#')  # quebra o texto unico com o separador #
