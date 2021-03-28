@@ -217,6 +217,9 @@ def UsersAdd():
         if LOCK_USER == 0:
             LOCK_USER = 1
             if ( users.get('0').get('RC1') == 1) and ( users.get('0').get('RC2') == 1) and  (users.get('0').get('SENTCOMMAND') == 1):
+                RC1=0
+                RC2=0
+                SENTCOMMAND=0
                 users.clear()     
             LOCK_USER = 0
 
