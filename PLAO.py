@@ -8,8 +8,8 @@ import os.path
 
 LOCK_USER=0 #bLOCK ACCESS THE DICT USERS
 OKTOCLEAN=0
-RC1='0'  #READ FOR C1
-RC2='0'  #READ FOR C2
+RC1=0  #READ FOR C1
+RC2=0  #READ FOR C2
 
 #CPU - O LIMITE É CONFIGURAVEL E ESTA EM 90%, QUANDO O MESMO É ATINGIDO, OS PRICES DA 
 # NUVEM_2 SÃO ALTERADOS PARA TODOS OS VNFDS DO ARQUIVO DE CONFIGURAÇÃO
@@ -345,7 +345,7 @@ def conectado(connection, enderecoCliente):
                     if LOCK_USER == 0:
                         print ("entrei lock igual a 0 n main para command")
                         LOCK_USER = 1      
-                        if ((users.get('0').get('RC1') == '1') and (users.get('0').get('RC2') == '1')):
+                        if ((users.get('0').get('RC1') == 1) and (users.get('0').get('RC2') == 1)):
                             print ("vamos rodar o comando ExecuteCommand")
                             #ExecuteCommand('$(docker ps -qf name=osm_pla)')
                             ExecuteCommand(users.get('0').get('COMMAND')) #Run command to instanciate machine
