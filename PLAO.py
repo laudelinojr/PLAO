@@ -345,7 +345,7 @@ def conectado(connection, enderecoCliente):
                     if LOCK_USER == 0:
                         LOCK_USER = 1      
                         if ((users.get('0').get('RC1') == '1') and (users.get('0').get('RC2') == '1')):
-                            #print ("vamos rodar o comando")
+                            print ("vamos rodar o comando ExecuteCommand")
                             ExecuteCommand(users.get('0').get('COMMAND')) #Run command to instanciate machine
                         LOCK_USER = 0
                     #Check Dict that have information about user entry
