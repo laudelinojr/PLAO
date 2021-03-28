@@ -80,7 +80,7 @@ def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
         try:
             nomearquivo4=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
             with open(nomearquivo4, 'a') as arquivo:
-                arquivo.write(DATEHOURS() + 'Changed and copied file '+ FILE_VNF_PRICE + 'to container PLA.'+'NAME_VNFD: '+NAME_VNFD+'VIM_URL: '+VIM_URL+'PRICE_VNFD: '+PRICE_VNFD +'\n')
+                arquivo.write(DATEHOURS() + 'Changed and copied file '+ FILE_VNF_PRICE + 'to container PLA.'+'NAME_VNFD: '+NAME_VNFD+' VIM_URL: '+VIM_URL+' PRICE_VNFD: '+PRICE_VNFD +'\n')
         except:
             return -1     
         if debug ==1: print("DEBUG: File changed")
@@ -134,7 +134,7 @@ def SearchDownUpVimPrice(VIM_URL,CLOUD_COD,STATUS_CPU_NOW,DATEHOUR):
         try:
             nomearquivo6=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
             with open(nomearquivo6, 'a') as arquivo:
-                arquivo.write(DATEHOURS() + 'Changed and copied file '+ FILE_VNF_PRICE + ' to container PLA. Add values in price to Cloud '+VIM_URL+ '.' +'\n')
+                arquivo.write(DATEHOURS() + 'Changed and copied file '+ FILE_VNF_PRICE + ' to container PLA. Add values in price to Cloud: '+VIM_URL+ '.' +'\n')
         except:
             return -1
 
@@ -237,7 +237,7 @@ def SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENST
             try:
                 nomearquivo8=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
                 with open(nomearquivo8, 'a') as arquivo:
-                    arquivo.write( DATEHOURS() + 'Changed and copied file '+FILE_PIL_PRICE + ' to container PLA. ' +'PRICE: '+PRICE+'LATENCY: '+LATENCY+'JITTER: '+JITTER+'\n')
+                    arquivo.write( DATEHOURS() + 'Changed and copied file '+FILE_PIL_PRICE + ' to container PLA. ' +' PRICE: '+PRICE+' LATENCY: '+LATENCY+' JITTER: '+JITTER+'\n')
             except:
                 return -1
             if debug == 1: print("File pil_price changed")
