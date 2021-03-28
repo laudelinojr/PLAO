@@ -359,17 +359,17 @@ def conectado(connection, enderecoCliente):
                         if LOCK_USER == 0:
                             LOCK_USER = 1
                             if (users.get('0').get('RC1')==0 and ID == "1"):
-                                print("entrou primeiro if")
+                                #print("entrou primeiro if")
                                 EXTRA=users.get('0').get('USERIP')
                                 EXTRA2=users.get('0').get('VNF')
-                                print(EXTRA)
-                                print(EXTRA2)
+                                #print(EXTRA)
+                                #print(EXTRA2)
                             if (users.get('0').get('RC2')==0 and ID == "2" ):
-                                print("entrou segundo if")
+                                #print("entrou segundo if")
                                 EXTRA=users.get('0').get('USERIP')
                                 EXTRA2=users.get('0').get('VNF')
-                                print(EXTRA)
-                                print(EXTRA2)
+                                #print(EXTRA)
+                                #print(EXTRA2)
                             LOCK_USER = 0
                     else:
                         #print("estou no else nao sei porque")
