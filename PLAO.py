@@ -339,9 +339,9 @@ def conectado(connection, enderecoCliente):
                             RC2=1
                         EXTRA='EXTRA'
                         EXTRA2='EXTRA2'
-                    
-                    #print(users.get('0').get('RC1'))
-                    #print(users.get('0').get('RC2'))
+                    print ("imprimindo RCs")
+                    print(users.get('0').get('RC1'))
+                    print(users.get('0').get('RC2'))
                     if LOCK_USER == 0:
                         print ("entrei lock igual a 0 n main para command")
                         LOCK_USER = 1      
