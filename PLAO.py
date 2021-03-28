@@ -19,7 +19,7 @@ SENTCOMMAND=0 #SENT COMMAND TO OSM
 #Openstack2 - em /opt/PLAO/, digitar: python3 PLAO_client.py 10.159.205.10 openstack2 10.159.205.12
 
 #Debug mode is 1
-debug=1
+debug=0
 debug_file = 0 #keep 0
 
 #requisites for change all price of specif VIM (Cloud)
@@ -80,7 +80,7 @@ def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
         try:
             nomearquivo4=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
             with open(nomearquivo4, 'a') as arquivo:
-                arquivo.write(DATEHOURS() + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + ' para o container PLA. - SearchChangeVNFDPrice' +'\n')
+                arquivo.write(DATEHOURS() + 'Changed and copied file '+ FILE_VNF_PRICE + 'to container PLA.'+'NAME_VNFD: '+NAME_VNFD+'VIM_URL: '+VIM_URL+'PRICE_VNFD: '+PRICE_VNFD +'\n')
         except:
             return -1     
         if debug ==1: print("DEBUG: File changed")
@@ -134,7 +134,7 @@ def SearchDownUpVimPrice(VIM_URL,CLOUD_COD,STATUS_CPU_NOW,DATEHOUR):
         try:
             nomearquivo6=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
             with open(nomearquivo6, 'a') as arquivo:
-                arquivo.write(DATEHOURS() + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + ' para o container PLA. - SearchDownUpVimPrice' +'\n')
+                arquivo.write(DATEHOURS() + 'Changed and copied file '+ FILE_VNF_PRICE + ' to container PLA. Add values in price to Cloud '+VIM_URL+ '.' +'\n')
         except:
             return -1
 
@@ -179,17 +179,16 @@ def UsersAdd():
             #if debug == 1: print("O arquivo existe")           
             with open(nomearquivo7, 'r') as arquivo:
                 #print("coletando arquivo latencia")
-                #arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_PIL_PRICE + ' para o container PLA. SearchChangePriceLatencyJitterPIL' +'\n')   
                 linha = arquivo.readline()
             #if debug == 1: print("linha trabalhando agora: "+ linha)
                 valores=linha.split('#')
                 USERIP = valores[0]
                 COMMAND = valores[1]        
                 VNF = valores[2]           
-            print("vai excluir arquivo")
+            #print("vai excluir arquivo")
             os.remove(nomearquivo5)
             #os.remove(nomearquivo1)
-            print("excluiu o arquivo")
+            #print("excluiu o arquivo")
         
         if LOCK_USER == 0:
             LOCK_USER = 1
@@ -238,7 +237,7 @@ def SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENST
             try:
                 nomearquivo8=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
                 with open(nomearquivo8, 'a') as arquivo:
-                    arquivo.write( DATEHOURS() + '- Alterado e copiado arquivo '+FILE_PIL_PRICE + ' para o container PLA. SearchChangePriceLatencyJitterPIL' +'\n')
+                    arquivo.write( DATEHOURS() + 'Changed and copied file '+FILE_PIL_PRICE + ' to container PLA. ' +'PRICE: '+PRICE+'LATENCY: '+LATENCY+'JITTER: '+JITTER+'\n')
             except:
                 return -1
             if debug == 1: print("File pil_price changed")
@@ -336,10 +335,10 @@ def conectado(connection, enderecoCliente):
                     #if debug == 1: print(users.get('0').get('RC1'))
                     #if debug == 1: print(users.get('0').get('RC2'))
                     if LOCK_USER == 0:
-                        print ("entrei lock igual a 0 n main para command")
+                        #print ("entrei lock igual a 0 n main para command")
                         LOCK_USER = 1      
                         if ((users.get('0').get('RC1') == 1) and (users.get('0').get('RC2') == 1)):
-                            print ("vamos rodar o comando ExecuteCommand")
+                            #print ("vamos rodar o comando ExecuteCommand")
                             #ExecuteCommand('$(docker ps -qf name=osm_pla)')
                             USERSCOMMAND=users.get('0').get('COMMAND')
                             ExecuteCommand(USERSCOMMAND) #Run command to instanciate machine
