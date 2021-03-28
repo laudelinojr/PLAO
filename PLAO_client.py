@@ -169,7 +169,7 @@ try:
             ID = msg[1]
             CLOUD = msg[2] #NAME CLOUD
             CLOUDIP = msg[3] #IP CLOUD
-            DATEHOUR = msg[4] #DATA AND HOUR
+            DATEHOUR = msg[4] #DATA AND HOUR COLLETC IN CLIENT
             CLOUDTONAME = msg[5] #NAME OF CLOUD TO
             CLOUDTOIP = msg[6] #IP OF CLOUD TO
             STATUS = msg[7] #SERVER OR CLIENT

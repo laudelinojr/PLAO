@@ -144,12 +144,12 @@ def SearchDownUpVimPrice(VIM_URL,CLOUD_COD,STATUS_CPU_NOW,DATEHOUR):
 
         nomearquivo5=PATH_LOG+'CPU_TRIGGER_'+CLOUD+'_history.txt' #write data in file
         with open(nomearquivo5, 'a') as arquivo:
-            arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ str(STATUS_CPU_NOW)+'\n')
+            arquivo.write(DATEHOURS + ','+ CLOUD + ","+ CLOUDIP +","+ str(STATUS_CPU_NOW)+'\n')
         ExecuteCommand('docker cp '+FILE_VNF_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
         try:
             nomearquivo6=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
             with open(nomearquivo6, 'a') as arquivo:
-                arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + ' para o container PLA. - SearchDownUpVimPrice' +'\n')
+                arquivo.write(DATEHOURS + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + ' para o container PLA. - SearchDownUpVimPrice' +'\n')
         except:
             return -1
 
@@ -252,7 +252,7 @@ def SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENST
 
             nomearquivo8=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
             with open(nomearquivo8, 'a') as arquivo:
-                arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_PIL_PRICE + ' para o container PLA. SearchChangePriceLatencyJitterPIL' +'\n')
+                arquivo.write(DATEHOURS + '- Alterado e copiado arquivo '+FILE_PIL_PRICE + ' para o container PLA. SearchChangePriceLatencyJitterPIL' +'\n')
 
             try:
                     print("teste")
@@ -295,7 +295,7 @@ def conectado(connection, enderecoCliente):
                 ID = msg[1]
                 CLOUD = msg[2] #NAME CLOUD
                 CLOUDIP = msg[3] #IP CLOUD
-                DATEHOUR = msg[4] #DATA AND HOUR
+                DATEHOUR = msg[4] #DATA AND HOUR COLLETC IN CLIENT
                 CLOUDTONAME = msg[5] #NAME OF CLOUD TO
                 CLOUDTOIP = msg[6] #IP OF CLOUD TO
                 STATUS = msg[7] #SERVER OR CLIENT
@@ -363,7 +363,7 @@ def conectado(connection, enderecoCliente):
                             SENTCOMMAND=1
                             nomearquivo1=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
                             with open(nomearquivo1, 'a') as arquivo:
-                                arquivo.write(DATEHOUR + '- Executado comando para instanciar NS. Segue:' + USERSCOMMAND +'\n')
+                                arquivo.write(DATEHOURS + '- Executado comando para instanciar NS. Segue:' + USERSCOMMAND +'\n')
                         LOCK_USER = 0
                     #Check Dict that have information about user entry
                     if (len(users)>=1):
