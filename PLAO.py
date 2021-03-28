@@ -49,6 +49,7 @@ FILE_VNF_PRICE="/opt/PLAO/osm/vnf_price_list.yaml"
 #requisites SearchChangePriceLatencyJitterPIL
 FILE_PIL_PRICE="/opt/PLAO/osm/pil_price_list.yaml"
 PATH_LOG='/opt/PLAO/log/'
+PATH='/opt/PLAO/'
 
 
 def SearchVNFD(NAME_VNFD,B):
@@ -95,8 +96,6 @@ def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
             with open(nomearquivo4, 'a') as arquivo:
                 if debug == 1: print("alterado arquivo")
                 arquivo.write(DATEHOURS + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + ' para o container PLA. - SearchChangeVNFDPrice' +'\n')
-            arquivo.flush()
-            arquivo.close()
         except:
             return -1     
         if debug ==1: print("DEBUG: File changed")
@@ -154,14 +153,11 @@ def SearchDownUpVimPrice(VIM_URL,CLOUD_COD,STATUS_CPU_NOW,DATEHOUR):
         nomearquivo3=PATH_LOG+'CPU_TRIGGER_'+CLOUD+'_history.txt' #write data in file
         with open(nomearquivo3, 'a') as arquivo:
             arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ str(STATUS_CPU_NOW)+'\n')
-        arquivo.close()
         ExecuteCommand('docker cp '+FILE_VNF_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
         try:
             nomearquivo4=PATH_LOG+'COPY_CONFIG_OSM_history.txt' #write data in file
             with open(nomearquivo4, 'a') as arquivo:
                 arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + ' para o container PLA. - SearchDownUpVimPrice' +'\n')
-            arquivo.flush()
-            arquivo.close()
         except:
             return -1
 
@@ -195,19 +191,26 @@ def UsersAdd():
     VNF=""
     COMMAND=""
     while True:
-        if(os.path.isfile('user_vnfd_latencia.txt')):
-            #if debug == 1: print("O arquivo existe")
-            nomearquivo1='user_vnfd_latencia.txt'
-            arquivo = open(nomearquivo1,'r')
-            linha = arquivo.readline()
+        nomearquivo5='user_vnfd_latencia.txt' #write data in file
+        if(os.path.isfile(nomearquivo5)):
+            #if debug == 1: print("O arquivo existe")           
+            with open(nomearquivo5, 'r') as arquivo:
+                print("coletando arquivo latencia")
+                #arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_PIL_PRICE + ' para o container PLA. SearchChangePriceLatencyJitterPIL' +'\n')   
+            #nomearquivo1='user_vnfd_latencia.txt'
+            #arquivo = open(nomearquivo1,'r')
+                linha = arquivo.readline()
             #if debug == 1: print("linha trabalhando agora: "+ linha)
-            valores=linha.split('#')
-            USERIP = valores[0]
-            COMMAND = valores[1]        
-            VNF = valores[2]           
-            arquivo.flush()          
-            arquivo.close()
-            os.remove(nomearquivo1)
+                valores=linha.split('#')
+                USERIP = valores[0]
+                COMMAND = valores[1]        
+                VNF = valores[2]           
+                #arquivo.flush()          
+                #arquivo.close()
+            print("vai excluir arquivo")
+            os.remove(nomearquivo5)
+            #os.remove(nomearquivo1)
+            print("excluiu o arquivo")
         
         if LOCK_USER == 0:
             LOCK_USER = 1
@@ -249,7 +252,6 @@ def SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENST
                 nomearquivo4=PATH_LOG+'COPY_CONFIG_OSM_history.txt' #write data in file
                 with open(nomearquivo4, 'a') as arquivo:
                     arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_PIL_PRICE + ' para o container PLA. SearchChangePriceLatencyJitterPIL' +'\n')
-                arquivo.close()
             except:
                 return -1
             if debug == 1: print("File pil_price changed")
@@ -279,7 +281,7 @@ def conectado(connection, enderecoCliente):
             msg = msg.split('#')  # quebra o texto unico com o separador #
 
             if len(msg) > 5:  # se true indica que existe protocolo trafegando
-                if debug == 1: print ("DEBUG: dentro primeiro while true conectado2")
+                #if debug == 1: print ("DEBUG: dentro primeiro while true conectado2")
                 # TIPOS:REGIS - First comunication between server and client for register the cloud
                 #       SENDS - Send command to Server
                 #       SENDC - Send command to client
@@ -384,12 +386,10 @@ def conectado(connection, enderecoCliente):
 
                     with open(nomearquivo1, 'a') as arquivo:
                         arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ CPU + "," + MEMORY + "," + NVM + "," + CPUC + "," + MEMORYC + ","+ DISKC +'\n')
-                    arquivo.close()
 
                     if PRICE != "PRICE": #If is sending real data, this going to a file
                         with open(nomearquivo2, 'a') as arquivo:
                             arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ PRICE + ","+LATENCY+","+JITTER+'\n')
-                        arquivo.close()
                         SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,CLOUD,CLOUDTONAME) #execute function that search and change price pil                
 
                     #print ("tamanhoclouds: "+str(len(clouds)))
