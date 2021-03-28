@@ -208,7 +208,7 @@ def UsersAdd():
                 #arquivo.flush()          
                 #arquivo.close()
             print("vai excluir arquivo")
-            os.remove(nomearquivo5)
+            #os.remove(nomearquivo5)
             #os.remove(nomearquivo1)
             print("excluiu o arquivo")
         
