@@ -219,7 +219,7 @@ def UsersAdd():
             LOCK_USER = 0
             #if debug == 1: print("lock user deslockado")
         if debug == 1: print(users)
-        #time.sleep(3)
+        time.sleep(2)
         #if ( users.get('0').get('RC1') == 1) and ( users.get('0').get('RC2') == 1):
         #users.clear()     
 
@@ -392,6 +392,7 @@ def conectado(connection, enderecoCliente):
                     with open(nomearquivo1, 'a') as arquivo:
                         arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ CPU + "," + MEMORY + "," + NVM + "," + CPUC + "," + MEMORYC + ","+ DISKC +'\n')
 
+                    print(PRICE)
                     if PRICE != "PRICE": #If is sending real data, this going to a file
                         print("price changed, we will to try change PILL PRICE")
                         with open(nomearquivo2, 'a') as arquivo:
