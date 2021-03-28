@@ -218,7 +218,7 @@ def UsersAdd():
             users.update({'0':{'USERIP': USERIP,'VNF': VNF,'COMMAND': COMMAND,'RC1': RC1, 'RC2': RC2}}) 
             LOCK_USER = 0
             #if debug == 1: print("lock user deslockado")
-        #if debug == 1: print(users)
+        if debug == 1: print(users)
         #time.sleep(3)
         #if ( users.get('0').get('RC1') == 1) and ( users.get('0').get('RC2') == 1):
         #users.clear()     
@@ -346,26 +346,31 @@ def conectado(connection, enderecoCliente):
                     
                     #print(users.get('0').get('RC1'))
                     #print(users.get('0').get('RC2'))
-                    if ((users.get('0').get('RC1') == '1') and (users.get('0').get('RC2') == '1')):
-                        #print ("vamos rodar o comando")
-                        RunCommandOSM() #Run command to instanciate machine
-
+                    if LOCK_USER == 0:
+                        LOCK_USER = 1      
+                        if ((users.get('0').get('RC1') == '1') and (users.get('0').get('RC2') == '1')):
+                            #print ("vamos rodar o comando")
+                            RunCommandOSM() #Run command to instanciate machine
+                        LOCK_USER = 0
                     #Check Dict that have information about user entry
                     if (len(users)>=1):
                         #print("LOCKUSER: "+str(LOCK_USER))
                         #print("ID: "+str(ID))
                         #print(users.get('0').get('RC1'))
                         #print("entrou aqui if users")
-                        if (users.get('0').get('RC1')==0 and ID == "1" and (LOCK_USER==0) ):
-                            #print("entrou primeiro if")
-                            EXTRA=users.get('0').get('USERIP')
-                            EXTRA2=users.get('0').get('VNF')
-                            #print(EXTRA)
-                            #print(EXTRA2)
-                        if (users.get('0').get('RC2')==0 and ID == "2" and (LOCK_USER==0) ):
-                            #print("entrou segundo if")
-                            EXTRA=users.get('0').get('USERIP')
-                            EXTRA2=users.get('0').get('VNF')
+                        if LOCK_USER == 0:
+                            LOCK_USER = 1
+                            if (users.get('0').get('RC1')==0 and ID == "1"):
+                                #print("entrou primeiro if")
+                                EXTRA=users.get('0').get('USERIP')
+                                EXTRA2=users.get('0').get('VNF')
+                                #print(EXTRA)
+                                #print(EXTRA2)
+                            if (users.get('0').get('RC2')==0 and ID == "2" ):
+                                #print("entrou segundo if")
+                                EXTRA=users.get('0').get('USERIP')
+                                EXTRA2=users.get('0').get('VNF')
+                            LOCK_USER = 0
                     else:
                         #print("estou no else nao sei porque")
                         EXTRA='EXTRA'
