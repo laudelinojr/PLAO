@@ -171,6 +171,10 @@ def SearchChangePILPrice(OPENSTACK_FROM,OPENSTACK_TO,B):  #Search in file the cl
     return -1
 
 def ChangePriceLatencyJitterPIL(CLOUD_COD,PRICE,LATENCY,JITTER,B):
+    print ("entrei dentro de ChangePriceLatencyJitterPIL")
+    print(PRICE)
+    print(LATENCY)
+    print(JITTER)
     PRICE=round(float(PRICE))
     LATENCY=round(float(LATENCY))
     JITTER=round(float(JITTER))
@@ -178,6 +182,7 @@ def ChangePriceLatencyJitterPIL(CLOUD_COD,PRICE,LATENCY,JITTER,B):
         B['pil'][CLOUD_COD]['pil_price']=PRICE #change the price
         B['pil'][CLOUD_COD]['pil_latency']=LATENCY #change the latency - same price
         B['pil'][CLOUD_COD]['pil_jitter']=JITTER #change the jitter
+        print ("acabei de alterar price latencia e jitter")
         return 0
     else:
         return -1
@@ -242,6 +247,7 @@ def SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENST
     B=yaml.full_load(A)
     #Search cloud combination and change the price, latency and jitter
     CLOUD_COD=SearchChangePILPrice(OPENSTACK_FROM,OPENSTACK_TO,B)
+    print("CLOUD_COD: "+CLOUD_COD)
     if CLOUD_COD != -1:
         if (ChangePriceLatencyJitterPIL(CLOUD_COD,PRICE,LATENCY,JITTER,B)) != -1: #Change Price Latency and Jitter
             with open(FILE_PIL_PRICE, 'w') as file:
