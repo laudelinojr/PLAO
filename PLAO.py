@@ -6,7 +6,8 @@ import subprocess
 import os
 import os.path
 
-global LOCK_USER=0 #bLOCK ACCESS THE DICT USERS
+global LOCK_USER
+LOCK_USER=0 #bLOCK ACCESS THE DICT USERS
 OKTOCLEAN=0
 RC1=0  #READ FOR C1
 RC2=0  #READ FOR C2
