@@ -195,7 +195,7 @@ def UsersAdd():
     VNF=""
     COMMAND=""
     while True:
-        if(os.path.exists('user_vnfd_latencia.txt')):
+        if(os.path.isfile('user_vnfd_latencia.txt')):
             #if debug == 1: print("O arquivo existe")
             nomearquivo1='user_vnfd_latencia.txt'
             arquivo = open(nomearquivo1,'r')
@@ -203,9 +203,8 @@ def UsersAdd():
             #if debug == 1: print("linha trabalhando agora: "+ linha)
             valores=linha.split('#')
             USERIP = valores[0]
-            LATENCY = valores[1]
-            COMMAND = valores[2]        
-            VNF = valores[3]           
+            COMMAND = valores[1]        
+            VNF = valores[2]           
             arquivo.flush()          
             arquivo.close()
             os.remove(nomearquivo1)
@@ -213,7 +212,7 @@ def UsersAdd():
         if LOCK_USER == 0:
             LOCK_USER = 1
             #if debug == 1: print("lock user lockado")
-            users.update({'0':{'USERIP': USERIP,'LATENCY': LATENCY,'VNF': VNF,'COMMAND': COMMAND,'RC1': RC1, 'RC2': RC2}}) 
+            users.update({'0':{'USERIP': USERIP,'VNF': VNF,'COMMAND': COMMAND,'RC1': RC1, 'RC2': RC2}}) 
             LOCK_USER = 0
             #if debug == 1: print("lock user deslockado")
         #if debug == 1: print(users)
