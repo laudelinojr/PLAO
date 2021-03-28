@@ -93,7 +93,7 @@ def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
         if debug == 1: print("going to copy to SearchChangeVNFDPrice ")
         ExecuteCommand('docker cp '+FILE_VNF_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
         try:
-            nomearquivo4=PATH_LOG+'COPY_CONFIG_OSM_history.txt' #write data in file
+            nomearquivo4=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
             with open(nomearquivo4, 'a') as arquivo:
                 arquivo.write(DATEHOURS + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + ' para o container PLA. - SearchChangeVNFDPrice' +'\n')
         except:
@@ -147,7 +147,7 @@ def SearchDownUpVimPrice(VIM_URL,CLOUD_COD,STATUS_CPU_NOW,DATEHOUR):
             arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ str(STATUS_CPU_NOW)+'\n')
         ExecuteCommand('docker cp '+FILE_VNF_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
         try:
-            nomearquivo4=PATH_LOG+'COPY_CONFIG_OSM_history.txt' #write data in file
+            nomearquivo4=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
             with open(nomearquivo4, 'a') as arquivo:
                 arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + ' para o container PLA. - SearchDownUpVimPrice' +'\n')
         except:
@@ -250,7 +250,7 @@ def SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENST
             if debug == 1: print("Copying file FILE_PIL_PRICE" +" SearchChangePriceLatencyJitterPIL." )
             ExecuteCommand('docker cp '+FILE_PIL_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
             try:
-                nomearquivo4=PATH_LOG+'COPY_CONFIG_OSM_history.txt' #write data in file
+                nomearquivo4=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
                 with open(nomearquivo4, 'a') as arquivo:
                     arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_PIL_PRICE + ' para o container PLA. SearchChangePriceLatencyJitterPIL' +'\n')
             except:
@@ -346,17 +346,21 @@ def conectado(connection, enderecoCliente):
                             RC2=1
                         EXTRA='EXTRA'
                         EXTRA2='EXTRA2'
-                    print ("imprimindo RCs")
-                    print(users.get('0').get('RC1'))
-                    print(users.get('0').get('RC2'))
+                    #if debug == 1: print ("imprimindo RCs")
+                    #if debug == 1: print(users.get('0').get('RC1'))
+                    #if debug == 1: print(users.get('0').get('RC2'))
                     if LOCK_USER == 0:
                         print ("entrei lock igual a 0 n main para command")
                         LOCK_USER = 1      
                         if ((users.get('0').get('RC1') == 1) and (users.get('0').get('RC2') == 1)):
                             print ("vamos rodar o comando ExecuteCommand")
                             #ExecuteCommand('$(docker ps -qf name=osm_pla)')
-                            ExecuteCommand(users.get('0').get('COMMAND')) #Run command to instanciate machine
+                            USERSCOMMAND=users.get('0').get('COMMAND')
+                            ExecuteCommand(USERSCOMMAND) #Run command to instanciate machine
                             SENTCOMMAND=1
+                            nomearquivo7=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
+                            with open(nomearquivo7, 'a') as arquivo:
+                                arquivo.write(DATEHOUR + '- Executado comando para instanciar NS. Segue: + USERSCOMMAND +'\n')
                         LOCK_USER = 0
                     #Check Dict that have information about user entry
                     if (len(users)>=1):
@@ -380,7 +384,6 @@ def conectado(connection, enderecoCliente):
                                 #print(EXTRA2)
                             LOCK_USER = 0
                     else:
-                        #print("estou no else nao sei porque")
                         EXTRA='EXTRA'
                         EXTRA2='EXTRA2'
                         
