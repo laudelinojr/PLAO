@@ -1,18 +1,23 @@
 import os
 import sys
 
-FILE_VNF_PRICE="/opt/PLAO/osm/vnf_price_list.yaml"
-FILE_PIL_PRICE="/opt/PLAO/osm/pil_price_list.yaml"
-
-#os.system('docker cp '+FILE_VNF_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
-#os.system('docker cp '+FILE_PIL_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
+IP_USER='10.0.19.148'
+COMMAND=''
+VMFD='VNFA,VNFB'
+nomearquivo='user_vnfd_latencia.txt' #write data in file
 
 if sys.argv[1] == '1':
-    os.system('docker cp '+FILE_VNF_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
-
+    #Instanciate without constraint
+    COMMAND='osm ns-create --nsd_name teste_artigo  --ns_name test1ArtigoPLA --vim_account openstack1 --config '{placement-engine: PLA, wim_account: False }''
 if sys.argv[1] == '2':
-    os.system('docker cp '+FILE_VNF_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
+    #Instanciate with constraint latency and jitter constraint
+    COMMAND='osm ns-create --nsd_name teste_artigo  --ns_name test2ArtigoPLA --vim_account openstack1 --config '{placement-engine: PLA, placement-constraints: {vld-constraints: [{id: ns_vl_2mlm, link-constraints: {latency: 2, jitter: 20}}], wim_account: False }''
+if sys.argv[1] == '3':
+    #Instanciate with constraint with just latency constraint
+    COMMAND='osm ns-create --nsd_name teste_artigo  --ns_name test2ArtigoPLA --vim_account openstack1 --config '{placement-engine: PLA, placement-constraints: {vld-constraints: [{id: ns_vl_2mlm, link-constraints: {latency: 2}}]}, wim_account: False}''
+if sys.argv[1] == '4':
+    #Instanciate with constraint with just jitter constraint
+    COMMAND='osm ns-create --nsd_name teste_artigo  --ns_name test2ArtigoPLA --vim_account openstack1 --config '{placement-engine: PLA, placement-constraints: {vld-constraints: [{id: ns_vl_2mlm, link-constraints: {jitter: 2}}]}, wim_account: False }''
 
-    nomearquivo6=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
-    with open(nomearquivo6, 'a') as arquivo:
-        arquivo.write(DATEHOURS() + ' - Changed and copied file '+ FILE_VNF_PRICE + ' to container PLA. Add values in All prices to Cloud: '+VIM_URL+ '.' +'\n')
+with open(nomearquivo, 'a') as arquivo:
+    arquivo.write(IP_USER+'#'+COMMAND+'#'+VMFD+'#')

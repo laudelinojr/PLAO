@@ -295,7 +295,7 @@ def conectado(connection, enderecoCliente):
                 EXTRA3 = msg[20] #LATENCY IN CLIENT
                 
                 if debug == 1: print ('TIPO: '+TIPO+' CLOUD: '+CLOUD+' CLOUDIP: '+CLOUDIP+' DATEHOUR: '+DATEHOUR+' CLOUDTONAME: '+CLOUDTONAME+' CLOUDTOIP: '+CLOUDTOIP+' STATUS: '+STATUS+' PRICE: '+PRICE+' LATENCY: '+LATENCY+' JITTER: '+JITTER+' CPU: '+CPU+' MEMORY: '+MEMORY+' DISK: '+DISK+' NVM: '+NVM+' CPUC: '+ CPUC+' MEMORYC: '+ MEMORYC +' DISKC: '+DISKC +' EXTRA: '+EXTRA+' EXTRA2: '+EXTRA2+' EXTRA3: '+EXTRA3 )
-               
+                print (TIPO+'#'+CLOUD+'#'+CLOUDIP+'#'+DATEHOUR+'#'+CLOUDTONAME+'#'+CLOUDTOIP+'#'+STATUS+'#'+PRICE+'#'+LATENCY+'#'+JITTER+'#'+CPU+'#'+MEMORY+'#'+DISK+'#'+NVM+'#'+CPUC+'#'+MEMORYC+'#'+'#'+DISKC+'#' +EXTRA+'#'+EXTRA2+'#'+EXTRA3+'#' )
                 if TIPO == 'REGIS': #check for the first time the type protocol and send the id number
                     VIMURL='http://'+CLOUDIP+':5000/v3'
                     clouds.update({(str(len(clouds)+1)):{'CLOUD': CLOUD,'CLOUDIP':CLOUDIP,'VIMURL': VIMURL,'CPU':CPU}})

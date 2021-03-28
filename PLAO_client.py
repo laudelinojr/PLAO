@@ -188,7 +188,7 @@ try:
             EXTRA3 = msg[20] #LATENCY IN CLIENT
 
             #print ('TIPO: '+TIPO+' CLOUD: '+CLOUD+' CLOUDIP: '+CLOUDIP+' DATEHOUR: '+DATEHOUR+' CLOUDTONAME: '+CLOUDTONAME+' CLOUDTOIP: '+CLOUDTOIP+' STATUS: '+STATUS+' PRICE: '+PRICE+' LATENCY: '+LATENCY+' JITTER: '+JITTER+' CPU: '+CPU+' MEMORY: '+MEMORY+' DISK: '+DISK+' NVM: '+NVM+' CPUC: '+CPUC+' MEMORYC: '+MEMORYC+' DISKC: '+DISKC)
-
+            print (TIPO+'#'+CLOUD+'#'+CLOUDIP+'#'+DATEHOUR+'#'+CLOUDTONAME+'#'+CLOUDTOIP+'#'+STATUS+'#'+PRICE+'#'+LATENCY+'#'+JITTER+'#'+CPU+'#'+MEMORY+'#'+DISK+'#'+NVM+'#'+CPUC+'#'+MEMORYC+'#'+'#'+DISKC+'#' +EXTRA+'#'+EXTRA2+'#'+EXTRA3+'#' )
             if TIPO == 'REGIS':  #check if the protocol is type registry
                 #print ("DEBUG: recebido comando do servidor com registro")
                 #print(TIPO+ID+CLOUD+CLOUDIP+DATEHOUR+CLOUDTONAME,CLOUDTONAME,STATUS)
