@@ -84,17 +84,16 @@ def ChangeVNFPrice(COD_VNFD,VIMURL,PRICE,B):
 def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
     A=open(FILE_VNF_PRICE, )
     B=yaml.full_load(A)
-    if debug == 1: print("dentro SearchChangeVNFDPrice")
+    if debug == 1: print("In SearchChangeVNFDPrice")
     if (ChangeVNFPrice(SearchVNFD(NAME_VNFD,B),VIM_URL,PRICE_VNFD,B)) != -1: #Change price of specific VIM in specific VNFD
-        if debug == 1: print("dentro ChangeVNFPrice(SearchVNFD")
+        if debug == 1: print("In ChangeVNFPrice(SearchVNFD")
         with open(FILE_VNF_PRICE, 'w') as file:
             documents = yaml.dump(B, file, sort_keys=False) #Export changes to file without order, equal original file
-        if debug == 1: print("vai copiar arquivo SearchChangeVNFDPrice ")
+        if debug == 1: print("going to copy to SearchChangeVNFDPrice ")
         ExecuteCommand('docker cp '+FILE_VNF_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
         try:
             nomearquivo4=PATH_LOG+'COPY_CONFIG_OSM_history.txt' #write data in file
             with open(nomearquivo4, 'a') as arquivo:
-                if debug == 1: print("alterado arquivo")
                 arquivo.write(DATEHOURS + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + ' para o container PLA. - SearchChangeVNFDPrice' +'\n')
         except:
             return -1     
@@ -102,15 +101,7 @@ def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
         if debug ==1: print("DEBUG: Copy file to container pla...")
     else:
         if debug ==1: print ("DEBUG: File not changed")
-
-def RunCommandOSM():
-    if debug == 1: print ("metodo para rodar comando")
-    if (LOCK_USER == 0):
-        if debug == 1: print("rodando comando")
-        COMMAND=users.get('0').get('COMMAND')
-        #os.system(COMMAND)
-   
-
+ 
 def SearchDownUpVimPrice(VIM_URL,CLOUD_COD,STATUS_CPU_NOW,DATEHOUR):
     #Receive the CPU STATUS NOW and update in list cloud, the CLOUD_STATUS_CPU
     A=open(FILE_VNF_PRICE, )
@@ -171,10 +162,10 @@ def SearchChangePILPrice(OPENSTACK_FROM,OPENSTACK_TO,B):  #Search in file the cl
     return -1
 
 def ChangePriceLatencyJitterPIL(CLOUD_COD,PRICE,LATENCY,JITTER,B):
-    print ("entrei dentro de ChangePriceLatencyJitterPIL")
-    print(PRICE)
-    print(LATENCY)
-    print(JITTER)
+    #if debug == 1: print ("entrei dentro de ChangePriceLatencyJitterPIL")
+    #if debug == 1: print(PRICE)
+    #if debug == 1: print(LATENCY)
+    #if debug == 1: print(JITTER)
     PRICE=round(float(PRICE))
     LATENCY=round(float(LATENCY))
     JITTER=round(float(JITTER))
@@ -182,7 +173,7 @@ def ChangePriceLatencyJitterPIL(CLOUD_COD,PRICE,LATENCY,JITTER,B):
         B['pil'][CLOUD_COD]['pil_price']=PRICE #change the price
         B['pil'][CLOUD_COD]['pil_latency']=LATENCY #change the latency - same price
         B['pil'][CLOUD_COD]['pil_jitter']=JITTER #change the jitter
-        print ("acabei de alterar price latencia e jitter")
+        if debug == 1: print ("PRICE, LATENCIA e JITTER alterados no arquivo vnf_price_list.yaml.")
         return 0
     else:
         return -1
@@ -202,8 +193,6 @@ def UsersAdd():
             with open(nomearquivo5, 'r') as arquivo:
                 print("coletando arquivo latencia")
                 #arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_PIL_PRICE + ' para o container PLA. SearchChangePriceLatencyJitterPIL' +'\n')   
-            #nomearquivo1='user_vnfd_latencia.txt'
-            #arquivo = open(nomearquivo1,'r')
                 linha = arquivo.readline()
             #if debug == 1: print("linha trabalhando agora: "+ linha)
                 valores=linha.split('#')
@@ -247,12 +236,12 @@ def SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENST
     B=yaml.full_load(A)
     #Search cloud combination and change the price, latency and jitter
     CLOUD_COD=SearchChangePILPrice(OPENSTACK_FROM,OPENSTACK_TO,B)
-    print("CLOUD_COD: "+str(CLOUD_COD))
+    #if debug == 1: print("CLOUD_COD: "+str(CLOUD_COD))
     if CLOUD_COD != -1:
         if (ChangePriceLatencyJitterPIL(CLOUD_COD,PRICE,LATENCY,JITTER,B)) != -1: #Change Price Latency and Jitter
             with open(FILE_PIL_PRICE, 'w') as file:
                 documents = yaml.dump(B, file, sort_keys=False) #Export changes to file without order, equal original file
-            if debug == 1: print("vai copiar arquivo SearchChangePriceLatencyJitterPIL ")
+            #if debug == 1: print("vai copiar arquivo SearchChangePriceLatencyJitterPIL ")
             ExecuteCommand('docker cp '+FILE_PIL_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
             try:
                 nomearquivo4=PATH_LOG+'COPY_CONFIG_OSM_history.txt' #write data in file
@@ -357,7 +346,7 @@ def conectado(connection, enderecoCliente):
                         LOCK_USER = 1      
                         if ((users.get('0').get('RC1') == '1') and (users.get('0').get('RC2') == '1')):
                             #print ("vamos rodar o comando")
-                            RunCommandOSM() #Run command to instanciate machine
+                            ExecuteCommand(users.get('0').get('COMMAND')) #Run command to instanciate machine
                         LOCK_USER = 0
                     #Check Dict that have information about user entry
                     if (len(users)>=1):
@@ -399,10 +388,10 @@ def conectado(connection, enderecoCliente):
                     with open(nomearquivo1, 'a') as arquivo:
                         arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ CPU + "," + MEMORY + "," + NVM + "," + CPUC + "," + MEMORYC + ","+ DISKC +'\n')
 
-                    print(PRICE)
-                    print(type(PRICE))                    
+                    #print(PRICE)
+                    #print(type(PRICE))                    
                     if PRICE != "PRICE": #If is sending real data, this going to a file
-                        print("price changed, we will to try change PILL PRICE")
+                        #print("price changed, we will to try change PILL PRICE")
                         with open(nomearquivo2, 'a') as arquivo:
                             arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ PRICE + ","+LATENCY+","+JITTER+'\n')
                         SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,CLOUD,CLOUDTONAME) #execute function that search and change price pil                
