@@ -189,7 +189,7 @@ def UsersAdd():
     VNF=""
     COMMAND=""
     while True:
-        nomearquivo5='user_vnfd_latencia.txt' #write data in file
+        nomearquivo7='user_vnfd_latencia.txt' #write data in file
         if(os.path.isfile(nomearquivo7)):
             #if debug == 1: print("O arquivo existe")           
             with open(nomearquivo7, 'r') as arquivo:
