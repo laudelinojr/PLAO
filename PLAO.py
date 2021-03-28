@@ -247,7 +247,7 @@ def SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENST
     B=yaml.full_load(A)
     #Search cloud combination and change the price, latency and jitter
     CLOUD_COD=SearchChangePILPrice(OPENSTACK_FROM,OPENSTACK_TO,B)
-    print("CLOUD_COD: "+CLOUD_COD)
+    print("CLOUD_COD: "+str(CLOUD_COD))
     if CLOUD_COD != -1:
         if (ChangePriceLatencyJitterPIL(CLOUD_COD,PRICE,LATENCY,JITTER,B)) != -1: #Change Price Latency and Jitter
             with open(FILE_PIL_PRICE, 'w') as file:
