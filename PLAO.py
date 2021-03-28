@@ -12,26 +12,10 @@ RC1=0  #READ DICT USERS FOR CLOUD 1
 RC2=0  #READ DICT USERS FOR CLOUD 1
 SENTCOMMAND=0 #SENT COMMAND TO OSM
 
-#CPU - O LIMITE É CONFIGURAVEL E ESTA EM 90%, QUANDO O MESMO É ATINGIDO, OS PRICES DA 
-# NUVEM_2 SÃO ALTERADOS PARA TODOS OS VNFDS DO ARQUIVO DE CONFIGURAÇÃO
-# O PERCENTUAL SERÁ SEMPRE INTEIRO, DADO GUARDADO EM ARQUIVO TXT TAMBEM
-# O valor a ser acrescido no PRICE é parametrizado, e atualmente é 10.
-#Arquivo CPU_CLOUD_history.txt' - DATEHOURS,CLOUD,CLOUDIP,CPU
-
-#JITTER E LATENCIA, AMBOS SÃO CONVERTIDOS PARA INTEIRO, POIS O ARQUIVO DE CONFIGURAÇÃO DO OSM SÓ ACEITA INTEIRO
-# DADO GUARDADO EM ARQUIVO TEXTO TAMBÉM COM O NOME LINK
-#Arquivo LINK_CLOUD_history.txt' - DATEHOUR, CLOUD,CLOUDIP,PRICE,LATENCY,JITTER
-#O PREÇO ESTÁ O MESMO VALOR DA LATENCIA
-
-#QUANTIDADE DE VNF POR CLOUD
-#Arquivo CLOUD_CLOUDIP_history.txt - DATEHOUR,CLOUD,CLOUDIP,CPU,QT_VM
-
 #Para simulacao
 #OSM - ej /opt/PLAO: digitar python3 PLAO.py
 #Openstack1- em /opt/PLAO/, digitar: python3 PLAO_client.py 10.159.205.10 openstack1 10.159.205.6
 #Openstack2 - em /opt/PLAO/, digitar: python3 PLAO_client.py 10.159.205.10 openstack2 10.159.205.12
-
-
 
 #Debug mode is 1
 debug=1
@@ -95,7 +79,7 @@ def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
         try:
             nomearquivo4=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
             with open(nomearquivo4, 'a') as arquivo:
-                arquivo.write(DATEHOURS + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + ' para o container PLA. - SearchChangeVNFDPrice' +'\n')
+                arquivo.write(DATEHOURS() + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + ' para o container PLA. - SearchChangeVNFDPrice' +'\n')
         except:
             return -1     
         if debug ==1: print("DEBUG: File changed")
@@ -144,12 +128,12 @@ def SearchDownUpVimPrice(VIM_URL,CLOUD_COD,STATUS_CPU_NOW,DATEHOUR):
 
         nomearquivo5=PATH_LOG+'CPU_TRIGGER_'+CLOUD+'_history.txt' #write data in file
         with open(nomearquivo5, 'a') as arquivo:
-            arquivo.write(DATEHOURS + ','+ CLOUD + ","+ CLOUDIP +","+ str(STATUS_CPU_NOW)+'\n')
+            arquivo.write(DATEHOURS() + ','+ CLOUD + ","+ CLOUDIP +","+ str(STATUS_CPU_NOW)+'\n')
         ExecuteCommand('docker cp '+FILE_VNF_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
         try:
             nomearquivo6=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
             with open(nomearquivo6, 'a') as arquivo:
-                arquivo.write(DATEHOURS + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + ' para o container PLA. - SearchDownUpVimPrice' +'\n')
+                arquivo.write(DATEHOURS() + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + ' para o container PLA. - SearchDownUpVimPrice' +'\n')
         except:
             return -1
 
@@ -252,7 +236,7 @@ def SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENST
 
             nomearquivo8=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
             with open(nomearquivo8, 'a') as arquivo:
-                arquivo.write(DATEHOURS + '- Alterado e copiado arquivo '+FILE_PIL_PRICE + ' para o container PLA. SearchChangePriceLatencyJitterPIL' +'\n')
+                arquivo.write(DATEHOURS() + '- Alterado e copiado arquivo '+FILE_PIL_PRICE + ' para o container PLA. SearchChangePriceLatencyJitterPIL' +'\n')
 
             try:
                     print("teste")
@@ -363,7 +347,7 @@ def conectado(connection, enderecoCliente):
                             SENTCOMMAND=1
                             nomearquivo1=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
                             with open(nomearquivo1, 'a') as arquivo:
-                                arquivo.write(DATEHOURS + '- Executado comando para instanciar NS. Segue:' + USERSCOMMAND +'\n')
+                                arquivo.write(DATEHOURS() + '- Executado comando para instanciar NS. Segue:' + USERSCOMMAND +'\n')
                         LOCK_USER = 0
                     #Check Dict that have information about user entry
                     if (len(users)>=1):
