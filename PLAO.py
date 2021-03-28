@@ -263,7 +263,7 @@ def printCloudsDict():
 
 def DATEHOURS():
     DATEHOUR = datetime.datetime.now().strftime('%d.%m.%y-%H:%M:%S')  # converte hora para string do cliente
-    return str(DATEHOURS)
+    return DATEHOUR
 
 def conectado(connection, enderecoCliente):
         print('Conected with', enderecoCliente)
