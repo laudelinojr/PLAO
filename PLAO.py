@@ -142,13 +142,13 @@ def SearchDownUpVimPrice(VIM_URL,CLOUD_COD,STATUS_CPU_NOW,DATEHOUR):
             documents = yaml.dump(B, file, sort_keys=False) #Export changes to file without order, equal original file
         print ("CPU CHANGE: File pil_price changed because High CPU.")
 
-        nomearquivo3=PATH_LOG+'CPU_TRIGGER_'+CLOUD+'_history.txt' #write data in file
-        with open(nomearquivo3, 'a') as arquivo:
+        nomearquivo5=PATH_LOG+'CPU_TRIGGER_'+CLOUD+'_history.txt' #write data in file
+        with open(nomearquivo5, 'a') as arquivo:
             arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ str(STATUS_CPU_NOW)+'\n')
         ExecuteCommand('docker cp '+FILE_VNF_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
         try:
-            nomearquivo4=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
-            with open(nomearquivo4, 'a') as arquivo:
+            nomearquivo6=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
+            with open(nomearquivo6, 'a') as arquivo:
                 arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_VNF_PRICE + ' para o container PLA. - SearchDownUpVimPrice' +'\n')
         except:
             return -1
@@ -190,9 +190,9 @@ def UsersAdd():
     COMMAND=""
     while True:
         nomearquivo5='user_vnfd_latencia.txt' #write data in file
-        if(os.path.isfile(nomearquivo5)):
+        if(os.path.isfile(nomearquivo7)):
             #if debug == 1: print("O arquivo existe")           
-            with open(nomearquivo5, 'r') as arquivo:
+            with open(nomearquivo7, 'r') as arquivo:
                 #print("coletando arquivo latencia")
                 #arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_PIL_PRICE + ' para o container PLA. SearchChangePriceLatencyJitterPIL' +'\n')   
                 linha = arquivo.readline()
@@ -250,8 +250,8 @@ def SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENST
             if debug == 1: print("Copying file FILE_PIL_PRICE" +" SearchChangePriceLatencyJitterPIL." )
             ExecuteCommand('docker cp '+FILE_PIL_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
             try:
-                nomearquivo4=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
-                with open(nomearquivo4, 'a') as arquivo:
+                nomearquivo8=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
+                with open(nomearquivo8, 'a') as arquivo:
                     arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_PIL_PRICE + ' para o container PLA. SearchChangePriceLatencyJitterPIL' +'\n')
             except:
                 return -1
@@ -358,8 +358,8 @@ def conectado(connection, enderecoCliente):
                             USERSCOMMAND=users.get('0').get('COMMAND')
                             ExecuteCommand(USERSCOMMAND) #Run command to instanciate machine
                             SENTCOMMAND=1
-                            nomearquivo7=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
-                            with open(nomearquivo7, 'a') as arquivo:
+                            nomearquivo1=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
+                            with open(nomearquivo1, 'a') as arquivo:
                                 arquivo.write(DATEHOUR + '- Executado comando para instanciar NS. Segue:' + USERSCOMMAND +'\n')
                         LOCK_USER = 0
                     #Check Dict that have information about user entry
@@ -397,17 +397,17 @@ def conectado(connection, enderecoCliente):
                         VIMURL=clouds.get(str(ID)).get('VIMURL')
                         SearchDownUpVimPrice(VIMURL,ID,CPU_STATUS_NOW,DATEHOUR) #The cost is add by CPU bigger
 
-                    nomearquivo1=PATH_LOG+CLOUD+'_'+CLOUDIP+'_history.txt' #write data in file
-                    nomearquivo2=PATH_LOG+'LINK_'+CLOUD+'_history.txt' #write data in file
+                    nomearquivo2=PATH_LOG+CLOUD+'_'+CLOUDIP+'_history.txt' #write data in file
+                    nomearquivo3=PATH_LOG+'LINK_'+CLOUD+'_history.txt' #write data in file
 
-                    with open(nomearquivo1, 'a') as arquivo:
+                    with open(nomearquivo2, 'a') as arquivo:
                         arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ CPU + "," + MEMORY + "," + NVM + "," + CPUC + "," + MEMORYC + ","+ DISKC +'\n')
 
                     #print(PRICE)
                     #print(type(PRICE))                    
                     if PRICE != "PRICE": #If is sending real data, this going to a file
                         #print("price changed, we will to try change PILL PRICE")
-                        with open(nomearquivo2, 'a') as arquivo:
+                        with open(nomearquivo3, 'a') as arquivo:
                             arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ PRICE + ","+LATENCY+","+JITTER+'\n')
                         SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,CLOUD,CLOUDTONAME) #execute function that search and change price pil                
 
