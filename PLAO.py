@@ -188,6 +188,7 @@ def UsersAdd():
     COMMAND=""
     while True:
         nomearquivo5='user_vnfd_latencia.txt' #write data in file
+        print("verifica arquivo")
         if(os.path.isfile(nomearquivo5)):
             #if debug == 1: print("O arquivo existe")           
             with open(nomearquivo5, 'r') as arquivo:
@@ -201,10 +202,10 @@ def UsersAdd():
                 VNF = valores[2]           
                 #arquivo.flush()          
                 #arquivo.close()
-            #print("vai excluir arquivo")
-            #os.remove(nomearquivo5)
+            print("vai excluir arquivo")
+            os.remove(nomearquivo5)
             #os.remove(nomearquivo1)
-            #print("excluiu o arquivo")
+            print("excluiu o arquivo")
         
         if LOCK_USER == 0:
             LOCK_USER = 1
