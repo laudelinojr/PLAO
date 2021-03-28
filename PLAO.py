@@ -191,7 +191,7 @@ def UsersAdd():
         if(os.path.isfile(nomearquivo5)):
             #if debug == 1: print("O arquivo existe")           
             with open(nomearquivo5, 'r') as arquivo:
-                print("coletando arquivo latencia")
+                #print("coletando arquivo latencia")
                 #arquivo.write(DATEHOUR + '- Alterado e copiado arquivo '+FILE_PIL_PRICE + ' para o container PLA. SearchChangePriceLatencyJitterPIL' +'\n')   
                 linha = arquivo.readline()
             #if debug == 1: print("linha trabalhando agora: "+ linha)
@@ -201,10 +201,10 @@ def UsersAdd():
                 VNF = valores[2]           
                 #arquivo.flush()          
                 #arquivo.close()
-            print("vai excluir arquivo")
+            #print("vai excluir arquivo")
             #os.remove(nomearquivo5)
             #os.remove(nomearquivo1)
-            print("excluiu o arquivo")
+            #print("excluiu o arquivo")
         
         if LOCK_USER == 0:
             LOCK_USER = 1
@@ -241,7 +241,7 @@ def SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENST
         if (ChangePriceLatencyJitterPIL(CLOUD_COD,PRICE,LATENCY,JITTER,B)) != -1: #Change Price Latency and Jitter
             with open(FILE_PIL_PRICE, 'w') as file:
                 documents = yaml.dump(B, file, sort_keys=False) #Export changes to file without order, equal original file
-            #if debug == 1: print("vai copiar arquivo SearchChangePriceLatencyJitterPIL ")
+            if debug == 1: print("Copying file FILE_PIL_PRICE" +" SearchChangePriceLatencyJitterPIL." )
             ExecuteCommand('docker cp '+FILE_PIL_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
             try:
                 nomearquivo4=PATH_LOG+'COPY_CONFIG_OSM_history.txt' #write data in file
@@ -343,6 +343,7 @@ def conectado(connection, enderecoCliente):
                     #print(users.get('0').get('RC1'))
                     #print(users.get('0').get('RC2'))
                     if LOCK_USER == 0:
+                        print ("entrei lock igual a 0 n main para command")
                         LOCK_USER = 1      
                         if ((users.get('0').get('RC1') == '1') and (users.get('0').get('RC2') == '1')):
                             print ("vamos rodar o comando ExecuteCommand")
