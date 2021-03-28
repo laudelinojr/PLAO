@@ -8,8 +8,9 @@ import os.path
 
 LOCK_USER=0 #bLOCK ACCESS THE DICT USERS
 OKTOCLEAN=0
-RC1=0  #READ FOR C1
-RC2=0  #READ FOR C2
+RC1=0  #READ DICT USERS FOR CLOUD 1
+RC2=0  #READ DICT USERS FOR CLOUD 1
+SENTCOMMAND=0 #SENT COMMAND TO OSM
 
 #CPU - O LIMITE É CONFIGURAVEL E ESTA EM 90%, QUANDO O MESMO É ATINGIDO, OS PRICES DA 
 # NUVEM_2 SÃO ALTERADOS PARA TODOS OS VNFDS DO ARQUIVO DE CONFIGURAÇÃO
@@ -182,6 +183,7 @@ def UsersAdd():
     global LOCK_USER #bLOCK ACCESS THE DICT USERS
     global RC1
     global RC2
+    global SENTCOMMAND
     USERIP=""
     LATENCY=""
     VNF=""
@@ -207,14 +209,14 @@ def UsersAdd():
         if LOCK_USER == 0:
             LOCK_USER = 1
             #if debug == 1: print("lock user lockado")
-            users.update({'0':{'USERIP': USERIP,'VNF': VNF,'COMMAND': COMMAND,'RC1': RC1, 'RC2': RC2}}) 
+            users.update({'0':{'USERIP': USERIP,'VNF': VNF,'COMMAND': COMMAND,'SENTCOMMAND': SENTCOMMAND,'RC1': RC1, 'RC2': RC2}}) 
             LOCK_USER = 0
             #if debug == 1: print("lock user deslockado")
         if debug == 1: print(users)
         time.sleep(2)
         if LOCK_USER == 0:
             LOCK_USER = 1
-            if ( users.get('0').get('RC1') == 1) and ( users.get('0').get('RC2') == 1):
+            if ( users.get('0').get('RC1') == 1) and ( users.get('0').get('RC2') == 1 and ( users.get('0').get('SENTCOMMAND') == 1):
                 users.clear()     
             LOCK_USER = 0
 
@@ -273,6 +275,7 @@ def conectado(connection, enderecoCliente):
         global RC1
         global RC2
         global LOCK_USER
+        global SENTCOMMAND
         while True:
             msg = connection.recv(1024).decode('utf8')
             msg = msg.split('#')  # quebra o texto unico com o separador #
@@ -350,6 +353,7 @@ def conectado(connection, enderecoCliente):
                             print ("vamos rodar o comando ExecuteCommand")
                             #ExecuteCommand('$(docker ps -qf name=osm_pla)')
                             ExecuteCommand(users.get('0').get('COMMAND')) #Run command to instanciate machine
+                            SENTCOMMAND=1
                         LOCK_USER = 0
                     #Check Dict that have information about user entry
                     if (len(users)>=1):
