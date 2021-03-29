@@ -7,7 +7,7 @@ import requests
 requests.packages.urllib3.disable_warnings() 
 
 INTERVALO_EXPERIMENTO=120
-debug_file=0
+debug_file=1
 OSM_IP='10.159.205.10'
 COMANDO = []
 
