@@ -95,9 +95,9 @@ def ExecuteCommand(exec_command):
     return ret.returncode
 
 COMANDO.insert(0,'cd /opt/PLAO ; git pull; rm -rf logs/*; python3 PLAO.py &')
-COMANDO.insert(1,"ssh root@10.159.205.6 'cd /opt/PLAO; git pull; python3 PLAO_client.py 10.159.205.10 openstack1 10.159.205.6 &'")
-COMANDO.insert(2,"ssh root@10.159.205.12 'cd /opt/PLAO; git pull; python3 PLAO_client.py 10.159.205.10 openstack2 10.159.205.12 &'")
-COMANDO.insert(3,"python3 USER_TEST.py 1a") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
+COMANDO.insert(1,'ssh root@10.159.205.6 "cd /opt/PLAO; git pull; python3 PLAO_client.py 10.159.205.10 openstack1 10.159.205.6 &"')
+COMANDO.insert(2,'ssh root@10.159.205.12 "cd /opt/PLAO; git pull; python3 PLAO_client.py 10.159.205.10 openstack2 10.159.205.12 &"')
+COMANDO.insert(3,'python3 USER_TEST.py 1a') #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
 #COMMANDO=''
 #COMANDO8=''
 #COMANDO9=''
