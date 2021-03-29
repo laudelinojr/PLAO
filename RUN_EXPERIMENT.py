@@ -104,7 +104,7 @@ COMANDO4='python3 USER_TEST.py 1a' #Create NS with 2 VNFD using PLA module OSM s
 
 #Primeiro cenario
 for i in range(4):
-    ExecuteCommand(str('COMANDO'+i))
+    ExecuteCommand('COMANDO'+str(i))
     time.sleep(2)
 print('vamos aguardar'+INTERVALO_EXPERIMENTO+' segundos.')
 time.sleep(INTERVALO_EXPERIMENTO)
