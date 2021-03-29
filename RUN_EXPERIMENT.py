@@ -6,6 +6,7 @@ import yaml
 import requests
 requests.packages.urllib3.disable_warnings() 
 
+debug_file=0
 OSM_IP='10.159.205.10'
 
 def getoken():
