@@ -8,9 +8,9 @@ nomearquivo='user_vnfd_latencia.txt' #write data in file
 
 
 def ExecuteCommand(exec_command):
-#    try:
-    print (exec_command)
-    ret = subprocess.run(exec_command, universal_newlines=True, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, executable='/bin/bash')
+    try:
+        print (exec_command)
+        ret = subprocess.run(exec_command, universal_newlines=True, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, executable='/bin/bash')
         if debug_file == 1:
             print("DEBUG ON")
             print("CMD - " + exec_command)
@@ -20,7 +20,7 @@ def ExecuteCommand(exec_command):
         print('FAIL IN COMMAND EXECUTE')
         print("CMD - " + exec_command)
         print("ERROR - " + ret)
-    return ret.returncode
+        return ret.returncode
 
 
 if sys.argv[1] == '1':
