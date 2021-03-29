@@ -101,7 +101,7 @@ COMANDO.insert(1,'ssh root@10.159.205.6 '+ "'"+'for pid in '+"'"+'$(ps -ef | gre
 #COMANDO.insert(3,'python3 USER_TEST.py 1a') #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
 #COMMANDO=''
 #COMANDO8=''
-#COMANDO9=''
+#COMANDO9='a'
 #COMANDO10=''
 
 for i in range(len(COMANDO)):
