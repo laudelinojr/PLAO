@@ -9,7 +9,6 @@ nomearquivo='user_vnfd_latencia.txt' #write data in file
 
 def ExecuteCommand(exec_command):
     try:
-        print (exec_command)
         ret = subprocess.run(exec_command, universal_newlines=True, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, executable='/bin/bash')
         if debug_file == 1:
             print("DEBUG ON")
