@@ -102,7 +102,7 @@ COMANDO.insert(1,'ssh root@10.159.205.6 '+ "'"+'for pid in '+"'"+'$(ps -ef | gre
 #COMMANDO=''
 #COMANDO8=''
 #COMANDO9=''
-#COMANDO10='a's
+#COMANDO10=''
 
 for i in range(len(COMANDO)):
     print ("Executando comando: "+str(i))
