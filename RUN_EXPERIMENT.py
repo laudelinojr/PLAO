@@ -106,7 +106,7 @@ COMANDO4='python3 USER_TEST.py 1a' #Create NS with 2 VNFD using PLA module OSM s
 for i in range(4):
     ExecuteCommand('COMANDO'+str(i))
     time.sleep(2)
-print('vamos aguardar'+INTERVALO_EXPERIMENTO+' segundos.')
+print('vamos aguardar'+str(INTERVALO_EXPERIMENTO)+' segundos.')
 time.sleep(INTERVALO_EXPERIMENTO)
 print('Finalizando cenário1, excluir NSs')
 print('Collecting token access in OSM.')
