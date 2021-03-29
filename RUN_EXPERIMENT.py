@@ -9,6 +9,7 @@ requests.packages.urllib3.disable_warnings()
 INTERVALO_EXPERIMENTO=120
 debug_file=0
 OSM_IP='10.159.205.10'
+COMANDO = []
 
 def getoken():
     url = 'https://'+OSM_IP+':9999/osm/admin/v1/tokens'
@@ -93,19 +94,19 @@ def ExecuteCommand(exec_command):
         print("ERROR - " + ret)
         return ret.returncode
 
-COMANDO1='cd /opt/PLAO ; git pull; rm -rf logs/*; python3 PLAO.py &'
-COMANDO2='ssh 10.159.205.6 cd /opt/PLAO; git pull; python3 PLAO_client.py 10.159.205.10 openstack1 10.159.205.6 &'
-COMANDO3='ssh 10.159.205.12 cd /opt/PLAO; git pull; python3 PLAO_client.py 10.159.205.10 openstack2 10.159.205.12 &'
-COMANDO4='python3 USER_TEST.py 1a' #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
+COMANDO.insert(0,'cd /opt/PLAO ; git pull; rm -rf logs/*; python3 PLAO.py &')
+COMANDO.insert(1,'ssh 10.159.205.6 cd /opt/PLAO; git pull; python3 PLAO_client.py 10.159.205.10 openstack1 10.159.205.6 &')
+COMANDO.insert(2,'ssh 10.159.205.12 cd /opt/PLAO; git pull; python3 PLAO_client.py 10.159.205.10 openstack2 10.159.205.12 &')
+COMANDO.insert(3,'python3 USER_TEST.py 1a') #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
 #COMMANDO=''
 #COMANDO8=''
 #COMANDO9=''
 #COMANDO10=''
 
 #Primeiro cenario
-for i in range(4):
+for i in range(len(COMANDO)):
     print ("Executando comando")
-    ExecuteCommand(COMANDO+str(i))
+    ExecuteCommand(COMANDO[i])
     time.sleep(2)
 print('vamos aguardar'+str(INTERVALO_EXPERIMENTO)+' segundos.')
 time.sleep(INTERVALO_EXPERIMENTO)
