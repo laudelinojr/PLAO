@@ -26,7 +26,8 @@ else:
     "NS sendo criada sem a utilizacao de latencia do usuario"
     if sys.argv[1] == '1a':
         #Instanciate without constraint
-        COMMAND='osm ns-create --nsd_name teste_artigo  --ns_name test1ArtigoPLA --vim_account openstack1 --config '+"'"+'{placement-engine: PLA, wim_account: False }\''
+        COMMAND="osm ns-create --nsd_name teste_artigo  --ns_name test1ArtigoPLA --vim_account openstack1 --config '{placement-engine: PLA, wim_account: False }'"
+        #COMMAND='osm ns-create --nsd_name teste_artigo  --ns_name test1ArtigoPLA --vim_account openstack1 --config '{placement-engine: PLA, wim_account: False }''
     if sys.argv[1] == '2a':
         #Instanciate with constraint latency and jitter constraint
         COMMAND='osm ns-create --nsd_name teste_artigo  --ns_name test2ArtigoPLA --vim_account openstack1 --config '{placement-engine: PLA, placement-constraints: {vld-constraints: [{id: ns_vl_2mlm, link-constraints: {latency: 2, jitter: 20}}], wim_account: False }''
