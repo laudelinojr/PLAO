@@ -12,6 +12,11 @@ INTERVALO_DESCANSO_EXPERIMENTO=30
 debug_file=1
 OSM_IP='10.159.205.10'
 
+def RegisterLOGLaunch(OPERACAO):
+    nomearquivo1=PATH_LOG+'LAUCH_OSM_history.txt' #write data in file
+    with open(nomearquivo1, 'a') as arquivo:
+        arquivo.write(DATEHOURS() + ','+ CLOUD + ","+ CLOUDIP +","+ OPERACAO +','+COMMAND+'\n')
+
 def getoken():
     url = 'https://'+OSM_IP+':9999/osm/admin/v1/tokens'
 
@@ -108,8 +113,9 @@ print('Lista de NS: ')
 print (getlistaNS(getoken()))
 print('Removendo todas as NSs: ')
 deleteAllNS(getlistaNS(getoken()))
-print("Coletando logs.")
-ExecuteCommand("mkdir -p /opt/PLAO/exp/1; mv /opt/PLAO/log/* /opt/PLAO/exp/1  ")
+RegisterLOGLaunch('REMOVING')
+#print("Coletando logs.")
+#ExecuteCommand("mkdir -p /opt/PLAO/exp/1; mv /opt/PLAO/log/* /opt/PLAO/exp/1  ")
 print("Intervalo descanso Experimento")
 time.sleep(INTERVALO_DESCANSO_EXPERIMENTO)
 
@@ -131,8 +137,9 @@ print('Lista de NS: ')
 print (getlistaNS(getoken()))
 print('Removendo todas as NSs: ')
 deleteAllNS(getlistaNS(getoken()))
-print("Coletando logs.")
-ExecuteCommand("mkdir -p /opt/PLAO/exp/2; mv /opt/PLAO/log/* /opt/PLAO/exp/2  ")
+RegisterLOGLaunch('REMOVING')
+#print("Coletando logs.")
+#ExecuteCommand("mkdir -p /opt/PLAO/exp/2; mv /opt/PLAO/log/* /opt/PLAO/exp/2  ")
 print("Intervalo descanso Experimento")
 time.sleep(INTERVALO_DESCANSO_EXPERIMENTO)
 
@@ -155,8 +162,9 @@ print('Lista de NS: ')
 print (getlistaNS(getoken()))
 print('Removendo todas as NSs: ')
 deleteAllNS(getlistaNS(getoken()))
-print("Coletando logs.")
-ExecuteCommand("mkdir -p /opt/PLAO/exp/3; mv /opt/PLAO/log/* /opt/PLAO/exp/3  ")
+RegisterLOGLaunch('REMOVING')
+#print("Coletando logs.")
+#ExecuteCommand("mkdir -p /opt/PLAO/exp/3; mv /opt/PLAO/log/* /opt/PLAO/exp/3  ")
 
 print("Intervalo descanso Experimento")
 time.sleep(INTERVALO_DESCANSO_EXPERIMENTO)
@@ -174,8 +182,9 @@ print('Lista de NS: ')
 print (getlistaNS(getoken()))
 print('Removendo todas as NSs: ')
 deleteAllNS(getlistaNS(getoken()))
-print("Coletando logs.")
-ExecuteCommand("mkdir -p /opt/PLAO/exp/4; mv /opt/PLAO/log/* /opt/PLAO/exp/4  ")
+RegisterLOGLaunch('REMOVING')
+#print("Coletando logs.")
+#ExecuteCommand("mkdir -p /opt/PLAO/exp/4; mv /opt/PLAO/log/* /opt/PLAO/exp/4  ")
 print("Intervalo descanso Experimento")
 time.sleep(INTERVALO_DESCANSO_EXPERIMENTO)
 
@@ -197,8 +206,9 @@ print('Lista de NS: ')
 print (getlistaNS(getoken()))
 print('Removendo todas as NSs: ')
 deleteAllNS(getlistaNS(getoken()))
-print("Coletando logs.")
-ExecuteCommand("mkdir -p /opt/PLAO/exp/5; mv /opt/PLAO/log/* /opt/PLAO/exp/5  ")
+RegisterLOGLaunch('REMOVING')
+#print("Coletando logs.")
+#ExecuteCommand("mkdir -p /opt/PLAO/exp/5; mv /opt/PLAO/log/* /opt/PLAO/exp/5  ")
 print("Intervalo descanso Experimento")
 time.sleep(INTERVALO_DESCANSO_EXPERIMENTO)
 
@@ -220,9 +230,13 @@ print('Lista de NS: ')
 print (getlistaNS(getoken()))
 print('Removendo todas as NSs: ')
 deleteAllNS(getlistaNS(getoken()))
+RegisterLOGLaunch('REMOVING')
 print("Excluindo simulacao de latencia")
 ExecuteCommand("ssh root@10.159.205.6 'tc qdisc del dev eth0 root'")
 print("Excluindo simulacao de aumento CPU Cloud 1")
 ExecuteCommand("ssh root@10.159.205.6 'for pid in $(ps -ef | grep 'stress-ng' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
 print("Coletando logs.")
-ExecuteCommand("mkdir -p /opt/PLAO/exp/6; mv /opt/PLAO/log/* /opt/PLAO/exp/6  ")
+#ExecuteCommand("mkdir -p /opt/PLAO/exp/6; mv /opt/PLAO/log/* /opt/PLAO/exp/6  ")
+ExecuteCommand("mkdir -p /opt/PLAO/exp/; mv /opt/PLAO/log/* /opt/PLAO/exp/  ")
+
+

@@ -8,6 +8,14 @@ COMMAND=''
 VMFD='VNFA,VNFB'
 nomearquivo='user_vnfd_latencia.txt' #write data in file
 
+def DATEHOURS():
+    DATEHOUR = datetime.datetime.now().strftime('%d.%m.%y-%H:%M:%S')  # converte hora para string do cliente
+    return DATEHOUR
+
+def RegisterLOGLaunch(OPERACAO):
+    nomearquivo1=PATH_LOG+'LAUCH_OSM_history.txt' #write data in file
+    with open(nomearquivo1, 'a') as arquivo:
+        arquivo.write(DATEHOURS() + ','+ CLOUD + ","+ CLOUDIP +","+ OPERACAO +','+COMMAND+'\n')
 
 def ExecuteCommand(exec_command):
     try:
@@ -54,5 +62,7 @@ else:
     if sys.argv[1] == '4a':
         #Instanciate with constraint with just jitter constraint
         COMMAND="osm ns-create --nsd_name teste_artigo  --ns_name test2ArtigoPLA --vim_account openstack1 --config '{placement-engine: PLA, placement-constraints: {vld-constraints: [{id: ns_vl_2mlm, link-constraints: {jitter: 2}}]}, wim_account: False }'"
-    
+
     ExecuteCommand(COMMAND)
+
+RegisterLOGLaunch('INSTANCING')
