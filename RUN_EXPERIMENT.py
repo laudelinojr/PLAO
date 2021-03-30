@@ -13,6 +13,10 @@ debug_file=1
 OSM_IP='10.159.205.10'
 PATH_LOG='/opt/PLAO/log/'
 
+def DATEHOURS():
+    DATEHOUR = datetime.datetime.now().strftime('%d.%m.%y-%H:%M:%S')  # converte hora para string do cliente
+    return DATEHOUR
+    
 def RegisterLOGLaunch(OPERACAO):
     nomearquivo1=PATH_LOG+'LAUCH_OSM_history.txt' #write data in file
     with open(nomearquivo1, 'a') as arquivo:
