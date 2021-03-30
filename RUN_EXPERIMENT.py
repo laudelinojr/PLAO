@@ -104,7 +104,7 @@ def ExecuteCommand(exec_command):
 COMANDO.insert(0, "cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO.py > /dev/null 2>&1 &")
 COMANDO.insert(1,"ssh root@10.159.205.6 /opt/PLAO/KILL_PROC.sh PLAO_client.sh") 
 COMANDO.insert(2,"ssh root@10.159.205.6 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.6 > /dev/null 2>&1 &'")
-COMANDO.insert(3,"ssh root@10.159.205.12 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk ''\'''{print $2}''\'''); do kill -9 $pid; done'") 
+COMANDO.insert(3,"ssh root@10.159.205.12 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '/\''{print $2}'/\''); do kill -9 $pid; done'") 
 COMANDO.insert(4,"ssh root@10.159.205.12 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.12 > /dev/null 2>&1 &'")
 COMANDO.insert(5,"python3 USER_TEST.py 1a") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
 
