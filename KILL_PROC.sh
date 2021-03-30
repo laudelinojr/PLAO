@@ -2,4 +2,14 @@
 
 $1
 
-for pid in $(ps -ef | grep $1 | awk '{print $2}'); do kill -9 $pid; done
+if ($1 -eq "cliente"); then
+    comando=`ps -ef | grep "PLAO_client" | awk '{print $2}'`
+fi
+if ($1 -eq "server"); then
+    comando=`ps -ef | grep "PLAO_client" | awk '{print $2}'`
+fi
+
+for pid in $comando
+do
+    kill -9 $pid
+done
