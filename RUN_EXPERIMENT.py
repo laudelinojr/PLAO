@@ -5,6 +5,7 @@ import json
 import yaml
 import requests
 import os
+import datetime
 requests.packages.urllib3.disable_warnings() 
 
 INTERVALO_EXPERIMENTO=120
