@@ -95,7 +95,7 @@ ExecuteCommand("cd /opt/PLAO; git pull; rm -rf /opt/PLAO/log/* ; python3 /opt/PL
 ExecuteCommand("ssh root@10.159.205.6 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
 ExecuteCommand("ssh root@10.159.205.6 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.6 > /dev/null 2>&1 &'")
 ExecuteCommand("ssh root@10.159.205.12 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
-ExecuteCommand("ssh root@10.159.205.12 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.12 > /dev/null 2>&1 &'")
+ExecuteCommand("ssh root@10.159.205.12 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack2 10.159.205.12 > /dev/null 2>&1 &'")
 ExecuteCommand("python3 USER_TEST.py 1a") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
 print('vamos aguardar '+str(INTERVALO_EXPERIMENTO)+' segundos.')
 time.sleep(INTERVALO_EXPERIMENTO)
