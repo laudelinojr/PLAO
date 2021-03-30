@@ -7,6 +7,7 @@ IP_USER='10.0.19.148'
 COMMAND=''
 VMFD='VNFA,VNFB'
 nomearquivo='user_vnfd_latencia.txt' #write data in file
+PATH_LOG='/opt/PLAO/log/'
 
 def DATEHOURS():
     DATEHOUR = datetime.datetime.now().strftime('%d.%m.%y-%H:%M:%S')  # converte hora para string do cliente

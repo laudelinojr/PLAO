@@ -11,6 +11,7 @@ INTERVALO_EXPERIMENTO=120
 INTERVALO_DESCANSO_EXPERIMENTO=30
 debug_file=1
 OSM_IP='10.159.205.10'
+PATH_LOG='/opt/PLAO/log/'
 
 def RegisterLOGLaunch(OPERACAO):
     nomearquivo1=PATH_LOG+'LAUCH_OSM_history.txt' #write data in file
