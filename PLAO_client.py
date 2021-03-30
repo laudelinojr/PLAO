@@ -201,7 +201,7 @@ try:
                     tcp.sendall(mensagem.encode('utf8'))
                 if TIPO == 'SENDC':
                     if CLOUDIP_LOCAL == CLOUDIP:
-                        time.sleep(2)
+                        time.sleep(1)
                         print(EXTRA)
                         if( (EXTRA != "EXTRA") and (len(EXTRA)!=0) ):
                             print("COLLECT LATENCY TO VNF CLIENT: "+ EXTRA)

@@ -196,7 +196,7 @@ def UsersAdd():
             LOCK_USER = 0
             #if debug == 1: print("lock user deslockado")
         if debug == 1: print(users)
-        time.sleep(2)
+        time.sleep(1)
         if LOCK_USER == 0:
             LOCK_USER = 1
             if ( users.get('0').get('RC1') == 1) and ( users.get('0').get('RC2') == 1) and  (users.get('0').get('SENTCOMMAND') == 1):
