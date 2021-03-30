@@ -97,7 +97,7 @@ ExecuteCommand("ssh root@10.159.205.6 'cd /opt/PLAO; git pull; python3 /opt/PLAO
 ExecuteCommand("ssh root@10.159.205.12 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
 ExecuteCommand("ssh root@10.159.205.12 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.12 > /dev/null 2>&1 &'")
 ExecuteCommand("python3 USER_TEST.py 1a") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
-print('vamos aguardar'+str(INTERVALO_EXPERIMENTO)+' segundos.')
+print('vamos aguardar '+str(INTERVALO_EXPERIMENTO)+' segundos.')
 time.sleep(INTERVALO_EXPERIMENTO)
 print('Finalizando cenário1, excluir NSs')
 print('Collecting token access in OSM.')
@@ -120,7 +120,7 @@ print("Delay link irá para 15, aguardando nova coleta.")
 time.speep(20) #Aguardando nova coleta para alterar dinamicamente a pontuacao do link
 ExecuteCommand("python3 USER_TEST.py 1a") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
 print("Instanciado NS com nova pontuação")
-print('vamos aguardar'+str(INTERVALO_EXPERIMENTO)+' segundos.')
+print('vamos aguardar '+str(INTERVALO_EXPERIMENTO)+' segundos.')
 time.sleep(INTERVALO_EXPERIMENTO)
 print('Finalizando cenário1, excluir NSs')
 print('Collecting token access in OSM.')
@@ -147,7 +147,7 @@ ExecuteCommand("ssh root@10.159.205.6 'cd /opt/PLAO; git pull; python3 /opt/PLAO
 ExecuteCommand("ssh root@10.159.205.12 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
 ExecuteCommand("ssh root@10.159.205.12 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.12 > /dev/null 2>&1 &'")
 ExecuteCommand("python3 USER_TEST.py 1a") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
-print('vamos aguardar'+str(INTERVALO_EXPERIMENTO)+' segundos.')
+print('vamos aguardar '+str(INTERVALO_EXPERIMENTO)+' segundos.')
 time.sleep(INTERVALO_EXPERIMENTO)
 print('Finalizando cenário1, excluir NSs')
 print('Collecting token access in OSM.')
@@ -174,7 +174,7 @@ ExecuteCommand("ssh root@10.159.205.6 'cd /opt/PLAO; git pull; python3 /opt/PLAO
 ExecuteCommand("ssh root@10.159.205.12 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
 ExecuteCommand("ssh root@10.159.205.12 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.12 > /dev/null 2>&1 &'")
 ExecuteCommand("python3 USER_TEST.py 3a") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
-print('vamos aguardar'+str(INTERVALO_EXPERIMENTO)+' segundos.')
+print('vamos aguardar '+str(INTERVALO_EXPERIMENTO)+' segundos.')
 time.sleep(INTERVALO_EXPERIMENTO)
 print('Finalizando cenário1, excluir NSs')
 print('Collecting token access in OSM.')
@@ -204,7 +204,7 @@ ExecuteCommand("python3 USER_TEST.py 3a") #Create NS with 2 VNFD using PLA modul
 ExecuteCommand("python3 USER_TEST.py 3a") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
 ExecuteCommand("python3 USER_TEST.py 3a") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
 ExecuteCommand("python3 USER_TEST.py 3a") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
-print('vamos aguardar'+str(INTERVALO_EXPERIMENTO)+' segundos.')
+print('vamos aguardar '+str(INTERVALO_EXPERIMENTO)+' segundos.')
 time.sleep(INTERVALO_EXPERIMENTO)
 print('Finalizando cenário1, excluir NSs')
 print('Collecting token access in OSM.')
@@ -234,7 +234,7 @@ ExecuteCommand("ssh root@10.159.205.6 'cd /opt/PLAO; git pull; python3 /opt/PLAO
 ExecuteCommand("ssh root@10.159.205.12 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
 ExecuteCommand("ssh root@10.159.205.12 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.12 > /dev/null 2>&1 &'")
 ExecuteCommand("python3 USER_TEST.py 3a") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
-print('vamos aguardar'+str(INTERVALO_EXPERIMENTO)+' segundos.')
+print('vamos aguardar '+str(INTERVALO_EXPERIMENTO)+' segundos.')
 time.sleep(INTERVALO_EXPERIMENTO)
 print('Finalizando cenário1, excluir NSs')
 print('Collecting token access in OSM.')
