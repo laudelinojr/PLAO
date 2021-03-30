@@ -205,7 +205,7 @@ print("### Cenario 6 ###")   #Aumentar quantidade de CPU usada no SO com nstress
 print("Incluindo simulacao Latencia 6")
 ExecuteCommand("ssh root@10.159.205.6 'tc qdisc add dev eth0 root netem delay 5ms'")
 print('Simulando aumento de CPU Cloud 1')
-ExecuteCommand("ssh root@10.159.205.6 'stress-ng --cpu 4 > /dev/null 2>&1 &'")
+ExecuteCommand("ssh root@10.159.205.6 'stress-ng --cpu 1 > /dev/null 2>&1 &'")
 ExecuteCommand("python3 USER_TEST.py 3a") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
 print('vamos aguardar '+str(INTERVALO_EXPERIMENTO)+' segundos.')
 time.sleep(INTERVALO_EXPERIMENTO)
