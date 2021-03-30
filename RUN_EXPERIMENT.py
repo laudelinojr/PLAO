@@ -7,10 +7,10 @@ import requests
 import os
 requests.packages.urllib3.disable_warnings() 
 
-INTERVALO_EXPERIMENTO=60
+INTERVALO_EXPERIMENTO=80
+INTERVALO_DESCANSO_EXPERIMENTO=30
 debug_file=1
 OSM_IP='10.159.205.10'
-COMANDO = []
 
 def getoken():
     url = 'https://'+OSM_IP+':9999/osm/admin/v1/tokens'
@@ -51,14 +51,6 @@ def getlistaNS(tokencoletado):
     c=(len(b))
     lista_ns = []
     lista_ns_norepeated = []
-    #print(b[0]['nsr-id-ref'])
-    #print(b[0]['ip-address'])
-    #nsr-id-ref
-
-    #for i in range(len(b)):
-    #    print(b[i]['ip-address'])
-
-    #Get NS list
     for i in range(len(b)):
         identifier=(b[i]['nsr-id-ref'])
         #print(identifier)
@@ -96,23 +88,14 @@ def ExecuteCommand(exec_command):
     #    print("ERROR - " + ret)
     return ret.returncode
 
-#"for pid in $(ps -ef | grep "PLAO_client.py" | awk '+"'"+'{print $2}'+"'"+'); do kill -9 $pid; done ; cd /opt/PLAO ; git pull; rm -rf log/*; python3 PLAO.py > /dev/null 2>&1 &"
-#os.system('python3 /opt/PLAO/PLAO.py > /dev/null 2>&1 &')
-#os.system('ssh root@10.159.205.6 python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.6 > /dev/null 2>&1 &')
-#os.system('ssh root@10.159.205.12 python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.12 > /dev/null 2>&1 &')
-#os.system('python3 USER_TEST.py 1a')
-COMANDO.insert(0, "cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO.py > /dev/null 2>&1 &")
-COMANDO.insert(3,"ssh root@10.159.205.6 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
-COMANDO.insert(2,"ssh root@10.159.205.6 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.6 > /dev/null 2>&1 &'")
-COMANDO.insert(3,"ssh root@10.159.205.12 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
-COMANDO.insert(4,"ssh root@10.159.205.12 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.12 > /dev/null 2>&1 &'")
-COMANDO.insert(5,"python3 USER_TEST.py 1a") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
-
-for i in range(len(COMANDO)):
-    print ("Executando comando: "+str(i))
-    ExecuteCommand(COMANDO[i])
-    time.sleep(2)
-
+print("Incluindo simulacao Latencia 5")
+ExecuteCommand("ssh root@10.159.205.6 'tc qdisc add dev eth0 root netem delay 5ms'")
+ExecuteCommand("cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO.py > /dev/null 2>&1 &")
+ExecuteCommand("ssh root@10.159.205.6 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
+ExecuteCommand("ssh root@10.159.205.6 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.6 > /dev/null 2>&1 &'")
+ExecuteCommand("ssh root@10.159.205.12 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
+ExecuteCommand("ssh root@10.159.205.12 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.12 > /dev/null 2>&1 &'")
+ExecuteCommand("python3 USER_TEST.py 1a") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
 print('vamos aguardar'+str(INTERVALO_EXPERIMENTO)+' segundos.')
 time.sleep(INTERVALO_EXPERIMENTO)
 print('Finalizando cenário1, excluir NSs')
@@ -123,3 +106,32 @@ print('Lista de NS: ')
 print (getlistaNS(getoken()))
 print('Removendo todas as NSs: ')
 deleteAllNS(getlistaNS(getoken()))
+print("Excluindo simulacao de latencia")
+ExecuteCommand("ssh root@10.159.205.6 'tc qdisc del dev eth0 root'")
+print("Coletando logs.")
+ExecuteCommand("mkdir -p /opt/PLAO/exp/1; mv /opt/PLAO/log/* /opt/PLAO/exp/1  ")
+print("Intervalo descanso Experimento")
+time.sleep(INTERVALO_DESCANSO_EXPERIMENTO)
+
+print("### Experimento 2###")
+ExecuteCommand("ssh root@10.159.205.6 'tc qdisc add dev eth0 root netem delay 15ms'")
+print("Delay link irá para 15, aguardando nova coleta.")
+time.speep(20) #Aguardando nova coleta para alterar dinamicamente a pontuacao do link
+ExecuteCommand("python3 USER_TEST.py 1a") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
+print("Instanciado NS com nova pontuação")
+print('vamos aguardar'+str(INTERVALO_EXPERIMENTO)+' segundos.')
+time.sleep(INTERVALO_EXPERIMENTO)
+print("Excluindo simulacao de latencia")
+ExecuteCommand("ssh root@10.159.205.6 'tc qdisc del dev eth0 root'")
+print('Finalizando cenário1, excluir NSs')
+print('Collecting token access in OSM.')
+print('Collecting NS itens')
+print('Token Gerado: '+getoken())
+print('Lista de NS: ')
+print (getlistaNS(getoken()))
+print('Removendo todas as NSs: ')
+deleteAllNS(getlistaNS(getoken()))
+print("Intervalo descanso Experimento")
+time.sleep(INTERVALO_DESCANSO_EXPERIMENTO)
+
+
