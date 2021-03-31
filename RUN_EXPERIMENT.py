@@ -8,7 +8,7 @@ import os
 import datetime
 requests.packages.urllib3.disable_warnings() 
 
-INTERVALO_EXPERIMENTO=120
+INTERVALO_EXPERIMENTO=180
 INTERVALO_DESCANSO_EXPERIMENTO=30
 debug_file=1
 OSM_IP='10.159.205.10'
@@ -102,11 +102,11 @@ def ExecuteCommand(exec_command):
 print("### Cenario 1###")
 print("Incluindo simulacao Latencia 5")
 ExecuteCommand("for pid in $(ps -ef | grep 'PLAO.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done")
+ExecuteCommand("ssh root@10.159.205.6 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
+ExecuteCommand("ssh root@10.159.205.12 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
 ExecuteCommand("ssh root@10.159.205.6 'tc qdisc add dev eth0 root netem delay 5ms'")
 ExecuteCommand("cd /opt/PLAO; git pull; rm -rf /opt/PLAO/log/* ; python3 /opt/PLAO/PLAO.py > /dev/null 2>&1 &")
-ExecuteCommand("ssh root@10.159.205.6 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
 ExecuteCommand("ssh root@10.159.205.6 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.6 > /dev/null 2>&1 &'")
-ExecuteCommand("ssh root@10.159.205.12 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
 ExecuteCommand("ssh root@10.159.205.12 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack2 10.159.205.12 > /dev/null 2>&1 &'")
 time.sleep(20) #Delay link irá para 15, aguardando nova coleta.
 ExecuteCommand("python3 USER_TEST.py 1a") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
@@ -130,6 +130,8 @@ print("### Cenario 2###")
 print("Excluindo simulacao de latencia")
 ExecuteCommand("ssh root@10.159.205.6 'tc qdisc del dev eth0 root'")
 ExecuteCommand("ssh root@10.159.205.6 'tc qdisc add dev eth0 root netem delay 15ms'")
+ExecuteCommand("ssh root@10.159.205.6 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.6 > /dev/null 2>&1 &'")
+ExecuteCommand("ssh root@10.159.205.12 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack2 10.159.205.12 > /dev/null 2>&1 &'")
 print("Delay link irá para 15, aguardando nova coleta.")
 time.sleep(20) #Aguardando nova coleta para alterar dinamicamente a pontuacao do link
 ExecuteCommand("python3 USER_TEST.py 1a") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
@@ -145,6 +147,9 @@ print (getlistaNS(getoken()))
 print('Removendo todas as NSs: ')
 deleteAllNS(getlistaNS(getoken()))
 RegisterLOGLaunch('REMOVING')
+ExecuteCommand("for pid in $(ps -ef | grep 'PLAO.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done")
+ExecuteCommand("ssh root@10.159.205.6 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
+ExecuteCommand("ssh root@10.159.205.12 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
 #print("Coletando logs.")
 #ExecuteCommand("mkdir -p /opt/PLAO/exp/2; mv /opt/PLAO/log/* /opt/PLAO/exp/2  ")
 print("Intervalo descanso Experimento")
@@ -156,6 +161,8 @@ print("Excluindo simulacao de latencia")
 ExecuteCommand("ssh root@10.159.205.6 'tc qdisc del dev eth0 root'")
 print("Incluindo simulacao Latencia 5")
 ExecuteCommand("ssh root@10.159.205.6 'tc qdisc add dev eth0 root netem delay 5ms'")
+ExecuteCommand("ssh root@10.159.205.6 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.6 > /dev/null 2>&1 &'")
+ExecuteCommand("ssh root@10.159.205.12 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack2 10.159.205.12 > /dev/null 2>&1 &'")
 print("Delay link irá para 5, aguardando nova coleta.")
 time.sleep(20) #Aguardando nova coleta para alterar dinamicamente a pontuacao do link
 ExecuteCommand("python3 USER_TEST.py 1a") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
@@ -170,6 +177,9 @@ print (getlistaNS(getoken()))
 print('Removendo todas as NSs: ')
 deleteAllNS(getlistaNS(getoken()))
 RegisterLOGLaunch('REMOVING')
+ExecuteCommand("for pid in $(ps -ef | grep 'PLAO.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done")
+ExecuteCommand("ssh root@10.159.205.6 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
+ExecuteCommand("ssh root@10.159.205.12 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
 #print("Coletando logs.")
 #ExecuteCommand("mkdir -p /opt/PLAO/exp/3; mv /opt/PLAO/log/* /opt/PLAO/exp/3  ")
 
@@ -177,6 +187,8 @@ print("Intervalo descanso Experimento")
 time.sleep(INTERVALO_DESCANSO_EXPERIMENTO)
 
 print("### Cenario 4 ###")
+ExecuteCommand("ssh root@10.159.205.6 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.6 > /dev/null 2>&1 &'")
+ExecuteCommand("ssh root@10.159.205.12 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack2 10.159.205.12 > /dev/null 2>&1 &'")
 time.sleep(20) #Aguardando para ficar com mesmo tempo dos outros cenários
 ExecuteCommand("python3 USER_TEST.py 3a") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
 print('vamos aguardar '+str(INTERVALO_EXPERIMENTO)+' segundos.')
@@ -190,6 +202,9 @@ print (getlistaNS(getoken()))
 print('Removendo todas as NSs: ')
 deleteAllNS(getlistaNS(getoken()))
 RegisterLOGLaunch('REMOVING')
+ExecuteCommand("for pid in $(ps -ef | grep 'PLAO.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done")
+ExecuteCommand("ssh root@10.159.205.6 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
+ExecuteCommand("ssh root@10.159.205.12 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
 #print("Coletando logs.")
 #ExecuteCommand("mkdir -p /opt/PLAO/exp/4; mv /opt/PLAO/log/* /opt/PLAO/exp/4  ")
 print("Intervalo descanso Experimento")
@@ -197,6 +212,8 @@ time.sleep(INTERVALO_DESCANSO_EXPERIMENTO)
 
 
 print("### Cenario 5 ###")   #Aumentar quantidade de Maquinas virtuais na nuvem
+ExecuteCommand("ssh root@10.159.205.6 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.6 > /dev/null 2>&1 &'")
+ExecuteCommand("ssh root@10.159.205.12 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack2 10.159.205.12 > /dev/null 2>&1 &'")
 print("Incluindo simulacao Latencia 5")
 time.sleep(20) #Aguardando nova coleta para alterar dinamicamente a pontuacao do link
 ExecuteCommand("python3 USER_TEST.py 3a") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
@@ -214,6 +231,9 @@ print (getlistaNS(getoken()))
 print('Removendo todas as NSs: ')
 deleteAllNS(getlistaNS(getoken()))
 RegisterLOGLaunch('REMOVING')
+ExecuteCommand("for pid in $(ps -ef | grep 'PLAO.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done")
+ExecuteCommand("ssh root@10.159.205.6 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
+ExecuteCommand("ssh root@10.159.205.12 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
 #print("Coletando logs.")
 #ExecuteCommand("mkdir -p /opt/PLAO/exp/5; mv /opt/PLAO/log/* /opt/PLAO/exp/5  ")
 print("Intervalo descanso Experimento")
@@ -224,6 +244,8 @@ print("### Cenario 6 ###")   #Aumentar quantidade de CPU usada no SO com nstress
 print("Incluindo simulacao Latencia 6")
 ExecuteCommand("ssh root@10.159.205.6 'tc qdisc add dev eth0 root netem delay 5ms'")
 print('Simulando aumento de CPU Cloud 1')
+ExecuteCommand("ssh root@10.159.205.6 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.6 > /dev/null 2>&1 &'")
+ExecuteCommand("ssh root@10.159.205.12 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack2 10.159.205.12 > /dev/null 2>&1 &'")
 ExecuteCommand("ssh root@10.159.205.6 'stress-ng --cpu 1 > /dev/null 2>&1 &'")
 time.sleep(20) #Aguardando nova coleta para alterar dinamicamente a pontuacao do link e cpu
 ExecuteCommand("python3 USER_TEST.py 3a") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
@@ -239,11 +261,13 @@ print('Removendo todas as NSs: ')
 deleteAllNS(getlistaNS(getoken()))
 RegisterLOGLaunch('REMOVING')
 print("Excluindo simulacao de latencia")
+ExecuteCommand("for pid in $(ps -ef | grep 'PLAO.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done")
+ExecuteCommand("ssh root@10.159.205.6 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
+ExecuteCommand("ssh root@10.159.205.12 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
 ExecuteCommand("ssh root@10.159.205.6 'tc qdisc del dev eth0 root'")
 print("Excluindo simulacao de aumento CPU Cloud 1")
 ExecuteCommand("ssh root@10.159.205.6 'for pid in $(ps -ef | grep 'stress-ng' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
 print("Coletando logs.")
-#ExecuteCommand("mkdir -p /opt/PLAO/exp/6; mv /opt/PLAO/log/* /opt/PLAO/exp/6  ")
 ExecuteCommand("mkdir -p /opt/PLAO/exp/; mv /opt/PLAO/log/* /opt/PLAO/exp/  ")
 
 
