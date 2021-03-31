@@ -64,7 +64,7 @@ def getlistaNS(tokencoletado):
     lista_ns_norepeated = []
     for i in range(len(b)):
         identifier=(b[i]['nsr-id-ref'])
-        #print(identifier)
+        #print(identifier)#
         lista_ns.insert(i,identifier) 
 
     lista_ns_norepeated = lista_ns
