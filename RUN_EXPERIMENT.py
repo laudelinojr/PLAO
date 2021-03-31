@@ -142,7 +142,7 @@ ExecuteCommand("python3 USER_TEST.py 1a") #Create NS with 2 VNFD using PLA modul
 print("Instanciado NS com nova pontuação")
 print('vamos aguardar '+str(INTERVALO_EXPERIMENTO)+' segundos.')
 time.sleep(INTERVALO_EXPERIMENTO)
-print('Finalizando cenário1, excluir NSs')
+print('Finalizando cenário2, excluir NSs')
 print('Collecting token access in OSM.')
 print('Collecting NS itens')
 print('Token Gerado: '+getoken())
@@ -172,7 +172,7 @@ time.sleep(30) #Aguardando nova coleta para alterar dinamicamente a pontuacao do
 ExecuteCommand("python3 USER_TEST.py 1a") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
 print('vamos aguardar '+str(INTERVALO_EXPERIMENTO)+' segundos.')
 time.sleep(INTERVALO_EXPERIMENTO)
-print('Finalizando cenário1, excluir NSs')
+print('Finalizando cenário3, excluir NSs')
 print('Collecting token access in OSM.')
 print('Collecting NS itens')
 print('Token Gerado: '+getoken())
@@ -197,7 +197,7 @@ time.sleep(30) #Aguardando para ficar com mesmo tempo dos outros cenários
 ExecuteCommand("python3 USER_TEST.py 3a") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
 print('vamos aguardar '+str(INTERVALO_EXPERIMENTO)+' segundos.')
 time.sleep(INTERVALO_EXPERIMENTO)
-print('Finalizando cenário1, excluir NSs')
+print('Finalizando cenário4, excluir NSs')
 print('Collecting token access in OSM.')
 print('Collecting NS itens')
 print('Token Gerado: '+getoken())
@@ -226,7 +226,7 @@ ExecuteCommand("python3 USER_TEST.py 3a") #Create NS with 2 VNFD using PLA modul
 ExecuteCommand("python3 USER_TEST.py 3a") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
 print('vamos aguardar '+str(INTERVALO_EXPERIMENTO)+' segundos.')
 time.sleep(INTERVALO_EXPERIMENTO)
-print('Finalizando cenário1, excluir NSs')
+print('Finalizando cenário5, excluir NSs')
 print('Collecting token access in OSM.')
 print('Collecting NS itens')
 print('Token Gerado: '+getoken())
@@ -255,7 +255,7 @@ time.sleep(30) #Aguardando nova coleta para alterar dinamicamente a pontuacao do
 ExecuteCommand("python3 USER_TEST.py 3a") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
 print('vamos aguardar '+str(INTERVALO_EXPERIMENTO)+' segundos.')
 time.sleep(INTERVALO_EXPERIMENTO)
-print('Finalizando cenário1, excluir NSs')
+print('Finalizando cenário6, excluir NSs')
 print('Collecting token access in OSM.')
 print('Collecting NS itens')
 print('Token Gerado: '+getoken())
