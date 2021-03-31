@@ -21,7 +21,7 @@ def DATEHOURS():
 def RegisterLOGLaunch(OPERACAO):
     nomearquivo1=PATH_LOG+'LAUCH_OSM_history.txt' #write data in file
     with open(nomearquivo1, 'a') as arquivo:
-        arquivo.write(DATEHOURS() + ','+ CLOUD + ","+ CLOUDIP +","+ OPERACAO +','+COMMAND+'\n')
+        arquivo.write(DATEHOURS() +" - "+ OPERACAO +','+COMMAND+'\n')
 
 def getoken():
     url = 'https://'+OSM_IP+':9999/osm/admin/v1/tokens'
