@@ -243,8 +243,8 @@ RegisterLOGLaunch('REMOVING')
 ExecuteCommand("ssh root@10.159.205.6 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
 ExecuteCommand("ssh root@10.159.205.12 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
 ExecuteCommand("for pid in $(ps -ef | grep 'PLAO.py' | awk '{print $2}'); do kill -9 $pid; done")
-print("Intervalo descanso Experimento")
-time.sleep(INTERVALO_DESCANSO_EXPERIMENTO)
+#print("Intervalo descanso Experimento")
+#time.sleep(INTERVALO_DESCANSO_EXPERIMENTO)
 
 '''
 print("### Cenario 6 ###")   #Aumentar quantidade de CPU usada no SO com nstress
