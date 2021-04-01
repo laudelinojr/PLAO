@@ -99,6 +99,7 @@ def ExecuteCommand(exec_command):
     #    print("ERROR - " + ret)
     return ret.returncode
 
+print(DATEHOURS())
 print("### Cenario 1###")
 print("Incluindo simulacao Latencia 5")
 ExecuteCommand("ssh root@10.159.205.6 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
@@ -280,4 +281,4 @@ ExecuteCommand("ssh root@10.159.205.6 'for pid in $(ps -ef | grep 'stress-ng' | 
 print("Coletando logs.")
 ExecuteCommand("mkdir -p /opt/PLAO/exp/; mv /opt/PLAO/log/* /opt/PLAO/exp/  ")
 
-
+print(DATEHOURS())
