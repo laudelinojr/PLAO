@@ -200,10 +200,10 @@ def UsersAdd():
         if LOCK_USER == 0:
             LOCK_USER = 1
             if ( users.get('0').get('RC1') == 1) and ( users.get('0').get('RC2') == 1) and  (users.get('0').get('SENTCOMMAND') == 1):
+                users.clear()
                 RC1=0
                 RC2=0
-                SENTCOMMAND=0
-                users.clear()     
+                SENTCOMMAND=0    
             LOCK_USER = 0
 
 def ExecuteCommand(exec_command):
@@ -340,8 +340,8 @@ def conectado(connection, enderecoCliente):
                             #print ("vamos rodar o comando ExecuteCommand")
                             #ExecuteCommand('$(docker ps -qf name=osm_pla)')
                             USERSCOMMAND=users.get('0').get('COMMAND')
-                            ExecuteCommand(USERSCOMMAND) #Run command to instanciate machine
                             SENTCOMMAND=1
+                            ExecuteCommand(USERSCOMMAND) #Run command to instanciate machine
                             nomearquivo1=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
                             with open(nomearquivo1, 'a') as arquivo:
                                 arquivo.write(DATEHOURS() + '- Executado comando para instanciar NS. Segue:' + USERSCOMMAND +'\n')
