@@ -213,12 +213,14 @@ print("Intervalo descanso Experimento")
 time.sleep(INTERVALO_DESCANSO_EXPERIMENTO)
 
 
-print("### Cenario 5 ###")   #Aumentar quantidade de Maquinas virtuais na nuvem
+print("### Pré Cenario 5 ###")   #Aumentar quantidade de Maquinas virtuais na nuvem
+print("Instanciando máquinas para cpu subir")   #Aumentar quantidade de Maquinas virtuais na nuvem
 #Fazendo cpu subir
 ExecuteCommand("python3 USER_TEST.py 3a") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
 ExecuteCommand("python3 USER_TEST.py 3a") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
-ExecuteCommand("python3 USER_TEST.py 3a") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
+time.sleep(80)
 
+print("### Cenario 5 ###")   #Aumentar quantidade de Maquinas virtuais na nuvem
 ExecuteCommand("cd /opt/PLAO; python3 /opt/PLAO/PLAO.py > /dev/null 2>&1 &")
 time.sleep(10)
 ExecuteCommand("ssh root@10.159.205.6 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.6 > /dev/null 2>&1 &'")
