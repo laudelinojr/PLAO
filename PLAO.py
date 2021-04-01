@@ -333,20 +333,20 @@ def conectado(connection, enderecoCliente):
                     #if debug == 1: print ("imprimindo RCs")
                     #if debug == 1: print(users.get('0').get('RC1'))
                     #if debug == 1: print(users.get('0').get('RC2'))
-                    if LOCK_USER == 0:
+                    #if LOCK_USER == 0:
                         #print ("entrei lock igual a 0 n main para command")
-                        LOCK_USER = 1      
-                        if ((users.get('0').get('RC1') == 1) and (users.get('0').get('RC2') == 1) and (users.get('0').get('SENTCOMMAND') == 0)):
-                            #print ("vamos rodar o comando ExecuteCommand")
-                            #ExecuteCommand('$(docker ps -qf name=osm_pla)')
-                            USERSCOMMAND=users.get('0').get('COMMAND')
-                            SENTCOMMAND=1
-                            LOCK_USER = 0
-                            ExecuteCommand(USERSCOMMAND) #Run command to instanciate machine
-                            nomearquivo1=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
-                            with open(nomearquivo1, 'a') as arquivo:
-                                arquivo.write(DATEHOURS() + '- Executado comando para instanciar NS. Segue:' + USERSCOMMAND +'\n')
+                    #    LOCK_USER = 1      
+                    if ((users.get('0').get('RC1') == 1) and (users.get('0').get('RC2') == 1) and (users.get('0').get('SENTCOMMAND') == 0)):
+                        #print ("vamos rodar o comando ExecuteCommand")
+                        #ExecuteCommand('$(docker ps -qf name=osm_pla)')
+                        USERSCOMMAND=users.get('0').get('COMMAND')
+                        SENTCOMMAND=1
                         LOCK_USER = 0
+                        ExecuteCommand(USERSCOMMAND) #Run command to instanciate machine
+                        nomearquivo1=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
+                        with open(nomearquivo1, 'a') as arquivo:
+                            arquivo.write(DATEHOURS() + '- Executado comando para instanciar NS. Segue:' + USERSCOMMAND +'\n')
+                    #    LOCK_USER = 0
                     #Check Dict that have information about user entry
                     if (len(users)>=1):
                         #print("LOCKUSER: "+str(LOCK_USER))
