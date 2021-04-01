@@ -336,7 +336,7 @@ def conectado(connection, enderecoCliente):
                     if LOCK_USER == 0:
                         #print ("entrei lock igual a 0 n main para command")
                         LOCK_USER = 1      
-                        if ((users.get('0').get('RC1') == 1) and (users.get('0').get('RC2') == 1) and (users.get('0').get('SENTCOMMAND') == 0):
+                        if ((users.get('0').get('RC1') == 1) and (users.get('0').get('RC2') == 1) and (users.get('0').get('SENTCOMMAND') == 0)):
                             #print ("vamos rodar o comando ExecuteCommand")
                             #ExecuteCommand('$(docker ps -qf name=osm_pla)')
                             USERSCOMMAND=users.get('0').get('COMMAND')
