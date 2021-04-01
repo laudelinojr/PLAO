@@ -4,7 +4,7 @@ import subprocess
 import datetime
 
 debug_file = 0
-IP_USER='10.0.19.148'
+IP_USER='10.159.205.14'
 COMMAND=''
 VMFD='VNFA,VNFB'
 nomearquivo='user_vnfd_latencia.txt' #write data in file
