@@ -341,6 +341,7 @@ def conectado(connection, enderecoCliente):
                             #ExecuteCommand('$(docker ps -qf name=osm_pla)')
                             USERSCOMMAND=users.get('0').get('COMMAND')
                             SENTCOMMAND=1
+                            LOCK_USER = 0
                             ExecuteCommand(USERSCOMMAND) #Run command to instanciate machine
                             nomearquivo1=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
                             with open(nomearquivo1, 'a') as arquivo:
