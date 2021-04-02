@@ -48,7 +48,7 @@ def SearchVNFD(NAME_VNFD,B):
     else:
         return -1
 
-def ChangeVNFPrice(COD_VNFD,VIMURL,PRICE,B):
+def ChangeVNFPrice(COD_VNFD,VIMURL,PRICE,B,CLOUD_STATUS_CPU):
 #First, use the SearchVNFD function, after, this
 #Change price of specific VIMNAME OF VNFD
 #If no result, return -1  
@@ -60,18 +60,21 @@ def ChangeVNFPrice(COD_VNFD,VIMURL,PRICE,B):
     for i in range(C):
         if B[COD_VNFD]['prices'][i]['vim_url'] == VIMURL: #Compare VIMURL between YAML and the new
             if B[COD_VNFD]['prices'][i]['price'] != PRICE:  #Compare new PRICE with actual Price, if equal, no change
-                B[COD_VNFD]['prices'][i]['price']=int(PRICE) #Change the VNF Price
+                if (CLOUD_STATUS_CPU == 1):
+                    B[COD_VNFD]['prices'][i]['price']=int(PRICE)+THRESHOLD #Change the VNF Price
+                else:
+                    B[COD_VNFD]['prices'][i]['price']=int(PRICE) #Change the VNF Price
                 return i
             else:
                 return -1
     else:
         return -1
 
-def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD):
+def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU):
     A=open(FILE_VNF_PRICE, )
     B=yaml.full_load(A)
     if debug == 1: print("In SearchChangeVNFDPrice")
-    if (ChangeVNFPrice(SearchVNFD(NAME_VNFD,B),VIM_URL,PRICE_VNFD,B)) != -1: #Change price of specific VIM in specific VNFD
+    if (ChangeVNFPrice(SearchVNFD(NAME_VNFD,B),VIM_URL,PRICE_VNFD,B,CLOUD_STATUS_CPU)) != -1: #Change price of specific VIM in specific VNFD
         if debug == 1: print("In ChangeVNFPrice(SearchVNFD")
         with open(FILE_VNF_PRICE, 'w') as file:
             documents = yaml.dump(B, file, sort_keys=False) #Export changes to file without order, equal original file
@@ -307,6 +310,7 @@ def conectado(connection, enderecoCliente):
                     connection.sendall(mensagem.encode('utf8'))  #sending in first time the command to client
                     commands.update({(ID): {'CLOUD': CLOUD,'CLOUDIP': CLOUDIP, 'DATEHOUR': DATEHOUR,'CLOUDTONAME': CLOUDTONAME, 'CLOUDTOIP': CLOUDTOIP, 'STATUS': STATUS, 'PRICE': PRICE, 'LATTENCY': LATENCY, 'JITTER': JITTER , 'CPU': CPU , 'MEMORY': MEMORY ,'DISK': DISK ,'NVM': NVM ,'CPUC': CPUC,'MEMORYC': MEMORYC,'DISKC': DISKC, 'EXTRA': EXTRA, 'EXTRA2': EXTRA2, 'EXTRA3': 0 ,'CONEXAO': connection}})
                 if TIPO == 'SENDS':  #check the type protocol
+                    CLOUD_STATUS_CPU=int(clouds.get(str(ID)).get('CPU'))
                     #print ("entrou sends")
                     #print(len(EXTRA3))
                     #print(EXTRA3)
@@ -319,12 +323,12 @@ def conectado(connection, enderecoCliente):
                         NAME_VNFD=EXTRA2SPL0
                         VIM_URL='http://'+CLOUDIP+':5000/v3'
                         PRICE_VNFD=EXTRA3
-                        SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD)
+                        SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU)
 
                         NAME_VNFD=EXTRA2SPL1
                         VIM_URL='http://'+CLOUDIP+':5000/v3'
                         PRICE_VNFD=EXTRA3
-                        SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD) 
+                        SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU) 
                         
                         if (ID == "1"):   #If receive and processing data about user, this is marked in dictionary
                             #print("vou colocar rc1 igual a 1")
@@ -376,7 +380,7 @@ def conectado(connection, enderecoCliente):
                         EXTRA='EXTRA'
                         EXTRA2='EXTRA2'
                         
-                    CLOUD_STATUS_CPU=int(clouds.get(str(ID)).get('CPU'))
+#                    CLOUD_STATUS_CPU=int(clouds.get(str(ID)).get('CPU'))
                     if (int(CPUC) > THRESHOLD) and (CLOUD_STATUS_CPU == 0):
                         CPU_STATUS_NOW=1   #Values: 0-cpu normal, 1-cpu high and cost value going to change
                         VIMURL=clouds.get(str(ID)).get('VIMURL')
