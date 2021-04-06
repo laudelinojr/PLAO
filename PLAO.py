@@ -332,7 +332,7 @@ def conectado(connection, enderecoCliente):
                         PRICE_NOVO=(LATENCYP+VCPUP)/10
                         print("price novo nvfwa")
                         print(PRICE_NOVO)                 
-
+                        print(type(EXTRA3))
                         NAME_VNFD=EXTRA2SPL0
                         VIM_URL='http://'+CLOUDIP+':5000/v3'
                         #PRICE_VNFD=EXTRA3
