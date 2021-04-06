@@ -326,7 +326,7 @@ def conectado(connection, enderecoCliente):
                         PESOL=6
                         PESOCPU=4
                         LATENCYP=LATENCY*PESOL
-                        VCPUP=VCPUP*PESOCPU
+                        VCPUP=CPUC*PESOCPU
                         PRICE_NOVO=(LATENCYP+VCPUP)/10
                         print("price novo nvfa")
                         print(PRICE_NOVO)                 
@@ -340,7 +340,7 @@ def conectado(connection, enderecoCliente):
                         PESOL=2
                         PESOCPU=8
                         LATENCYP=LATENCY*PESOL
-                        VCPUP=VCPUP*PESOCPU
+                        VCPUP=CPUC*PESOCPU
                         PRICE_NOVO=(LATENCYP+VCPUP)/10
                         print("price novo vnfb")
                         print(PRICE_NOVO)
