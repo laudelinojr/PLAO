@@ -323,8 +323,8 @@ def conectado(connection, enderecoCliente):
                         EXTRA2SPL0=EXTRA2[0]
                         EXTRA2SPL1=EXTRA2[1]
 
-                        PESOL=6
-                        PESOCPU=4
+                        PESOL='6'
+                        PESOCPU='4'
                         LATENCYP=LATENCY*PESOL
                         VCPUP=CPUC*PESOCPU
                         PRICE_NOVO=(LATENCYP+VCPUP)/10
@@ -337,8 +337,8 @@ def conectado(connection, enderecoCliente):
                         PRICE_VNFD=PRICE_NOVO
                         SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU)
 
-                        PESOL=2
-                        PESOCPU=8
+                        PESOL='2'
+                        PESOCPU='8'
                         LATENCYP=LATENCY*PESOL
                         VCPUP=CPUC*PESOCPU
                         PRICE_NOVO=(LATENCYP+VCPUP)/10
