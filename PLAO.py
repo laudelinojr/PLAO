@@ -323,12 +323,12 @@ def conectado(connection, enderecoCliente):
                         EXTRA2SPL0=EXTRA2[0]
                         EXTRA2SPL1=EXTRA2[1]
 
-                        PESOL=6
-                        PESOCPU=4
+                        PESOL='6'
+                        PESOCPU='4'
                         print(type(LATENCY))
                         print(type(CPUC))
                         LATENCYP=int(LATENCY)*PESOL
-                        VCPUP=int(CPUC)*PESOCPU
+                        VCPUP=CPUC*PESOCPU
                         PRICE_NOVO=(LATENCYP+VCPUP)/10
                         print("price novo nvfwa")
                         print(PRICE_NOVO)                 
