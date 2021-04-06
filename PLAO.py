@@ -315,19 +315,40 @@ def conectado(connection, enderecoCliente):
                     #print(len(EXTRA3))
                     #print(EXTRA3)
                     #Process to change price between cloud and vnfd
+
+                    #News
+
                     if ((EXTRA3 != 'EXTRA3') and (len(EXTRA3)!=0)):
                         EXTRA2=EXTRA2.split(',')
                         EXTRA2SPL0=EXTRA2[0]
                         EXTRA2SPL1=EXTRA2[1]
 
+                        PESOL=6
+                        PESOCPU=4
+                        LATENCYP=LATENCY*PESOL
+                        VCPUP=VCPUP*PESOCPU
+                        PRICE_NOVO=(LATENCYP+VCPUP)/10
+                        print("price novo nvfa")
+                        print(PRICE_NOVO)                 
+
                         NAME_VNFD=EXTRA2SPL0
                         VIM_URL='http://'+CLOUDIP+':5000/v3'
-                        PRICE_VNFD=EXTRA3
+                        #PRICE_VNFD=EXTRA3
+                        PRICE_VNFD=PRICE_NOVO
                         SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU)
+
+                        PESOL=2
+                        PESOCPU=8
+                        LATENCYP=LATENCY*PESOL
+                        VCPUP=VCPUP*PESOCPU
+                        PRICE_NOVO=(LATENCYP+VCPUP)/10
+                        print("price novo vnfb")
+                        print(PRICE_NOVO)
 
                         NAME_VNFD=EXTRA2SPL1
                         VIM_URL='http://'+CLOUDIP+':5000/v3'
-                        PRICE_VNFD=EXTRA3
+                        #PRICE_VNFD=EXTRA3
+                        PRICE_VNFD=PRICE_NOVO
                         SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU) 
                         
                         if (ID == "1"):   #If receive and processing data about user, this is marked in dictionary
