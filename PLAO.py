@@ -339,13 +339,16 @@ def conectado(connection, enderecoCliente):
                         PRICE_VNFD=PRICE_NOVO
                         SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU)
 
-                        PESOL='2'
-                        PESOCPU='8'
-                        LATENCYP=LATENCY*PESOL
-                        VCPUP=CPUC*PESOCPU
+                        PESOL=2
+                        PESOCPU=8
+                        print(type(LATENCY))
+                        print(type(CPUC))
+                        LATENCYP=int(LATENCY)*PESOL
+                        VCPUP=int(CPUC)*PESOCPU
                         PRICE_NOVO=(LATENCYP+VCPUP)/10
-                        print("price novo vnfb")
-                        print(PRICE_NOVO)
+                        print("price novo nvfwb")
+                        print(PRICE_NOVO)                 
+                        print(type(EXTRA3))
 
                         NAME_VNFD=EXTRA2SPL1
                         VIM_URL='http://'+CLOUDIP+':5000/v3'
