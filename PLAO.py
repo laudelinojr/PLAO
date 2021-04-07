@@ -326,9 +326,9 @@ def conectado(connection, enderecoCliente):
                         PESOL=6
                         PESOCPU=4
                         print("pesol")
-                        print(pesol)
+                        print(PESOL)
                         print('print pesocpu')
-                        print(pesocpu)
+                        print(PESOCPU)
                         print("latencia")
                         print(LATENCY)
                         print("cpuc")
@@ -351,9 +351,9 @@ def conectado(connection, enderecoCliente):
                         PESOCPU=8
                         print("proximo")
                         print("pesol")
-                        print(pesol)
+                        print(PESOL)
                         print('print pesocpu')
-                        print(pesocpu)
+                        print(PESOCPU)
                         print("latencia")
                         print(LATENCY)
                         print("cpuc")
