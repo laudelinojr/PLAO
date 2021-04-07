@@ -337,8 +337,11 @@ def conectado(connection, enderecoCliente):
                         VCPUP=int(CPUC)*PESOCPU
                         PRICE_NOVO=round((LATENCYP+VCPUP)/10)
                         print("price novo nvfwa")
+                        print("latenyp")
                         print(LATENCYP)
+                        print("vcpup")
                         print (VCPUP)
+                        print("price_novo")
                         print(PRICE_NOVO)                 
                         #print(type(EXTRA3))
                         NAME_VNFD=EXTRA2SPL0
@@ -362,8 +365,11 @@ def conectado(connection, enderecoCliente):
                         VCPUP=int(CPUC)*PESOCPU
                         PRICE_NOVO=round((LATENCYP+VCPUP)/10)
                         print("price novo nvfwb")
+                        print("latenciyp")
                         print(LATENCYP)
+                        print("vcpup")
                         print (VCPUP)
+                        print("pricenovo")
                         print(PRICE_NOVO)                 
                         #print(type(EXTRA3))
 
