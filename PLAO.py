@@ -322,17 +322,25 @@ def conectado(connection, enderecoCliente):
                         EXTRA2=EXTRA2.split(',')
                         EXTRA2SPL0=EXTRA2[0]
                         EXTRA2SPL1=EXTRA2[1]
-
+                                               
                         PESOL=6
                         PESOCPU=4
-                        print(type(LATENCY))
-                        print(type(CPUC))
+                        print("pesol")
+                        print(pesol)
+                        print('print pesocpu')
+                        print(pesocpu)
+                        print("latencia")
+                        print(LATENCY)
+                        print("cpuc")
+                        print(CPUC)
                         LATENCYP=int(LATENCY)*PESOL
                         VCPUP=int(CPUC)*PESOCPU
                         PRICE_NOVO=(LATENCYP+VCPUP)/10
                         print("price novo nvfwa")
+                        print(LATENCYP)
+                        print (VCPUP)
                         print(PRICE_NOVO)                 
-                        print(type(EXTRA3))
+                        #print(type(EXTRA3))
                         NAME_VNFD=EXTRA2SPL0
                         VIM_URL='http://'+CLOUDIP+':5000/v3'
                         #PRICE_VNFD=EXTRA3
@@ -341,14 +349,23 @@ def conectado(connection, enderecoCliente):
 
                         PESOL=2
                         PESOCPU=8
-                        print(type(LATENCY))
-                        print(type(CPUC))
+                        print("proximo")
+                        print("pesol")
+                        print(pesol)
+                        print('print pesocpu')
+                        print(pesocpu)
+                        print("latencia")
+                        print(LATENCY)
+                        print("cpuc")
+                        print(CPUC)
                         LATENCYP=int(LATENCY)*PESOL
                         VCPUP=int(CPUC)*PESOCPU
                         PRICE_NOVO=(LATENCYP+VCPUP)/10
                         print("price novo nvfwb")
+                        print(LATENCYP)
+                        print (VCPUP)
                         print(PRICE_NOVO)                 
-                        print(type(EXTRA3))
+                        #print(type(EXTRA3))
 
                         NAME_VNFD=EXTRA2SPL1
                         VIM_URL='http://'+CLOUDIP+':5000/v3'
