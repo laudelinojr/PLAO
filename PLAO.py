@@ -335,7 +335,7 @@ def conectado(connection, enderecoCliente):
                         print(CPUC)
                         LATENCYP=int(LATENCY)*PESOL
                         VCPUP=int(CPUC)*PESOCPU
-                        PRICE_NOVO=(LATENCYP+VCPUP)/10
+                        PRICE_NOVO=round((LATENCYP+VCPUP)/10)
                         print("price novo nvfwa")
                         print(LATENCYP)
                         print (VCPUP)
@@ -360,7 +360,7 @@ def conectado(connection, enderecoCliente):
                         print(CPUC)
                         LATENCYP=int(LATENCY)*PESOL
                         VCPUP=int(CPUC)*PESOCPU
-                        PRICE_NOVO=(LATENCYP+VCPUP)/10
+                        PRICE_NOVO=round((LATENCYP+VCPUP)/10)
                         print("price novo nvfwb")
                         print(LATENCYP)
                         print (VCPUP)
