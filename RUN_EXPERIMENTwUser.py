@@ -100,9 +100,9 @@ def ExecuteCommand(exec_command):
     return ret.returncode
 
 def reglog(typemensage):
-nomearquivo1=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
-    with open(nomearquivo1, 'a') as arquivo:
-        arquivo.write(DATEHOURS() + '#'+typemensage+'#  Executado comando para instanciar NS. Segue:' + USERSCOMMAND +'\n')
+    nomearquivo1=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
+        with open(nomearquivo1, 'a') as arquivo:
+            arquivo.write(DATEHOURS() + '#'+typemensage+'#  Executado comando para instanciar NS. Segue:' + USERSCOMMAND +'\n')
 
 
 
