@@ -208,7 +208,7 @@ try:
                         if (CLOUDTOIP != "CLOUDTOIP" ):
                             LATENCY=str(round(float(GetLatency(CLOUDTOIP,QUANTITY_PCK)))) #Get latency with ping, is necessary set quantity packages
                             PRICE=LATENCY
-                            if (CLOUDTOIP ==  "10.159.205.6"):
+                            if (CLOUDTOIP ==  "10.159.205.7"):
                                 JITTER=str(round(float(GetJitter(CLOUDTOIP,QUANTITY_PCK,STATUS)))) #Get Jitter with iperf, is necessary set quantity packages
                         CPU=GetCpuSO()
                         NVM=GetHypervisorStats(CLOUDIP,"running_vms")                       
