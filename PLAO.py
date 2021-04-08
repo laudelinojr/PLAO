@@ -403,7 +403,7 @@ def conectado(connection, enderecoCliente):
                         ExecuteCommand(USERSCOMMAND) #Run command to instanciate machine
                         nomearquivo1=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
                         with open(nomearquivo1, 'a') as arquivo:
-                            arquivo.write(DATEHOURS() + '- Executado comando para instanciar NS. Segue:' + USERSCOMMAND +'\n')
+                            arquivo.write(DATEHOURS() + '#INSTANTIATE#  Executado comando para instanciar NS. Segue:' + USERSCOMMAND +'\n')
                     #    LOCK_USER = 0
                     #Check Dict that have information about user entry
                     if (len(users)>=1):
@@ -444,7 +444,10 @@ def conectado(connection, enderecoCliente):
                     nomearquivo3=PATH_LOG+'LINK_'+CLOUD+'_history.txt' #write data in file
 
                     with open(nomearquivo2, 'a') as arquivo:
-                        arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ CPU + "," + MEMORY + "," + NVM + "," + CPUC + "," + MEMORYC + ","+ DISKC +'\n')
+                        if (MEMORY != 'MEMORY'):
+                            arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ CPU + "," + MEMORY + "," + NVM + "," + CPUC + "," + MEMORYC + ","+ DISKC +'\n')
+                        else:
+                            arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ '0' + "," + '0' + "," + '0' + "," + '0' + "," + '0' + ","+ '0' +'\n')
 
                     #print(PRICE)
                     #print(type(PRICE))                    

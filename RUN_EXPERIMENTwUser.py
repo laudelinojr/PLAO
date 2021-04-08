@@ -99,6 +99,13 @@ def ExecuteCommand(exec_command):
     #    print("ERROR - " + ret)
     return ret.returncode
 
+def reglog(typemensage):
+nomearquivo1=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
+    with open(nomearquivo1, 'a') as arquivo:
+    arquivo.write(DATEHOURS() + '#'+typemensage+'#  Executado comando para instanciar NS. Segue:' + USERSCOMMAND +'\n')
+
+
+
 print(DATEHOURS())
 print("### Cenario 1###")
 print("Incluindo simulacao Latencia 5")
@@ -107,6 +114,7 @@ ExecuteCommand("ssh root@10.159.205.12 'for pid in $(ps -ef | grep 'PLAO_client.
 ExecuteCommand("for pid in $(ps -ef | grep 'PLAO.py' | awk '{print $2}'); do kill -9 $pid; done") 
 ExecuteCommand("ssh root@10.159.205.6 'tc qdisc add dev eth0 root netem delay 5ms'")
 ExecuteCommand("cd /opt/PLAO; git pull; rm -rf /opt/PLAO/log/* ; python3 /opt/PLAO/PLAO.py > /dev/null 2>&1 &")
+reglog('START_TEST')
 time.sleep(10)
 ExecuteCommand("ssh root@10.159.205.6 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.6 > /dev/null 2>&1 &'")
 ExecuteCommand("ssh root@10.159.205.12 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack2 10.159.205.12 > /dev/null 2>&1 &'")
@@ -126,6 +134,7 @@ ExecuteCommand("ssh root@10.159.205.6 'for pid in $(ps -ef | grep 'PLAO_client.p
 ExecuteCommand("ssh root@10.159.205.12 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
 ExecuteCommand("for pid in $(ps -ef | grep 'PLAO.py' | awk '{print $2}'); do kill -9 $pid; done")
 RegisterLOGLaunch('REMOVING')
+reglog('STOP_TEST')
 print("Intervalo descanso Experimento")
 time.sleep(INTERVALO_DESCANSO_EXPERIMENTO)
 
@@ -134,6 +143,7 @@ print("Excluindo simulacao de latencia")
 ExecuteCommand("ssh root@10.159.205.6 'tc qdisc del dev eth0 root'")
 ExecuteCommand("ssh root@10.159.205.6 'tc qdisc add dev eth0 root netem delay 15ms'")
 ExecuteCommand("cd /opt/PLAO; python3 /opt/PLAO/PLAO.py > /dev/null 2>&1 &")
+reglog('START_TEST')
 time.sleep(10)
 ExecuteCommand("ssh root@10.159.205.6 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.6 > /dev/null 2>&1 &'")
 ExecuteCommand("ssh root@10.159.205.12 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack2 10.159.205.12 > /dev/null 2>&1 &'")
@@ -155,6 +165,7 @@ RegisterLOGLaunch('REMOVING')
 ExecuteCommand("ssh root@10.159.205.6 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
 ExecuteCommand("ssh root@10.159.205.12 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
 ExecuteCommand("for pid in $(ps -ef | grep 'PLAO.py' | awk '{print $2}'); do kill -9 $pid; done")
+reglog('STOP_TEST')
 print("Intervalo descanso Experimento")
 time.sleep(INTERVALO_DESCANSO_EXPERIMENTO)
 
@@ -165,6 +176,7 @@ ExecuteCommand("ssh root@10.159.205.6 'tc qdisc del dev eth0 root'")
 print("Incluindo simulacao Latencia 5")
 ExecuteCommand("ssh root@10.159.205.6 'tc qdisc add dev eth0 root netem delay 5ms'")
 ExecuteCommand("cd /opt/PLAO; python3 /opt/PLAO/PLAO.py > /dev/null 2>&1 &")
+reglog('START_TEST')
 time.sleep(10)
 ExecuteCommand("ssh root@10.159.205.6 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.6 > /dev/null 2>&1 &'")
 ExecuteCommand("ssh root@10.159.205.12 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack2 10.159.205.12 > /dev/null 2>&1 &'")
@@ -186,11 +198,13 @@ ExecuteCommand("ssh root@10.159.205.6 'for pid in $(ps -ef | grep 'PLAO_client.p
 ExecuteCommand("ssh root@10.159.205.12 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
 ExecuteCommand("for pid in $(ps -ef | grep 'PLAO.py' | awk '{print $2}'); do kill -9 $pid; done")
 
+reglog('STOP_TEST')
 print("Intervalo descanso Experimento")
 time.sleep(INTERVALO_DESCANSO_EXPERIMENTO)
 
 print("### Cenario 4 ###")
 ExecuteCommand("cd /opt/PLAO; python3 /opt/PLAO/PLAO.py > /dev/null 2>&1 &")
+reglog('START_TEST')
 time.sleep(10)
 ExecuteCommand("ssh root@10.159.205.6 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.6 > /dev/null 2>&1 &'")
 ExecuteCommand("ssh root@10.159.205.12 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack2 10.159.205.12 > /dev/null 2>&1 &'")
@@ -210,6 +224,7 @@ RegisterLOGLaunch('REMOVING')
 ExecuteCommand("ssh root@10.159.205.6 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
 ExecuteCommand("ssh root@10.159.205.12 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
 ExecuteCommand("for pid in $(ps -ef | grep 'PLAO.py' | awk '{print $2}'); do kill -9 $pid; done")
+reglog('STOP_TEST')
 print("Intervalo descanso Experimento")
 time.sleep(INTERVALO_DESCANSO_EXPERIMENTO)
 
@@ -223,6 +238,7 @@ time.sleep(80)
 
 print("### Cenario 5 ###")   #Aumentar quantidade de Maquinas virtuais na nuvem
 ExecuteCommand("cd /opt/PLAO; python3 /opt/PLAO/PLAO.py > /dev/null 2>&1 &")
+reglog('START_TEST')
 time.sleep(10)
 ExecuteCommand("ssh root@10.159.205.6 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.6 > /dev/null 2>&1 &'")
 ExecuteCommand("ssh root@10.159.205.12 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack2 10.159.205.12 > /dev/null 2>&1 &'")
@@ -243,6 +259,7 @@ RegisterLOGLaunch('REMOVING')
 ExecuteCommand("ssh root@10.159.205.6 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
 ExecuteCommand("ssh root@10.159.205.12 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
 ExecuteCommand("for pid in $(ps -ef | grep 'PLAO.py' | awk '{print $2}'); do kill -9 $pid; done")
+reglog('STOP_TEST')
 #print("Intervalo descanso Experimento")
 #time.sleep(INTERVALO_DESCANSO_EXPERIMENTO)
 
