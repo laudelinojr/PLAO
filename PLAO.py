@@ -79,19 +79,12 @@ def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU):
         with open(FILE_VNF_PRICE, 'w') as file:
             documents = yaml.dump(B, file, sort_keys=False) #Export changes to file without order, equal original file
         if debug == 1: print("going to copy to SearchChangeVNFDPrice ")
-        ExecuteCommand('docker cp '+FILE_VNF_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
-
-
-        nomearquivo4=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
-        with open(nomearquivo4, 'a') as arquivo:
-            arquivo.write(DATEHOURS() + '#CHANGE_VNFD#  - Changed and copied file '+ FILE_VNF_PRICE + 'to container PLA.'+'NAME_VNFD: '+NAME_VNFD+' VIM_URL: '+VIM_URL+' PRICE_VNFD: '+str(PRICE_VNFD) +'\n')
-
+        ExecuteCommand('docker cp '+FILE_VNF_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')  
 
         try:
-            #nomearquivo4=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
-            #with open(nomearquivo4, 'a') as arquivo:
-            #    arquivo.write(DATEHOURS() + '#CHANGE_VNFD#  - Changed and copied file '+ FILE_VNF_PRICE + 'to container PLA.'+'NAME_VNFD: '+NAME_VNFD+' VIM_URL: '+VIM_URL+' PRICE_VNFD: '+str(PRICE_VNFD) +'\n')
-            print ("Teste")
+            nomearquivo4=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
+            with open(nomearquivo4, 'a') as arquivo:
+                arquivo.write(DATEHOURS() + '#CHANGE_VNFD#  - Changed and copied file '+ FILE_VNF_PRICE + 'to container PLA.'+'NAME_VNFD: '+NAME_VNFD+' VIM_URL: '+VIM_URL+' PRICE_VNFD: '+str(PRICE_VNFD) +'\n')
 
         except:
             return -1     
