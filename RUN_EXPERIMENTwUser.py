@@ -116,8 +116,8 @@ ExecuteCommand("ssh root@10.159.205.7 'tc qdisc add dev eth0 root netem delay 5m
 ExecuteCommand("cd /opt/PLAO; git pull; rm -rf /opt/PLAO/log/* ; python3 /opt/PLAO/PLAO.py > /dev/null 2>&1 &")
 reglog('START_TEST')
 time.sleep(10)
-ExecuteCommand("ssh root@10.159.205.7 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.7 > /dev/null 2>&1 &'")
-ExecuteCommand("ssh root@10.159.205.13 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack2 10.159.205.13 > /dev/null 2>&1 &'")
+ExecuteCommand("ssh root@10.159.205.7 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.6 > /dev/null 2>&1 &'")
+ExecuteCommand("ssh root@10.159.205.13 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack2 10.159.205.12 > /dev/null 2>&1 &'")
 time.sleep(30) #Delay link irá para 15, aguardando nova coleta.
 ExecuteCommand("python3 USER_TEST.py 1") #Create NS with 2 VNFD using PLA module OSM com latencia do usuario
 print('vamos aguardar '+str(INTERVALO_EXPERIMENTO)+' segundos.')
@@ -145,8 +145,8 @@ ExecuteCommand("ssh root@10.159.205.7 'tc qdisc add dev eth0 root netem delay 15
 ExecuteCommand("cd /opt/PLAO; python3 /opt/PLAO/PLAO.py > /dev/null 2>&1 &")
 reglog('START_TEST')
 time.sleep(10)
-ExecuteCommand("ssh root@10.159.205.7 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.7 > /dev/null 2>&1 &'")
-ExecuteCommand("ssh root@10.159.205.13 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack2 10.159.205.13 > /dev/null 2>&1 &'")
+ExecuteCommand("ssh root@10.159.205.7 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.6 > /dev/null 2>&1 &'")
+ExecuteCommand("ssh root@10.159.205.13 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack2 10.159.205.12 > /dev/null 2>&1 &'")
 print("Delay link irá para 15, aguardando nova coleta.")
 time.sleep(30) #Aguardando nova coleta para alterar dinamicamente a pontuacao do link
 ExecuteCommand("python3 USER_TEST.py 1") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
@@ -178,8 +178,8 @@ ExecuteCommand("ssh root@10.159.205.7 'tc qdisc add dev eth0 root netem delay 5m
 ExecuteCommand("cd /opt/PLAO; python3 /opt/PLAO/PLAO.py > /dev/null 2>&1 &")
 reglog('START_TEST')
 time.sleep(10)
-ExecuteCommand("ssh root@10.159.205.7 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.7 > /dev/null 2>&1 &'")
-ExecuteCommand("ssh root@10.159.205.13 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack2 10.159.205.13 > /dev/null 2>&1 &'")
+ExecuteCommand("ssh root@10.159.205.7 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.6 > /dev/null 2>&1 &'")
+ExecuteCommand("ssh root@10.159.205.13 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack2 10.159.205.12 > /dev/null 2>&1 &'")
 print("Delay link irá para 5, aguardando nova coleta.")
 time.sleep(30) #Aguardando nova coleta para alterar dinamicamente a pontuacao do link
 ExecuteCommand("python3 USER_TEST.py 1") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
@@ -206,8 +206,8 @@ print("### Cenario 4 ###")
 ExecuteCommand("cd /opt/PLAO; python3 /opt/PLAO/PLAO.py > /dev/null 2>&1 &")
 reglog('START_TEST')
 time.sleep(10)
-ExecuteCommand("ssh root@10.159.205.7 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.7 > /dev/null 2>&1 &'")
-ExecuteCommand("ssh root@10.159.205.13 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack2 10.159.205.13 > /dev/null 2>&1 &'")
+ExecuteCommand("ssh root@10.159.205.7 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.6 > /dev/null 2>&1 &'")
+ExecuteCommand("ssh root@10.159.205.13 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack2 10.159.205.12 > /dev/null 2>&1 &'")
 time.sleep(30) #Aguardando para ficar com mesmo tempo dos outros cenários
 ExecuteCommand("python3 USER_TEST.py 3") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
 print('vamos aguardar '+str(INTERVALO_EXPERIMENTO)+' segundos.')
@@ -240,8 +240,8 @@ print("### Cenario 5 ###")   #Aumentar quantidade de Maquinas virtuais na nuvem
 ExecuteCommand("cd /opt/PLAO; python3 /opt/PLAO/PLAO.py > /dev/null 2>&1 &")
 reglog('START_TEST')
 time.sleep(10)
-ExecuteCommand("ssh root@10.159.205.7 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.7 > /dev/null 2>&1 &'")
-ExecuteCommand("ssh root@10.159.205.13 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack2 10.159.205.13 > /dev/null 2>&1 &'")
+ExecuteCommand("ssh root@10.159.205.7 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.6 > /dev/null 2>&1 &'")
+ExecuteCommand("ssh root@10.159.205.13 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack2 10.159.205.12 > /dev/null 2>&1 &'")
 print("Incluindo simulacao Latencia 5")
 time.sleep(30) #Aguardando nova coleta para alterar dinamicamente a pontuacao do link
 ExecuteCommand("python3 USER_TEST.py 3") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
@@ -270,8 +270,8 @@ ExecuteCommand("ssh root@10.159.205.7 'tc qdisc add dev eth0 root netem delay 5m
 print('Simulando aumento de CPU Cloud 1')
 ExecuteCommand("cd /opt/PLAO; python3 /opt/PLAO/PLAO.py > /dev/null 2>&1 &")
 time.sleep(10)
-ExecuteCommand("ssh root@10.159.205.7 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.7 > /dev/null 2>&1 &'")
-ExecuteCommand("ssh root@10.159.205.13 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack2 10.159.205.13 > /dev/null 2>&1 &'")
+ExecuteCommand("ssh root@10.159.205.7 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.6 > /dev/null 2>&1 &'")
+ExecuteCommand("ssh root@10.159.205.13 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack2 10.159.205.12 > /dev/null 2>&1 &'")
 ExecuteCommand("ssh root@10.159.205.7 'stress-ng --cpu 1 > /dev/null 2>&1 &'")
 time.sleep(30) #Aguardando nova coleta para alterar dinamicamente a pontuacao do link e cpu
 ExecuteCommand("python3 USER_TEST.py 3a") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
