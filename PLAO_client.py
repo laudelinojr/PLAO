@@ -48,8 +48,14 @@ def DATAHORAC():
 def GetHypervisorStats(OPENSTACK_FROM, PARAMETER):
     # Disable SSL Warnings when using self-signed certificates
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-    # API
-    IDENTITY_API = "http://"+OPENSTACK_FROM+":5000/v3"
+    if ( OPENSTACK_FROM == "10.159.205.7" ):
+        # API
+        IDENTITY_API = "http://10.159.205.6:5000/v3"
+    if  ( OPENSTACK_FROM == "10.159.205.13" ):
+        # API
+        IDENTITY_API = "http://10.159.205.12:5000/v3"
+        #IDENTITY_API = "http://"+OPENSTACK_FROM+":5000/v3"
+
     # OpenStack User and Project. From the OpenRC file.
     PROJECT_NAME = "admin"
     PROJECT_DOMAIN_ID = "default"
