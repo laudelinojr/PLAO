@@ -81,10 +81,17 @@ def SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU):
         if debug == 1: print("going to copy to SearchChangeVNFDPrice ")
         ExecuteCommand('docker cp '+FILE_VNF_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
 
+
+        nomearquivo4=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
+        with open(nomearquivo4, 'a') as arquivo:
+            arquivo.write(DATEHOURS() + '#CHANGE_VNFD#  - Changed and copied file '+ FILE_VNF_PRICE + 'to container PLA.'+'NAME_VNFD: '+NAME_VNFD+' VIM_URL: '+VIM_URL+' PRICE_VNFD: '+str(PRICE_VNFD) +'\n')
+
+
         try:
-            nomearquivo4=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
-            with open(nomearquivo4, 'a') as arquivo:
-                arquivo.write(DATEHOURS() + '#CHANGE_VNFD#  - Changed and copied file '+ FILE_VNF_PRICE + 'to container PLA.'+'NAME_VNFD: '+NAME_VNFD+' VIM_URL: '+VIM_URL+' PRICE_VNFD: '+str(PRICE_VNFD) +'\n')
+            #nomearquivo4=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
+            #with open(nomearquivo4, 'a') as arquivo:
+            #    arquivo.write(DATEHOURS() + '#CHANGE_VNFD#  - Changed and copied file '+ FILE_VNF_PRICE + 'to container PLA.'+'NAME_VNFD: '+NAME_VNFD+' VIM_URL: '+VIM_URL+' PRICE_VNFD: '+str(PRICE_VNFD) +'\n')
+            print ("Teste")
 
         except:
             return -1     
