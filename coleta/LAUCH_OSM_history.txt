@@ -1,12 +1,12 @@
-01.04.21-17:08:45,INSTANCING,osm ns-create --nsd_name teste_artigo  --ns_name test1ArtigoPLA --vim_account openstack1 --config '{placement-engine: PLA, wim_account: False }'
-01.04.21-17:11:50,REMOVING
-01.04.21-17:13:36,INSTANCING,osm ns-create --nsd_name teste_artigo  --ns_name test1ArtigoPLA --vim_account openstack1 --config '{placement-engine: PLA, wim_account: False }'
-01.04.21-17:16:42,REMOVING
-01.04.21-17:18:29,INSTANCING,osm ns-create --nsd_name teste_artigo  --ns_name test1ArtigoPLA --vim_account openstack1 --config '{placement-engine: PLA, wim_account: False }'
-01.04.21-17:21:35,REMOVING
-01.04.21-17:23:22,INSTANCING,osm ns-create --nsd_name teste_artigo  --ns_name test2ArtigoPLA --vim_account openstack1 --config '{placement-engine: PLA, placement-constraints: {vld-constraints: [{id: ns_vl_2mlm, link-constraints: {latency: 2}}]}, wim_account: False}'
-01.04.21-17:26:29,REMOVING
-01.04.21-17:27:31,INSTANCING,osm ns-create --nsd_name teste_artigo  --ns_name test2ArtigoPLA --vim_account openstack1 --config '{placement-engine: PLA, placement-constraints: {vld-constraints: [{id: ns_vl_2mlm, link-constraints: {latency: 2}}]}, wim_account: False}'
-01.04.21-17:27:34,INSTANCING,osm ns-create --nsd_name teste_artigo  --ns_name test2ArtigoPLA --vim_account openstack1 --config '{placement-engine: PLA, placement-constraints: {vld-constraints: [{id: ns_vl_2mlm, link-constraints: {latency: 2}}]}, wim_account: False}'
-01.04.21-17:29:38,INSTANCING,osm ns-create --nsd_name teste_artigo  --ns_name test2ArtigoPLA --vim_account openstack1 --config '{placement-engine: PLA, placement-constraints: {vld-constraints: [{id: ns_vl_2mlm, link-constraints: {latency: 2}}]}, wim_account: False}'
-01.04.21-17:32:50,REMOVING
+08.04.21-19:30:21,INSTANCING,osm ns-create --nsd_name teste_artigo  --ns_name test1ArtigoPLA --vim_account openstack1 --config '{placement-engine: PLA, wim_account: False }'
+08.04.21-19:33:37,REMOVING
+08.04.21-19:35:20,INSTANCING,osm ns-create --nsd_name teste_artigo  --ns_name test1ArtigoPLA --vim_account openstack1 --config '{placement-engine: PLA, wim_account: False }'
+08.04.21-19:38:27,REMOVING
+08.04.21-19:40:11,INSTANCING,osm ns-create --nsd_name teste_artigo  --ns_name test1ArtigoPLA --vim_account openstack1 --config '{placement-engine: PLA, wim_account: False }'
+08.04.21-19:43:18,REMOVING
+08.04.21-19:45:01,INSTANCING,osm ns-create --nsd_name teste_artigo  --ns_name test2ArtigoPLA --vim_account openstack1 --config '{placement-engine: PLA, placement-constraints: {vld-constraints: [{id: ns_vl_2mlm, link-constraints: {latency: 2}}]}, wim_account: False}'
+08.04.21-19:48:08,REMOVING
+08.04.21-19:49:11,INSTANCING,osm ns-create --nsd_name teste_artigo  --ns_name test2ArtigoPLA --vim_account openstack1 --config '{placement-engine: PLA, placement-constraints: {vld-constraints: [{id: ns_vl_2mlm, link-constraints: {latency: 2}}]}, wim_account: False}'
+08.04.21-19:49:13,INSTANCING,osm ns-create --nsd_name teste_artigo  --ns_name test2ArtigoPLA --vim_account openstack1 --config '{placement-engine: PLA, placement-constraints: {vld-constraints: [{id: ns_vl_2mlm, link-constraints: {latency: 2}}]}, wim_account: False}'
+08.04.21-19:51:16,INSTANCING,osm ns-create --nsd_name teste_artigo  --ns_name test2ArtigoPLA --vim_account openstack1 --config '{placement-engine: PLA, placement-constraints: {vld-constraints: [{id: ns_vl_2mlm, link-constraints: {latency: 2}}]}, wim_account: False}'
+08.04.21-19:54:28,REMOVING
