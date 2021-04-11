@@ -447,21 +447,17 @@ def conectado(connection, enderecoCliente):
                     with open(nomearquivo2, 'a') as arquivo:
                         if (os.path.getsize(nomearquivo2) == 0):
                             arquivo.write('data,CLOUD,IP,CPU,MEMORY,NVM,VCPU,MEMORYC,DISCKC' +'\n')
-                            print(os.path.getsize(nomearquivo2))
                         if (MEMORY != 'MEMORY'):
                             arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ CPU + "," + MEMORY + "," + NVM + "," + CPUC + "," + MEMORYC + ","+ DISKC +'\n')
                         if (MEMORY == 'MEMORY'):
                             arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ '0' + "," + '0' + "," + '0' + "," + '0' + "," + '0' + ","+ '0' +'\n')
-
-                    #print(PRICE)
-                    #print(type(PRICE))                    
+           
                     if PRICE != "PRICE": #If is sending real data, this going to a file
                         #print("price changed, we will to try change PILL PRICE")
                         with open(nomearquivo3, 'a') as arquivo:
                             
                             if (os.path.getsize(nomearquivo3) == 0):
                                 arquivo.write('data,CLOUD,IP,PRICE,LATENCY,JITTER' +'\n')
-                                print(os.path.getsize(nomearquivo3))
                             if (MEMORY != 'MEMORY'):                            
                                 arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ PRICE + ","+LATENCY+","+JITTER+'\n')
                             if (MEMORY == 'MEMORY'):                            
