@@ -462,9 +462,9 @@ def conectado(connection, enderecoCliente):
                             if (os.path.getsize(nomearquivo3) == 0):
                                 arquivo.write('data,CLOUD,IP,PRICE,LATENCY,JITTER' +'\n')
                                 print(os.path.getsize(nomearquivo3))
-                            if (LATENCY != 'MEMORY'):                            
+                            if (MEMORY != 'MEMORY'):                            
                                 arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ PRICE + ","+LATENCY+","+JITTER+'\n')
-                            if (LATENCY == 'MEMORY'):                            
+                            if (MEMORY == 'MEMORY'):                            
                                 arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ '0' + ","+'0'+","+'0'+'\n')
 
                         SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,CLOUD,CLOUDTONAME) #execute function that search and change price pil                
