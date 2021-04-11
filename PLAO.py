@@ -447,7 +447,7 @@ def conectado(connection, enderecoCliente):
                     print(os.path.getsize(nomearquivo2))
 
                     with open(nomearquivo2, 'a') as arquivo:
-                        if (os.path.getsize(nomearquivo2) == 0) and (MEMORY == 'MEMORY')):
+                        if ((os.path.getsize(nomearquivo2) == 0) and (MEMORY == 'MEMORY')):
                             arquivo.write('DATAHOUR,CLOUD,IP,CPU,MEMORY,NVM,VCPU,MEMORYC,DISCKC' +'\n')
                         if (MEMORY != 'MEMORY'):
                             arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ CPU + "," + MEMORY + "," + NVM + "," + CPUC + "," + MEMORYC + ","+ DISKC +'\n')
