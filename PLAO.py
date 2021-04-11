@@ -446,7 +446,7 @@ def conectado(connection, enderecoCliente):
 
                     with open(nomearquivo2, 'a') as arquivo:
                         print (len(nomearquivo2))
-                        if ((len(nomearquivo2 == 0) and (MEMORY == 'MEMORY')):
+                        if ((len(nomearquivo2 == 0)) and (MEMORY == 'MEMORY')):
                             arquivo.write('DATAHOUR,CLOUD,IP,CPU,MEMORY,NVM,VCPU,MEMORYC,DISCKC' +'\n')
                         if (MEMORY != 'MEMORY'):
                             arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ CPU + "," + MEMORY + "," + NVM + "," + CPUC + "," + MEMORYC + ","+ DISKC +'\n')
