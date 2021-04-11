@@ -354,10 +354,10 @@ def conectado(connection, enderecoCliente):
                         CPUP_VNFA=int(CPU)*PESOCPU_VNFA
 
 
-                        #if (CLOUD == "openstack1"):
-                        #    CPUP=10*PESOCPU
-                        #if (CLOUD == "openstack2"):
-                        #    CPUP=20*PESOCPU
+                        if (CLOUD == "openstack1"):
+                            CPU='10'
+                        if (CLOUD == "openstack2"):
+                            CPUP='20'
 
                         PRICE_NOVO_VNFA=round((LATENCYP_VNFA+CPUP_VNFA)/10)
 
