@@ -320,13 +320,26 @@ def conectado(connection, enderecoCliente):
 
                     #News
 
+                    #Iniciando variaveis
+                    PESOL_VNFA=0
+                    PESOCPU_VNFB=0
+                    LATENCYP_VNFA=0
+                    CPUP_VNFA=0
+                    PRICE_NOVO_VNFA=0
+                    PESOL_VNFB=0
+                    PESOCPU_VNFB=0
+                    LATENCYP_VNFA=0
+                    CPUP_VNFA=0
+                    PRICE_NOVO_VNFB=0
+
                     if ((EXTRA3 != 'EXTRA3') and (len(EXTRA3)!=0)):
                         EXTRA2=EXTRA2.split(',')
                         EXTRA2SPL0=EXTRA2[0]
                         EXTRA2SPL1=EXTRA2[1]
-                                               
-                        PESOL=7
-                        PESOCPU=3
+
+                        PESOL_VNFA=7 #Peso para Latencia VNFA
+                        PESOCPU_VNFA=3 #Peso CPU para Latencia VNFA
+
                         print("pesol")
                         print(PESOL)
                         print('print pesocpu')
@@ -335,62 +348,64 @@ def conectado(connection, enderecoCliente):
                         print(LATENCY)
                         print("cpu")
                         print(CPU)
-                        LATENCYP=int(LATENCY)*PESOL
-                        CPUP=int(CPU)*PESOCPU
+                        LATENCYP_VNFA=int(LATENCY)*PESOL_VNFA
+                        CPUP_VNFA=int(CPU)*PESOCPU_VNFA
+
 
                         #if (CLOUD == "openstack1"):
                         #    CPUP=10*PESOCPU
                         #if (CLOUD == "openstack2"):
                         #    CPUP=20*PESOCPU
 
-                        PRICE_NOVO=round((LATENCYP+CPUP)/10)
+                        PRICE_NOVO_VNFA=round((LATENCYP_VNFA+CPUP_VNFA)/10)
+
                         print("price novo nvfwa")
-                        print("latenyp")
-                        print(LATENCYP)
+                        print("latencyp")
+                        print(LATENCYP_VNFA)
                         print("cpup")
-                        print (CPUP)
+                        print (CPUP_VNFA)
                         print("price_novo")
-                        print(PRICE_NOVO)                 
+                        print(PRICE_NOVO_VNFA)                 
                         #print(type(EXTRA3))
                         NAME_VNFD=EXTRA2SPL0
                         VIM_URL='http://'+CLOUDIP+':5000/v3'
                         #PRICE_VNFD=EXTRA3
-                        PRICE_VNFD=PRICE_NOVO
+                        PRICE_VNFD=PRICE_NOVO_VNFA
                         SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU)
 
-                        PESOL=1
-                        PESOCPU=9
+                        PESOL_VNFB=1
+                        PESOCPU_VNFB=9
                         print("proximo")
                         print("pesol")
-                        print(PESOL)
+                        print(PESOL_VNFB)
                         print('print pesocpu')
-                        print(PESOCPU)
+                        print(PESOCPU_VNFB)
                         print("latencia")
                         print(LATENCY)
                         print("cpu")
                         print(CPU)
-                        LATENCYP=int(LATENCY)*PESOL
-                        CPUP=int(CPU)*PESOCPU
+                        LATENCYP_VNFB=int(LATENCY)*PESOL_VNFB
+                        CPUP_VNFB=int(CPU)*PESOCPU_VNFB
 
                         #if (CLOUD == "openstack1"):
                         #    CPUP=10*PESOCPU
                         #if (CLOUD == "openstack2"):
                         #    CPUP=20*PESOCPU
 
-                        PRICE_NOVO=round((LATENCYP+CPUP)/10)
+                        PRICE_NOVO=round((LATENCYP_VNFB+CPUP_VNFB)/10)
                         print("price novo nvfwb")
                         print("latenciyp")
-                        print(LATENCYP)
+                        print(LATENCYP_VNFB)
                         print("vcpup")
-                        print (CPUP)
+                        print (CPUP_VNFB)
                         print("pricenovo")
-                        print(PRICE_NOVO)                 
+                        print(PRICE_NOVO_VNFB)                 
                         #print(type(EXTRA3))
 
                         NAME_VNFD=EXTRA2SPL1
                         VIM_URL='http://'+CLOUDIP+':5000/v3'
                         #PRICE_VNFD=EXTRA3
-                        PRICE_VNFD=PRICE_NOVO
+                        PRICE_VNFD=PRICE_NOVO_VNFB
                         SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU) 
                         
                         if (ID == "1"):   #If receive and processing data about user, this is marked in dictionary
@@ -416,7 +431,7 @@ def conectado(connection, enderecoCliente):
                         ExecuteCommand(USERSCOMMAND) #Run command to instanciate machine
                         nomearquivo1=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
                         with open(nomearquivo1, 'a') as arquivo:
-                            arquivo.write(DATEHOURS() + '#INSTANTIATE#  Executado comando para instanciar NS. Segue:' + USERSCOMMAND +'\n')
+                            arquivo.write(DATEHOURS() + '#INSTANTIATE#  Executado comando para instanciar NS. Segue:' + USERSCOMMAND + '\n')
                     #    LOCK_USER = 0
                     #Check Dict that have information about user entry
                     if (len(users)>=1):
