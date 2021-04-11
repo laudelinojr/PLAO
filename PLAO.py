@@ -336,7 +336,13 @@ def conectado(connection, enderecoCliente):
                         print("cpu")
                         print(CPU)
                         LATENCYP=int(LATENCY)*PESOL
-                        CPUP=int(CPU)*PESOCPU
+                        #CPUP=int(CPU)*PESOCPU
+
+                        if (CLOUD == "openstack1"):
+                            CPUP=10*PESOCPU
+                        if (CLOUD == "openstack2"):
+                            CPUP=20*PESOCPU
+
                         PRICE_NOVO=round((LATENCYP+CPUP)/10)
                         print("price novo nvfwa")
                         print("latenyp")
@@ -364,7 +370,13 @@ def conectado(connection, enderecoCliente):
                         print("cpu")
                         print(CPU)
                         LATENCYP=int(LATENCY)*PESOL
-                        CPUP=int(CPU)*PESOCPU
+                        #CPUP=int(CPU)*PESOCPU
+
+                        if (CLOUD == "openstack1"):
+                            CPUP=10*PESOCPU
+                        if (CLOUD == "openstack2"):
+                            CPUP=20*PESOCPU
+
                         PRICE_NOVO=round((LATENCYP+CPUP)/10)
                         print("price novo nvfwb")
                         print("latenciyp")
