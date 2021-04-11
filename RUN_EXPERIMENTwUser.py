@@ -100,12 +100,17 @@ def ExecuteCommand(exec_command):
     return ret.returncode
 
 def reglog(typemensage):
-    nomearquivo1=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
-    with open(nomearquivo1, 'a') as arquivo:
-        arquivo.write(DATEHOURS() + '#'+typemensage+'# Log do experimento.' +'\n')
+    if (typemensage != 'cabconfig'):
+        nomearquivo1=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
+        with open(nomearquivo1, 'a') as arquivo:
+            arquivo.write(DATEHOURS() + '#'+typemensage+'# Log do experimento.' +'\n')
+    if (typemensage == 'cabconfig'):
+        nomearquivo2=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
+        with open(nomearquivo2, 'a') as arquivo:
+            arquivo.write('data#type#log'+'\n')        
 
 
-
+reglog('cabconfig')
 print(DATEHOURS())
 print("### Cenario 1###")
 print("Incluindo simulacao Latencia 5")

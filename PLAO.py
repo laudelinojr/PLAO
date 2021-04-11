@@ -445,9 +445,12 @@ def conectado(connection, enderecoCliente):
                     nomearquivo3=PATH_LOG+'LINK_'+CLOUD+'_history.txt' #write data in file
 
                     with open(nomearquivo2, 'a') as arquivo:
+                        print (len(nomearquivo2))
+                        if ((len(nomearquivo2 == 0) and if (MEMORY == 'MEMORY')):
+                            arquivo.write('DATAHOUR,CLOUD,IP,CPU,MEMORY,NVM,VCPU,MEMORYC,DISCKC' +'\n')
                         if (MEMORY != 'MEMORY'):
                             arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ CPU + "," + MEMORY + "," + NVM + "," + CPUC + "," + MEMORYC + ","+ DISKC +'\n')
-                        else:
+                        if (MEMORY == 'MEMORY'):
                             arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ '0' + "," + '0' + "," + '0' + "," + '0' + "," + '0' + ","+ '0' +'\n')
 
                     #print(PRICE)
