@@ -444,8 +444,8 @@ def conectado(connection, enderecoCliente):
                     nomearquivo2=PATH_LOG+CLOUD+'_'+CLOUDIP+'_history.txt' #write data in file
                     nomearquivo3=PATH_LOG+'LINK_'+CLOUD+'_history.txt' #write data in file
 
-                    print(os.path.getsize(nomearquivo2))
-                    print(os.path.getsize(nomearquivo3))
+                    #print(os.path.getsize(nomearquivo2))
+                    #print(os.path.getsize(nomearquivo3))
 
                     with open(nomearquivo2, 'a') as arquivo:
                         if ((os.path.getsize(nomearquivo2) == 0) and (MEMORY == 'MEMORY')):
