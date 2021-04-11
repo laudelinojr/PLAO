@@ -322,7 +322,7 @@ def conectado(connection, enderecoCliente):
 
                     #Iniciando variaveis
                     PESOL_VNFA=0
-                    PESOCPU_VNFB=0
+                    PESOCPU_VNFA=0
                     LATENCYP_VNFA=0
                     CPUP_VNFA=0
                     PRICE_NOVO_VNFA=0
@@ -392,7 +392,7 @@ def conectado(connection, enderecoCliente):
                         #if (CLOUD == "openstack2"):
                         #    CPUP=20*PESOCPU
 
-                        PRICE_NOVO=round((LATENCYP_VNFB+CPUP_VNFB)/10)
+                        PRICE_NOVO_VNFB=round((LATENCYP_VNFB+CPUP_VNFB)/10)
                         print("price novo nvfwb")
                         print("latenciyp")
                         print(LATENCYP_VNFB)
@@ -432,7 +432,7 @@ def conectado(connection, enderecoCliente):
                         nomearquivo1=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
                         with open(nomearquivo1, 'a') as arquivo:
                             arquivo.write(DATEHOURS() + '#INSTANTIATE#  Executado comando para instanciar NS. Segue:' + USERSCOMMAND + '\n')
-                            arquivo.write(DATEHOURS() +' PESOL_VNFA: '+str(PESOL_VNFA) + ' PESOCPU_VNFB : '+str(PESOCPU_VNFB)+' LATENCYP_VNFA: '+str(LATENCYP_VNFA)+' CPUP_VNFA: '+str(CPUP_VNFA)+' PRICE_NOVO_VNFA: '+str(PRICE_NOVO_VNFA)+' PESOL_VNFB: '+str(PESOL_VNFB)+' PESOCPU_VNFB: '+str(PESOCPU_VNFB)+' LATENCYP_VNFA: '+str(LATENCYP_VNFA)+' CPUP_VNFA: '+str(CPUP_VNFA)+' PRICE_NOVO_VNFB: '+str(PRICE_NOVO_VNFB)+ '\n')
+                            arquivo.write(DATEHOURS() +' PESOL_VNFA: '+str(PESOL_VNFA) + ' PESOCPU_VNFA : '+str(PESOCPU_VNFA)+' LATENCYP_VNFA: '+str(LATENCYP_VNFA)+' CPUP_VNFA: '+str(CPUP_VNFA)+' PRICE_NOVO_VNFA: '+str(PRICE_NOVO_VNFA)+' PESOL_VNFB: '+str(PESOL_VNFB)+' PESOCPU_VNFB: '+str(PESOCPU_VNFB)+' LATENCYP_VNFA: '+str(LATENCYP_VNFA)+' CPUP_VNFA: '+str(CPUP_VNFA)+' PRICE_NOVO_VNFB: '+str(PRICE_NOVO_VNFB)+ '\n')
                     #    LOCK_USER = 0
                     #Check Dict that have information about user entry
                     if (len(users)>=1):
