@@ -325,24 +325,24 @@ def conectado(connection, enderecoCliente):
                         EXTRA2SPL0=EXTRA2[0]
                         EXTRA2SPL1=EXTRA2[1]
                                                
-                        PESOL=6
-                        PESOCPU=4
+                        PESOL=7
+                        PESOCPU=3
                         print("pesol")
                         print(PESOL)
                         print('print pesocpu')
                         print(PESOCPU)
                         print("latencia")
                         print(LATENCY)
-                        print("cpuc")
-                        print(CPUC)
+                        print("cpu")
+                        print(CPU)
                         LATENCYP=int(LATENCY)*PESOL
-                        VCPUP=int(CPUC)*PESOCPU
-                        PRICE_NOVO=round((LATENCYP+VCPUP)/10)
+                        CPUP=int(CPU)*PESOCPU
+                        PRICE_NOVO=round((LATENCYP+CPUP)/10)
                         print("price novo nvfwa")
                         print("latenyp")
                         print(LATENCYP)
-                        print("vcpup")
-                        print (VCPUP)
+                        print("cpup")
+                        print (CPUP)
                         print("price_novo")
                         print(PRICE_NOVO)                 
                         #print(type(EXTRA3))
@@ -352,8 +352,8 @@ def conectado(connection, enderecoCliente):
                         PRICE_VNFD=PRICE_NOVO
                         SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU)
 
-                        PESOL=2
-                        PESOCPU=8
+                        PESOL=1
+                        PESOCPU=9
                         print("proximo")
                         print("pesol")
                         print(PESOL)
@@ -361,11 +361,11 @@ def conectado(connection, enderecoCliente):
                         print(PESOCPU)
                         print("latencia")
                         print(LATENCY)
-                        print("cpuc")
-                        print(CPUC)
+                        print("cpu")
+                        print(CPU)
                         LATENCYP=int(LATENCY)*PESOL
-                        VCPUP=int(CPUC)*PESOCPU
-                        PRICE_NOVO=round((LATENCYP+VCPUP)/10)
+                        CPUP=int(CPU)*PESOCPU
+                        PRICE_NOVO=round((LATENCYP+CPUP)/10)
                         print("price novo nvfwb")
                         print("latenciyp")
                         print(LATENCYP)
