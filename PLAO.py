@@ -382,7 +382,7 @@ def conectado(connection, enderecoCliente):
                         print("latenciyp")
                         print(LATENCYP)
                         print("vcpup")
-                        print (VCPUP)
+                        print (CPUP)
                         print("pricenovo")
                         print(PRICE_NOVO)                 
                         #print(type(EXTRA3))
