@@ -328,8 +328,8 @@ def conectado(connection, enderecoCliente):
                     PRICE_NOVO_VNFA=0
                     PESOL_VNFB=0
                     PESOCPU_VNFB=0
-                    LATENCYP_VNFA=0
-                    CPUP_VNFA=0
+                    LATENCYP_VNFB=0
+                    CPUP_VNFB=0
                     PRICE_NOVO_VNFB=0
 
                     if ((EXTRA3 != 'EXTRA3') and (len(EXTRA3)!=0)):
@@ -341,9 +341,9 @@ def conectado(connection, enderecoCliente):
                         PESOCPU_VNFA=3 #Peso CPU para Latencia VNFA
 
                         print("pesol")
-                        print(PESOL)
+                        print(PESOL_VNFA)
                         print('print pesocpu')
-                        print(PESOCPU)
+                        print(PESOCPU_VNFA)
                         print("latencia")
                         print(LATENCY)
                         print("cpu")
