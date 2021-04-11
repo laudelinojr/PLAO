@@ -445,7 +445,7 @@ def conectado(connection, enderecoCliente):
                     nomearquivo3=PATH_LOG+'LINK_'+CLOUD+'_history.txt' #write data in file
                     
                     with open(nomearquivo2, 'a') as arquivo:
-                        if ((os.path.getsize(nomearquivo2) == 0) and (MEMORY == 'MEMORY')):
+                        if (os.path.getsize(nomearquivo2) == 0):
                             arquivo.write('data,CLOUD,IP,CPU,MEMORY,NVM,VCPU,MEMORYC,DISCKC' +'\n')
                             print(os.path.getsize(nomearquivo2))
                         if (MEMORY != 'MEMORY'):
@@ -459,12 +459,12 @@ def conectado(connection, enderecoCliente):
                         #print("price changed, we will to try change PILL PRICE")
                         with open(nomearquivo3, 'a') as arquivo:
                             
-                            if ((os.path.getsize(nomearquivo3) == 0) and (MEMORY == 'MEMORY')):
+                            if (os.path.getsize(nomearquivo3) == 0):
                                 arquivo.write('data,CLOUD,IP,PRICE,LATENCY,JITTER' +'\n')
                                 print(os.path.getsize(nomearquivo3))
-                            if (LATENCY != 'LATENCY'):                            
+                            if (LATENCY != 'MEMORY'):                            
                                 arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ PRICE + ","+LATENCY+","+JITTER+'\n')
-                            if (LATENCY == 'LATENCY'):                            
+                            if (LATENCY == 'MEMORY'):                            
                                 arquivo.write(DATEHOUR + ','+ CLOUD + ","+ CLOUDIP +","+ '0' + ","+'0'+","+'0'+'\n')
 
                         SearchChangePriceLatencyJitterPIL(PRICE,LATENCY,JITTER,CLOUD,CLOUDTONAME) #execute function that search and change price pil                
