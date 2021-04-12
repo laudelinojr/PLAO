@@ -119,7 +119,16 @@ ExecuteCommand("ssh root@10.159.205.7 'for pid in $(ps -ef | grep 'stress-ng' | 
 ExecuteCommand("ssh root@10.159.205.13 'for pid in $(ps -ef | grep 'stress-ng' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'")
 ExecuteCommand("ssh root@10.159.205.7 'stress-ng -c 4 -l 10 > /dev/null 2>&1 &'")
 ExecuteCommand("ssh root@10.159.205.13 'stress-ng -c 4 -l 20 > /dev/null 2>&1 &'")
-ExecuteCommand("ssh root@10.159.205.7 'tc qdisc add dev eth0 root netem delay 11ms'")
+#ExecuteCommand("ssh root@10.159.205.7 'tc qdisc add dev eth0 root netem delay 11ms'")
+
+ExecuteCommand("ssh root@10.159.205.7 'tc qdisc add dev eth0 root handle 1: prio'")
+ExecuteCommand("ssh root@10.159.205.7 'tc filter add dev eth0 parent 1:0 protocol ip prio 1 u32 match ip dst 10.159.205.14 flowid 2:1'")
+ExecuteCommand("ssh root@10.159.205.7 'tc qdisc add dev eth0 parent 1:1 handle 2: netem delay 11ms'")
+
+ExecuteCommand("ssh root@10.159.205.13 'tc qdisc add dev eth0 root handle 1: prio'")
+ExecuteCommand("ssh root@10.159.205.13 'tc filter add dev eth0 parent 1:0 protocol ip prio 1 u32 match ip dst 10.159.205.7 flowid 2:1'")
+ExecuteCommand("ssh root@10.159.205.13 'tc qdisc add dev eth0 parent 1:1 handle 2: netem delay 5ms'")
+
 ExecuteCommand("for pid in $(ps -ef | grep 'PLAO.py' | awk '{print $2}'); do kill -9 $pid; done") 
 ExecuteCommand("cd /opt/PLAO; git pull; rm -rf /opt/PLAO/log/* ; python3 /opt/PLAO/PLAO.py > /dev/null 2>&1 &")
 reglog('START_TEST')
@@ -149,7 +158,15 @@ time.sleep(INTERVALO_DESCANSO_EXPERIMENTO)
 print("### Cenario 2###")
 print("Excluindo simulacao de latencia")
 ExecuteCommand("ssh root@10.159.205.7 'tc qdisc del dev eth0 root'")
-ExecuteCommand("ssh root@10.159.205.7 'tc qdisc add dev eth0 root netem delay 15ms'")
+#ExecuteCommand("ssh root@10.159.205.7 'tc qdisc add dev eth0 root netem delay 15ms'")
+ExecuteCommand("ssh root@10.159.205.7 'tc qdisc add dev eth0 root handle 1: prio'")
+ExecuteCommand("ssh root@10.159.205.7 'tc filter add dev eth0 parent 1:0 protocol ip prio 1 u32 match ip dst 10.159.205.14 flowid 2:1'")
+ExecuteCommand("ssh root@10.159.205.7 'tc qdisc add dev eth0 parent 1:1 handle 2: netem delay 11ms'")
+
+ExecuteCommand("ssh root@10.159.205.13 'tc qdisc add dev eth0 root handle 1: prio'")
+ExecuteCommand("ssh root@10.159.205.13 'tc filter add dev eth0 parent 1:0 protocol ip prio 1 u32 match ip dst 10.159.205.7 flowid 2:1'")
+ExecuteCommand("ssh root@10.159.205.13 'tc qdisc add dev eth0 parent 1:1 handle 2: netem delay 15ms'")
+
 ExecuteCommand("cd /opt/PLAO; python3 /opt/PLAO/PLAO.py > /dev/null 2>&1 &")
 reglog('START_TEST')
 time.sleep(10)
@@ -182,7 +199,18 @@ print("### Cenario 3 - igual ao Cenario 1 ###")
 print("Excluindo simulacao de latencia")
 ExecuteCommand("ssh root@10.159.205.7 'tc qdisc del dev eth0 root'")
 print("Incluindo simulacao Latencia 11")
-ExecuteCommand("ssh root@10.159.205.7 'tc qdisc add dev eth0 root netem delay 11ms'")
+#ExecuteCommand("ssh root@10.159.205.7 'tc qdisc add dev eth0 root netem delay 11ms'")
+
+
+ExecuteCommand("ssh root@10.159.205.7 'tc qdisc add dev eth0 root handle 1: prio'")
+ExecuteCommand("ssh root@10.159.205.7 'tc filter add dev eth0 parent 1:0 protocol ip prio 1 u32 match ip dst 10.159.205.14 flowid 2:1'")
+ExecuteCommand("ssh root@10.159.205.7 'tc qdisc add dev eth0 parent 1:1 handle 2: netem delay 11ms'")
+
+ExecuteCommand("ssh root@10.159.205.13 'tc qdisc add dev eth0 root handle 1: prio'")
+ExecuteCommand("ssh root@10.159.205.13 'tc filter add dev eth0 parent 1:0 protocol ip prio 1 u32 match ip dst 10.159.205.7 flowid 2:1'")
+ExecuteCommand("ssh root@10.159.205.13 'tc qdisc add dev eth0 parent 1:1 handle 2: netem delay 5ms'")
+
+
 ExecuteCommand("cd /opt/PLAO; python3 /opt/PLAO/PLAO.py > /dev/null 2>&1 &")
 reglog('START_TEST')
 time.sleep(10)
