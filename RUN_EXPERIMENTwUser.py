@@ -121,6 +121,9 @@ ExecuteCommand("ssh root@10.159.205.7 'stress-ng -c 4 -l 10 > /dev/null 2>&1 &'"
 ExecuteCommand("ssh root@10.159.205.13 'stress-ng -c 4 -l 20 > /dev/null 2>&1 &'")
 #ExecuteCommand("ssh root@10.159.205.7 'tc qdisc add dev eth0 root netem delay 11ms'")
 
+ExecuteCommand("ssh root@10.159.205.7 'tc qdisc del dev eth0 root'")
+ExecuteCommand("ssh root@10.159.205.13 'tc qdisc del dev eth0 root'")
+
 ExecuteCommand("ssh root@10.159.205.7 'tc qdisc add dev eth0 root handle 1: prio'")
 ExecuteCommand("ssh root@10.159.205.7 'tc filter add dev eth0 parent 1:0 protocol ip prio 1 u32 match ip dst 10.159.205.14 flowid 2:1'")
 ExecuteCommand("ssh root@10.159.205.7 'tc qdisc add dev eth0 parent 1:1 handle 2: netem delay 11ms'")
@@ -163,6 +166,7 @@ ExecuteCommand("ssh root@10.159.205.7 'tc qdisc add dev eth0 root handle 1: prio
 ExecuteCommand("ssh root@10.159.205.7 'tc filter add dev eth0 parent 1:0 protocol ip prio 1 u32 match ip dst 10.159.205.14 flowid 2:1'")
 ExecuteCommand("ssh root@10.159.205.7 'tc qdisc add dev eth0 parent 1:1 handle 2: netem delay 11ms'")
 
+ExecuteCommand("ssh root@10.159.205.13 'tc qdisc del dev eth0 root'")
 ExecuteCommand("ssh root@10.159.205.13 'tc qdisc add dev eth0 root handle 1: prio'")
 ExecuteCommand("ssh root@10.159.205.13 'tc filter add dev eth0 parent 1:0 protocol ip prio 1 u32 match ip dst 10.159.205.7 flowid 2:1'")
 ExecuteCommand("ssh root@10.159.205.13 'tc qdisc add dev eth0 parent 1:1 handle 2: netem delay 15ms'")
