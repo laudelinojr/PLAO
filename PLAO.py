@@ -12,6 +12,7 @@ OKTOCLEAN=0
 RC1=0  #READ DICT USERS FOR CLOUD 1
 RC2=0  #READ DICT USERS FOR CLOUD 1
 SENTCOMMAND=0 #SENT COMMAND TO OSM
+VERSION_FILE=0
 
 #Para simulacao
 #OSM - ej /opt/PLAO: digitar python3 PLAO.py
@@ -272,6 +273,7 @@ def conectado(connection, enderecoCliente):
         global RC2
         global LOCK_USER
         global SENTCOMMAND
+        global VERSION_FILE
         while True:
             msg = connection.recv(1024).decode('utf8')
             msg = msg.split('#')  # quebra o texto unico com o separador #
@@ -441,7 +443,9 @@ def conectado(connection, enderecoCliente):
                         with open(nomearquivo1, 'a') as arquivo:
                             arquivo.write(DATEHOURS() + '#INSTANTIATE#  Executado comando para instanciar NS. Segue:' + USERSCOMMAND + '\n')
 
-                        ExecuteCommand('cp '+FILE_VNF_PRICE+' '+FILE_VNF_PRICE+'_'+random.randint(1,100))    
+                        ExecuteCommand('cp '+FILE_VNF_PRICE+' '+FILE_VNF_PRICE+'_'VERSION_FILE)
+                        ExecuteCommand('cp '+FILE_PIL_PRICE+' '+FILE_PIL_PRICE+'_'+VERSION_FILE)
+                        VERSION_VNF=VERSION+1
                     #    LOCK_USER = 0
                     #Check Dict that have information about user entry
                     if (len(users)>=1):
