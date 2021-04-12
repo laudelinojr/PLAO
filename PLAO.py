@@ -443,9 +443,10 @@ def conectado(connection, enderecoCliente):
                         with open(nomearquivo1, 'a') as arquivo:
                             arquivo.write(DATEHOURS() + '#INSTANTIATE#  Executado comando para instanciar NS. Segue:' + USERSCOMMAND + '\n')
 
+                        VERSION_VNF=VERSION_FILE+1
                         ExecuteCommand('cp '+FILE_VNF_PRICE+' '+FILE_VNF_PRICE+'_'+str(VERSION_FILE))
                         ExecuteCommand('cp '+FILE_PIL_PRICE+' '+FILE_PIL_PRICE+'_'+str(VERSION_FILE))
-                        VERSION_VNF=VERSION+1
+                        
                     #    LOCK_USER = 0
                     #Check Dict that have information about user entry
                     if (len(users)>=1):
