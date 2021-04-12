@@ -130,7 +130,7 @@ ExecuteCommand("ssh root@10.159.205.7 'tc qdisc add dev eth0 parent 1:1 handle 2
 
 ExecuteCommand("ssh root@10.159.205.13 'tc qdisc add dev eth0 root handle 1: prio'")
 ExecuteCommand("ssh root@10.159.205.13 'tc filter add dev eth0 parent 1:0 protocol ip prio 1 u32 match ip dst 10.159.205.7 flowid 2:1'")
-ExecuteCommand("ssh root@10.159.205.13 'tc qdisc add dev eth0 parent 1:1 handle 2: netem delay 5ms'")
+ExecuteCommand("ssh root@10.159.205.13 'tc qdisc add dev eth0 parent 1:1 handle 2: netem delay 4ms'")
 
 ExecuteCommand("for pid in $(ps -ef | grep 'PLAO.py' | awk '{print $2}'); do kill -9 $pid; done") 
 ExecuteCommand("cd /opt/PLAO; git pull; rm -rf /opt/PLAO/log/* ; python3 /opt/PLAO/PLAO.py > /dev/null 2>&1 &")
@@ -213,7 +213,7 @@ ExecuteCommand("ssh root@10.159.205.7 'tc qdisc add dev eth0 parent 1:1 handle 2
 
 ExecuteCommand("ssh root@10.159.205.13 'tc qdisc add dev eth0 root handle 1: prio'")
 ExecuteCommand("ssh root@10.159.205.13 'tc filter add dev eth0 parent 1:0 protocol ip prio 1 u32 match ip dst 10.159.205.7 flowid 2:1'")
-ExecuteCommand("ssh root@10.159.205.13 'tc qdisc add dev eth0 parent 1:1 handle 2: netem delay 5ms'")
+ExecuteCommand("ssh root@10.159.205.13 'tc qdisc add dev eth0 parent 1:1 handle 2: netem delay 4ms'")
 
 
 ExecuteCommand("cd /opt/PLAO; python3 /opt/PLAO/PLAO.py > /dev/null 2>&1 &")
@@ -311,7 +311,7 @@ ExecuteCommand("ssh root@10.159.205.13 'for pid in $(ps -ef | grep 'stress-ng' |
 '''
 print("### Cenario 6 ###")   #Aumentar quantidade de CPU usada no SO com nstress
 print("Incluindo simulacao Latencia 6")
-ExecuteCommand("ssh root@10.159.205.7 'tc qdisc add dev eth0 root netem delay 5ms'")
+ExecuteCommand("ssh root@10.159.205.7 'tc qdisc add dev eth0 root netem delay 4ms'")
 print('Simulando aumento de CPU Cloud 1')
 ExecuteCommand("cd /opt/PLAO; python3 /opt/PLAO/PLAO.py > /dev/null 2>&1 &")
 time.sleep(10)
