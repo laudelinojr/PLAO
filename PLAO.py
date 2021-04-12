@@ -443,7 +443,7 @@ def conectado(connection, enderecoCliente):
                         with open(nomearquivo1, 'a') as arquivo:
                             arquivo.write(DATEHOURS() + '#INSTANTIATE#  Executado comando para instanciar NS. Segue:' + USERSCOMMAND + '\n')
 
-                        ExecuteCommand('cp '+FILE_VNF_PRICE+' '+FILE_VNF_PRICE+'_'VERSION_FILE)
+                        ExecuteCommand('cp '+FILE_VNF_PRICE+' '+FILE_VNF_PRICE+'_'+VERSION_FILE)
                         ExecuteCommand('cp '+FILE_PIL_PRICE+' '+FILE_PIL_PRICE+'_'+VERSION_FILE)
                         VERSION_VNF=VERSION+1
                     #    LOCK_USER = 0
