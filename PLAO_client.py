@@ -219,10 +219,10 @@ try:
                         if( (EXTRA != "EXTRA") and (len(EXTRA)!=0) ):
                             if (CLOUDIP == "10.159.205.6"):
                                 print("aquic1")
-                                CPU=round(10)
+                                CPU=str(10)
                             if (CLOUDIP == "10.159.205.12"):
                                 print("aquic2")
-                                CPU=round(20)
+                                CPU=str(20)
                             print("COLLECT LATENCY TO VNF CLIENT: "+ EXTRA)
                             EXTRA3=str(round(float(GetLatency(EXTRA,QUANTITY_PCK)))) #Get latency with ping, is necessary set quantity packages
                         if (CLOUDTOIP != "CLOUDTOIP" ):
