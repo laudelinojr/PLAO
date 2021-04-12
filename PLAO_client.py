@@ -100,6 +100,12 @@ def GetHypervisorStats(OPENSTACK_FROM, PARAMETER):
 
 def GetLatency(TARGET,QUANTITY_PCK):
     #Test with ping to get latency.
+
+    if (TARGET == '10.159.205.6'): #alteracoes temporarias para testes
+        TARGET = '10.159.205.7'
+    if (TARGET == '10.159.205.12'):
+        TARGET = '10.159.205.13'
+
     if platform.system().lower() == "linux":
         try:
             ping = subprocess.check_output(["ping", "-c", QUANTITY_PCK, TARGET])
