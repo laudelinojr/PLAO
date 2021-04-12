@@ -351,10 +351,10 @@ def conectado(connection, enderecoCliente):
                         print("cpu")
                         print(CPU)
 
-                        if (CLOUD == "openstack1"):
-                            CPU='10'
-                        if (CLOUD == "openstack2"):
-                            CPU='20'
+                        #if (CLOUD == "openstack1"):
+                        #    CPU='10'
+                        #if (CLOUD == "openstack2"):
+                        #    CPU='20'
 
                         LATENCYP_VNFA=int(LATENCY_USER)*PESOL_VNFA
                         CPUP_VNFA=int(CPU)*PESOCPU_VNFA
@@ -412,7 +412,7 @@ def conectado(connection, enderecoCliente):
 
                         nomearquivo10=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
                         with open(nomearquivo10, 'a') as arquivo:
-                            arquivo.write(DATEHOURS()+'#DEBUG#' +' PESOL_VNFA: '+str(PESOL_VNFA) + ' LATENCY_USER: '+str(LATENCY_USER)+' PESOCPU_VNFA : '+str(PESOCPU_VNFA)+' CPU: '+CPU+' LATENCYP_VNFA: '+str(LATENCYP_VNFA)+' CPUP_VNFA: '+str(CPUP_VNFA)+' PRICE_NOVO_VNFA: '+str(PRICE_NOVO_VNFA)+' PESOL_VNFB: '+str(PESOL_VNFB)+' PESOCPU_VNFB: '+str(PESOCPU_VNFB)+' LATENCYP_VNFA: '+str(LATENCYP_VNFA)+' CPUP_VNFA: '+str(CPUP_VNFA)+' PRICE_NOVO_VNFB: '+str(PRICE_NOVO_VNFB)+ '\n')
+                            arquivo.write(DATEHOURS()+'#DEBUG#' +' LATENCY: '+LATENCY+' PESOL_VNFA: '+str(PESOL_VNFA) + ' LATENCY_USER: '+str(LATENCY_USER)+' PESOCPU_VNFA : '+str(PESOCPU_VNFA)+' CPU: '+CPU+' LATENCYP_VNFA: '+str(LATENCYP_VNFA)+' CPUP_VNFA: '+str(CPUP_VNFA)+' PRICE_NOVO_VNFA: '+str(PRICE_NOVO_VNFA)+' PESOL_VNFB: '+str(PESOL_VNFB)+' PESOCPU_VNFB: '+str(PESOCPU_VNFB)+' LATENCYP_VNFA: '+str(LATENCYP_VNFA)+' CPUP_VNFA: '+str(CPUP_VNFA)+' PRICE_NOVO_VNFB: '+str(PRICE_NOVO_VNFB)+ '\n')
 
 
 
