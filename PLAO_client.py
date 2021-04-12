@@ -214,12 +214,12 @@ try:
                 if TIPO == 'SENDC':
                     if CLOUDIP_LOCAL == CLOUDIP:
                         #time.sleep(1)
-                        print(CLOUDIP)
+                        #print(CLOUDIP)
                         CPU=GetCpuSO()
                         if( (EXTRA != "EXTRA") and (len(EXTRA)!=0) ):
                             if (CLOUDIP == "10.159.205.6"):
                                 CPU=10
-                            if (CLOUDIP == "10.159.205.13"):
+                            if (CLOUDIP == "10.159.205.12"):
                                 CPU=20
                             print("COLLECT LATENCY TO VNF CLIENT: "+ EXTRA)
                             EXTRA3=str(round(float(GetLatency(EXTRA,QUANTITY_PCK)))) #Get latency with ping, is necessary set quantity packages
