@@ -264,7 +264,7 @@ def printCloudsDict():
             if debug == 1: print('Cloud Dict Empty')
 
 def DATEHOURS():
-    DATEHOUR = datetime.datetime.now().strftime('%d.%m.%y-%H:%M:%S')  # converte hora para string do cliente
+    DATEHOUR = datetime.now().strftime('%d.%m.%y-%H:%M:%S')  # converte hora para string do cliente
     return DATEHOUR
 
 def UnixTimeStamp():
