@@ -1,94 +1,108 @@
-08.04.21-19:29:39#START_TEST# Log do experimento.
-08.04.21-19:30:02#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
-08.04.21-19:30:10#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 5 LATENCY: 5 JITTER: 0
-08.04.21-19:30:18#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
-08.04.21-19:30:27#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 5 LATENCY: 5 JITTER: 0
-08.04.21-19:30:39#CHANGE_VNFD#  - Changed and copied file /opt/PLAO/osm/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://10.159.205.6:5000/v3 PRICE_VNFD: 13
-08.04.21-19:30:40#CHANGE_VNFD#  - Changed and copied file /opt/PLAO/osm/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://10.159.205.6:5000/v3 PRICE_VNFD: 21
-08.04.21-19:30:40#CHANGE_VNFD#  - Changed and copied file /opt/PLAO/osm/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://10.159.205.12:5000/v3 PRICE_VNFD: 3
-08.04.21-19:30:41#CHANGE_VNFD#  - Changed and copied file /opt/PLAO/osm/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://10.159.205.12:5000/v3 PRICE_VNFD: 1
-08.04.21-19:30:51#CHANGE_VNFD#  - Changed and copied file /opt/PLAO/osm/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://10.159.205.6:5000/v3 PRICE_VNFD: 14
-08.04.21-19:30:53#CHANGE_VNFD#  - Changed and copied file /opt/PLAO/osm/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://10.159.205.12:5000/v3 PRICE_VNFD: 4
-08.04.21-19:30:57#INSTANTIATE#  Executado comando para instanciar NS. Segue:osm ns-create --nsd_name teste_artigo  --ns_name test1ArtigoPLA --vim_account openstack1 --config '{placement-engine: PLA, wim_account: False }'
-08.04.21-19:30:57#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
-08.04.21-19:31:26#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 9 LATENCY: 9 JITTER: 0
-08.04.21-19:31:34#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 7 LATENCY: 7 JITTER: 0
-08.04.21-19:31:41#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
-08.04.21-19:32:22#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 7 LATENCY: 7 JITTER: 0
-08.04.21-19:32:35#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
-08.04.21-19:32:50#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 5 LATENCY: 5 JITTER: 0
-08.04.21-19:32:58#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
-08.04.21-19:33:37#STOP_TEST# Log do experimento.
-08.04.21-19:34:37#START_TEST# Log do experimento.
-08.04.21-19:35:01#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 21 LATENCY: 21 JITTER: 0
-08.04.21-19:35:09#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 16 LATENCY: 16 JITTER: 0
-08.04.21-19:35:17#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 17 LATENCY: 17 JITTER: 0
-08.04.21-19:35:25#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 16 LATENCY: 16 JITTER: 0
-08.04.21-19:35:37#CHANGE_VNFD#  - Changed and copied file /opt/PLAO/osm/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://10.159.205.6:5000/v3 PRICE_VNFD: 20
-08.04.21-19:35:38#CHANGE_VNFD#  - Changed and copied file /opt/PLAO/osm/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://10.159.205.6:5000/v3 PRICE_VNFD: 23
-08.04.21-19:35:38#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 17 LATENCY: 17 JITTER: 0
-08.04.21-19:35:45#INSTANTIATE#  Executado comando para instanciar NS. Segue:osm ns-create --nsd_name teste_artigo  --ns_name test1ArtigoPLA --vim_account openstack1 --config '{placement-engine: PLA, wim_account: False }'
-08.04.21-19:35:51#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 16 LATENCY: 16 JITTER: 0
-08.04.21-19:35:59#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 15 LATENCY: 15 JITTER: 0
-08.04.21-19:36:07#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 17 LATENCY: 17 JITTER: 0
-08.04.21-19:36:16#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 16 LATENCY: 16 JITTER: 0
-08.04.21-19:36:32#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 17 LATENCY: 17 JITTER: 0
-08.04.21-19:36:40#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 22 LATENCY: 22 JITTER: 0
-08.04.21-19:36:49#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 16 LATENCY: 16 JITTER: 0
-08.04.21-19:37:20#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 15 LATENCY: 15 JITTER: 0
-08.04.21-19:37:28#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 17 LATENCY: 17 JITTER: 0
-08.04.21-19:37:36#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 16 LATENCY: 16 JITTER: 0
-08.04.21-19:37:44#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 15 LATENCY: 15 JITTER: 0
-08.04.21-19:37:52#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 16 LATENCY: 16 JITTER: 0
-08.04.21-19:38:28#STOP_TEST# Log do experimento.
-08.04.21-19:39:29#START_TEST# Log do experimento.
-08.04.21-19:39:53#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
-08.04.21-19:40:16#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 5 LATENCY: 5 JITTER: 0
-08.04.21-19:40:28#CHANGE_VNFD#  - Changed and copied file /opt/PLAO/osm/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://10.159.205.6:5000/v3 PRICE_VNFD: 14
-08.04.21-19:40:28#CHANGE_VNFD#  - Changed and copied file /opt/PLAO/osm/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://10.159.205.6:5000/v3 PRICE_VNFD: 21
-08.04.21-19:40:29#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 7 LATENCY: 7 JITTER: 0
-08.04.21-19:40:38#CHANGE_VNFD#  - Changed and copied file /opt/PLAO/osm/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://10.159.205.12:5000/v3 PRICE_VNFD: 3
-08.04.21-19:40:41#INSTANTIATE#  Executado comando para instanciar NS. Segue:osm ns-create --nsd_name teste_artigo  --ns_name test1ArtigoPLA --vim_account openstack1 --config '{placement-engine: PLA, wim_account: False }'
-08.04.21-19:40:41#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
-08.04.21-19:41:04#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 7 LATENCY: 7 JITTER: 0
-08.04.21-19:41:12#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
-08.04.21-19:41:21#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 8 LATENCY: 8 JITTER: 0
-08.04.21-19:41:29#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 7 LATENCY: 7 JITTER: 0
-08.04.21-19:41:37#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
-08.04.21-19:41:52#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 5 LATENCY: 5 JITTER: 0
-08.04.21-19:41:59#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
-08.04.21-19:42:31#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 7 LATENCY: 7 JITTER: 0
-08.04.21-19:42:38#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
-08.04.21-19:43:18#STOP_TEST# Log do experimento.
-08.04.21-19:44:18#START_TEST# Log do experimento.
-08.04.21-19:45:20#CHANGE_VNFD#  - Changed and copied file /opt/PLAO/osm/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://10.159.205.12:5000/v3 PRICE_VNFD: 4
-08.04.21-19:45:30#INSTANTIATE#  Executado comando para instanciar NS. Segue:osm ns-create --nsd_name teste_artigo  --ns_name test2ArtigoPLA --vim_account openstack1 --config '{placement-engine: PLA, placement-constraints: {vld-constraints: [{id: ns_vl_2mlm, link-constraints: {latency: 2}}]}, wim_account: False}'
-08.04.21-19:45:37#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 5 LATENCY: 5 JITTER: 0
-08.04.21-19:45:45#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
-08.04.21-19:46:01#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 7 LATENCY: 7 JITTER: 0
-08.04.21-19:46:16#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
-08.04.21-19:46:39#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 7 LATENCY: 7 JITTER: 0
-08.04.21-19:46:47#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 17 LATENCY: 17 JITTER: 0
-08.04.21-19:46:55#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
-08.04.21-19:47:18#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 5 LATENCY: 5 JITTER: 0
-08.04.21-19:47:26#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
-08.04.21-19:48:09#STOP_TEST# Log do experimento.
-08.04.21-19:50:33#START_TEST# Log do experimento.
-08.04.21-19:50:55#CHANGE_VNFD_ALL# Changed and copied file /opt/PLAO/osm/vnf_price_list.yaml to container PLA. Add values in All prices to Cloud: http://10.159.205.12:5000/v3.
-08.04.21-19:50:56#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 7 LATENCY: 7 JITTER: 0
-08.04.21-19:51:04#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
-08.04.21-19:51:11#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 5 LATENCY: 5 JITTER: 0
-08.04.21-19:51:19#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
-08.04.21-19:51:36#CHANGE_VNFD#  - Changed and copied file /opt/PLAO/osm/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://10.159.205.12:5000/v3 PRICE_VNFD: 44
-08.04.21-19:51:36#CHANGE_VNFD#  - Changed and copied file /opt/PLAO/osm/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://10.159.205.12:5000/v3 PRICE_VNFD: 81
-08.04.21-19:51:44#INSTANTIATE#  Executado comando para instanciar NS. Segue:osm ns-create --nsd_name teste_artigo  --ns_name test2ArtigoPLA --vim_account openstack1 --config '{placement-engine: PLA, placement-constraints: {vld-constraints: [{id: ns_vl_2mlm, link-constraints: {latency: 2}}]}, wim_account: False}'
-08.04.21-19:51:52#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 7 LATENCY: 7 JITTER: 0
-08.04.21-19:51:55#CHANGE_VNFD#  - Changed and copied file /opt/PLAO/osm/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://10.159.205.12:5000/v3 PRICE_VNFD: 44
-08.04.21-19:51:56#CHANGE_VNFD#  - Changed and copied file /opt/PLAO/osm/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://10.159.205.12:5000/v3 PRICE_VNFD: 81
-08.04.21-19:52:16#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
-08.04.21-19:52:42#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 7 LATENCY: 7 JITTER: 0
-08.04.21-19:52:56#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
-08.04.21-19:53:22#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 7 LATENCY: 7 JITTER: 0
-08.04.21-19:53:30#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
-08.04.21-19:54:24#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 8 LATENCY: 8 JITTER: 0
-08.04.21-19:54:29#STOP_TEST# Log do experimento.
+data#type#log
+12.04.21-09:53:21#START_TEST# Log do experimento.
+12.04.21-09:53:59#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
+12.04.21-09:54:06#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 5 LATENCY: 5 JITTER: 0
+12.04.21-09:54:16#DEBUG#CLOUDIP: 10.159.205.12 LATENCY: 5 PESOL_VNFA: 7 LATENCY_USER: 5 PESOCPU_VNFA : 3 CPU: 20 LATENCYP_VNFA: 35 CPUP_VNFA: 60 PRICE_NOVO_VNFA: 10 PESOL_VNFB: 1 PESOCPU_VNFB: 9 LATENCYP_VNFA: 35 CPUP_VNFA: 60 PRICE_NOVO_VNFB: 18
+12.04.21-09:54:18#CHANGE_VNFD#  - Changed and copied file /opt/PLAO/osm/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://10.159.205.6:5000/v3 PRICE_VNFD: 21
+12.04.21-09:54:18#DEBUG#CLOUDIP: 10.159.205.6 LATENCY: 9 PESOL_VNFA: 7 LATENCY_USER: 26 PESOCPU_VNFA : 3 CPU: 10 LATENCYP_VNFA: 182 CPUP_VNFA: 30 PRICE_NOVO_VNFA: 21 PESOL_VNFB: 1 PESOCPU_VNFB: 9 LATENCYP_VNFA: 182 CPUP_VNFA: 30 PRICE_NOVO_VNFB: 12
+12.04.21-09:54:19#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 9 LATENCY: 9 JITTER: 0
+12.04.21-09:54:27#DEBUG#CLOUDIP: 10.159.205.12 LATENCY: 9 PESOL_VNFA: 7 LATENCY_USER: 5 PESOCPU_VNFA : 3 CPU: 20 LATENCYP_VNFA: 35 CPUP_VNFA: 60 PRICE_NOVO_VNFA: 10 PESOL_VNFB: 1 PESOCPU_VNFB: 9 LATENCYP_VNFA: 35 CPUP_VNFA: 60 PRICE_NOVO_VNFB: 18
+12.04.21-09:54:31#DEBUG#CLOUDIP: 10.159.205.6 LATENCY: 5 PESOL_VNFA: 7 LATENCY_USER: 26 PESOCPU_VNFA : 3 CPU: 10 LATENCYP_VNFA: 182 CPUP_VNFA: 30 PRICE_NOVO_VNFA: 21 PESOL_VNFB: 1 PESOCPU_VNFB: 9 LATENCYP_VNFA: 182 CPUP_VNFA: 30 PRICE_NOVO_VNFB: 12
+12.04.21-09:54:32#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 5 LATENCY: 5 JITTER: 0
+12.04.21-09:54:32#INSTANTIATE#  Executado comando para instanciar NS. Segue:osm ns-create --nsd_name teste_artigo  --ns_name test1ArtigoPLA --vim_account openstack1 --config '{placement-engine: PLA, wim_account: False }'
+12.04.21-09:55:22#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
+12.04.21-09:55:29#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 5 LATENCY: 5 JITTER: 0
+12.04.21-09:56:23#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 7 LATENCY: 7 JITTER: 0
+12.04.21-09:56:31#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 5 LATENCY: 5 JITTER: 0
+12.04.21-09:57:11#STOP_TEST# Log do experimento.
+12.04.21-09:58:13#START_TEST# Log do experimento.
+12.04.21-09:58:37#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 16 LATENCY: 16 JITTER: 0
+12.04.21-09:59:10#DEBUG#CLOUDIP: 10.159.205.6 LATENCY: 17 PESOL_VNFA: 7 LATENCY_USER: 26 PESOCPU_VNFA : 3 CPU: 10 LATENCYP_VNFA: 182 CPUP_VNFA: 30 PRICE_NOVO_VNFA: 21 PESOL_VNFB: 1 PESOCPU_VNFB: 9 LATENCYP_VNFA: 182 CPUP_VNFA: 30 PRICE_NOVO_VNFB: 12
+12.04.21-09:59:10#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 17 LATENCY: 17 JITTER: 0
+12.04.21-09:59:15#DEBUG#CLOUDIP: 10.159.205.12 LATENCY: 15 PESOL_VNFA: 7 LATENCY_USER: 5 PESOCPU_VNFA : 3 CPU: 20 LATENCYP_VNFA: 35 CPUP_VNFA: 60 PRICE_NOVO_VNFA: 10 PESOL_VNFB: 1 PESOCPU_VNFB: 9 LATENCYP_VNFA: 35 CPUP_VNFA: 60 PRICE_NOVO_VNFB: 18
+12.04.21-09:59:22#CHANGE_VNFD#  - Changed and copied file /opt/PLAO/osm/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://10.159.205.6:5000/v3 PRICE_VNFD: 24
+12.04.21-09:59:22#DEBUG#CLOUDIP: 10.159.205.6 LATENCY: 15 PESOL_VNFA: 7 LATENCY_USER: 30 PESOCPU_VNFA : 3 CPU: 10 LATENCYP_VNFA: 210 CPUP_VNFA: 30 PRICE_NOVO_VNFA: 24 PESOL_VNFB: 1 PESOCPU_VNFB: 9 LATENCYP_VNFA: 210 CPUP_VNFA: 30 PRICE_NOVO_VNFB: 12
+12.04.21-09:59:25#INSTANTIATE#  Executado comando para instanciar NS. Segue:osm ns-create --nsd_name teste_artigo  --ns_name test1ArtigoPLA --vim_account openstack1 --config '{placement-engine: PLA, wim_account: False }'
+12.04.21-09:59:25#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 15 LATENCY: 15 JITTER: 0
+12.04.21-09:59:27#DEBUG#CLOUDIP: 10.159.205.12 LATENCY: 18 PESOL_VNFA: 7 LATENCY_USER: 5 PESOCPU_VNFA : 3 CPU: 20 LATENCYP_VNFA: 35 CPUP_VNFA: 60 PRICE_NOVO_VNFA: 10 PESOL_VNFB: 1 PESOCPU_VNFB: 9 LATENCYP_VNFA: 35 CPUP_VNFA: 60 PRICE_NOVO_VNFB: 18
+12.04.21-09:59:34#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 16 LATENCY: 16 JITTER: 0
+12.04.21-10:00:20#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 15 LATENCY: 15 JITTER: 0
+12.04.21-10:00:28#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 16 LATENCY: 16 JITTER: 0
+12.04.21-10:00:36#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 17 LATENCY: 17 JITTER: 0
+12.04.21-10:00:51#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 16 LATENCY: 16 JITTER: 0
+12.04.21-10:00:59#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 17 LATENCY: 17 JITTER: 0
+12.04.21-10:01:07#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 16 LATENCY: 16 JITTER: 0
+12.04.21-10:01:29#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 17 LATENCY: 17 JITTER: 0
+12.04.21-10:01:37#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 16 LATENCY: 16 JITTER: 0
+12.04.21-10:01:45#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 20 LATENCY: 20 JITTER: 0
+12.04.21-10:01:52#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 18 LATENCY: 18 JITTER: 0
+12.04.21-10:02:01#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 16 LATENCY: 16 JITTER: 0
+12.04.21-10:02:03#STOP_TEST# Log do experimento.
+12.04.21-10:03:05#START_TEST# Log do experimento.
+12.04.21-10:03:28#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 5 LATENCY: 5 JITTER: 0
+12.04.21-10:03:36#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 10 LATENCY: 10 JITTER: 0
+12.04.21-10:03:45#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 5 LATENCY: 5 JITTER: 0
+12.04.21-10:04:03#DEBUG#CLOUDIP: 10.159.205.12 LATENCY: 4 PESOL_VNFA: 7 LATENCY_USER: 5 PESOCPU_VNFA : 3 CPU: 20 LATENCYP_VNFA: 35 CPUP_VNFA: 60 PRICE_NOVO_VNFA: 10 PESOL_VNFB: 1 PESOCPU_VNFB: 9 LATENCYP_VNFA: 35 CPUP_VNFA: 60 PRICE_NOVO_VNFB: 18
+12.04.21-10:04:04#CHANGE_VNFD#  - Changed and copied file /opt/PLAO/osm/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://10.159.205.6:5000/v3 PRICE_VNFD: 20
+12.04.21-10:04:04#DEBUG#CLOUDIP: 10.159.205.6 LATENCY: 5 PESOL_VNFA: 7 LATENCY_USER: 25 PESOCPU_VNFA : 3 CPU: 10 LATENCYP_VNFA: 175 CPUP_VNFA: 30 PRICE_NOVO_VNFA: 20 PESOL_VNFB: 1 PESOCPU_VNFB: 9 LATENCYP_VNFA: 175 CPUP_VNFA: 30 PRICE_NOVO_VNFB: 12
+12.04.21-10:04:15#DEBUG#CLOUDIP: 10.159.205.12 LATENCY: 5 PESOL_VNFA: 7 LATENCY_USER: 5 PESOCPU_VNFA : 3 CPU: 20 LATENCYP_VNFA: 35 CPUP_VNFA: 60 PRICE_NOVO_VNFA: 10 PESOL_VNFB: 1 PESOCPU_VNFB: 9 LATENCYP_VNFA: 35 CPUP_VNFA: 60 PRICE_NOVO_VNFB: 18
+12.04.21-10:04:17#DEBUG#CLOUDIP: 10.159.205.6 LATENCY: 4 PESOL_VNFA: 7 LATENCY_USER: 25 PESOCPU_VNFA : 3 CPU: 10 LATENCYP_VNFA: 175 CPUP_VNFA: 30 PRICE_NOVO_VNFA: 20 PESOL_VNFB: 1 PESOCPU_VNFB: 9 LATENCYP_VNFA: 175 CPUP_VNFA: 30 PRICE_NOVO_VNFB: 12
+12.04.21-10:04:17#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 4 LATENCY: 4 JITTER: 0
+12.04.21-10:04:19#INSTANTIATE#  Executado comando para instanciar NS. Segue:osm ns-create --nsd_name teste_artigo  --ns_name test1ArtigoPLA --vim_account openstack1 --config '{placement-engine: PLA, wim_account: False }'
+12.04.21-10:04:43#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 5 LATENCY: 5 JITTER: 0
+12.04.21-10:04:53#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
+12.04.21-10:05:01#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 10 LATENCY: 10 JITTER: 0
+12.04.21-10:05:08#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 5 LATENCY: 5 JITTER: 0
+12.04.21-10:05:30#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
+12.04.21-10:05:38#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 5 LATENCY: 5 JITTER: 0
+12.04.21-10:05:53#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 13 LATENCY: 13 JITTER: 0
+12.04.21-10:06:01#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
+12.04.21-10:06:11#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 5 LATENCY: 5 JITTER: 0
+12.04.21-10:06:19#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
+12.04.21-10:06:27#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 5 LATENCY: 5 JITTER: 0
+12.04.21-10:06:44#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
+12.04.21-10:06:52#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 5 LATENCY: 5 JITTER: 0
+12.04.21-10:06:56#STOP_TEST# Log do experimento.
+12.04.21-10:07:56#START_TEST# Log do experimento.
+12.04.21-10:08:55#DEBUG#CLOUDIP: 10.159.205.12 LATENCY: 5 PESOL_VNFA: 7 LATENCY_USER: 5 PESOCPU_VNFA : 3 CPU: 20 LATENCYP_VNFA: 35 CPUP_VNFA: 60 PRICE_NOVO_VNFA: 10 PESOL_VNFB: 1 PESOCPU_VNFB: 9 LATENCYP_VNFA: 35 CPUP_VNFA: 60 PRICE_NOVO_VNFB: 18
+12.04.21-10:08:58#CHANGE_VNFD#  - Changed and copied file /opt/PLAO/osm/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://10.159.205.6:5000/v3 PRICE_VNFD: 21
+12.04.21-10:08:58#DEBUG#CLOUDIP: 10.159.205.6 LATENCY: 4 PESOL_VNFA: 7 LATENCY_USER: 26 PESOCPU_VNFA : 3 CPU: 10 LATENCYP_VNFA: 182 CPUP_VNFA: 30 PRICE_NOVO_VNFA: 21 PESOL_VNFB: 1 PESOCPU_VNFB: 9 LATENCYP_VNFA: 182 CPUP_VNFA: 30 PRICE_NOVO_VNFB: 12
+12.04.21-10:08:58#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 4 LATENCY: 4 JITTER: 0
+12.04.21-10:09:07#DEBUG#CLOUDIP: 10.159.205.12 LATENCY: 4 PESOL_VNFA: 7 LATENCY_USER: 5 PESOCPU_VNFA : 3 CPU: 20 LATENCYP_VNFA: 35 CPUP_VNFA: 60 PRICE_NOVO_VNFA: 10 PESOL_VNFB: 1 PESOCPU_VNFB: 9 LATENCYP_VNFA: 35 CPUP_VNFA: 60 PRICE_NOVO_VNFB: 18
+12.04.21-10:09:10#INSTANTIATE#  Executado comando para instanciar NS. Segue:osm ns-create --nsd_name teste_artigo  --ns_name test2ArtigoPLA --vim_account openstack1 --config '{placement-engine: PLA, placement-constraints: {vld-constraints: [{id: ns_vl_2mlm, link-constraints: {latency: 2}}]}, wim_account: False}'
+12.04.21-10:09:10#CHANGE_VNFD#  - Changed and copied file /opt/PLAO/osm/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://10.159.205.6:5000/v3 PRICE_VNFD: 20
+12.04.21-10:09:10#DEBUG#CLOUDIP: 10.159.205.6 LATENCY: 4 PESOL_VNFA: 7 LATENCY_USER: 25 PESOCPU_VNFA : 3 CPU: 10 LATENCYP_VNFA: 175 CPUP_VNFA: 30 PRICE_NOVO_VNFA: 20 PESOL_VNFB: 1 PESOCPU_VNFB: 9 LATENCYP_VNFA: 175 CPUP_VNFA: 30 PRICE_NOVO_VNFB: 12
+12.04.21-10:09:18#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 5 LATENCY: 5 JITTER: 0
+12.04.21-10:09:35#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
+12.04.21-10:09:50#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 5 LATENCY: 5 JITTER: 0
+12.04.21-10:10:13#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
+12.04.21-10:10:21#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 5 LATENCY: 5 JITTER: 0
+12.04.21-10:11:08#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
+12.04.21-10:11:15#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 5 LATENCY: 5 JITTER: 0
+12.04.21-10:11:47#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
+12.04.21-10:11:50#STOP_TEST# Log do experimento.
+12.04.21-10:14:14#START_TEST# Log do experimento.
+12.04.21-10:15:13#CHANGE_VNFD_ALL# Changed and copied file /opt/PLAO/osm/vnf_price_list.yaml to container PLA. Add values in All prices to Cloud: http://10.159.205.12:5000/v3.
+12.04.21-10:15:14#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 5 LATENCY: 5 JITTER: 0
+12.04.21-10:15:30#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 7 LATENCY: 7 JITTER: 0
+12.04.21-10:15:37#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 5 LATENCY: 5 JITTER: 0
+12.04.21-10:15:48#DEBUG#CLOUDIP: 10.159.205.6 LATENCY: 6 PESOL_VNFA: 7 LATENCY_USER: 25 PESOCPU_VNFA : 3 CPU: 10 LATENCYP_VNFA: 175 CPUP_VNFA: 30 PRICE_NOVO_VNFA: 20 PESOL_VNFB: 1 PESOCPU_VNFB: 9 LATENCYP_VNFA: 175 CPUP_VNFA: 30 PRICE_NOVO_VNFB: 12
+12.04.21-10:15:49#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
+12.04.21-10:15:54#CHANGE_VNFD#  - Changed and copied file /opt/PLAO/osm/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://10.159.205.12:5000/v3 PRICE_VNFD: 12
+12.04.21-10:15:54#CHANGE_VNFD#  - Changed and copied file /opt/PLAO/osm/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://10.159.205.12:5000/v3 PRICE_VNFD: 19
+12.04.21-10:15:54#DEBUG#CLOUDIP: 10.159.205.12 LATENCY: 5 PESOL_VNFA: 7 LATENCY_USER: 8 PESOCPU_VNFA : 3 CPU: 20 LATENCYP_VNFA: 56 CPUP_VNFA: 60 PRICE_NOVO_VNFA: 12 PESOL_VNFB: 1 PESOCPU_VNFB: 9 LATENCYP_VNFA: 56 CPUP_VNFA: 60 PRICE_NOVO_VNFB: 19
+12.04.21-10:16:00#DEBUG#CLOUDIP: 10.159.205.6 LATENCY: 6 PESOL_VNFA: 7 LATENCY_USER: 25 PESOCPU_VNFA : 3 CPU: 10 LATENCYP_VNFA: 175 CPUP_VNFA: 30 PRICE_NOVO_VNFA: 20 PESOL_VNFB: 1 PESOCPU_VNFB: 9 LATENCYP_VNFA: 175 CPUP_VNFA: 30 PRICE_NOVO_VNFB: 12
+12.04.21-10:16:03#INSTANTIATE#  Executado comando para instanciar NS. Segue:osm ns-create --nsd_name teste_artigo  --ns_name test2ArtigoPLA --vim_account openstack1 --config '{placement-engine: PLA, placement-constraints: {vld-constraints: [{id: ns_vl_2mlm, link-constraints: {latency: 2}}]}, wim_account: False}'
+12.04.21-10:16:13#CHANGE_VNFD#  - Changed and copied file /opt/PLAO/osm/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://10.159.205.12:5000/v3 PRICE_VNFD: 10
+12.04.21-10:16:13#CHANGE_VNFD#  - Changed and copied file /opt/PLAO/osm/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://10.159.205.12:5000/v3 PRICE_VNFD: 19
+12.04.21-10:16:13#DEBUG#CLOUDIP: 10.159.205.12 LATENCY: 5 PESOL_VNFA: 7 LATENCY_USER: 6 PESOCPU_VNFA : 3 CPU: 20 LATENCYP_VNFA: 42 CPUP_VNFA: 60 PRICE_NOVO_VNFA: 10 PESOL_VNFB: 1 PESOCPU_VNFB: 9 LATENCYP_VNFA: 42 CPUP_VNFA: 60 PRICE_NOVO_VNFB: 19
+12.04.21-10:16:32#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 5 LATENCY: 5 JITTER: 0
+12.04.21-10:16:42#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
+12.04.21-10:17:06#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 5 LATENCY: 5 JITTER: 0
+12.04.21-10:17:21#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
+12.04.21-10:17:32#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 5 LATENCY: 5 JITTER: 0
+12.04.21-10:17:40#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
+12.04.21-10:17:48#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 5 LATENCY: 5 JITTER: 0
+12.04.21-10:18:28#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
+12.04.21-10:18:36#CHANGE_PIL# Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 5 LATENCY: 5 JITTER: 0
+12.04.21-10:18:46#STOP_TEST# Log do experimento.
