@@ -444,8 +444,8 @@ def conectado(connection, enderecoCliente):
                             arquivo.write(DATEHOURS() + '#INSTANTIATE#  Executado comando para instanciar NS. Segue:' + USERSCOMMAND + '\n')
 
                         VERSION_FILE=VERSION_FILE+1
-                        ExecuteCommand('cp '+FILE_VNF_PRICE+' '+PATH_LOG+FILE_VNF_PRICE+'_'+str(VERSION_FILE))
-                        ExecuteCommand('cp '+FILE_PIL_PRICE+' '+PATH_LOG+FILE_PIL_PRICE+'_'+str(VERSION_FILE))
+                        ExecuteCommand('cp '+FILE_VNF_PRICE+' '+PATH_LOG+'vnf_price_list.yaml_'+str(VERSION_FILE))
+                        ExecuteCommand('cp '+FILE_PIL_PRICE+' '+PATH_LOG+'pil_price_list.yaml_'+str(VERSION_FILE))
                         
                     #    LOCK_USER = 0
                     #Check Dict that have information about user entry
