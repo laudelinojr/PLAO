@@ -6,13 +6,13 @@ import subprocess
 import os
 import os.path
 import datetime
+from datetime import datetime
 
 LOCK_USER=0 #bLOCK ACCESS THE DICT USERS
 OKTOCLEAN=0
 RC1=0  #READ DICT USERS FOR CLOUD 1
 RC2=0  #READ DICT USERS FOR CLOUD 1
 SENTCOMMAND=0 #SENT COMMAND TO OSM
-VERSION_FILE=0
 
 #Para simulacao
 #OSM - ej /opt/PLAO: digitar python3 PLAO.py
@@ -267,13 +267,15 @@ def DATEHOURS():
     DATEHOUR = datetime.datetime.now().strftime('%d.%m.%y-%H:%M:%S')  # converte hora para string do cliente
     return DATEHOUR
 
+def UnixTimeStamp():
+    return datetime.timestamp(datetime.now())
+
 def conectado(connection, enderecoCliente):
         print('Conected with', enderecoCliente)
         global RC1
         global RC2
         global LOCK_USER
         global SENTCOMMAND
-        global VERSION_FILE
         while True:
             msg = connection.recv(1024).decode('utf8')
             msg = msg.split('#')  # quebra o texto unico com o separador #
@@ -443,9 +445,8 @@ def conectado(connection, enderecoCliente):
                         with open(nomearquivo1, 'a') as arquivo:
                             arquivo.write(DATEHOURS() + '#INSTANTIATE#  Executado comando para instanciar NS. Segue:' + USERSCOMMAND + '\n')
 
-                        VERSION_FILE=VERSION_FILE+1
-                        ExecuteCommand('cp '+FILE_VNF_PRICE+' '+PATH_LOG+'vnf_price_list.yaml_'+str(VERSION_FILE))
-                        ExecuteCommand('cp '+FILE_PIL_PRICE+' '+PATH_LOG+'pil_price_list.yaml_'+str(VERSION_FILE))
+                        ExecuteCommand('cp '+FILE_VNF_PRICE+' '+PATH_LOG+'vnf_price_list.yaml_'+str(UnixTimeStamp()))
+                        ExecuteCommand('cp '+FILE_PIL_PRICE+' '+PATH_LOG+'pil_price_list.yaml_'+str(UnixTimeStamp()))
                         
                     #    LOCK_USER = 0
                     #Check Dict that have information about user entry
