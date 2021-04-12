@@ -440,6 +440,8 @@ def conectado(connection, enderecoCliente):
                         nomearquivo1=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
                         with open(nomearquivo1, 'a') as arquivo:
                             arquivo.write(DATEHOURS() + '#INSTANTIATE#  Executado comando para instanciar NS. Segue:' + USERSCOMMAND + '\n')
+
+                        ExecuteCommand('cp '+FILE_VNF_PRICE+' '+FILE_VNF_PRICE+'_'+random.randint(1,100))    
                     #    LOCK_USER = 0
                     #Check Dict that have information about user entry
                     if (len(users)>=1):
