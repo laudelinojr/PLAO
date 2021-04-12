@@ -355,10 +355,10 @@ def conectado(connection, enderecoCliente):
                         print("cpu")
                         print(CPU)
 
-                        #if (CLOUD == "openstack1"):
-                        #    CPU='10'
-                        #if (CLOUD == "openstack2"):
-                        #    CPU='20'
+                        if (CLOUD == "openstack1"):
+                            CPU='10'
+                        if (CLOUD == "openstack2"):
+                            CPU='20'
 
                         LATENCYP_VNFA=int(LATENCY_USER)*PESOL_VNFA
                         CPUP_VNFA=int(CPU)*PESOCPU_VNFA
@@ -392,10 +392,10 @@ def conectado(connection, enderecoCliente):
                         LATENCYP_VNFB=int(LATENCY_USER)*PESOL_VNFB
                         CPUP_VNFB=int(CPU)*PESOCPU_VNFB
 
-                        #if (CLOUD == "openstack1"):
-                        #    CPUP=10*PESOCPU
-                        #if (CLOUD == "openstack2"):
-                        #    CPUP=20*PESOCPU
+                        if (CLOUD == "openstack1"):
+                            CPU='10'
+                        if (CLOUD == "openstack2"):
+                            CPU='20'
 
                         PRICE_NOVO_VNFB=round((LATENCYP_VNFB+CPUP_VNFB)/10)
                         print("price novo nvfwb")
