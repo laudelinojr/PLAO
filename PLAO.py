@@ -416,7 +416,7 @@ def conectado(connection, enderecoCliente):
 
                         nomearquivo10=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
                         with open(nomearquivo10, 'a') as arquivo:
-                            arquivo.write(DATEHOURS()+'#DEBUG#' + 'CLOUDIP: '+ CLOUDIP+' LATENCY: '+LATENCY+' PESOL_VNFA: '+str(PESOL_VNFA) + ' LATENCY_USER: '+str(LATENCY_USER)+' PESOCPU_VNFA : '+str(PESOCPU_VNFA)+' CPU: '+CPU+' LATENCYP_VNFA: '+str(LATENCYP_VNFA)+' CPUP_VNFA: '+str(CPUP_VNFA)+' PRICE_NOVO_VNFA: '+str(PRICE_NOVO_VNFA)+' PESOL_VNFB: '+str(PESOL_VNFB)+' PESOCPU_VNFB: '+str(PESOCPU_VNFB)+' LATENCYP_VNFA: '+str(LATENCYP_VNFA)+' CPUP_VNFA: '+str(CPUP_VNFA)+' PRICE_NOVO_VNFB: '+str(PRICE_NOVO_VNFB)+ '\n')
+                            arquivo.write(DATEHOURS()+'#DEBUG#' + 'CLOUDIP: '+ CLOUDIP+' LATENCY: '+LATENCY+' PESOL_VNFA: '+str(PESOL_VNFA) + ' LATENCY_USER: '+str(LATENCY_USER)+' PESOCPU_VNFA : '+str(PESOCPU_VNFA)+' CPU: '+CPU+' LATENCYP_VNFA: '+str(LATENCYP_VNFA)+' CPUP_VNFA: '+str(CPUP_VNFA)+' PRICE_NOVO_VNFA: '+str(PRICE_NOVO_VNFA)+' PESOL_VNFB: '+str(PESOL_VNFB)+' PESOCPU_VNFB: '+str(PESOCPU_VNFB)+' LATENCYP_VNFb: '+str(LATENCYP_VNFB)+' CPUP_VNFB: '+str(CPUP_VNFB)+' PRICE_NOVO_VNFB: '+str(PRICE_NOVO_VNFB)+ '\n')
 
 
 
