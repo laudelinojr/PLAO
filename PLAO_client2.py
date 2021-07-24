@@ -2,7 +2,7 @@ from genericpath import getsize
 from re import search
 from winreg import REG_SZ
 import gnocchiclient
-from gnocchiclient.exceptions import MetricNotFound, NamedMetricAlreadyExists, ResourceTypeAlreadyExists, ResourceTypeNotFound
+from gnocchiclient.exceptions import ArchivePolicyNotFound, MetricNotFound, NamedMetricAlreadyExists, ResourceTypeAlreadyExists, ResourceTypeNotFound
 import shade
 import yaml
 import psutil
@@ -72,13 +72,10 @@ class Gnocchi():
     
     #Create resource
     def set_create_resource(self,resource_type,resource_name):
-#        try:
-        #self.resourcea = {"name": resource_name,'attributes':{"name":"plao:hirakata"}}
-        #teste = self.resource=self.gnocchi_client.resource
-        #self.resourcea = {"original_resource_id": "teste", "host": ""}
-        self.resource=self.gnocchi_client.resource.create(resource_type,{"host":"","id":""})
-#        except ResourceTypeNotFound:
-#            return "ResourceTypeNotFound"
+        try:
+            self.resource=self.gnocchi_client.resource.create(resource_type,{"host":"","id":resource_name})
+        except ResourceTypeNotFound:
+            return "ResourceTypeNotFound"
 
     #check if exists resource
     def get_resource(self,name):
@@ -119,10 +116,16 @@ class Gnocchi():
         except NamedMetricAlreadyExists:
             return "MetricaJaExiste"
 
-#falta fazer
     #To create archive-policy
-    #def set_create_archive_policy(self,name,archive_policy,resource_id,unit):
-    #    self.create_metric=self.gnocchi_client.archive_policy.create()
+    def set_create_archive_policy(self,name):      
+        self.create_metric=self.gnocchi_client.archive_policy.create({'name': name, 'back_window': 0, 'definition': [{'timespan': '60 days, 0:00:00', 'granularity': '0:01:00', 'points': 86400}], 'aggregation_methods': ['mean', 'sum', 'min', 'std', 'count', 'max']})
+
+    #To get archive-policy
+    def get_archive_policy(self,name):
+        try:
+            self.gnocchi_client.archive_policy.get(name)
+        except ArchivePolicyNotFound:
+            return "ArquivePolicyNotFound"
     
     #To clean measures of all metrics
     #def set_clean_all_measures_metrics
@@ -333,10 +336,14 @@ def main():
         print("Resource Type plao not exist, creating...")
         gnocchi.set_create_resource_type("plao")
         #executar metodo para criar novo recurso
-    if(gnocchi.get_resource("plao5")==False):
+    if(gnocchi.get_resource("plao")==False):
         print("Resource plao not exist, creating...")
         #executar metodo para criar novo recurso
-        gnocchi.set_create_resource("plao4","plaoss")
+        hostname="hirakata.mpes.gov.br3"
+        gnocchi.set_create_resource("plao","plao:"+hostname)
+
+    if (gnocchi.get_archive_policy("plao2") == "ArquivePolicyNotFound"):
+        gnocchi.set_create_archive_policy("plao2")
 
     #type_resource_name="plao"
     #resource_name="plao2"
