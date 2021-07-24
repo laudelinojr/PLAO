@@ -17,9 +17,11 @@ import threading
 import time
 import datetime
 from datetime import datetime
+import sys 
 
-VarCloudName='mpes_n1'
+VarCloudName='mpes_n1'  #Alterar codigo e colocar como argu
 SERVERS_FILE="servers.yaml"
+VarPlao="plao"
 
 # Class to autenticate on OpenStack and return authentication session
 class OpenStack_Auth():
@@ -146,10 +148,22 @@ class Servers():
         self.B=yaml.full_load(self.A)
         self.C = len(self.B["servers"])
 
+    #Return All IP of servers
     def getAll(self):
+        LISTIP_NAME={}
         for i in range(self.C):
-            print (self.B["servers"][i]["name"])
-            print (self.B["servers"][i]["ip"])
+            LISTIP_NAME.update({i:{"name":self.B["servers"][i]["name"],"ip": self.B["servers"][i]["ip"]}})
+            #print (self.B["servers"][i]["name"])
+            #print (self.B["servers"][i]["ip"])
+        return LISTIP_NAME
+
+    #Return All IP of servers except local IP
+    def getAllnoLocal(self, IPServerLocal):
+        LISTIP_NAME={}
+        for i in range(self.C):
+            if (self.B["servers"][i]["ip"] != IPServerLocal ):
+                LISTIP_NAME.update({i:{"name":self.B["servers"][i]["name"],"ip": self.B["servers"][i]["ip"]}})
+        return LISTIP_NAME
 
     def getAllIp(self):
         LISTIP=[]
@@ -182,7 +196,8 @@ class Servers():
         return self.C
 
     #Search server IP in servers.yaml
-    def getSearchServer(self):
+    def getSearchIPLocalServer(self):
+        self.ipserver=""
         self.LIST_GETALLIP=[]
         self.LIST_GETALLIP=self.getAllIp()
         self.LIST_GETALLIP_LEN=(len(self.LIST_GETALLIP))
@@ -190,7 +205,8 @@ class Servers():
             for item in addrs:
                 for i in range(self.LIST_GETALLIP_LEN):
                     if (item.address == self.B["servers"][i]["ip"]):
-                        return self.B["servers"][i]["ip"]
+                        self.ipserver=self.B["servers"][i]["ip"]
+        return self.ipserver
 
 #Ping to others servers in servers.yaml
 class Latency():
@@ -318,41 +334,70 @@ class CreateThread():
 
 def main():
 
-    #servers = Servers()
-    #servers.getAll()
-    #print(servers.getServerQtd())
-    #print(servers.getServerName("10.159.205.6"))
-    #print(servers.getSearchIpServer())
+    print("Starting PLAO client...")
+    print("Reading servers.yaml ...")
 
+    servers = Servers()
+
+    print("Check iplocal exists in servers.yaml ...")
+
+    IPServerLocal=servers.getSearchIPLocalServer()
+    #IPServerLocal="192.168.56.1"
+    if (IPServerLocal == ""):
+        print("Did not match IP local and server.yaml...Exiting...")
+        sys.exit()
+    print("IP Server Local ok, is: "+IPServerLocal)
+    print("Reading otheres IP to ping and iperf...")
+
+    IpOthersServers=servers.getAllnoLocal(IPServerLocal)  
+    for i in IpOthersServers:
+            print("IP Other server is: "+str(IpOthersServers.get(i)))
+
+    print("Creating session in Openstack...")
     #Creating session OpenStack
     auth_session = OpenStack_Auth(cloud_name=VarCloudName)
     sess = auth_session.get_session()
 
+    print("Creating object and using session in Gnocchi...")
     #Insert Session in Gnocchi object
     gnocchi = Gnocchi(session=sess)
 
+    print("Checking if archive_policy plao exists.")
+    if (gnocchi.get_archive_policy(VarPlao) == "ArquivePolicyNotFound"):
+        gnocchi.set_create_archive_policy(VarPlao)
+    else:
+        print("ArchivePolicy plao exists")
+
     #Checking when starting Agent
-    if(gnocchi.get_resource_type("plao")==False):
-        print("Resource Type plao not exist, creating...")
-        gnocchi.set_create_resource_type("plao")
-        #executar metodo para criar novo recurso
-    if(gnocchi.get_resource("plao")==False):
-        print("Resource plao not exist, creating...")
-        #executar metodo para criar novo recurso
-        hostname="hirakata.mpes.gov.br3"
-        gnocchi.set_create_resource("plao","plao:"+hostname)
+    print("Checking if resource_type plao exists...")
+    if(gnocchi.get_resource_type(VarPlao)==False):
+        print("Resource Type plao do not exist, creating...")
+        gnocchi.set_create_resource_type(VarPlao)
+    else:
+        print("Resource Type plao exists.")
 
-    if (gnocchi.get_archive_policy("plao2") == "ArquivePolicyNotFound"):
-        gnocchi.set_create_archive_policy("plao2")
+    print("Checking if resource plao exists...")
+    if(gnocchi.get_resource(VarPlao)==False):
+        print("Resource plao do not exist, creating...")
+        #executar metodo para criar novo recurso
+        gnocchi.set_create_resource(VarPlao,VarPlao+":"+IPServerLocal)
+    else:
+        print("Resource plao exists.")
 
-    #type_resource_name="plao"
-    #resource_name="plao2"
-    #resource_id=gnocchi.get_resource_id(resource_name)
-    #if (resource_id == ""):
-    #    print("nao tem resource, precisamos criar um resource")
-    #    gnocchi.set_resource(type_resource_name,resource_name)
-    
-    #metric_test=gnocchi.get_metric_id("LatToServ1",resource_id)
+    print("Collecting id of resource plao...")
+    resource_id=gnocchi.get_resource_id(VarPlao)
+    print (resource_id)
+    if (resource_id == ""):
+        print("Do not have resource plao, we need to create.")
+        sys.exit()
+      
+    Metric_Lat_test=""
+    for i in IpOthersServers:
+        Name_Metric="Lat_To_"+str(IpOthersServers.get(i).get('ip'))
+        Metric_Lat_test=gnocchi.get_metric_id(Name_Metric,resource_id)
+        if (Metric_Lat_test == ""):
+            print("The "+ Name_Metric + " do not exist.")
+    #    metric_Lat_test=gnocchi.get_metric_id("LatToServ1",resource_id)
     #if (metric_test == ""):
     #    print("nada de metrica, precisamos criar uma metrica")
     #value=36
