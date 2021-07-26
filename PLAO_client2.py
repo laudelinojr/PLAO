@@ -456,13 +456,12 @@ def main():
         Thread_Jitt.ThreadIperf(IpOthersServers.get(i).get('ip'),"5","1",resource_id,gnocchi)
 
 
-
-#Ler quantos e quais servidores no arquivo de configuraçao
-
-#Iniciar Threads para ping do(s) servidor(es) no arquivo
-#Obs deixar preparado para iniciar tb para latencia para o usuario, neste caso ler de outro arquivo chamado latencia_user.
-#neste devera ser criado a metrica para o ip correspondente, feito ping uma vez (ou varias, a avaliar) e guardado na metrica   
-
+    print("Iniciar Thread para aguardar pedidos de latencia para usuarios")
+    #lendo arquivo
+    #no arquivo tera ip
+    #leio o arquivo, crio metrica com o ip Lat_To_User_xxx.xxx.xxx.xxx
+    # crio Thread para efetuar a coleta uma vez
+    # re
 
 
 if __name__ == "__main__":
