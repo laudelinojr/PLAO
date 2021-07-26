@@ -22,7 +22,7 @@ import sys
 VarCloudName='mpes_n1'  #Alterar codigo e colocar como argu
 SERVERS_FILE="servers.yaml"
 VarPlao="plao"
-debug_file = 1
+debug_file = 0
 
 # To execute commands in Linux
 def ExecuteCommand(exec_command):
@@ -326,6 +326,7 @@ class Jitter():
                     if (ExecuteCommand("ps ax | grep 'iperf3 -s -D'  | grep -v grep | wc -l")==0):             
                         subprocess.run(["iperf3", "-s", "-D"])
                     try:
+                        print("executing iperf to: "+TARGET)
                         self.iperf2 = subprocess.check_output(["iperf3", "-c", TARGET,"-u", "-t", QUANTITY_PCK])
                     except:
                         return -1
