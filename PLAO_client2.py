@@ -1,6 +1,6 @@
 from genericpath import getsize
 from re import search
-from winreg import REG_SZ
+#from winreg import REG_SZ
 import gnocchiclient
 from gnocchiclient.exceptions import ArchivePolicyNotFound, MetricNotFound, NamedMetricAlreadyExists, ResourceTypeAlreadyExists, ResourceTypeNotFound
 import shade
@@ -274,7 +274,6 @@ class Latency():
                     self.resp2= self.resp.split("/")[2]
                     GNOCCHI.set_add_measures_metric(Metric_ID,self.resp2)
                     print("ping: "+TARGET+" "+self.resp2)
-                    return TARGET+" "+self.resp2
                 else: # platform.system().lower() == "windows":
                     try:
                         self.ping = subprocess.check_output(["ping", "-n", QUANTITY_PCK, TARGET])
@@ -298,9 +297,8 @@ class Jitter():
 
         if (LOOP == "0"):
             if platform.system().lower() == "linux":
-                #if STATUS == "CLIENT":
                 if (ExecuteCommand("ps ax | grep 'iperf3 -s -D'  | grep -v grep | wc -l")==0):             
-                    iperf = subprocess.run(["iperf3", "-s", "-D"])
+                    subprocess.run(["iperf3", "-s", "-D"])
                 try:
                     self.iperf2 = subprocess.check_output(["iperf3", "-c", TARGET,"-u", "-t", QUANTITY_PCK])
                 except:
@@ -308,7 +306,7 @@ class Jitter():
                 self.jitter = self.iperf2.split()[-7]
                 self.resp = str(self.jitter, 'utf-8')
                 GNOCCHI.set_add_measures_metric(Metric_ID,self.resp)
-                print("jitter: "+self.resp)
+                print("jitter: "+TARGET+" "+self.resp)
                 return self.resp
             else:
                 try:
@@ -319,14 +317,14 @@ class Jitter():
                 self.jitter = self.iperf2.split()[-11]
                 self.resp = str(self.jitter, 'utf-8')
                 GNOCCHI.set_add_measures_metric(Metric_ID,self.resp)
-                print("jitter: "+self.resp)
+                print("jitter: "+TARGET+" "+self.resp)
                 return self.resp
         else:
             while True:
                 time.sleep(1)
                 if platform.system().lower() == "linux":
-                    #if STATUS == "CLIENT":
-                    #iperf = subprocess.run(["iperf3", "-s", "-1", "-D"])
+                    if (ExecuteCommand("ps ax | grep 'iperf3 -s -D'  | grep -v grep | wc -l")==0):             
+                        subprocess.run(["iperf3", "-s", "-D"])
                     try:
                         self.iperf2 = subprocess.check_output(["iperf3", "-c", TARGET,"-u", "-t", QUANTITY_PCK])
                     except:
@@ -334,10 +332,8 @@ class Jitter():
                     self.jitter = self.iperf2.split()[-7]
                     self.resp = str(self.jitter, 'utf-8')
                     GNOCCHI.set_add_measures_metric(Metric_ID,self.resp)
-                    print("jitter: "+self.resp)
+                    print("jitter: "+TARGET+" "+self.resp)
                 else:
-                    #if STATUS == "CLIENT":
-                    #iperf = subprocess.run(["iperf3", "-s", "-1", "-D"])
                     try:
                         self.iperf2 = subprocess.check_output(["utils/iperf/iperf3", "-c", TARGET,"-u", "-t", QUANTITY_PCK])
                     except:
@@ -346,7 +342,7 @@ class Jitter():
                     self.jitter = self.iperf2.split()[-11]
                     self.resp = str(self.jitter, 'utf-8')
                     GNOCCHI.set_add_measures_metric(Metric_ID,self.resp)
-                    print("jitter: "+self.resp)
+                    print("jitter: "+TARGET+" "+self.resp)
 
 # To create Thread
 class CreateThread():
