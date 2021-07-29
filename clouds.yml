@@ -1,10 +1,19 @@
 clouds:
-  mpes_n1:
+  hirakata:
     region_name: RegionOne
     auth:
       username: 'admin'
       password: 'keystoneadmin'
       project_name: 'admin'
-      auth_url: 'http://10.159.205.6:5000/v3'
+      auth_url: 'http://10.159.205.8:5000/v3'
+      user_domain_name: 'Default'
+      project_domain_id: 'default'
+  hyogo:
+    region_name: RegionOne
+    auth:
+      username: 'admin'
+      password: 'keystoneadmin'
+      project_name: 'admin'
+      auth_url: 'http://10.159.205.11:5000/v3'
       user_domain_name: 'Default'
       project_domain_id: 'default'

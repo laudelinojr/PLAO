@@ -17,9 +17,11 @@ import threading
 import time
 import datetime
 from datetime import datetime
-import sys 
+import sys
+import os
 
 VarCloudName='mpes_n1'  #Alterar codigo e colocar como argu
+#SERVERS_FILE="/opt/PLAO/servers.yaml"
 SERVERS_FILE="servers.yaml"
 VarPlao="plao"
 debug_file = 0
@@ -158,7 +160,6 @@ class Gnocchi():
     def set_add_measures_metric(self,id,value):
         self.timestamp = str(datetime.now()).split('.')[0]
         self.addmeasures=self.gnocchi_client.metric.add_measures(id, [{'timestamp': self.timestamp,'value': value}])
-
 
 #Class to get servers
 class Servers():
@@ -370,6 +371,7 @@ def main():
     print("Check iplocal exists in servers.yaml ...")
 
     IPServerLocal=servers.getSearchIPLocalServer()
+    NameServerLocal=servers.getServerName(IPServerLocal)
     #IPServerLocal="192.168.56.1"
     if (IPServerLocal == ""):
         print("Did not match IP local and server.yaml...Exiting...")
@@ -383,7 +385,8 @@ def main():
 
     print("Creating session in Openstack...")
     #Creating session OpenStack
-    auth_session = OpenStack_Auth(cloud_name=VarCloudName)
+    #auth_session = OpenStack_Auth(cloud_name=VarCloudName)
+    auth_session = OpenStack_Auth(cloud_name=NameServerLocal)
     sess = auth_session.get_session()
 
     print("Creating object and using session in Gnocchi...")
@@ -454,14 +457,6 @@ def main():
         #to create thread for Latency
         Thread_Jitt = CreateThread()
         Thread_Jitt.ThreadIperf(IpOthersServers.get(i).get('ip'),"5","1",resource_id,gnocchi)
-
-
-    print("Iniciar Thread para aguardar pedidos de latencia para usuarios")
-    #lendo arquivo
-    #no arquivo tera ip
-    #leio o arquivo, crio metrica com o ip Lat_To_User_xxx.xxx.xxx.xxx
-    # crio Thread para efetuar a coleta uma vez
-    # re
 
 
 if __name__ == "__main__":

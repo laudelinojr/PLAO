@@ -1,9 +1,5 @@
 servers:
   - name: hirakata
-    ip: 10.159.205.6
-  - name: hirakawa
-    ip: 10.159.205.12
-  - name: hirakawaq
-    ip: 10.159.205.18
-  - name: hirakawa33
-    ip: 192.168.56.1
+    ip: 10.159.205.8
+  - name: hyogo
+    ip: 10.159.205.11
