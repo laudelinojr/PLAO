@@ -1,0 +1,12 @@
+count: 1
+current_workload: 0
+disk_available_least: 52
+free_disk_gb: 62
+free_ram_mb: 4641
+local_gb: 87
+local_gb_used: 25
+memory_mb: 7713
+memory_mb_used: 3072
+running_vms: 5
+vcpus: 2
+vcpus_used: 5

@@ -1,0 +1,7 @@
+30.03.21-05:16:07 - Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 17 LATENCY: 17 JITTER: 0
+30.03.21-05:16:25 - Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 1 LATENCY: 1 JITTER: 0
+30.03.21-05:16:39 - Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
+30.03.21-05:17:14 - Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 7 LATENCY: 7 JITTER: 0
+30.03.21-05:17:29 - Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 8 LATENCY: 8 JITTER: 0
+30.03.21-05:17:44 - Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 7 LATENCY: 7 JITTER: 0
+30.03.21-05:18:02 - Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0

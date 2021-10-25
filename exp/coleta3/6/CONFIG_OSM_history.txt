@@ -1,0 +1,5 @@
+30.03.21-06:58:42 - Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 7 LATENCY: 7 JITTER: 0
+30.03.21-06:59:05 - Changed and copied file /opt/PLAO/osm/vnf_price_list.yaml to container PLA. Add values in All prices to Cloud: http://10.159.205.6:5000/v3.
+30.03.21-06:59:06 - Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 8 LATENCY: 8 JITTER: 0
+30.03.21-06:59:52 - Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 6 LATENCY: 6 JITTER: 0
+30.03.21-07:00:37 - Changed and copied file /opt/PLAO/osm/pil_price_list.yaml to container PLA.  PRICE: 9 LATENCY: 9 JITTER: 0

@@ -1,0 +1,29 @@
+pil:
+- pil_description: Link between OpenStack1 and OpenStack2
+  pil_price: 1
+  pil_latency: 1
+  pil_jitter: 0
+  pil_endpoints:
+  - openstack1
+  - openstack2
+- pil_description: Link between OpenStack1 and OpenStack3
+  pil_price: 13
+  pil_latency: 110
+  pil_jitter: 12
+  pil_endpoints:
+  - OpenStack1
+  - OpenStack3
+- pil_description: Link between OpenStack1 and OpenStack4
+  pil_price: 14
+  pil_latency: 130
+  pil_jitter: 14
+  pil_endpoints:
+  - OpenStack1
+  - OpenStack4
+- pil_description: Link between OpenStack2 and OpenStack3
+  pil_price: 23
+  pil_latency: 230
+  pil_jitter: 23
+  pil_endpoints:
+  - OpenStack2
+  - OpenStack3

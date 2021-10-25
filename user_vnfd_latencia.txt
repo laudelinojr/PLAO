@@ -1,0 +1,2 @@
+
+10.0.19.148#osm ns-create --nsd_name teste_artigo  --ns_name test1ArtigoPLA9 --vim_account openstack1 --config '{placement-engine: PLA, wim_account: False }'#VNFA,VNFB#

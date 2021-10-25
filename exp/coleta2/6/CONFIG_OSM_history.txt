@@ -1,0 +1,4 @@
+30.03.21-06:12:32 - Changed and copied file /opt/PLAO/osm/vnf_price_list.yaml to container PLA. Add values in All prices to Cloud: http://10.159.205.12:5000/v3.
+30.03.21-06:12:53 - Changed and copied file /opt/PLAO/osm/vnf_price_list.yaml to container PLA. Add values in All prices to Cloud: http://10.159.205.6:5000/v3.
+30.03.21-06:13:38 - Changed and copied file /opt/PLAO/osm/vnf_price_list.yaml to container PLA. Add values in All prices to Cloud: http://10.159.205.12:5000/v3.
+30.03.21-06:15:25 - Changed and copied file /opt/PLAO/osm/vnf_price_list.yaml to container PLA. Add values in All prices to Cloud: http://10.159.205.6:5000/v3.
