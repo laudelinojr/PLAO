@@ -19,6 +19,7 @@ import datetime
 from datetime import datetime
 import sys
 import os
+import pandas as pd
 
 VarCloudName='mpes_n1'  #Alterar codigo e colocar como argu
 #SERVERS_FILE="/opt/PLAO/servers.yaml"
@@ -42,7 +43,6 @@ def ExecuteCommand(exec_command):
   print("CMD - " + exec_command)
   print("ERROR - " + ret)
   return ret.returncode
-
 
 # Class to autenticate on OpenStack and return authentication session
 class OpenStack_Auth():
@@ -161,12 +161,49 @@ class Gnocchi():
         self.timestamp = str(datetime.now()).split('.')[0]
         self.addmeasures=self.gnocchi_client.metric.add_measures(id, [{'timestamp': self.timestamp,'value': value}])
 
+    def get_metric_cpu_utilization(self, resource_id, granularity, vcpus, start, stop):
+        # Divide per vcpus (OpenStack sum all processors times)
+        operations = "(/ (* (/ (metric cpu rate:mean) "+str(granularity*1000000000.0)+") 100) "+str(vcpus)+")"
+        # print(operations)
+        meters = self.gnocchi_client.aggregates.fetch(operations,
+                                                    # resource_type='generic',
+                                                    search="id="+resource_id,
+                                                    start=start,
+                                                    stop=stop,
+                                                    granularity=granularity)
+
+    #If dont data, return -1, else return data
+    def get_last_measure(self, name_metric, resource_id, aggregation, granularity, start, stop):
+        dados=self.gnocchi_client.metric.get_measures(name_metric,start,stop, aggregation, granularity,resource_id)
+        if len(dados) != 0:     
+            return dados[0][2]
+        return -1
+        #df = pd.DataFrame(dados, columns =['timestamp', 'granularity', ''])
+        #print("\n")
+        #print(df.head())
+        #return (df)
+
+    #If dont data, return -1, else return data
+    def get_measure(self, name_metric, resource_id, aggregation, granularity, start, stop):
+        dados=self.gnocchi_client.metric.get_measures(name_metric,start,stop, aggregation, granularity,resource_id)
+        if len(dados) != 0:     
+            return dados[0][2]
+        return -1
+        #df = pd.DataFrame(dados, columns =['timestamp', 'granularity', ''])
+        #print("\n")
+        #print(df.head())
+        #return (df)
+
 #Class to get servers
 class Servers():
     def __init__(self):
         self.A=open(SERVERS_FILE, )
         self.B=yaml.full_load(self.A)
         self.C = len(self.B["servers"])
+
+    def getbyIndexIP(self,index):
+        if self.C >= index:
+            return self.B["servers"][index]["ip"]   
 
     #Return All IP of servers
     def getAll(self):
@@ -227,6 +264,44 @@ class Servers():
                     if (item.address == self.B["servers"][i]["ip"]):
                         self.ipserver=self.B["servers"][i]["ip"]
         return self.ipserver
+
+#Class to Cloud
+class Cloud():
+    def __init__(self,ip):
+        self.Ip=ip
+        self.Name=""
+        self.Cpu=""
+        self.CPUStatus=0
+        self.VimURL=""
+        
+    def setName(self,name):
+        self.Name=name
+
+    def getName(self):
+        return self.Name
+
+    def setVimURL(self,vimURL):
+        self.VimURL=vimURL
+
+    def getVimURL(self):
+        return self.VimURL
+
+    def getCpu(self):
+        return self.Cpu
+
+    def setCpu(self,cpu):
+        #print("configurando cpu: "+cpu)
+        self.Cpu=cpu
+
+    def getCpuStatus(self):
+        return self.CPUStatus
+
+    #Configure status 0 if ok, or 1 if disaggregated
+    def setCpuStatus(self,cpuStatus):
+        self.CPUStatus=cpuStatus
+
+    def getIp(self):
+        return self.Ip
 
 #Ping to others servers in servers.yaml
 class Latency():
@@ -360,6 +435,7 @@ class CreateThread():
         self.ExecJitter = Jitter()
         self.thread_iperf = threading.Thread(target=self.ExecJitter.execJitter,args=(TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI))
         self.thread_iperf.start()
+        
 
 def main():
 
