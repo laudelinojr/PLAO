@@ -19,7 +19,7 @@ import datetime
 from datetime import datetime
 import sys
 import os
-import pandas as pd
+#import pandas as pd
 
 VarCloudName='mpes_n1'  #Alterar codigo e colocar como argu
 #SERVERS_FILE="/opt/PLAO/servers.yaml"
