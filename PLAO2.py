@@ -4,6 +4,9 @@ import subprocess
 from datetime import date,timedelta
 from PLAO_client2 import *
 
+#Teste para servidor requisicoes
+from PLAO2_w_routes import app
+
 #FILE_VNF_PRICE="/opt/PLAO/osm/vnf_price_list.yaml"
 #FILE_PIL_PRICE="/opt/PLAO/osm/pil_price_list.yaml"
 FILE_VNF_PRICE="teste/vnf_price_list.yaml"
@@ -194,7 +197,7 @@ class File_PIL_Price():
             self.B['pil'][CLOUD_COD]['pil_price']=PRICE #change the price
             self.B['pil'][CLOUD_COD]['pil_latency']=LATENCY #change the latency - same price
             self.B['pil'][CLOUD_COD]['pil_jitter']=JITTER #change the jitter
-            if debug == 1: print ("PRICE, LATENCIA e JITTER alterados no arquivo vnf_price_list.yaml.")
+            if debug == 1: print ("PRICE, LATENCIA e JITTER alterados no arquivo pil_price_list.yaml.")
             return 0
         else:
             return -1
@@ -217,10 +220,11 @@ def ExecuteCommand(exec_command):
         print("ERROR - " + ret)
         return ret.returncode
 
+#Collect metric links from cloud1 to cloud2
 def Collector_Metrics_Links(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,CLOUD_FROM,CLOUD_TO):
     while True:
         now=datetime.now()
-        intervalo=300
+        intervalo=30
         delta = timedelta(seconds=intervalo)
         time_past=now-delta
         #START = "2021-08-01 13:30:33+00:00"
@@ -237,6 +241,27 @@ def Collector_Metrics_Links(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,CLO
         PILFile.SearchChangePriceLatencyJitterPIL(Latencia_to_cloud2,Latencia_to_cloud2,Jitter_to_cloud2,CLOUD_FROM,CLOUD_TO)
         time.sleep(5)
 
+#Collect metric links from cloud1 to cloud2
+def Monitor_Request_LatencyUser_Cloud1(cloud1_gnocchi,cloud1_resource_id,VNFFile,CLOUD_FROM):
+    while True:
+        now=datetime.now()
+        intervalo=30
+        delta = timedelta(seconds=intervalo)
+        time_past=now-delta
+        #START = "2021-08-01 13:30:33+00:00"
+        #STOP = "2021-08-01 13:35:36+00:00"
+        START=time_past
+        STOP=now
+        GRANULARITY=60.0
+        print("horarioInicio: "+str(START))
+        print("hoarioFinal: "+str(STOP))
+        #Latencia_to_cloud2=cloud1_gnocchi.get_last_measure("Lat_To_"+cloud2.getIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
+        #print(Latencia_to_cloud2)
+        #Jitter_to_cloud2=cloud1_gnocchi.get_last_measure("Jit_To_"+cloud2.getIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
+        #print(Jitter_to_cloud2)
+        #PILFile.SearchChangePriceLatencyJitterPIL(Latencia_to_cloud2,Latencia_to_cloud2,Jitter_to_cloud2,CLOUD_FROM,CLOUD_TO)
+        #time.sleep(5)
+
 def Collector_Metrics_Disaggregated_cl1(cloud1_gnocchi,cloud1_resource_id_nova,Cloud,VNFFile):
     while True:
         now=datetime.now()
@@ -245,7 +270,7 @@ def Collector_Metrics_Disaggregated_cl1(cloud1_gnocchi,cloud1_resource_id_nova,C
         time_past=now-delta
         START=time_past
         STOP=now
-        GRANULARITY=1.0
+        GRANULARITY=60.0
         print("horarioInicio: "+str(START))
         print("hoarioFinal: "+str(STOP))
         CPU_cloud1=cloud1_gnocchi.get_last_measure("compute.node.cpu.idle.percent",cloud1_resource_id_nova,None,GRANULARITY,START,STOP)
@@ -358,13 +383,20 @@ def main():
     thread_MonitorLinks = threading.Thread(target=Collector_Metrics_Links,args=(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,"openstack1","openstack2"))
     thread_MonitorLinks.start()
 
-    thread_MonitorDisaggregated1 = threading.Thread(target=Collector_Metrics_Disaggregated_cl1,args=(cloud1_gnocchi,cloud1_resource_id_nova,cloud1,VNFFile))
-    thread_MonitorDisaggregated1.start()
+    ###thread_MonitorDisaggregated1 = threading.Thread(target=Collector_Metrics_Disaggregated_cl1,args=(cloud1_gnocchi,cloud1_resource_id_nova,cloud1,VNFFile))
+    ####thread_MonitorDisaggregated1.start()
 
 #    thread_MonitorDisaggregated2 = threading.Thread(target=Collector_Metrics_Disaggregated_cl1,args=(cloud2_gnocchi,cloud2_resource_id,cloud2,VNFFile))
 #    thread_MonitorDisaggregated2.start()
 
+    #servers = Servers()
+    IPServerLocal="127.0.0.1"
+    #Alterar para IP do servidor do PLAO
+    app.run(IPServerLocal, '3332')
 
+    #Thread para enviar request 
+    ###thread_MonitorLatencyUser = threading.Thread(target=Request_LatencyUser_Cloud1,args=(cloud1_gnocchi,cloud1_resource_id,cloud2,VNFFile,"openstack1","openstack2"))
+    ###thread_MonitorLatencyUser.start()
 
 
     #Jitter_to_cloud2=cloud1_gnocchi.get_measure("Jit_To_"+cloud2.getIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)

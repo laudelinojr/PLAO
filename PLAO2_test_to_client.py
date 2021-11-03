@@ -1,9 +1,11 @@
 import requests
 from PLAO_client2 import *
 
-payload = {"ip" : "10.159.205.11"}
+# The payload is the user ip address.
+payload = {"ip" : "10.0.19.148"}
 
+# Request to cloud. Is necessary in http URL the cloud ip address
 a = requests.request(
-    method="POST", url='http://192.168.56.1:3333/plao/', json=payload)
+    method="POST", url='http://10.159.205.11:3333/plao/', json=payload)
 
 print(a.text)
