@@ -4,6 +4,8 @@ import subprocess
 from datetime import date,timedelta
 from PLAO_client2 import *
 
+from PLAO2_w_routes import app
+
 #Teste para servidor requisicoes
 #from PLAO2_w_routes import app
 
@@ -390,9 +392,9 @@ def main():
 #    thread_MonitorDisaggregated2.start()
 
     #servers = Servers()
-    IPServerLocal="127.0.0.1"
+    IPServerLocal="10.159.205.10"
     #Alterar para IP do servidor do PLAO
-    app.run(IPServerLocal, '3332')
+    app.run(IPServerLocal, '3332',debug=True)
 
     #Thread para enviar request 
     ###thread_MonitorLatencyUser = threading.Thread(target=Request_LatencyUser_Cloud1,args=(cloud1_gnocchi,cloud1_resource_id,cloud2,VNFFile,"openstack1","openstack2"))
