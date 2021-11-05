@@ -7,4 +7,4 @@ from PLAO2 import *
 IPServerLocal="127.0.0.1"
 
 #Alterar para IP do servidor PLAO
-app.run(IPServerLocal, '3332')
+app.run(IPServerLocal, '3332',debug=True)
