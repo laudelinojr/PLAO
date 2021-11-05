@@ -5,7 +5,7 @@ from datetime import date,timedelta
 from PLAO_client2 import *
 
 #Teste para servidor requisicoes
-from PLAO2_w_routes import app
+#from PLAO2_w_routes import app
 
 #FILE_VNF_PRICE="/opt/PLAO/osm/vnf_price_list.yaml"
 #FILE_PIL_PRICE="/opt/PLAO/osm/pil_price_list.yaml"
