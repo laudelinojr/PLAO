@@ -396,6 +396,8 @@ def main():
     #Alterar para IP do servidor do PLAO
     app.run(IPServerLocal, '3332',debug=True)
 
+    print("teste")
+
     #Thread para enviar request 
     ###thread_MonitorLatencyUser = threading.Thread(target=Request_LatencyUser_Cloud1,args=(cloud1_gnocchi,cloud1_resource_id,cloud2,VNFFile,"openstack1","openstack2"))
     ###thread_MonitorLatencyUser.start()
