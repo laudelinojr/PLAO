@@ -1,6 +1,7 @@
 #File in Clouds
 
 from flask import Flask, request
+import requests
 #from PLAO2 import *
 
 app = Flask(__name__)
@@ -12,7 +13,6 @@ def latencia_user_plao():
         ip_user = request_data['ip']
         controle=0
         print("Teste na nuvem 1")
-            import requests
             #from PLAO_client2 import *
             # The payload is the user ip address.
             payload = {"ip" : "10.0.19.148"}
