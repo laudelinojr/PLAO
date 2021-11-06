@@ -410,7 +410,6 @@ def main():
 
     #DataSet(cloud1_gnocchi)
 
-
     #Creating vector with objects Cloud 
     #To add clouds in vector
     #clouds = []
