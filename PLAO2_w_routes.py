@@ -12,6 +12,7 @@ def latencia_user_plao():
         request_data = request.get_json()
         ip_user = request_data['ip']
         controle=0
+        print (ip_user)
         print("Teste na nuvem 1")
             #from PLAO_client2 import *
             # The payload is the user ip address.
