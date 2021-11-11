@@ -20,6 +20,8 @@ from datetime import datetime
 import sys
 import os
 #import pandas as pd
+from PLAO_client2_w_routes import app
+#from PLAO_client2 import *
 
 VarCloudName='mpes_n1'  #Alterar codigo e colocar como argu
 #SERVERS_FILE="/opt/PLAO/servers.yaml"
@@ -533,6 +535,18 @@ def main():
         #to create thread for Latency
         Thread_Jitt = CreateThread()
         Thread_Jitt.ThreadIperf(IpOthersServers.get(i).get('ip'),"5","1",resource_id,gnocchi)
+
+    #File in Clouds
+
+    #from PLAO_client2_w_routes import app
+    #from PLAO_client2 import *
+    #from PLAO2 import *
+
+    #servers = Servers()
+    #IPServerLocal=servers.getSearchIPLocalServer()
+
+    #Alterar para IP do servidor do PLAO
+    app.run(IPServerLocal, '3333',debug=True)
 
 
 if __name__ == "__main__":
