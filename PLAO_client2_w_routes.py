@@ -1,7 +1,7 @@
 #File in Clouds
 
 from flask import Flask, request
-#from PLAO_client2 import *
+from PLAO_client2 import *
 
 app = Flask(__name__)
 
