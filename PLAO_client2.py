@@ -23,6 +23,8 @@ import os
 from PLAO_client2_w_routes import app
 #from PLAO_client2 import *
 
+print(app)
+
 VarCloudName='mpes_n1'  #Alterar codigo e colocar como argu
 #SERVERS_FILE="/opt/PLAO/servers.yaml"
 SERVERS_FILE="servers.yaml"
