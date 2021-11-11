@@ -18,11 +18,11 @@ def latencia_user_plao():
             # The payload is the user ip address.
         nuvem1="10.159.205.11"
         nuvem2="10.159.205.11"
-        payload = {"ip" : "10.159.205.11","ipuser" : "10.0.19.148"}
+        payload = {"ip" : "10.159.205.6","ipuser" : "10.0.19.148"}
         print (payload)
         # Request to cloud. Is necessary in http URL the cloud ip address
         a = requests.request(
-            method="POST", url='http://10.159.205.11:3333/plao/', json=payload)
+            method="POST", url='http://10.159.205.6:3333/plao/', json=payload)
         print(a.text)
         print("Fim Teste na nuvem 1")
 

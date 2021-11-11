@@ -6,6 +6,6 @@ payload = {"ip" : "10.0.19.148"}
 
 # Request to cloud. Is necessary in http URL the cloud ip address
 a = requests.request(
-    method="POST", url='http://10.159.205.11:3333/plao/', json=payload)
+    method="POST", url='http://10.159.205.6:3333/plao/', json=payload)
 
 print(a.text)
