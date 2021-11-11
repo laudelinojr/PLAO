@@ -27,6 +27,7 @@ def latencia_user_plao():
         print("Checking if metric Latency exists...")      
         Metric_Lat_test=""
         Name_Metric_Lat="Lat_To_"+str(ip_user)
+        print(Name_Metric_Lat)
         Metric_Lat_test=gnocchi.get_metric_id(Name_Metric_Lat,resource_id)
         if (Metric_Lat_test == ""):
             print("The "+ Name_Metric_Lat + " do not exist. Creating metric Latency.")
