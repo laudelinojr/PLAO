@@ -3,9 +3,9 @@
 from flask import Flask, request
 from PLAO_client2 import *
 
-app = Flask(__name__)
+appc = Flask(__name__)
 
-@app.route("/plao/", methods=['POST', 'GET', 'DELETE'])
+@appc.route("/plao/", methods=['POST', 'GET', 'DELETE'])
 def latencia_user_plao():
     if request.method == "POST":
         print("entrei aqui")
