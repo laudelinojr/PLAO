@@ -10,8 +10,8 @@ def latencia_user_plao():
     if request.method == "POST":
         print("entrei aqui")
         request_data = request.get_json()
-        ip = request_data['ipuser']
-        ip_user = request_data['ip']
+        ip = request_data['ip']
+        ip_user = request_data['ipuser']
         print (ip)
         print (ip_user)
         VarPlao="plao"
