@@ -24,12 +24,14 @@ def latencia_user_plao():
         sess = auth_session.get_session()
         gnocchi = Gnocchi(session=sess)
         resource_id=gnocchi.get_resource_id(VarPlao)
+        print (resource_id)
         print("Checking if metric Latency exists...")      
         Metric_Lat_test=""
         Name_Metric_Lat="Lat_To_"+str(ip_user)
         print(Name_Metric_Lat)
         Metric_Lat_test=gnocchi.get_metric_id(Name_Metric_Lat,resource_id)
         if (Metric_Lat_test == ""):
+            print("depois if metric lat test")
             print("The "+ Name_Metric_Lat + " do not exist. Creating metric Latency.")
             if (gnocchi.set_create_metric(Name_Metric_Lat,VarPlao,resource_id,"ms") == "MetricaJaExiste" ):
                 print ("Metric already exists.")            
