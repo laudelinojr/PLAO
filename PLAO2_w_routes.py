@@ -10,13 +10,15 @@ app = Flask(__name__)
 def latencia_user_plao():
     if request.method == "POST":
         request_data = request.get_json()
-        ip_user = request_data['ip']
+        ip_user = request_data['ipuser']
         controle=0
         print (ip_user)
         print("Teste na nuvem 1")
             #from PLAO_client2 import *
             # The payload is the user ip address.
-        payload = {"ip" : "10.0.19.148"}
+        nuvem1="10.159.205.11"
+        nuvem2="10.159.205.11"
+        payload = {"ip" : "10.159.205.11","ipuser" : "10.0.19.148"}
         print (payload)
         # Request to cloud. Is necessary in http URL the cloud ip address
         a = requests.request(
