@@ -17,7 +17,9 @@ def latencia_user_plao():
         VarPlao="plao"
         servers = Servers()
         IPServerLocal=servers.getSearchIPLocalServer()
+        print ("ipserver: "+IPServerLocal)
         NameServerLocal=servers.getServerName(IPServerLocal)
+        print ("nameserver: "+NameServerLocal)
         auth_session = OpenStack_Auth(cloud_name=NameServerLocal)
         sess = auth_session.get_session()
         gnocchi = Gnocchi(session=sess)
