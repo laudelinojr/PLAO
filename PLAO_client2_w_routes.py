@@ -24,7 +24,7 @@ def latencia_user_plao():
         sess = auth_session.get_session()
         gnocchi = Gnocchi(session=sess)
         resource_id=gnocchi.get_resource_id(VarPlao)
-        print (resource_id)
+        print ("idRrecurso: "+resource_id)
         print("Checking if metric Latency exists...")      
         Metric_Lat_test=""
         Name_Metric_Lat="Lat_To_"+str(ip_user)
