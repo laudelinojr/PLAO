@@ -8,4 +8,4 @@ servers = Servers()
 IPServerLocal=servers.getSearchIPLocalServer()
 
 #Alterar para IP do servidor do PLAO
-app.run(IPServerLocal, '3333')
+app.run(IPServerLocal, '3333',debug=True)

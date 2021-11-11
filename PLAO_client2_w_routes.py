@@ -8,6 +8,7 @@ app = Flask(__name__)
 @app.route("/plao/", methods=['POST', 'GET', 'DELETE'])
 def latencia_user_plao():
     if request.method == "POST":
+        print("entrei aqui")
         request_data = request.get_json()
         ip_user = request_data['ip']
         VarPlao="plao"
