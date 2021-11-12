@@ -551,7 +551,7 @@ class CreateThread():
         
 
 def main():
-
+    collectip()
     appc = Flask(__name__)
 
 
