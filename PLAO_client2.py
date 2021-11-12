@@ -495,14 +495,6 @@ def main():
     #IPServerLocal=servers.getSearchIPLocalServer()
     #appc = Flask(__name__)
     #Alterar para IP do servidor do PLAO
-    IPServerLocal="10.159.205.6"
-
-
-
-
-
-
-
 
 
     print("Starting PLAO client...")
@@ -600,7 +592,7 @@ def main():
         Thread_Jitt = CreateThread()
         Thread_Jitt.ThreadIperf(IpOthersServers.get(i).get('ip'),"5","1",resource_id,gnocchi)
 
-    appc.run(IPServerLocal, '3333',debug=True)
+    #appc.run(IPServerLocal, '3333',debug=True)
 
 if __name__ == "__main__":
     main()
