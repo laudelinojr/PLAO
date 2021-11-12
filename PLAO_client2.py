@@ -544,7 +544,7 @@ def main():
 
     @appc.route('/')
     def index():
-        print("vaiiiiii")
+        return "vaiiiiii"
     @appc.route("/plao/", methods=['POST', 'GET', 'DELETE'])
     def latencia_user_plao_client():
         if request.method == "POST":
