@@ -1,12 +1,11 @@
 #File in Clouds
 
 from flask import Flask, request
-import PLAO_client2
-# import Servers, OpenStack_Auth, Gnocchi,CreateThread
+#from PLAO_client2 import Servers, OpenStack_Auth, Gnocchi,CreateThread
 
-PLAO_client2.appc = Flask(__name__)
+appc = Flask(__name__)
 
-@PLAO_client2.appc.route("/plao/", methods=['POST', 'GET', 'DELETE'])
+@appc.route("/plao/", methods=['POST', 'GET', 'DELETE'])
 def latencia_user_plao_client():
     if request.method == "POST":
         print("entrei aqui")
