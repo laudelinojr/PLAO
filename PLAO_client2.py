@@ -547,12 +547,11 @@ def main():
 
     #servers = Servers()
     #IPServerLocal=servers.getSearchIPLocalServer()
-
+    appc = Flask(__name__)
     #Alterar para IP do servidor do PLAO
     appc.run(IPServerLocal, '3333',debug=True)
 
 
-    appc = Flask(__name__)
 
     @appc.route("/plao/", methods=['POST', 'GET', 'DELETE'])
     def latencia_user_plao():
@@ -590,6 +589,9 @@ def main():
             Thread_Lat = CreateThread()
             print(Thread_Lat.ThreadPing(ip_user,"5","0",resource_id,gnocchi))
             return "ok"
+
+
+
 
 if __name__ == "__main__":
     main()
