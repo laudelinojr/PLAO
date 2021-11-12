@@ -31,6 +31,7 @@ VarCloudName='mpes_n1'  #Alterar codigo e colocar como argu
 SERVERS_FILE="servers.yaml"
 VarPlao="plao"
 debug_file = 0
+appc = Flask(__name__)
             
 # To execute commands in Linux
 def ExecuteCommand(exec_command):
@@ -547,7 +548,7 @@ def main():
 
     #servers = Servers()
     #IPServerLocal=servers.getSearchIPLocalServer()
-appc = Flask(__name__)
+    #appc = Flask(__name__)
     #Alterar para IP do servidor do PLAO
     appc.run(IPServerLocal, '3333',debug=True)
 
