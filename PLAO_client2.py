@@ -551,8 +551,6 @@ def main():
     #Alterar para IP do servidor do PLAO
     appc.run(IPServerLocal, '3333',debug=True)
 
-
-
     @appc.route("/plao/", methods=['POST', 'GET', 'DELETE'])
     def latencia_user_plao():
         if request.method == "POST":
