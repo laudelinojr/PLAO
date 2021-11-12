@@ -1,7 +1,8 @@
 #File in Clouds
 
 from flask import Flask, request
-from PLAO_client2 import Servers, OpenStack_Auth, Gnocchi,CreateThread, appc
+import PLAO_client2
+# import Servers, OpenStack_Auth, Gnocchi,CreateThread
 
 appc = Flask(__name__)
 
