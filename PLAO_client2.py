@@ -542,6 +542,9 @@ def main():
 
     appc = Flask(__name__)
 
+    @appc.route('/')
+    def index():
+        print("vaiiiiii")
     @appc.route("/plao/", methods=['POST', 'GET', 'DELETE'])
     def latencia_user_plao_client():
         if request.method == "POST":
