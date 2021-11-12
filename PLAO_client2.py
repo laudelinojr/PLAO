@@ -590,7 +590,7 @@ def main():
             print(Thread_Lat.ThreadPing(ip_user,"5","0",resource_id,gnocchi))
             return "ok"
 
-    appc.run("127.0.0.1", '3333',debug=True)
+    appc.run(IPServerLocal, '3333',debug=True)
     
 
 if __name__ == "__main__":
