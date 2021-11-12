@@ -3,7 +3,7 @@
 from flask import Flask, request
 from PLAO_client2 import *
 
-appc = Flask(__name__)
+#appc = Flask(__name__)
 
 @appc.route("/plao/", methods=['POST', 'GET', 'DELETE'])
 def latencia_user_plao():
