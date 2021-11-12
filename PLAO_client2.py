@@ -443,7 +443,13 @@ class CreateThread():
 def main():
 
     appc = Flask(__name__)
-    
+
+    @appc.route("/plao/", methods=['POST', 'GET', 'DELETE'])
+    def latencia_user_plao_client():
+        if request.method == "POST":
+            print("entrei aqui")
+            
+
     print("Starting PLAO client...")
     print("Reading servers.yaml ...")
 
@@ -543,10 +549,7 @@ def main():
 #from PLAO_client2 import servers # Servers, OpenStack_Auth, Gnocchi,CreateThread
 
 
-    @appc.route("/plao/", methods=['POST', 'GET', 'DELETE'])
-    def latencia_user_plao_client():
-        if request.method == "POST":
-            print("entrei aqui")
+
 
 
     appc.run(IPServerLocal, '3333',debug=True)
