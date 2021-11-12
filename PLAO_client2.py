@@ -445,6 +445,26 @@ class CreateThread():
 
 def main():
 
+
+    #File in Clouds
+
+    #from PLAO_client2_w_routes import app
+    #from PLAO_client2 import *
+    #from PLAO2 import *
+
+    #servers = Servers()
+    #IPServerLocal=servers.getSearchIPLocalServer()
+    #appc = Flask(__name__)
+    #Alterar para IP do servidor do PLAO
+    appc.run(IPServerLocal, '3333',debug=True)
+
+
+
+
+
+
+
+    
     print("Starting PLAO client...")
     print("Reading servers.yaml ...")
 
@@ -540,17 +560,6 @@ def main():
         Thread_Jitt = CreateThread()
         Thread_Jitt.ThreadIperf(IpOthersServers.get(i).get('ip'),"5","1",resource_id,gnocchi)
 
-    #File in Clouds
-
-    #from PLAO_client2_w_routes import app
-    #from PLAO_client2 import *
-    #from PLAO2 import *
-
-    #servers = Servers()
-    #IPServerLocal=servers.getSearchIPLocalServer()
-    #appc = Flask(__name__)
-    #Alterar para IP do servidor do PLAO
-    appc.run(IPServerLocal, '3333',debug=True)
 
 
 @appc.route("/plao/", methods=['POST', 'GET', 'DELETE'])
