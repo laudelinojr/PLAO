@@ -9,7 +9,7 @@ appc = Flask(__name__)
 def latencia_user_plao_client():
     if request.method == "POST":
         print("entrei aqui")
-        request_data = request.get_json()
+"""         request_data = request.get_json()
         ip = request_data['ip']
         ip_user = request_data['ipuser']
         print (ip)
@@ -39,5 +39,5 @@ def latencia_user_plao_client():
                 print("Created Metrics.")
         print("Iniciar Thread para aguardar pedidos de latencia para usuarios")
         Thread_Lat = CreateThread()
-        print(Thread_Lat.ThreadPing(ip_user,"5","0",resource_id,gnocchi))
-        return "ok"
+        print(Thread_Lat.ThreadPing(ip_user,"5","0",resource_id,gnocchi)) """
+        #return "ok"
