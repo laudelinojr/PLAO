@@ -495,6 +495,7 @@ def main():
     #IPServerLocal=servers.getSearchIPLocalServer()
     #appc = Flask(__name__)
     #Alterar para IP do servidor do PLAO
+    IPServerLocal="10.159.205.6"
     appc.run(IPServerLocal, '3333',debug=True)
 
 
