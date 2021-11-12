@@ -6,7 +6,7 @@ from PLAO_client2 import Servers, OpenStack_Auth, Gnocchi,CreateThread
 appc = Flask(__name__)
 
 @appc.route("/plao/", methods=['POST', 'GET', 'DELETE'])
-def latencia_user_plao():
+def latencia_user_plao_client():
     if request.method == "POST":
         print("entrei aqui")
         request_data = request.get_json()
