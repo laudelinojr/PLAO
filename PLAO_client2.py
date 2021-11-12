@@ -546,7 +546,7 @@ def main():
     #IPServerLocal=servers.getSearchIPLocalServer()
 
     #Alterar para IP do servidor do PLAO
-    app.run(IPServerLocal, '3333',debug=True)
+    appc.run(IPServerLocal, '3333',debug=True)
 
 
 if __name__ == "__main__":
