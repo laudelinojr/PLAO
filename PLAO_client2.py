@@ -442,6 +442,8 @@ class CreateThread():
 
 def main():
 
+    appc = Flask(__name__)
+    
     print("Starting PLAO client...")
     print("Reading servers.yaml ...")
 
@@ -540,13 +542,12 @@ def main():
 #from flask import Flask, request
 #from PLAO_client2 import servers # Servers, OpenStack_Auth, Gnocchi,CreateThread
 
-    appc = Flask(__name__)
+
     @appc.route("/plao/", methods=['POST', 'GET', 'DELETE'])
     def latencia_user_plao_client():
         if request.method == "POST":
             print("entrei aqui")
 
-    latencia_user_plao_client()
 
     appc.run(IPServerLocal, '3333',debug=True)
 
