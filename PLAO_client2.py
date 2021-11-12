@@ -596,3 +596,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+    IPServerLocal="192.168.56.1"
+    appc.run(IPServerLocal, '3333',debug=True)
