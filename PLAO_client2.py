@@ -448,7 +448,8 @@ def main():
     def latencia_user_plao_client():
         if request.method == "POST":
             print("entrei aqui")
-            
+    IPServerLocal="10.159.205.6"
+    appc.run(IPServerLocal, '3333',debug=True)
 
     print("Starting PLAO client...")
     print("Reading servers.yaml ...")
@@ -552,7 +553,6 @@ def main():
 
 
 
-    appc.run(IPServerLocal, '3333',debug=True)
 
     
 
