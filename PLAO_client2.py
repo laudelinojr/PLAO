@@ -21,17 +21,12 @@ import sys
 import os
 #import pandas as pd
 from PLAO_client2_w_routes import appc
-#from PLAO_client2 import *
-
-from flask import Flask, request
-#from PLAO_client2 import *
 
 VarCloudName='mpes_n1'  #Alterar codigo e colocar como argu
 #SERVERS_FILE="/opt/PLAO/servers.yaml"
 SERVERS_FILE="servers.yaml"
 VarPlao="plao"
 debug_file = 0
-appc = Flask(__name__)
             
 # To execute commands in Linux
 def ExecuteCommand(exec_command):
@@ -445,19 +440,6 @@ class CreateThread():
         
 
 def main():
-
-
-    #File in Clouds
-
-    #from PLAO_client2_w_routes import app
-    #from PLAO_client2 import *
-    #from PLAO2 import *
-
-    #servers = Servers()
-    #IPServerLocal=servers.getSearchIPLocalServer()
-    #appc = Flask(__name__)
-    #Alterar para IP do servidor do PLAO
-
 
     print("Starting PLAO client...")
     print("Reading servers.yaml ...")
