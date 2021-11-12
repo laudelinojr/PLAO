@@ -22,13 +22,113 @@ import os
 #import pandas as pd
 #from PLAO_client2_w_routes import appc
 from flask import Flask, request
+STARTED = 0
 
 VarCloudName='mpes_n1'  #Alterar codigo e colocar como argu
 #SERVERS_FILE="/opt/PLAO/servers.yaml"
 SERVERS_FILE="servers.yaml"
 VarPlao="plao"
 debug_file = 0
-            
+
+def startApp():
+    print("Starting PLAO client...")
+    print("Reading servers.yaml ...")
+
+    servers = Servers()
+
+    print("Check iplocal exists in servers.yaml ...")
+
+    global IPServerLocal
+    IPServerLocal=servers.getSearchIPLocalServer()
+    NameServerLocal=servers.getServerName(IPServerLocal)
+    #IPServerLocal="192.168.56.1"
+    if (IPServerLocal == ""):
+        print("Did not match IP local and server.yaml...Exiting...")
+        sys.exit()
+    print("IP Server Local ok, is: "+IPServerLocal)
+    print("Reading otheres IP to ping and iperf...")
+
+    IpOthersServers=servers.getAllnoLocal(IPServerLocal)  
+    for i in IpOthersServers:
+            print("IP Other server is: "+str(IpOthersServers.get(i)))
+
+    print("Creating session in Openstack...")
+    #Creating session OpenStack
+    #auth_session = OpenStack_Auth(cloud_name=VarCloudName)
+    auth_session = OpenStack_Auth(cloud_name=NameServerLocal)
+    sess = auth_session.get_session()
+
+    print("Creating object and using session in Gnocchi...")
+    #Insert Session in Gnocchi object
+    gnocchi = Gnocchi(session=sess)
+
+    print("Checking if archive_policy plao exists.")
+    if (gnocchi.get_archive_policy(VarPlao) == "ArquivePolicyNotFound"):
+        gnocchi.set_create_archive_policy(VarPlao)
+    else:
+        print("ArchivePolicy plao exists")
+
+    #Checking when starting Agent
+    print("Checking if resource_type plao exists...")
+    if(gnocchi.get_resource_type(VarPlao)==False):
+        print("Resource Type plao do not exist, creating...")
+        gnocchi.set_create_resource_type(VarPlao)
+    else:
+        print("Resource Type plao exists.")
+
+    print("Checking if resource plao exists...")
+    if(gnocchi.get_resource(VarPlao)==False):
+        print("Resource plao do not exist, creating...")
+        #executar metodo para criar novo recurso
+        gnocchi.set_create_resource(VarPlao,VarPlao+":"+IPServerLocal)
+    else:
+        print("Resource plao exists.")
+
+    print("Collecting id of resource plao...")
+    resource_id=gnocchi.get_resource_id(VarPlao)
+    #print (resource_id)
+    if (resource_id == ""):
+        print("Do not have resource plao, we need to create.")
+        sys.exit()
+
+    print("Checking if metric Latency exists...")      
+    Metric_Lat_test=""
+    for i in IpOthersServers:
+        Name_Metric_Lat="Lat_To_"+str(IpOthersServers.get(i).get('ip'))
+        Metric_Lat_test=gnocchi.get_metric_id(Name_Metric_Lat,resource_id)
+        if (Metric_Lat_test == ""):
+            print("The "+ Name_Metric_Lat + " do not exist. Creating metric Latency.")
+            if (gnocchi.set_create_metric(Name_Metric_Lat,VarPlao,resource_id,"ms") == "MetricaJaExiste" ):
+                print ("Metric already exists.")            
+            else:
+                print("Created Metrics.")
+
+    print("Checking if metric Jitter exists...")      
+    Metric_Jit_test=""
+    for i in IpOthersServers:
+        Name_Metric_Jit="Jit_To_"+str(IpOthersServers.get(i).get('ip'))
+        Metric_Jit_test=gnocchi.get_metric_id(Name_Metric_Jit,resource_id)
+        if (Metric_Jit_test == ""):
+            print("The "+ Name_Metric_Jit + " do not exist. Creating metric Jitter.")
+            if (gnocchi.set_create_metric(Name_Metric_Jit,VarPlao,resource_id,"ms") == "MetricaJaExiste" ):
+                print ("Metric already exists.")            
+            else:
+                print("Created Metrics.")
+
+    print("Creating Latency Threads to all servers...")
+    for i in IpOthersServers:
+        #to create thread for Latency
+        Thread_Lat = CreateThread()
+        Thread_Lat.ThreadPing(IpOthersServers.get(i).get('ip'),"5","1",resource_id,gnocchi)
+
+    print("Creating Jiitter Threads to all servers...")
+    for i in IpOthersServers:
+        #to create thread for Latency
+        Thread_Jitt = CreateThread()
+        Thread_Jitt.ThreadIperf(IpOthersServers.get(i).get('ip'),"5","1",resource_id,gnocchi)
+    global STARTED
+    STARTED=1
+
 # To execute commands in Linux
 def ExecuteCommand(exec_command):
  try:
@@ -442,115 +542,55 @@ class CreateThread():
 
 def main():
 
-    print("Starting PLAO client...")
-    print("Reading servers.yaml ...")
-
-    servers = Servers()
-
-    print("Check iplocal exists in servers.yaml ...")
-
-    IPServerLocal=servers.getSearchIPLocalServer()
-    NameServerLocal=servers.getServerName(IPServerLocal)
-    #IPServerLocal="192.168.56.1"
-    if (IPServerLocal == ""):
-        print("Did not match IP local and server.yaml...Exiting...")
-        sys.exit()
-    print("IP Server Local ok, is: "+IPServerLocal)
-    print("Reading otheres IP to ping and iperf...")
-
-    IpOthersServers=servers.getAllnoLocal(IPServerLocal)  
-    for i in IpOthersServers:
-            print("IP Other server is: "+str(IpOthersServers.get(i)))
-
-    print("Creating session in Openstack...")
-    #Creating session OpenStack
-    #auth_session = OpenStack_Auth(cloud_name=VarCloudName)
-    auth_session = OpenStack_Auth(cloud_name=NameServerLocal)
-    sess = auth_session.get_session()
-
-    print("Creating object and using session in Gnocchi...")
-    #Insert Session in Gnocchi object
-    gnocchi = Gnocchi(session=sess)
-
-    print("Checking if archive_policy plao exists.")
-    if (gnocchi.get_archive_policy(VarPlao) == "ArquivePolicyNotFound"):
-        gnocchi.set_create_archive_policy(VarPlao)
-    else:
-        print("ArchivePolicy plao exists")
-
-    #Checking when starting Agent
-    print("Checking if resource_type plao exists...")
-    if(gnocchi.get_resource_type(VarPlao)==False):
-        print("Resource Type plao do not exist, creating...")
-        gnocchi.set_create_resource_type(VarPlao)
-    else:
-        print("Resource Type plao exists.")
-
-    print("Checking if resource plao exists...")
-    if(gnocchi.get_resource(VarPlao)==False):
-        print("Resource plao do not exist, creating...")
-        #executar metodo para criar novo recurso
-        gnocchi.set_create_resource(VarPlao,VarPlao+":"+IPServerLocal)
-    else:
-        print("Resource plao exists.")
-
-    print("Collecting id of resource plao...")
-    resource_id=gnocchi.get_resource_id(VarPlao)
-    #print (resource_id)
-    if (resource_id == ""):
-        print("Do not have resource plao, we need to create.")
-        sys.exit()
-
-    print("Checking if metric Latency exists...")      
-    Metric_Lat_test=""
-    for i in IpOthersServers:
-        Name_Metric_Lat="Lat_To_"+str(IpOthersServers.get(i).get('ip'))
-        Metric_Lat_test=gnocchi.get_metric_id(Name_Metric_Lat,resource_id)
-        if (Metric_Lat_test == ""):
-            print("The "+ Name_Metric_Lat + " do not exist. Creating metric Latency.")
-            if (gnocchi.set_create_metric(Name_Metric_Lat,VarPlao,resource_id,"ms") == "MetricaJaExiste" ):
-                print ("Metric already exists.")            
-            else:
-                print("Created Metrics.")
-
-    print("Checking if metric Jitter exists...")      
-    Metric_Jit_test=""
-    for i in IpOthersServers:
-        Name_Metric_Jit="Jit_To_"+str(IpOthersServers.get(i).get('ip'))
-        Metric_Jit_test=gnocchi.get_metric_id(Name_Metric_Jit,resource_id)
-        if (Metric_Jit_test == ""):
-            print("The "+ Name_Metric_Jit + " do not exist. Creating metric Jitter.")
-            if (gnocchi.set_create_metric(Name_Metric_Jit,VarPlao,resource_id,"ms") == "MetricaJaExiste" ):
-                print ("Metric already exists.")            
-            else:
-                print("Created Metrics.")
-
-    print("Creating Latency Threads to all servers...")
-    for i in IpOthersServers:
-        #to create thread for Latency
-        Thread_Lat = CreateThread()
-        Thread_Lat.ThreadPing(IpOthersServers.get(i).get('ip'),"5","1",resource_id,gnocchi)
-
-    print("Creating Jiitter Threads to all servers...")
-    for i in IpOthersServers:
-        #to create thread for Latency
-        Thread_Jitt = CreateThread()
-        Thread_Jitt.ThreadIperf(IpOthersServers.get(i).get('ip'),"5","1",resource_id,gnocchi)
-
-#from flask import Flask, request
-#from PLAO_client2 import servers # Servers, OpenStack_Auth, Gnocchi,CreateThread
-
     appc = Flask(__name__)
 
-    @appc.route('/')
-    def index():
-        return "vaiiiiii"
+
+    @appc.route('/check/',methods=['GET'])
+    def check():
+        #If checked, return 1, or 0 for not 
+        return str(STARTED)
+    @appc.route('/start/',methods=['GET'])
+    def start():
+        novo = startApp()
+        return "System_Started"
     @appc.route("/plao/", methods=['POST', 'GET', 'DELETE'])
     def latencia_user_plao_client():
-        if request.method == "POST":
+        if request.method == "GET":
             print("entrei aqui")
+            request_data = request.get_json()
+            ip = request_data['ip']
+            ip_user = request_data['ipuser']
+            print (ip)
+            print (ip_user)
+            VarPlao="plao"
+            servers = Servers()
+            IPServerLocal=servers.getSearchIPLocalServer()
+            print ("ipserver: "+IPServerLocal)
+            NameServerLocal=servers.getServerName(IPServerLocal)
+            print ("nameserver: "+NameServerLocal)
+            auth_session = OpenStack_Auth(cloud_name=NameServerLocal)
+            sess = auth_session.get_session()
+            gnocchi = Gnocchi(session=sess)
+            resource_id=gnocchi.get_resource_id(VarPlao)
+            print ("idRrecurso: "+resource_id)
+            print("Checking if metric Latency exists...")      
+            Metric_Lat_test=""
+            Name_Metric_Lat="Lat_To_"+str(ip_user)
+            print(Name_Metric_Lat)
+            Metric_Lat_test=gnocchi.get_metric_id(Name_Metric_Lat,resource_id)
+            if (Metric_Lat_test == ""):
+                print("depois if metric lat test")
+                print("The "+ Name_Metric_Lat + " do not exist. Creating metric Latency.")
+                if (gnocchi.set_create_metric(Name_Metric_Lat,VarPlao,resource_id,"ms") == "MetricaJaExiste" ):
+                    print ("Metric already exists.")            
+                else:
+                    print("Created Metrics.")
+            print("Iniciar Thread para aguardar pedidos de latencia para usuarios")
+            Thread_Lat = CreateThread()
+            print(Thread_Lat.ThreadPing(ip_user,"5","0",resource_id,gnocchi))
+            return "ok"
 
-    appc.run(IPServerLocal, '3333',debug=True)
+    appc.run("127.0.0.1", '3333',debug=True)
     
 
 if __name__ == "__main__":

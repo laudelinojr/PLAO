@@ -3,7 +3,6 @@ import threading
 import subprocess
 from datetime import date,timedelta
 from PLAO_client2 import *
-
 from PLAO2_w_routes import app
 
 #Teste para servidor requisicoes
