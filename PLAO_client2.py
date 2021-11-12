@@ -546,10 +546,11 @@ def main():
         if request.method == "POST":
             print("entrei aqui")
 
+    latencia_user_plao_client()
 
     appc.run(IPServerLocal, '3333',debug=True)
 
-    latencia_user_plao_client()
+    
 
 if __name__ == "__main__":
     main()
