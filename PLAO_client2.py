@@ -31,6 +31,8 @@ VarPlao="plao"
 debug_file = 0
 
 def collectip():
+
+    global servers
     servers = Servers()
     print("Check iplocal exists in servers.yaml ...")
 
