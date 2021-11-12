@@ -20,7 +20,8 @@ from datetime import datetime
 import sys
 import os
 #import pandas as pd
-from PLAO_client2_w_routes import appc
+#from PLAO_client2_w_routes import appc
+from flask import Flask, request
 
 VarCloudName='mpes_n1'  #Alterar codigo e colocar como argu
 #SERVERS_FILE="/opt/PLAO/servers.yaml"
@@ -536,6 +537,14 @@ def main():
         Thread_Jitt = CreateThread()
         Thread_Jitt.ThreadIperf(IpOthersServers.get(i).get('ip'),"5","1",resource_id,gnocchi)
 
+#from flask import Flask, request
+#from PLAO_client2 import servers # Servers, OpenStack_Auth, Gnocchi,CreateThread
+
+    appc = Flask(__name__)
+    @appc.route("/plao/", methods=['POST', 'GET', 'DELETE'])
+    def latencia_user_plao_client():
+        if request.method == "POST":
+            print("entrei aqui")
     appc.run(IPServerLocal, '3333',debug=True)
 
 if __name__ == "__main__":
