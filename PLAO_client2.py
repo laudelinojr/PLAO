@@ -30,17 +30,27 @@ SERVERS_FILE="servers.yaml"
 VarPlao="plao"
 debug_file = 0
 
-def startApp():
-    print("Starting PLAO client...")
-    print("Reading servers.yaml ...")
-
+def collectip():
     servers = Servers()
-
     print("Check iplocal exists in servers.yaml ...")
 
     global IPServerLocal
     IPServerLocal=servers.getSearchIPLocalServer()
-    NameServerLocal=servers.getServerName(IPServerLocal)
+    global NameServerLocal
+    NameServerLocal=servers.getServerName(IPServerLocal)    
+
+
+def startApp():
+    print("Starting PLAO client...")
+    print("Reading servers.yaml ...")
+
+#    servers = Servers()
+
+#    print("Check iplocal exists in servers.yaml ...")
+
+#    global IPServerLocal
+#    IPServerLocal=servers.getSearchIPLocalServer()
+#    NameServerLocal=servers.getServerName(IPServerLocal)
     #IPServerLocal="192.168.56.1"
     if (IPServerLocal == ""):
         print("Did not match IP local and server.yaml...Exiting...")
