@@ -595,10 +595,10 @@ def main():
                     print ("Metric already exists.")            
                 else:
                     print("Created Metrics.")
-            print("Iniciar Thread para aguardar pedidos de latencia para usuarios")
+            print("Iniciar Thread para coletar latencia ate usuario e guardar no gnocchi.")
             Thread_Lat = CreateThread()
-            print(Thread_Lat.ThreadPing(ip_user,"5","0",resource_id,gnocchi))
-            return "ok"
+            Thread_Lat.ThreadPing(ip_user,"5","0",resource_id,gnocchi)
+            return "Executed"
 
     appc.run(IPServerLocal, '3333',debug=True)
     
