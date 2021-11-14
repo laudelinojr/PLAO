@@ -561,7 +561,7 @@ def main():
     def check():
         #If checked, return 1, or 0 for not 
         return str(STARTED)
-    @appc.route('/start/',methods=['GET'])
+    @appc.route('/start/',methods=['POST'])
     def start():
         novo = startApp()
         return "System_Started"
