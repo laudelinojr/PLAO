@@ -567,7 +567,7 @@ def main():
         return "System_Started"
     @appc.route("/plao/", methods=['POST', 'GET', 'DELETE'])
     def latencia_user_plao_client():
-        if request.method == "GET":
+        if request.method == "POST":
             print("entrei aqui")
             request_data = request.get_json()
             ip = request_data['ip']
