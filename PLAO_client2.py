@@ -572,6 +572,7 @@ def main():
         if request.method == "POST":
             print("entrei aqui")
             request_data = request.get_json()
+            print (request_data)
             ip_user = request_data['ipuser']
             print (ip_user)
             VarPlao="plao"
