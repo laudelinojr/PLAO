@@ -2,7 +2,6 @@
 
 from flask import Flask, request
 import requests
-#from PLAO2 import *
 
 app = Flask(__name__)
 
@@ -27,7 +26,6 @@ def latencia_user_plao():
     if request.method == "POST":
         request_data = request.get_json()
         controle=0
-        #payload = {"ipuser" : "10.0.19.148"}
         print("Inicio Teste na nuvem 1")
         # Request to cloud. Is necessary in http URL the cloud ip address
         a = requests.request(

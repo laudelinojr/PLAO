@@ -556,7 +556,6 @@ def main():
     collectip()
     appc = Flask(__name__)
 
-
     @appc.route('/check/',methods=['GET'])
     def check():
         #If startApp() started, return 1, or 0 for not 
@@ -572,7 +571,6 @@ def main():
         if request.method == "POST":
             print("entrei aqui")
             request_data = request.get_json()
-            print (request_data)
             ip_user = request_data['ipuser']
             print (ip_user)
             VarPlao="plao"
