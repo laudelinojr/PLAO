@@ -559,12 +559,13 @@ def main():
 
     @appc.route('/check/',methods=['GET'])
     def check():
-        #If checked, return 1, or 0 for not 
+        #If startApp() started, return 1, or 0 for not 
         return str(STARTED)
     @appc.route('/start/',methods=['POST'])
     def start():
-        novo = startApp()
-        return "System_Started"
+        if (STARTED == 0):    
+            novo = startApp()
+            return "System_Started"
     @appc.route("/plao/", methods=['POST', 'GET', 'DELETE'])
     def latencia_user_plao_client():
         if request.method == "POST":
