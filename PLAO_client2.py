@@ -566,6 +566,7 @@ def main():
         if (STARTED == 0):    
             novo = startApp()
             return "System_Started"
+        return "System_Already_Started"
     @appc.route("/plao/", methods=['POST', 'GET', 'DELETE'])
     def latencia_user_plao_client():
         if request.method == "POST":
