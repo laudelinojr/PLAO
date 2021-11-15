@@ -409,16 +409,12 @@ def main():
             if request.method == "POST":
                 request_data = request.get_json()
                 payload = request_data['ipuser']
-                try:
-
-                    a = requests.request(
-                        method="POST", url='http://'+nuvem1+':3333/start/', json=payload)
-                    print(a.text)
-                    a = requests.request(
-                        method="POST", url='http://'+nuvem2+':3333/start/', json=payload)
-                    print(a.text)
-                except:
-                    print("teste")
+                a = requests.request(
+                    method="POST", url='http://'+nuvem1+':3333/start/', json=payload)
+                print(a.text)
+                a = requests.request(
+                    method="POST", url='http://'+nuvem2+':3333/start/', json=payload)
+                print(a.text)
                 return "okstart"
         @app.route("/plaoserver/", methods=['POST', 'GET', 'DELETE'])
         def latencia_user_plao():
@@ -445,7 +441,7 @@ def main():
         app.run(IPServerLocal, '3332',debug=True)
 
     except:
-        print ("Problema conexao com ")
+        print ("Problema conexao com")
 
     #Thread para enviar request 
     ###thread_MonitorLatencyUser = threading.Thread(target=Request_LatencyUser_Cloud1,args=(cloud1_gnocchi,cloud1_resource_id,cloud2,VNFFile,"openstack1","openstack2"))
