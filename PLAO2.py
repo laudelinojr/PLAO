@@ -238,9 +238,9 @@ def Collector_Metrics_Links(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,CLO
         print("horarioInicio: "+str(START))
         print("hoarioFinal: "+str(STOP))
         Latencia_to_cloud2=cloud1_gnocchi.get_last_measure("Lat_To_"+cloud2.getIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
-        print("LatenciatoCloud2: "+Latencia_to_cloud2)
+        print("LatenciatoCloud2: "+str(Latencia_to_cloud2))
         Jitter_to_cloud2=cloud1_gnocchi.get_last_measure("Jit_To_"+cloud2.getIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
-        print("JittertoCloud2: "+Jitter_to_cloud2)
+        print("JittertoCloud2: "+str(Jitter_to_cloud2))
         PILFile.SearchChangePriceLatencyJitterPIL(Latencia_to_cloud2,Latencia_to_cloud2,Jitter_to_cloud2,CLOUD_FROM,CLOUD_TO)
         time.sleep(5)
 
