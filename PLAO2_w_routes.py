@@ -13,6 +13,7 @@ def start():
         a = requests.request(
             method="POST", url='http://10.159.205.8:3333/start/', json=payload)
         print(a.text)
+        return "Started"
 @app.route("/plaoserver/", methods=['POST', 'GET', 'DELETE'])
 def latencia_user_plao():
     if request.method == "POST":
