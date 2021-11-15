@@ -440,7 +440,7 @@ def main():
         #Alterar para IP do servidor do PLAO
         app.run(IPServerLocal, '3332',debug=True)
 
-    except any as e:
+    except ConnectionRefusedError as e:
         print ("Problema conexao com "+e)
 
     #Thread para enviar request 
