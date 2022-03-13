@@ -411,14 +411,14 @@ def main():
             request_data = request.get_json()
             payload = request_data['ipuser']
             a = requests.request(
-                method="POST", url='http://'+nuvem1+':3333/start/')
+                method="POST", url='http://'+nuvem1+':3333/start/', json=payload)
             print(a.text+"Enviando start para "+nuvem1)
-            a = requests.request(
-                method="POST", url='http://'+nuvem2+':3333/start/')
-            print(a.text+"Enviando start para "+nuvem2)
+            #a = requests.request(
+            #    method="POST", url='http://'+nuvem2+':3333/start/', json=payload)
+            #print(a.text+"Enviando start para "+nuvem2)
             return "okstart"
     #Latency between clouds and user
-    @app.route("/plaoserver/", methods=['POST', 'GET', 'DELETE'])
+    @app.route("/userlatency/", methods=['POST', 'GET', 'DELETE'])
     def latencia_user_plao():
         if request.method == "POST":
             request_data = request.get_json()
@@ -427,14 +427,14 @@ def main():
             print("Inicio Teste na nuvem 1")
             # Request to cloud. Is necessary in http URL the cloud ip address
             a = requests.request(
-                method="POST", url='http://'+nuvem1+':3333/plao/', json=request_data)
+                method="POST", url='http://'+nuvem1+':3333/userlatency/', json=request_data)
             print(a.text)
             print("Fim Teste na nuvem 1")
             print("Inicio Teste na nuvem 2")
-            a = requests.request(
-                method="POST", url='http://'+nuvem2+':3333/plao/', json=request_data)
-            print(a.text)
-            print("Fim Teste na nuvem 2")
+            #a = requests.request(
+            #    method="POST", url='http://'+nuvem2+':3333/userlatency/', json=request_data)
+            #print(a.text)
+            #print("Fim Teste na nuvem 2")
             return "okplaoserver"
 
     #servers = Servers()

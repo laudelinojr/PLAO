@@ -569,7 +569,7 @@ def main():
             return "System_Started"
         return "System_Already_Started"
     #Command to start ping from cloud to user
-    @appc.route("/plao/", methods=['POST', 'GET', 'DELETE'])
+    @appc.route("/userlatency/", methods=['POST', 'GET', 'DELETE'])
     def latencia_user_plao_client():
         if request.method == "POST":
             print("entrei aqui")
