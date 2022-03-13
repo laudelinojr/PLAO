@@ -24,7 +24,7 @@ import os
 from flask import Flask, request
 STARTED = 0
 
-VarCloudName='mpes_n1'  #Alterar codigo e colocar como argu
+#VarCloudName='mpes_n1'  #Alterar codigo e colocar como argu
 #SERVERS_FILE="/opt/PLAO/servers.yaml"
 SERVERS_FILE="servers.yaml"
 VarPlao="plao"
@@ -138,6 +138,7 @@ def startApp():
         #to create thread for Latency
         Thread_Jitt = CreateThread()
         Thread_Jitt.ThreadIperf(IpOthersServers.get(i).get('ip'),"5","1",resource_id,gnocchi)
+    #Mark variable with number 1 for started status on
     global STARTED
     STARTED=1
 
@@ -560,12 +561,14 @@ def main():
     def check():
         #If startApp() started, return 1, or 0 for not 
         return str(STARTED)
+    #Start the PLAO Agent in Openstack Server and start ping to other cloud
     @appc.route('/start/',methods=['POST'])
     def start():
         if (STARTED == 0):    
             novo = startApp()
             return "System_Started"
         return "System_Already_Started"
+    #Command to start ping from cloud to user
     @appc.route("/plao/", methods=['POST', 'GET', 'DELETE'])
     def latencia_user_plao_client():
         if request.method == "POST":
@@ -598,6 +601,7 @@ def main():
                     print("Created Metrics.")
             print("Iniciar Thread para coletar latencia ate usuario e guardar no gnocchi.")
             Thread_Lat = CreateThread()
+            #Future: to parameterize number packets and loop false(0) or true(1), and maybe to create other parameter for to configure number of attemps
             Thread_Lat.ThreadPing(ip_user,"5","0",resource_id,gnocchi)
             return "Executed"
 

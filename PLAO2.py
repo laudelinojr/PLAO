@@ -323,20 +323,24 @@ def main():
 
     servers = Servers()
 
-    cloud1 = Cloud(servers.getbyIndexIP(0))
+    print("Loading Cloud Class with Clouds")
+    cloud1 = Cloud(servers.getbyIndexIP(0))   
     cloud1.setName(servers.getServerName(cloud1.getIp()))
-    cloud1.setVimURL("http://10.159.205.6:5000/v3")
-    cloud1.getVimURL()
-    print(cloud1.getIp())
-    print(cloud1.getCpu())
     print(cloud1.getName())
+    cloud1.setVimURL("http://10.159.205.8:5000/v3")
+    print(cloud1.getIp())
+    print(cloud1.getVimURL())
+    print(cloud1.getName())       
+    print(cloud1.getCpu())
 
     cloud2 = Cloud(servers.getbyIndexIP(1))
-    cloud2.setName=servers.getServerName(cloud2.getIp)
+    cloud2.setName(servers.getServerName(cloud2.getIp()))
     cloud2.setVimURL("http://10.159.205.11:5000/v3")
     print(cloud2.getIp())
     print(cloud2.getVimURL())
+    print(cloud2.getName())    
     print(cloud2.getCpu())
+
 
     print("Creating session in Openstack1...")
     #Creating session OpenStack
@@ -354,19 +358,19 @@ def main():
     print("Creating session in Openstack2...")
     #Creating session OpenStack
     #auth_session = OpenStack_Auth(cloud_name=VarCloudName)
-#    cloud2_auth_session = OpenStack_Auth(cloud_name=cloud2.getName())
-#    cloud2_sess = cloud2_auth_session.get_session()
-#    print("Creating object and using session in Gnocchi...")
+    print(cloud2.getName())
+    cloud2_auth_session = OpenStack_Auth(cloud_name=cloud2.getName())
+    cloud2_sess = cloud2_auth_session.get_session()
+    print("Creating object and using session in Gnocchi...")
     #Insert Session in Gnocchi object   
-#   cloud2_gnocchi = Gnocchi(session=cloud2_sess)
-#    cloud2_resource_id=cloud1_gnocchi.get_resource_id("plao")   
-#    print ("resource_id: "+cloud1_resource_id)
+    cloud2_gnocchi = Gnocchi(session=cloud2_sess)
+    cloud2_resource_id=cloud1_gnocchi.get_resource_id("plao")   
+    print ("resource_id: "+cloud1_resource_id)
 
-
-
-
-#    teste(Gnocchi,cloud1_resource_id,cloud2.getIp(),GRANULARITY,START,STOP)
-    #Latencia_to_cloud2=cloud1_gnocchi.get_last_measure("Lat_To_"+cloud2.getIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
+    #Test for consult data in gnocchi
+    #teste(Gnocchi,cloud1_resource_id,cloud2.getIp(),GRANULARITY,START,STOP)
+    #
+    # Latencia_to_cloud2=cloud1_gnocchi.get_last_measure("Lat_To_"+cloud2.getIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
     #print (Latencia_to_cloud2)
     #Latencia_to_cloud2=cloud1_gnocchi.get_last_measure("Lat_To_"+cloud2.getIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
 
@@ -383,8 +387,8 @@ def main():
    ##print("valorJittertoCloud2: "+str(Jitter_to_cloud2))
 
     #Thread para atualizar Price, Latency and jitter between cloud1 and 2
-    thread_MonitorLinks = threading.Thread(target=Collector_Metrics_Links,args=(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,"openstack1","openstack2"))
-    thread_MonitorLinks.start()
+    #thread_MonitorLinks = threading.Thread(target=Collector_Metrics_Links,args=(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,"openstack1","openstack2"))
+    #thread_MonitorLinks.start()
 
     ###thread_MonitorDisaggregated1 = threading.Thread(target=Collector_Metrics_Disaggregated_cl1,args=(cloud1_gnocchi,cloud1_resource_id_nova,cloud1,VNFFile))
     ####thread_MonitorDisaggregated1.start()
@@ -403,20 +407,23 @@ def main():
     @app.route('/start/',methods=['POST'])
     def start():
         if request.method == "POST":
+            #Future: To read config file and start theese request automaticaly, for example to 1, 2, 3, 4 clouds...
             request_data = request.get_json()
             payload = request_data['ipuser']
             a = requests.request(
-                method="POST", url='http://'+nuvem1+':3333/start/', json=payload)
-            print(a.text)
+                method="POST", url='http://'+nuvem1+':3333/start/')
+            print(a.text+"Enviando start para "+nuvem1)
             a = requests.request(
-                method="POST", url='http://'+nuvem2+':3333/start/', json=payload)
-            print(a.text)
+                method="POST", url='http://'+nuvem2+':3333/start/')
+            print(a.text+"Enviando start para "+nuvem2)
             return "okstart"
+    #Latency between clouds and user
     @app.route("/plaoserver/", methods=['POST', 'GET', 'DELETE'])
     def latencia_user_plao():
         if request.method == "POST":
             request_data = request.get_json()
             controle=0
+            #Future: To read config file and start theese request automaticaly, for example to 1, 2, 3, 4 clouds...
             print("Inicio Teste na nuvem 1")
             # Request to cloud. Is necessary in http URL the cloud ip address
             a = requests.request(
@@ -431,12 +438,13 @@ def main():
             return "okplaoserver"
 
     #servers = Servers()
-    IPServerLocal="10.159.205.10"
+    #IPServerLocal="10.159.205.10"
+    IPServerLocal="127.0.0.1"
     #Alterar para IP do servidor do PLAO
     app.run(IPServerLocal, '3332',debug=True)
 
     #Thread para enviar request 
-    ###thread_MonitorLatencyUser = threading.Thread(target=Request_LatencyUser_Cloud1,args=(cloud1_gnocchi,cloud1_resource_id,cloud2,VNFFile,"openstack1","openstack2"))
+    #thread_MonitorLatencyUser = threading.Thread(target=Request_LatencyUser_Cloud1,args=(cloud1_gnocchi,cloud1_resource_id,cloud2,VNFFile,"openstack1","openstack2"))
     ###thread_MonitorLatencyUser.start()
 
 
