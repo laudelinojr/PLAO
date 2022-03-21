@@ -370,7 +370,9 @@ def main():
     #Test for consult data in gnocchi
     #teste(Gnocchi,cloud1_resource_id,cloud2.getIp(),GRANULARITY,START,STOP)
     #
-    # Latencia_to_cloud2=cloud1_gnocchi.get_last_measure("Lat_To_"+cloud2.getIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
+
+
+    #Latencia_to_cloud2=cloud1_gnocchi.get_last_measure("Lat_To_"+cloud2.getIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
     #print (Latencia_to_cloud2)
     #Latencia_to_cloud2=cloud1_gnocchi.get_last_measure("Lat_To_"+cloud2.getIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
 
@@ -416,7 +418,7 @@ def main():
             #a = requests.request(
             #    method="POST", url='http://'+nuvem2+':3333/start/', json=payload)
             #print(a.text+"Enviando start para "+nuvem2)
-            return "okstart"
+            #return "okstart"
     #Latency between clouds and user
     @app.route("/userlatency/", methods=['POST', 'GET', 'DELETE'])
     def latencia_user_plao():
@@ -430,18 +432,21 @@ def main():
                 method="POST", url='http://'+nuvem1+':3333/userlatency/', json=request_data)
             print(a.text)
             print("Fim Teste na nuvem 1")
-            print("Inicio Teste na nuvem 2")
+            #print("Inicio Teste na nuvem 2")
             #a = requests.request(
             #    method="POST", url='http://'+nuvem2+':3333/userlatency/', json=request_data)
             #print(a.text)
             #print("Fim Teste na nuvem 2")
-            return "okplaoserver"
+            #return "okplaoserver"
 
     #servers = Servers()
     #IPServerLocal="10.159.205.10"
     IPServerLocal="127.0.0.1"
     #Alterar para IP do servidor do PLAO
     app.run(IPServerLocal, '3332',debug=True)
+
+    teste=Collector_Metrics_Links(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,"CLOUD1","CLOUD2")
+    print(teste) 
 
     #Thread para enviar request 
     #thread_MonitorLatencyUser = threading.Thread(target=Request_LatencyUser_Cloud1,args=(cloud1_gnocchi,cloud1_resource_id,cloud2,VNFFile,"openstack1","openstack2"))

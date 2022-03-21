@@ -33,11 +33,3 @@ payload = {"ipuser" : str(IPUSER)}
 a = requests.request(
     method="POST", url=str(URL), json=payload)
 print(a.text)
-
-
-
-# Request to cloud. Is necessary in http URL the cloud ip address
-##a = requests.request(
-##    method="POST", url='http://10.159.205.10:3332/plaoserver/', json=payload)
-
-##print(a.text)
