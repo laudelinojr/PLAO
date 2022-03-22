@@ -6,6 +6,12 @@
   - vim_url: https://200.137.75.159:5000/v3
     vim_name: openstackSerra
     price: 10
+  - vim_url: http://10.159.205.6:5000/v3
+    vim_name: openstack1
+    price: 20
+  - vim_url: http://10.159.205.12:5000/v3
+    vim_name: openstack2
+    price: 10
 - vnfd: VNFA
   prices:
   - vim_url: http://200.137.82.21:5000/v3
@@ -14,6 +20,12 @@
   - vim_url: https://200.137.75.159:5000/v3
     vim_name: openstackSerra
     price: 30
+  - vim_url: http://10.159.205.6:5000/v3
+    vim_name: openstack1
+    price: 10
+  - vim_url: http://10.159.205.12:5000/v3
+    vim_name: openstack2
+    price: 30
 - vnfd: VNFB
   prices:
   - vim_url: http://200.137.82.21:5000/v3
@@ -21,6 +33,12 @@
     price: 20
   - vim_url: https://200.137.75.159:5000/v3
     vim_name: openstackSerra
+    price: 10
+  - vim_url: http://10.159.205.6:5000/v3
+    vim_name: openstack1
+    price: 20
+  - vim_url: http://10.159.205.12:5000/v3
+    vim_name: openstack2
     price: 10
 - vnfd: VNFC
   prices:
@@ -30,32 +48,6 @@
   - vim_url: https://200.137.75.159:5000/v3
     vim_name: openstackSerra
     price: 17
-- vnfd: hackfest1-vnf
-  prices:
-  - vim_url: http://10.159.205.6:5000/v3
-    vim_name: openstack1
-    price: 20
-  - vim_url: http://10.159.205.12:5000/v3
-    vim_name: openstack2
-    price: 10
-- vnfd: VNFA
-  prices:
-  - vim_url: http://10.159.205.6:5000/v3
-    vim_name: openstack1
-    price: 10
-  - vim_url: http://10.159.205.12:5000/v3
-    vim_name: openstack2
-    price: 30
-- vnfd: VNFB
-  prices:
-  - vim_url: http://10.159.205.6:5000/v3
-    vim_name: openstack1
-    price: 20
-  - vim_url: http://10.159.205.12:5000/v3
-    vim_name: openstack2
-    price: 10
-- vnfd: VNFC
-  prices:
   - vim_url: http://10.159.205.6:5000/v3
     vim_name: openstack1
     price: 24
