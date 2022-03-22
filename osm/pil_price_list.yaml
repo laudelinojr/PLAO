@@ -4,8 +4,8 @@ pil:
     pil_latency: 5
     pil_jitter: 2
     pil_endpoints:
-      - openstackAracruz1
-      - openstackSerra1
+      - openstackAracruz
+      - openstackSerra
   - pil_description: Link between OpenStack1 and OpenStack2
     pil_price: 5
     pil_latency: 5
