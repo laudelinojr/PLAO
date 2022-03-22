@@ -1,10 +1,10 @@
 - vnfd: hackfest1-vnf
   prices:
   - vim_url: http://200.137.82.21:5000/v3
-    vim_name: openstackAracruz1
+    vim_name: openstackAracruz
     price: 20
   - vim_url: https://200.137.75.159:5000/v3
-    vim_name: openstackSerra1
+    vim_name: openstackSerra
     price: 10
 - vnfd: VNFA
   prices:
