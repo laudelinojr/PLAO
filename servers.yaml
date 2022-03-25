@@ -1,5 +1,5 @@
 servers:
-  - name: hirakata
-    ip: 10.159.205.8
-  - name: hyogo
-    ip: 10.159.205.11
+  - name: openstack-serra-controller
+    ip: 200.137.75.159
+  - name: openstack-controller
+    ip: 200.137.82.21
