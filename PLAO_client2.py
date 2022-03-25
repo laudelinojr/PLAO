@@ -229,7 +229,7 @@ class Gnocchi():
     def get_resource_id(self,name):
         try:
             self.resource=self.gnocchi_client.resource.search(resource_type=name,limit=1,details=True)
-            print ("vai: "+self.resource)
+            print ("vai: "+str(self.resource))
             return self.resource[0]["id"]
         except ResourceTypeNotFound:
             return ""
