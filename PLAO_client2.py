@@ -1,4 +1,5 @@
 from genericpath import getsize
+from logging import exception
 from re import search
 #from winreg import REG_SZ
 import gnocchiclient
@@ -11,6 +12,7 @@ from keystoneauth1 import session
 #from novaclient import client as nova_client
 from gnocchiclient.v1 import client, metric, resource
 #from gnocchiclient import auth
+from gnocchiclient import exceptions
 import platform
 import subprocess
 import threading
@@ -256,13 +258,15 @@ class Gnocchi():
 
     #To create archive-policy
     def set_create_archive_policy(self,name):      
-        self.create_metric=self.gnocchi_client.archive_policy.create({'name': name, 'back_window': 0, 'definition': [{'timespan': '60 days, 0:00:00', 'granularity': '0:01:00', 'points': 86400}], 'aggregation_methods': ['mean', 'sum', 'min', 'std', 'count', 'max']})
-
+        try:
+            self.create_metric=self.gnocchi_client.archive_policy.create({'name': name, 'back_window': 0, 'definition': [{'timespan': '60 days, 0:00:00', 'granularity': '0:01:00', 'points': 86400}], 'aggregation_methods': ['mean', 'sum', 'min', 'std', 'count', 'max']})
+        except exceptions as e:
+            print(e)
     #To get archive-policy
     def get_archive_policy(self,name):
         try:
             self.gnocchi_client.archive_policy.get(name)
-        except ArchivePolicyNotFound:
+        except 
             return "ArquivePolicyNotFound"
     
     #To clean measures of all metrics

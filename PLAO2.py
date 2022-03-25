@@ -1,3 +1,5 @@
+from http.client import HTTPConnection
+from multiprocessing.connection import Connection
 import yaml
 import threading
 import subprocess
@@ -432,19 +434,24 @@ def main():
         if request.method == "POST":
             request_data = request.get_json()
             controle=0
-            #Future: To read config file and start theese request automaticaly, for example to 1, 2, 3, 4 clouds...
-            print("Inicio Teste na nuvem 1")
-            # Request to cloud. Is necessary in http URL the cloud ip address
-            a = requests.request(
-                method="POST", url='http://'+nuvem1+':3333/userlatency/', json=request_data)
-            print(a.text)
-            print("Fim Teste na nuvem 1")
-            #print("Inicio Teste na nuvem 2")
-            #a = requests.request(
-            #    method="POST", url='http://'+nuvem2+':3333/userlatency/', json=request_data)
-            #print(a.text)
-            #print("Fim Teste na nuvem 2")
-            #return "okplaoserver"
+            try:          
+                #Future: To read config file and start theese request automaticaly, for example to 1, 2, 3, 4 clouds...
+                print("Inicio Teste na nuvem 1")
+                # Request to cloud. Is necessary in http URL the cloud ip address
+                a = requests.request(
+                    method="POST", url='http://'+nuvem1+':3333/userlatency/', json=request_data)
+                print(a.text)
+                print("Fim Teste na nuvem 1")
+            except Exception:
+                print("erro ao conectar na porta 3333")
+
+                #print("Inicio Teste na nuvem 2")
+                #a = requests.request(
+                #    method="POST", url='http://'+nuvem2+':3333/userlatency/', json=request_data)
+                #print(a.text)
+                #print("Fim Teste na nuvem 2")
+                #return "okplaoserver"
+
 
     #servers = Servers()
     #IPServerLocal="10.159.205.10"
