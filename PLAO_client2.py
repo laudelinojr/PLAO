@@ -266,7 +266,7 @@ class Gnocchi():
     def get_archive_policy(self,name):
         try:
             self.gnocchi_client.archive_policy.get(name)
-        except 
+        except ArchivePolicyNotFound:
             return "ArquivePolicyNotFound"
     
     #To clean measures of all metrics
