@@ -224,6 +224,9 @@ def ExecuteCommand(exec_command):
         return ret.returncode
 
 #Collect metric links from cloud1 to cloud2.
+
+
+
 def Collector_Metrics_Links(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,CLOUD_FROM,CLOUD_TO):
     while True:
         now=datetime.now()
