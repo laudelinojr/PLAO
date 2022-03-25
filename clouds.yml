@@ -2,8 +2,8 @@ clouds:
   openstack-controller:
     region_name: RegionOne
     auth:
-      username: 'laudelinoas'
-      password: '123456'
+      username: 'admin'
+      password: 'keystoneadmin'
       project_name: 'PRJ_LAUDELINOAS'
       auth_url: 'http://200.137.82.21:5000/v3'
       user_domain_name: 'Default'
