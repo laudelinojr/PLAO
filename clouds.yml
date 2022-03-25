@@ -4,7 +4,7 @@ clouds:
     auth:
       username: 'admin'
       password: 'keystoneadmin'
-      project_name: 'PRJ_LAUDELINOAS'
+      project_name: 'admin'
       auth_url: 'http://200.137.82.21:5000/v3'
       user_domain_name: 'Default'
       project_domain_id: 'default'
