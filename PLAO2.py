@@ -357,8 +357,8 @@ def main():
     cloud1_gnocchi = Gnocchi(session=cloud1_sess)
     cloud1_resource_id=cloud1_gnocchi.get_resource_id("plao")
     print ("resource_id: "+cloud1_resource_id) 
-    cloud1_resource_id_nova=cloud1_gnocchi.get_resource_id("nova_compute")
-    print ("resource_id: "+cloud1_resource_id_nova) 
+    #cloud1_resource_id_nova=cloud1_gnocchi.get_resource_id("nova_compute")
+    #print ("resource_id: "+cloud1_resource_id_nova) 
 
     print("Creating session in Openstack2...")
     #Creating session OpenStack
@@ -408,8 +408,10 @@ def main():
     app = Flask(__name__)
 
     # The payload is the user ip address.
-    nuvem1="10.159.205.8"
-    nuvem2="10.159.205.11"
+    #nuvem1="10.159.205.8"
+    nuvem1="200.137.82.21"
+    #nuvem2="10.159.205.11"
+    nuvem2="200.137.75.159"
 
     @app.route('/start/',methods=['POST'])
     def start():

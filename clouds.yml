@@ -1,5 +1,5 @@
 clouds:
-  hirakata:
+  openstack-controller:
     region_name: RegionOne
     auth:
       username: 'laudelinoas'
@@ -8,7 +8,7 @@ clouds:
       auth_url: 'http://200.137.82.21:5000/v3'
       user_domain_name: 'Default'
       project_domain_id: 'default'
-  hyogo:
+  openstack-serra-controller:
     region_name: RegionOne
     auth:
       username: 'laudelinoas'
