@@ -273,7 +273,7 @@ class Gnocchi():
             if(len(archive_id))==0:
                     return -1
             else:
-                return self.resource[0]["id"]
+                return self.gnocchi_client.resource[0]["id"]
         except ArchivePolicyNotFound:
             return "ArquivePolicyNotFound"
     
