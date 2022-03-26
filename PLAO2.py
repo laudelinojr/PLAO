@@ -358,7 +358,9 @@ def main():
     #Insert Session in Gnocchi object   
     cloud1_gnocchi = Gnocchi(session=cloud1_sess)
     cloud1_resource_id=cloud1_gnocchi.get_resource_id("plao")
-    print ("resource_id: "+cloud1_resource_id) 
+
+    print ("resource_id: "+str(cloud1_resource_id)) 
+
     #cloud1_resource_id_nova=cloud1_gnocchi.get_resource_id("nova_compute")
     #print ("resource_id: "+cloud1_resource_id_nova) 
 
@@ -371,8 +373,8 @@ def main():
     print("Creating object and using session in Gnocchi...")
     #Insert Session in Gnocchi object   
     cloud2_gnocchi = Gnocchi(session=cloud2_sess)
-    cloud2_resource_id=cloud1_gnocchi.get_resource_id("plao")   
-    print ("resource_id: "+cloud1_resource_id)
+    #cloud2_resource_id=cloud1_gnocchi.get_resource_id("plao")   
+    #print ("resource_id: "+cloud1_resource_id)
 
     #Test for consult data in gnocchi
     #teste(Gnocchi,cloud1_resource_id,cloud2.getIp(),GRANULARITY,START,STOP)
