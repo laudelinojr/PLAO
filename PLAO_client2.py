@@ -267,7 +267,8 @@ class Gnocchi():
     #To get archive-policy
     def get_archive_policy(self,name):
         try:
-            archive_id=self.gnocchi_client.archive_policy.get(name)   
+            archive_id=self.gnocchi_client.archive_policy.get(name)
+            print(archive_id)
             print(len(archive_id))
             if(len(archive_id))==0:
                     return -1
