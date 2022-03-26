@@ -77,7 +77,7 @@ def startApp():
     gnocchi = Gnocchi(session=sess)
 
     print("Checking if archive_policy plao exists.")
-    if (gnocchi.get_archive_policy(VarPlao) == "ArquivePolicyNotFound"):
+    if (gnocchi.get_archive_policy(VarPlao) == "ArquivePolicyNotFound" or gnocchi.get_archive_policy(VarPlao)  == -1):
         gnocchi.set_create_archive_policy(VarPlao)
     else:
         print("ArchivePolicy plao exists")
@@ -101,8 +101,8 @@ def startApp():
     print("Collecting id of resource plao...")
     resource_id=gnocchi.get_resource_id(VarPlao)
     #print (resource_id)
-    if (resource_id == ""):
-        print("Do not have resource plao, we need to create.")
+    if (resource_id == "" or resource_id == -1):
+        print("Do not have resource id PLAO, we need to create.")
         sys.exit()
 
     print("Checking if metric Latency exists...")      
@@ -267,7 +267,11 @@ class Gnocchi():
     #To get archive-policy
     def get_archive_policy(self,name):
         try:
-            self.gnocchi_client.archive_policy.get(name)
+            archive_id=self.gnocchi_client.archive_policy.get(name)   
+            if(len(archive_id))==0:
+                    return -1
+            else:
+                return self.resource[0]["id"]
         except ArchivePolicyNotFound:
             return "ArquivePolicyNotFound"
     

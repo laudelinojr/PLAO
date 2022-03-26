@@ -359,10 +359,10 @@ def main():
     cloud1_gnocchi = Gnocchi(session=cloud1_sess)
     cloud1_resource_id=cloud1_gnocchi.get_resource_id("plao")
 
-    print ("resource_id: "+str(cloud1_resource_id)) 
+    #######print ("resource_id: "+str(cloud1_resource_id)) 
 
-    #cloud1_resource_id_nova=cloud1_gnocchi.get_resource_id("nova_compute")
-    #print ("resource_id: "+cloud1_resource_id_nova) 
+    #######cloud1_resource_id_nova=cloud1_gnocchi.get_resource_id("nova_compute")
+    ########print ("resource_id: "+cloud1_resource_id_nova) 
 
     print("Creating session in Openstack2...")
     #Creating session OpenStack
