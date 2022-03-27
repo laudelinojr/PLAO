@@ -217,8 +217,10 @@ class Gnocchi():
     #Create resource
     def set_create_resource(self,resource_type,resource_name):
         try:
+            print ("set_create_resource")
             self.resource=self.gnocchi_client.resource.create(resource_type,{"host":"","id":resource_name})
-        except ResourceTypeNotFound:
+        except Exception as e:
+        #except ResourceTypeNotFound:
             return "ResourceTypeNotFound"
 
     #check if exists resource
