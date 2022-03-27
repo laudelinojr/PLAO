@@ -212,7 +212,6 @@ class Gnocchi():
             self.create_metric=self.gnocchi_client.archive_policy.create({'name': name, 'back_window': 0, 'definition': [{'timespan': '60 days, 0:00:00', 'granularity': '0:01:00', 'points': 86400}], 'aggregation_methods': ['mean', 'sum', 'min', 'std', 'count', 'max']})
         except:
             return "NoAccess"
-    #To get archive-policy
 
     #To get archive-policy and reply True  our False if archive-policy exist
     def get_archive_policy(self,name):
