@@ -426,11 +426,11 @@ def main():
             a = requests.request(
                 method="POST", url='http://'+nuvem1+':3333/start/', json=payload)
             print(a.text+"Enviando start para "+nuvem1)
+            #return "Executado"
+            a = requests.request(
+                method="POST", url='http://'+nuvem2+':3333/start/', json=payload)
+            print(a.text+"Enviando start para "+nuvem2)
             return "Executado"
-            #a = requests.request(
-            #    method="POST", url='http://'+nuvem2+':3333/start/', json=payload)
-            #print(a.text+"Enviando start para "+nuvem2)
-            #return "okstart"
     #Latency between clouds and user
     @app.route("/userlatency/", methods=['POST', 'GET', 'DELETE'])
     def latencia_user_plao():
