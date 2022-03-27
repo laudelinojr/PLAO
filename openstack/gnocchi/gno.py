@@ -32,10 +32,14 @@ def collectip():
     print("Check iplocal exists in servers.yaml ...")
 
     global IPServerLocal
+    
+    #IPServerLocal="200.137.75.159"
     IPServerLocal="200.137.82.21"
+    print (IPServerLocal)
     #IPServerLocal=servers.getSearchIPLocalServer()
     global NameServerLocal
     NameServerLocal=servers.getServerName(IPServerLocal)    
+    print (NameServerLocal)
 
 
 # Class to autenticate on OpenStack and return authentication session
@@ -169,7 +173,8 @@ class Gnocchi():
     def get_resource(self,name):
         try:
             resource=self.gnocchi_client.resource.search(resource_type=name,limit=1)
-            return True
+            print(resource)
+            #return True
         except ResourceTypeNotFound:
             return False
 
@@ -273,6 +278,7 @@ class Gnocchi():
 
 
 def main():
+
     collectip()
     #startApp()
 
@@ -302,7 +308,10 @@ def main():
     #Creating session OpenStack
     #auth_session = OpenStack_Auth(cloud_name=VarCloudName)
     print(NameServerLocal)
-    auth_session = OpenStack_Auth(cloud_name=NameServerLocal)
+    #auth_session = OpenStack_Auth(cloud_name=NameServerLocal)
+    auth_session = OpenStack_Auth(cloud_name="openstack-controller")
+    
+    
     sess = auth_session.get_session()
 
     print("Creating object and using session in Gnocchi...")
@@ -312,6 +321,9 @@ def main():
 
     print ("vai")    
     print(gnocchi.get_archive_policy("plao"))
+
+    print ("vai2")
+    gnocchi.get_resource("plao")
 
 
 if __name__ == "__main__":

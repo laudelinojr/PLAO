@@ -228,7 +228,8 @@ class Gnocchi():
     def get_resource(self,name):
         try:
             resource=self.gnocchi_client.resource.search(resource_type=name,limit=1)
-            return True
+            print (resource)
+            #return True
         except ResourceTypeNotFound:
             return False
 

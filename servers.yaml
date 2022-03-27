@@ -1,5 +1,5 @@
 servers:
   - name: openstack-controller
-    ip: 200.137.82.21
+    ip: 172.16.112.60
   - name: openstack-serra-controller
-    ip: 200.137.75.159
+    ip: 10.50.0.159
