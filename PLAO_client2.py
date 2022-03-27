@@ -87,6 +87,7 @@ def startApp():
     if(gnocchi.get_resource_type(VarPlao)==False):
         print("Resource Type plao do not exist, creating...")
         gnocchi.set_create_resource_type(VarPlao)
+        print ("command created resource type")
     else:
         print("Resource Type plao exists.")
 
@@ -95,6 +96,7 @@ def startApp():
         print("Resource plao do not exist, creating...")
         #executar metodo para criar novo recurso
         gnocchi.set_create_resource(VarPlao,VarPlao+":"+IPServerLocal)
+        print("command created resourse")
     else:
         print("Resource plao exists.")
 
@@ -105,6 +107,7 @@ def startApp():
         print("Do not have resource id PLAO, we need to create.")
         #executar metodo para criar novo recurso
         gnocchi.set_create_resource(VarPlao,VarPlao+":"+IPServerLocal)
+        print ("command to create resousre id")
 
     print("Checking if metric Latency exists...")      
     Metric_Lat_test=""
