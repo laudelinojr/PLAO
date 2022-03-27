@@ -77,7 +77,7 @@ def startApp():
     gnocchi = Gnocchi(session=sess)
 
     print("Checking if archive_policy plao exists.")
-    if (gnocchi.get_archive_policy(VarPlao) == "ArquivePolicyNotFound" or gnocchi.get_archive_policy(VarPlao)  == -1):
+    if (gnocchi.get_archive_policy(VarPlao) == "ArquivePolicyNotFound" or gnocchi.get_archive_policy(VarPlao)  == False):
         gnocchi.set_create_archive_policy(VarPlao)
     else:
         print("ArchivePolicy plao exists")
@@ -267,13 +267,11 @@ class Gnocchi():
     #To get archive-policy
     def get_archive_policy(self,name):
         try:
-            archive_id=self.gnocchi_client.archive_policy.get(name)
-            print(archive_id)
-            print(len(archive_id))
+            archive_id=self.gnocchi_client.archive_policy.get(name)   
             if(len(archive_id))==0:
                     return -1
             else:
-                return self.gnocchi_client.resource[0]["id"]
+                return self.resource[0]["id"]
         except ArchivePolicyNotFound:
             return "ArquivePolicyNotFound"
     
