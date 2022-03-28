@@ -247,6 +247,9 @@ class Gnocchi():
     #Check if metris to exists and return this
     def get_metric(self,name,resource_id):
         try:
+            print ("consultando metrica usando resource_id")
+            print (resource_id)
+            print(name)
             return self.gnocchi_client.metric.get(name,resource_id)
         except MetricNotFound:
             return ""
