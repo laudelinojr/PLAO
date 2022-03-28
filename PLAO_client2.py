@@ -566,11 +566,13 @@ class CreateThread():
         pass
 
     def ThreadPing(self,TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI):
+        print("funcaoThreadPing")
         self.ExecPing = Latency()
         self.thread_ping = threading.Thread(target=self.ExecPing.execLatency,args=(TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI))
         self.thread_ping.start()
 
     def ThreadIperf(self,TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI):
+        print ("funcaoThreadIperf")
         self.ExecJitter = Jitter()
         self.thread_iperf = threading.Thread(target=self.ExecJitter.execJitter,args=(TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI))
         self.thread_iperf.start()
