@@ -165,6 +165,7 @@ class Gnocchi():
     #Create resource
     def set_create_resource(self,resource_type,resource_name):
         try:
+            print("criando resource")
             self.resource=self.gnocchi_client.resource.create(resource_type,{"host":"","id":resource_name})
         except ResourceTypeNotFound:
             return "ResourceTypeNotFound"
@@ -173,6 +174,7 @@ class Gnocchi():
     def get_resource(self,name):
         try:
             resource=self.gnocchi_client.resource.search(resource_type=name,limit=1)
+            print ("get_resource")
             print(resource)
             #return True
         except ResourceTypeNotFound:
@@ -324,6 +326,19 @@ def main():
 
     print ("vai2")
     gnocchi.get_resource("plao")
+    #try:
+    gnocchi.resource=gnocchi.gnocchi_client.resource.search(resource_type="plao",limit=1,details=True)
+    if(len(gnocchi.resource))==0:
+        print ("aqui antes -1")
+    #    return -1
+    else:
+        print("aqui")
+        return gnocchi.resource[0]["id"]
+    #except ResourceTypeNotFound:
+    #    pass #return ""
+
+    gnocchi.set_create_resource("plao","plao")
+    print ("foi")
 
 
 if __name__ == "__main__":
