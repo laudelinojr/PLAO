@@ -112,7 +112,7 @@ def startApp():
     print("Checking if metric Latency exists...")      
     Metric_Lat_test=""
     for i in IpOthersServers:
-        Name_Metric_Lat="Lat_To_"+str(IpOthersServers.get(i).get('ip'))
+        Name_Metric_Lat="Lat_To_"+str(IpOthersServers.get(i).get('external_ip'))
         Metric_Lat_test=gnocchi.get_metric_id(Name_Metric_Lat,resource_id)
         if (Metric_Lat_test == ""):
             print("The "+ Name_Metric_Lat + " do not exist. Creating metric Latency.")
