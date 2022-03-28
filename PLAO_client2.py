@@ -137,13 +137,13 @@ def startApp():
     for i in IpOthersServers:
         #to create thread for Latency
         Thread_Lat = CreateThread()
-        Thread_Lat.ThreadPing(str(IpOthersServers.get(i).get('external_ip')),"5","1",resource_id,gnocchi)
+        Thread_Lat.ThreadPing(IpOthersServers.get(i).get('external_ip'),"5","1",resource_id,gnocchi)
 
     print("Creating Jiitter Threads to all servers...")
     for i in IpOthersServers:
         #to create thread for Latency
         Thread_Jitt = CreateThread()
-        Thread_Jitt.ThreadIperf(str(IpOthersServers.get(i).get('external_ip')),"5","1",resource_id,gnocchi)
+        Thread_Jitt.ThreadIperf(IpOthersServers.get(i).get('external_ip'),"5","1",resource_id,gnocchi)
     #Mark variable with number 1 for started status on
     global STARTED
     STARTED=1
@@ -358,7 +358,7 @@ class Servers():
         LISTIP_NAME={}
         for i in range(self.C):
             if (self.B["servers"][i]["ip"] != IPServerLocal ):
-                LISTIP_NAME.update({i:{"name":self.B["servers"][i]["name"],"ip": self.B["servers"][i]["ip"]}})
+                LISTIP_NAME.update({i:{"name":self.B["servers"][i]["name"],"ip": self.B["servers"][i]["ip"],"external_ip": self.B["servers"][i]["external_ip"]}})
         return LISTIP_NAME
 
     def getAllIp(self):
