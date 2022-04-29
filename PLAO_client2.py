@@ -550,7 +550,7 @@ class Jitter():
                         self.iperf2 = subprocess.check_output(["iperf3", "-c", TARGET,"-u", "-t", QUANTITY_PCK])
                     except:
                         print ("Error in iperf client")
-                        return
+                        #return
                     self.jitter = self.iperf2.split()[-7]
                     self.resp = str(self.jitter, 'utf-8')
                     GNOCCHI.set_add_measures_metric(Metric_ID,self.resp)
