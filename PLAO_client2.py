@@ -297,7 +297,7 @@ class Gnocchi():
 
     #add measures in metrics
     def set_add_measures_metric(self,id,value):
-        #print ("id da metrica in set_add_measures_metric: "+id)
+        print ("id da metrica in set_add_measures_metric: "+id)
         self.timestamp = str(datetime.now()).split('.')[0]
         self.addmeasures=self.gnocchi_client.metric.add_measures(id, [{'timestamp': self.timestamp,'value': value}])
 
@@ -452,7 +452,7 @@ class Latency():
     def execLatency(self,TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI):
         Metric_Name="Lat_To_"+TARGET
         Metric_ID=GNOCCHI.get_metric_id(Metric_Name,RESOURCE_ID)
-        #print ("metric id dentro execLatency: "+Metric_ID)
+        print ("metric id dentro execLatency: "+Metric_ID)
 
         if (LOOP == "0"):
             if platform.system().lower() == "linux":
@@ -511,7 +511,7 @@ class Jitter():
     def execJitter(self,TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI):
         Metric_Name="Jit_To_"+TARGET
         Metric_ID=GNOCCHI.get_metric_id(Metric_Name,RESOURCE_ID)
-        #print ("metric ID in execJitter: "+ Metric_ID)
+        print ("metric ID in execJitter: "+ Metric_ID)
 
         if (LOOP == "0"):
             if platform.system().lower() == "linux":
@@ -572,13 +572,13 @@ class CreateThread():
         pass
 
     def ThreadPing(self,TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI):
-        #print("funcaoThreadPing")
+        print("funcaoThreadPing")
         self.ExecPing = Latency()
         self.thread_ping = threading.Thread(target=self.ExecPing.execLatency,args=(TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI))
         self.thread_ping.start()
 
     def ThreadIperf(self,TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI):
-        #print ("funcaoThreadIperf")
+        print ("funcaoThreadIperf")
         self.ExecJitter = Jitter()
         self.thread_iperf = threading.Thread(target=self.ExecJitter.execJitter,args=(TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI))
         self.thread_iperf.start()
