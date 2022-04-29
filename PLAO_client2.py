@@ -30,7 +30,7 @@ STARTED = 0
 #SERVERS_FILE="/opt/PLAO/servers.yaml"
 SERVERS_FILE="servers.yaml"
 VarPlao="plao"
-debug_file = 0
+debug_file = 1
 
 def collectip():
 
