@@ -514,7 +514,7 @@ class Jitter():
             if platform.system().lower() == "linux":
                 if (ExecuteCommand("ps ax | grep 'iperf3 -s -D'  | grep -v grep | wc -l")==0):
                     print("executing iperf Daemon loop 0")          
-                    subprocess.run(["iperf3", "-s", "-D"])
+                    subprocess.check_output(["iperf3", "-s", "-D"])
                 try:
                     self.iperf2 = subprocess.check_output(["iperf3", "-c", TARGET,"-u", "-t", QUANTITY_PCK])
                 except:
@@ -541,7 +541,7 @@ class Jitter():
                 if platform.system().lower() == "linux":
                     if (ExecuteCommand("ps ax | grep 'iperf3 -s -D'  | grep -v grep | wc -l")==0):
                         print("executing iperf Daemon loop 1")            
-                        subprocess.run(["iperf3", "-s", "-D"])
+                        subprocess.check_output(["iperf3", "-s", "-D"])
                     try:
                         print("executing iperf to: "+TARGET)
                         self.iperf2 = subprocess.check_output(["iperf3", "-c", TARGET,"-u", "-t", QUANTITY_PCK])
