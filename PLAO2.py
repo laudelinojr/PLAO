@@ -451,11 +451,11 @@ def main():
                 #return "NaoExecutado"
 
                 print("Inicio Teste na nuvem 2")
-                a = requests.request(
-                    method="POST", url='http://'+nuvem2+':3333/userlatency/', json=request_data)
-                print(a.text)
-                print("Fim Teste na nuvem 2")
-                return "Executado"
+                #a = requests.request(
+                #    method="POST", url='http://'+nuvem2+':3333/userlatency/', json=request_data)
+                #print(a.text)
+                #print("Fim Teste na nuvem 2")
+                #return "Executado"
 
 
     #servers = Servers()

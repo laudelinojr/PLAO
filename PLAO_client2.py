@@ -575,6 +575,7 @@ class CreateThread():
         print ("funcaoThreadIperf")
         self.ExecJitter = Jitter()
         self.thread_iperf = threading.Thread(target=self.ExecJitter.execJitter,args=(TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI))
+        print ("retorn threaiperf: "+self.thread_iperf)
         self.thread_iperf.start()
 
         
