@@ -544,6 +544,7 @@ class Jitter():
                         print("executing iperf to: "+TARGET)
                         self.iperf2 = subprocess.check_output(["iperf3", "-c", TARGET,"-u", "-t", QUANTITY_PCK])
                     except:
+                        print ("Error in iperf client")
                         return -1
                     self.jitter = self.iperf2.split()[-7]
                     self.resp = str(self.jitter, 'utf-8')
@@ -575,7 +576,6 @@ class CreateThread():
         print ("funcaoThreadIperf")
         self.ExecJitter = Jitter()
         self.thread_iperf = threading.Thread(target=self.ExecJitter.execJitter,args=(TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI))
-        print ("retorn threaiperf: "+self.thread_iperf)
         self.thread_iperf.start()
 
         
