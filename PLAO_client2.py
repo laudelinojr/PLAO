@@ -30,7 +30,7 @@ STARTED = 0
 #SERVERS_FILE="/opt/PLAO/servers.yaml"
 SERVERS_FILE="servers.yaml"
 VarPlao="plao"
-debug_file = 0
+debug_file = 1
 
 def collectip():
 
@@ -541,8 +541,7 @@ class Jitter():
                 if platform.system().lower() == "linux":
                     if (ExecuteCommand("ps ax | grep 'iperf3 -s -D'  | grep -v grep | wc -l")==0):
                         print("executing iperf Daemon loop 1")            
-                        #subprocess.run(["iperf3", "-s", "-D"])
-                        subprocess.run(["iperf3 -s -D"])
+                        subprocess.run(["iperf3", "-s", "-D"])
                     try:
                         print("executing iperf to: "+TARGET)
                         self.iperf2 = subprocess.check_output(["iperf3", "-c", TARGET,"-u", "-t", QUANTITY_PCK])
