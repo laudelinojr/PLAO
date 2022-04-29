@@ -124,7 +124,7 @@ def startApp():
     print("Checking if metric Jitter exists...")      
     Metric_Jit_test=""
     for i in IpOthersServers:
-        Name_Metric_Jit="Jit_To_"+str(IpOthersServers.get(i).get('ip'))
+        Name_Metric_Jit="Jit_To_"+str(IpOthersServers.get(i).get('external_ip'))
         Metric_Jit_test=gnocchi.get_metric_id(Name_Metric_Jit,resource_id)
         if (Metric_Jit_test == ""):
             print("The "+ Name_Metric_Jit + " do not exist. Creating metric Jitter.")
@@ -297,7 +297,7 @@ class Gnocchi():
 
     #add measures in metrics
     def set_add_measures_metric(self,id,value):
-        print ("id da metrica: "+id)
+        print ("id da metrica in set_add_measures_metric: "+id)
         self.timestamp = str(datetime.now()).split('.')[0]
         self.addmeasures=self.gnocchi_client.metric.add_measures(id, [{'timestamp': self.timestamp,'value': value}])
 
