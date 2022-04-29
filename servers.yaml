@@ -3,5 +3,5 @@ servers:
     ip: 172.16.112.60
     external_ip: 200.137.82.21
   - name: openstack-serra-controller
-    ip: 10.50.0.159
-    external_ip: 200.137.75.159
+    ip: 10.50.0.160
+    external_ip: 200.137.75.160
