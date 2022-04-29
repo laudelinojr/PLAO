@@ -452,7 +452,7 @@ class Latency():
     def execLatency(self,TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI):
         Metric_Name="Lat_To_"+TARGET
         Metric_ID=GNOCCHI.get_metric_id(Metric_Name,RESOURCE_ID)
-        print ("metric id dentro execLatency"+Metric_ID)
+        print ("metric id dentro execLatency: "+Metric_ID)
 
         if (LOOP == "0"):
             if platform.system().lower() == "linux":
@@ -511,6 +511,7 @@ class Jitter():
     def execJitter(self,TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI):
         Metric_Name="Jit_To_"+TARGET
         Metric_ID=GNOCCHI.get_metric_id(Metric_Name,RESOURCE_ID)
+        print ("metric ID in execJitter: "+ Metric_ID)
 
         if (LOOP == "0"):
             if platform.system().lower() == "linux":
