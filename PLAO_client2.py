@@ -297,6 +297,7 @@ class Gnocchi():
 
     #add measures in metrics
     def set_add_measures_metric(self,id,value):
+        print ("id da metrica: "+id)
         self.timestamp = str(datetime.now()).split('.')[0]
         self.addmeasures=self.gnocchi_client.metric.add_measures(id, [{'timestamp': self.timestamp,'value': value}])
 
@@ -451,6 +452,7 @@ class Latency():
     def execLatency(self,TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI):
         Metric_Name="Lat_To_"+TARGET
         Metric_ID=GNOCCHI.get_metric_id(Metric_Name,RESOURCE_ID)
+        print ("metric id dentro execLatency"+Metric_ID)
 
         if (LOOP == "0"):
             if platform.system().lower() == "linux":
