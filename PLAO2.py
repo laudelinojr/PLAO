@@ -451,11 +451,17 @@ def main():
                 #return "NaoExecutado"
 
                 print("Inicio Teste na nuvem 2")
-                #a = requests.request(
-                #    method="POST", url='http://'+nuvem2+':3333/userlatency/', json=request_data)
-                #print(a.text)
-                #print("Fim Teste na nuvem 2")
-                #return "Executado"
+                a = requests.request(
+                    method="POST", url='http://'+nuvem2+':3333/userlatency/', json=request_data)
+                print(a.text)
+                print("Fim Teste na nuvem 2")
+                return "Executado"
+
+            #Agora pesquisar o valor da coleta de latencia das nuvens para o ip do usuario, cpu da nuvem 1 e cpu da nuvem2, pegar os ultimos valores
+            #Criar job no BD com o id do job e guardar: verificado (sim ou nao),ip do usuario, latencia p nuvem1, latencia p nuvem2, ping da nuvem 1 p 2, jitter da nuvem 1 p 2
+
+            #Em paralelo thread que fica olhando tabela de jobs, compara arquivos e altera se tiver diferenca
+            #entrar regras de mudar depois de determinada variacao ou modulo xx
 
 
     #servers = Servers()
