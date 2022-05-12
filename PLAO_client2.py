@@ -76,9 +76,18 @@ def startApp():
     #Insert Session in Gnocchi object
     gnocchi = Gnocchi(session=sess)
 
+    #Creating session OpenStack
+    #auth_session = OpenStack_Auth(cloud_name=VarCloudName)
+    auth_session_adm = OpenStack_Auth(cloud_name=NameServerLocal+"-adm")
+    sess_adm = auth_session_adm.get_session()
+
+    print("Creating object and using session in Gnocchi...")
+    #Insert Session in Gnocchi object
+    gnocchi_adm = Gnocchi(session=sess_adm)
+
     print("Checking if archive_policy plao exists.")
     if (gnocchi.get_archive_policy(VarPlao) == "ArquivePolicyNotFound" or gnocchi.get_archive_policy(VarPlao)  == False):
-        gnocchi.set_create_archive_policy(VarPlao)
+        gnocchi_adm.set_create_archive_policy(VarPlao)
     else:
         print("ArchivePolicy plao exists")
 
@@ -86,7 +95,7 @@ def startApp():
     print("Checking if resource_type plao exists...")
     if(gnocchi.get_resource_type(VarPlao)==False):
         print("Resource Type plao do not exist, creating...")
-        gnocchi.set_create_resource_type(VarPlao)
+        gnocchi_adm.set_create_resource_type(VarPlao)
         print ("command created resource type")
     else:
         print("Resource Type plao exists.")
