@@ -26,3 +26,12 @@ clouds:
       auth_url: 'https://200.137.75.159:5000/v3'
       user_domain_name: 'Default'
       project_domain_id: 'default'
+  openstack-serra-controller-adm:
+    region_name: RegionOne
+    auth:
+      username: 'laudelinoas'
+      password: 'S3ewp24zrLQgKyM'
+      project_name: 'PRJ_LAUDELINOAS'
+      auth_url: 'https://200.137.75.159:5000/v3'
+      user_domain_name: 'Default'
+      project_domain_id: 'default'
