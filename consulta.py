@@ -8,6 +8,12 @@ from PLAO_client2 import *
 #from PLAO2_w_routes import app
 from flask import Flask, request
 import requests
+import pytz
+
+tz_SP = pytz.timezone("America/Sao_Paulo")
+print(tz_SP)
+SP = datetime.now(tz_SP)
+print (SP)
 
 #Teste para servidor requisicoes
 #from PLAO2_w_routes import app
@@ -38,7 +44,7 @@ def main():
     servers = Servers()
 
     print("Loading Cloud Class with Clouds")
-    cloud1 = Cloud(servers.getbyIndexIP(0))   
+    cloud1 = Cloud(servers.getbyIndexIP(0),servers.getbyIndexExternalIP(0))   
     cloud1.setName(servers.getServerName(cloud1.getIp()))
     print(cloud1.getName())
     cloud1.setVimURL("http://200.137.82.21:5000/v3")
@@ -48,7 +54,7 @@ def main():
     print(cloud1.getName())       
     print(cloud1.getCpu())
 
-    cloud2 = Cloud(servers.getbyIndexIP(1))
+    cloud2 = Cloud(servers.getbyIndexIP(1),servers.getbyIndexExternalIP(1))
     cloud2.setName(servers.getServerName(cloud2.getIp()))
     #cloud2.setVimURL("https://200.137.75.159:5000/v3")
     #cloud2.setVimURL("http://10.159.205.11:5000/v3")
@@ -68,9 +74,12 @@ def main():
     cloud1_gnocchi = Gnocchi(session=cloud1_sess)
     cloud1_resource_id=cloud1_gnocchi.get_resource_id("plao")
 
-    print("agora vai")
-    Collector_Metrics_Links(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,"200.137.82.21","200.137.75.159")
-
+    print("Latencia entre nuvens")
+    last_Lat=Collector_Metrics_Links_Demand(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,"200.137.82.21","200.137.75.159",1,"Lat_To_")
+    print(last_Lat)
+    print ("Jitter entre nuvens")
+    last_Jit=Collector_Metrics_Links_Demand(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,"200.137.82.21","200.137.75.159",1,"Jit_To_")
+    print(last_Jit)
 
 class File_PIL_Price():
     def __init__(self):
@@ -127,27 +136,40 @@ class File_PIL_Price():
             return -1
 
 
-def Collector_Metrics_Links(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,CLOUD_FROM,CLOUD_TO):
-    while True:
-        now=datetime.now()
+def Collector_Metrics_Links(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,CLOUD_FROM,CLOUD_TO,interval,metric_name):
+    #while True:
+    now=datetime.now()
+    #now=datetime.now(tz_SP)
 
-        intervalo=30
-        delta = timedelta(seconds=intervalo)
-        time_past=now-delta
-        #START = "2021-08-01 13:30:33+00:00"
-        #STOP = "2021-08-01 13:35:36+00:00"
-        START=time_past
-        STOP=now
-        print (" start: " +str(START)+" stop: "+str(STOP))
-        GRANULARITY=60.0
-        print("horarioInicio: "+str(START))
-        print("hoarioFinal: "+str(STOP))
-        Latencia_to_cloud2=cloud1_gnocchi.get_last_measure("Lat_To_"+cloud2.getIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
-        print("LatenciatoCloud2: "+str(Latencia_to_cloud2))
-        Jitter_to_cloud2=cloud1_gnocchi.get_last_measure("Jit_To_"+cloud2.getIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
-        print("JittertoCloud2: "+str(Jitter_to_cloud2))
-        PILFile.SearchChangePriceLatencyJitterPIL(Latencia_to_cloud2,Latencia_to_cloud2,Jitter_to_cloud2,CLOUD_FROM,CLOUD_TO)
-        time.sleep(5)
+    #intervalo=300
+    delta = timedelta(seconds=interval)
+    time_past=now-delta
+    #START = "2021-08-01 13:30:33+00:00"
+    #STOP = "2021-08-01 13:35:36+00:00"
+    START=time_past
+    STOP=now
+    print (" start: " +str(START)+" stop: "+str(STOP))
+    GRANULARITY=60.0
+    print("horarioInicio: "+str(START))
+    print("hoarioFinal: "+str(STOP))
+    Latencia_to_cloud2=cloud1_gnocchi.get_last_measure(metric_name+cloud2.getExternalIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
+    print("LatenciatoCloud2: "+str(Latencia_to_cloud2))
+    Jitter_to_cloud2=cloud1_gnocchi.get_last_measure("Jit_To_"+cloud2.getExternalIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
+    print("JittertoCloud2: "+str(Jitter_to_cloud2))
+    PILFile.SearchChangePriceLatencyJitterPIL(Latencia_to_cloud2,Latencia_to_cloud2,Jitter_to_cloud2,CLOUD_FROM,CLOUD_TO)
+    #    time.sleep(5)
+
+
+def Collector_Metrics_Links_Demand(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,CLOUD_FROM,CLOUD_TO,interval,metric_name):
+    now=datetime.now()
+    delta = timedelta(seconds=interval)
+    time_past=now-delta
+    #START = "2021-08-01 13:30:33+00:00"
+    #STOP = "2021-08-01 13:35:36+00:00"
+    START=time_past
+    STOP=now
+    GRANULARITY=60.0
+    return cloud1_gnocchi.get_last_measure(metric_name+cloud2.getExternalIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
 
 #Collect metric links from cloud1 to cloud2
 def Monitor_Request_LatencyUser_Cloud1(cloud1_gnocchi,cloud1_resource_id,VNFFile,CLOUD_FROM):

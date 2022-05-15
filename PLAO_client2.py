@@ -21,7 +21,7 @@ import datetime
 from datetime import datetime
 import sys
 import os
-#import pandas as pd
+import pandas as pd
 #from PLAO_client2_w_routes import appc
 from flask import Flask, request
 STARTED = 0
@@ -156,6 +156,11 @@ def startApp():
     #Mark variable with number 1 for started status on
     global STARTED
     STARTED=1
+
+#Stop thread collectors
+def stopApp():
+    for thread in threading.enumerate(): 
+        print(thread.name)
 
 # To execute commands in Linux
 def ExecuteCommand(exec_command):
@@ -322,26 +327,30 @@ class Gnocchi():
                                                     granularity=granularity)
 
     #If dont data, return -1, else return data
-    def get_last_measure(self, name_metric, resource_id, aggregation, granularity, start, stop):
+    def get_measure(self, name_metric, resource_id, aggregation, granularity, start, stop):
+        #metric_id=self.get_metric_id(name_metric,resource_id)
+        #print(metric_id)
         dados=self.gnocchi_client.metric.get_measures(name_metric,start,stop, aggregation, granularity,resource_id)
-        if len(dados) != 0:     
-            return dados[0][2]
-        return -1
-        #df = pd.DataFrame(dados, columns =['timestamp', 'granularity', ''])
-        #print("\n")
-        #print(df.head())
-        #return (df)
+        #if len(dados) != 0:     
+        #    return dados[0][2]
+        #return -1
+        df = pd.DataFrame(dados, columns =['timestamp', 'granularity', 'value'])
+        print("\n")
+        print(df.head())
+        return (df)
 
     #If dont data, return -1, else return data
-    def get_measure(self, name_metric, resource_id, aggregation, granularity, start, stop):
+    def get_last_measure(self, name_metric, resource_id, aggregation, granularity, start, stop):
         dados=self.gnocchi_client.metric.get_measures(name_metric,start,stop, aggregation, granularity,resource_id)
-        if len(dados) != 0:     
-            return dados[0][2]
-        return -1
-        #df = pd.DataFrame(dados, columns =['timestamp', 'granularity', ''])
-        #print("\n")
-        #print(df.head())
-        #return (df)
+        #if len(dados) != 0:     
+        #    return dados[0][2]
+        #return -1
+        df = pd.DataFrame(dados, columns =['timestamp', 'granularity', ''])
+        if (df.__len__() == 0):
+            return -1
+        print(df)
+        last_row = df.iloc[-1,2]
+        return (last_row)
 
 #Class to get servers
 class Servers():
@@ -353,6 +362,10 @@ class Servers():
     def getbyIndexIP(self,index):
         if self.C >= index:
             return self.B["servers"][index]["ip"]   
+
+    def getbyIndexExternalIP(self,index):
+        if self.C >= index:
+            return self.B["servers"][index]["external_ip"]   
 
     #Return All IP of servers
     def getAll(self):
@@ -416,8 +429,9 @@ class Servers():
 
 #Class to Cloud
 class Cloud():
-    def __init__(self,ip):
+    def __init__(self,ip,external_ip):
         self.Ip=ip
+        self.ExternalIp=external_ip
         self.Name=""
         self.Cpu=""
         self.CPUStatus=0
@@ -451,6 +465,9 @@ class Cloud():
 
     def getIp(self):
         return self.Ip
+
+    def getExternalIp(self):
+        return self.ExternalIp
 
 #Ping to others servers in servers.yaml
 class Latency():
@@ -602,13 +619,21 @@ def main():
     def check():
         #If startApp() started, return 1, or 0 for not 
         return str(STARTED)
-    #Start the PLAO Agent in Openstack Server and start ping to other cloud
+    #Start the PLAO Agent in Openstack Server and start ping and jitter to other cloud
     @appc.route('/start/',methods=['POST'])
     def start():
         if (STARTED == 0):    
             novo = startApp()
             return "System_Started"
         return "System_Already_Started"
+    #Stop the PLAO Agent in Openstack Server and stop ping and jitter to other cloud
+    @appc.route('/stop/',methods=['POST'])
+    def stop():
+        if (STARTED == 1):    
+            novo = stopApp()
+            return "System_Stoped"
+        return "System_Already_Stoped"
+
     #Command to start ping from cloud to user
     @appc.route("/userlatency/", methods=['POST', 'GET', 'DELETE'])
     def latencia_user_plao_client():

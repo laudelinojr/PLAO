@@ -1,5 +1,6 @@
 from http.client import HTTPConnection
 from multiprocessing.connection import Connection
+from operator import eq
 import yaml
 import threading
 import subprocess
@@ -242,12 +243,21 @@ def Collector_Metrics_Links(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,CLO
         GRANULARITY=60.0
         print("horarioInicio: "+str(START))
         print("hoarioFinal: "+str(STOP))
-        Latencia_to_cloud2=cloud1_gnocchi.get_last_measure("Lat_To_"+cloud2.getIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
+        Latencia_to_cloud2=cloud1_gnocchi.get_last_measure("Lat_To_"+cloud2.getExternalIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
         print("LatenciatoCloud2: "+str(Latencia_to_cloud2))
-        Jitter_to_cloud2=cloud1_gnocchi.get_last_measure("Jit_To_"+cloud2.getIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
+        Jitter_to_cloud2=cloud1_gnocchi.get_last_measure("Jit_To_"+cloud2.getExternalIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
         print("JittertoCloud2: "+str(Jitter_to_cloud2))
         PILFile.SearchChangePriceLatencyJitterPIL(Latencia_to_cloud2,Latencia_to_cloud2,Jitter_to_cloud2,CLOUD_FROM,CLOUD_TO)
         time.sleep(5)
+
+def Collector_Metrics_Links_Demand_Interval(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,CLOUD_FROM,CLOUD_TO,interval,metric_name):
+    now=datetime.now()
+    delta = timedelta(seconds=interval)
+    time_past=now-delta
+    START=time_past
+    STOP=now
+    GRANULARITY=60.0
+    return cloud1_gnocchi.get_last_measure(metric_name+cloud2.getExternalIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
 
 #Collect metric links from cloud1 to cloud2
 def Monitor_Request_LatencyUser_Cloud1(cloud1_gnocchi,cloud1_resource_id,VNFFile,CLOUD_FROM):
@@ -329,7 +339,7 @@ def main():
     servers = Servers()
 
     print("Loading Cloud Class with Clouds")
-    cloud1 = Cloud(servers.getbyIndexIP(0))   
+    cloud1 = Cloud(servers.getbyIndexIP(0),servers.getbyIndexExternalIP(0))   
     cloud1.setName(servers.getServerName(cloud1.getIp()))
     print(cloud1.getName())
     cloud1.setVimURL("http://200.137.82.21:5000/v3")
@@ -339,7 +349,7 @@ def main():
     print(cloud1.getName())       
     print(cloud1.getCpu())
 
-    cloud2 = Cloud(servers.getbyIndexIP(1))
+    cloud2 = Cloud(servers.getbyIndexIP(1),servers.getbyIndexExternalIP(1))
     cloud2.setName(servers.getServerName(cloud2.getIp()))
     #cloud2.setVimURL("https://200.137.75.159:5000/v3")
     #cloud2.setVimURL("http://10.159.205.11:5000/v3")
@@ -417,20 +427,131 @@ def main():
     #nuvem2="10.159.205.11"
     nuvem2="200.137.75.159"
 
+    #Start aplication in server and clients, and start Thread of collector links metrics.
     @app.route('/start/',methods=['POST'])
     def start():
         if request.method == "POST":
-            #Future: To read config file and start theese request automaticaly, for example to 1, 2, 3, 4 clouds...
+
+            ret_status = 0 #status of return cloud
             request_data = request.get_json()
             payload = request_data['ipuser']
-            a = requests.request(
-                method="POST", url='http://'+nuvem1+':3333/start/', json=payload)
-            print(a.text+"Enviando start para "+nuvem1)
-            #return "Executado"
-            a = requests.request(
-                method="POST", url='http://'+nuvem2+':3333/start/', json=payload)
-            print(a.text+"Enviando start para "+nuvem2)
-            return "Executado"
+            
+            try:
+                a = requests.request(
+                    method="POST", url='http://'+nuvem1+':3333/start/', json=payload)
+
+                if a.text == "System_Already_Started" :
+                    ret_status=ret_status+2
+                    print("PLAO_client_Already_Started:"+ nuvem1)
+                if a.text == "System_Started" :
+                    ret_status=ret_status+3
+                    print("PLAO_client_Started:"+ nuvem1)
+
+            except requests.ConnectionError:
+                print("OOPS!! Connection Error. Make sure you are connected to Internet.\n")           
+            except requests.Timeout:
+                print("OOPS!! Timeout Error")
+            except requests.RequestException:
+                print("OOPS!! General Error")
+            except KeyboardInterrupt:
+                print("Someone closed the program")
+
+            try:
+                a = requests.request(
+                    method="POST", url='http://'+nuvem2+':3333/start/', json=payload)
+                #print(a.text+" Enviando start para "+nuvem2)
+                if a.text == "System_Already_Started" :
+                    ret_status=ret_status+2
+                    print("PLAO_client_Already_Started:"+ nuvem2)
+                if a.text == "System_Started" :
+                    ret_status=ret_status+3
+                    print("PLAO_client_Started:"+ nuvem2)
+            except requests.ConnectionError:
+                print("OOPS!! Connection Error. Make sure you are connected to Internet.\n")
+                return ""            
+            except requests.Timeout:
+                print("OOPS!! Timeout Error")
+            except requests.RequestException:
+                print("OOPS!! General Error")
+            except KeyboardInterrupt:
+                print("Someone closed the program")
+
+            if ret_status == 3:
+                return "Started_PLAO_JustOneCloud"
+            if ret_status == 2:
+                return "PLAO_client_Already_Started_One_Cloud"
+            if ret_status == 4:
+                return "PLAO_client_Already_Started_All_Clouds"
+            if ret_status == 5:
+                return "Started_PLAO_OneClouds_and_AlreadyStartedOneCloud"
+            if ret_status == 6:
+                return "Started_PLAO_AllClouds"
+            else:
+                return "Started"
+
+    @app.route('/stop/',methods=['POST'])
+    def stop():
+        if request.method == "POST":
+
+            ret_status = 0 #status of return cloud
+            request_data = request.get_json()
+            payload = request_data['ipuser']
+            
+            try:
+                a = requests.request(
+                    method="POST", url='http://'+nuvem1+':3333/start/', json=payload)
+
+                if a.text == "System_Already_Started" :
+                    ret_status=ret_status+2
+                    print("PLAO_client_Already_Started:"+ nuvem1)
+                if a.text == "System_Started" :
+                    ret_status=ret_status+3
+                    print("PLAO_client_Started:"+ nuvem1)
+
+            except requests.ConnectionError:
+                print("OOPS!! Connection Error. Make sure you are connected to Internet.\n")           
+            except requests.Timeout:
+                print("OOPS!! Timeout Error")
+            except requests.RequestException:
+                print("OOPS!! General Error")
+            except KeyboardInterrupt:
+                print("Someone closed the program")
+
+            try:
+                a = requests.request(
+                    method="POST", url='http://'+nuvem2+':3333/start/', json=payload)
+                #print(a.text+" Enviando start para "+nuvem2)
+                if a.text == "System_Already_Started" :
+                    ret_status=ret_status+2
+                    print("PLAO_client_Already_Started:"+ nuvem2)
+                if a.text == "System_Started" :
+                    ret_status=ret_status+3
+                    print("PLAO_client_Started:"+ nuvem2)
+            except requests.ConnectionError:
+                print("OOPS!! Connection Error. Make sure you are connected to Internet.\n")
+                return ""            
+            except requests.Timeout:
+                print("OOPS!! Timeout Error")
+            except requests.RequestException:
+                print("OOPS!! General Error")
+            except KeyboardInterrupt:
+                print("Someone closed the program")
+
+            print(ret_status)
+
+            if ret_status == 3:
+                return "Started_PLAO_JustOneCloud"
+            if ret_status == 2:
+                return "PLAO_client_Already_Started_One_Cloud"
+            if ret_status == 4:
+                return "PLAO_client_Already_Started_All_Clouds"
+            if ret_status == 5:
+                return "Started_PLAO_OneClouds_and_AlreadyStartedOneCloud"
+            if ret_status == 6:
+                return "Started_PLAO_AllClouds"
+            else:
+                return "Started"
+
     #Latency between clouds and user
     @app.route("/userlatency/", methods=['POST', 'GET', 'DELETE'])
     def latencia_user_plao():
