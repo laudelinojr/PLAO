@@ -161,6 +161,10 @@ def startApp():
 def stopApp():
     for thread in threading.enumerate(): 
         print(thread.name)
+        print("funcionalidade em desenvolvimento")
+        if thread.isAlive():
+            print("ativo: "+thread.name)
+            
 
 # To execute commands in Linux
 def ExecuteCommand(exec_command):
@@ -342,14 +346,10 @@ class Gnocchi():
     #If dont data, return -1, else return data
     def get_last_measure(self, name_metric, resource_id, aggregation, granularity, start, stop):
         dados=self.gnocchi_client.metric.get_measures(name_metric,start,stop, aggregation, granularity,resource_id)
-        #if len(dados) != 0:     
-        #    return dados[0][2]
-        #return -1
         df = pd.DataFrame(dados, columns =['timestamp', 'granularity', ''])
         if (df.__len__() == 0):
             return -1
-        print(df)
-        last_row = df.iloc[-1,2]
+        last_row = df.iloc[-1,2] #colect the last register
         return (last_row)
 
 #Class to get servers
@@ -596,6 +596,9 @@ class Jitter():
 class CreateThread():
     def __init__(self):
         pass
+
+    def stop(self):
+        self.stop()
 
     def ThreadPing(self,TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI):
         print("funcaoThreadPing")

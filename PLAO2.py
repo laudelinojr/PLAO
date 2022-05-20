@@ -180,11 +180,10 @@ class File_PIL_Price():
 
                 print("lembrar descomentar linha para docker fazer copia pil")
                 ############ExecuteCommand('docker cp '+FILE_PIL_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
-
                 try:
                     nomearquivo8=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
                     with open(nomearquivo8, 'a') as arquivo:
-                        arquivo.write( DATEHOURS() + '#CHANGE_PIL# Changed and copied file '+FILE_PIL_PRICE + ' to container PLA. ' +' PRICE: '+PRICE+' LATENCY: '+LATENCY+' JITTER: '+JITTER+'\n')
+                        arquivo.write( DATEHOURS() + '#CHANGE_PIL# Changed and copied file '+FILE_PIL_PRICE + ' to container PLA. ' +' PRICE: '+str(PRICE)+' LATENCY: '+str(LATENCY)+' JITTER: '+str(JITTER)+'\n')
                 except:
                     return -1
                 if debug == 1: print("File pil_price changed")
@@ -226,11 +225,12 @@ def ExecuteCommand(exec_command):
         print("ERROR - " + ret)
         return ret.returncode
 
+def DATEHOURS():
+    DATEHOUR = datetime.now().strftime('%d.%m.%y-%H:%M:%S')  # converte hora para string do cliente
+    return DATEHOUR
+
 #Collect metric links from cloud1 to cloud2.
-
-
-
-def Collector_Metrics_Links(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,CLOUD_FROM,CLOUD_TO):
+def Collector_Metrics_Links_cl1(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,CLOUD_FROM,CLOUD_TO):
     while True:
         now=datetime.now()
         intervalo=30
@@ -248,9 +248,9 @@ def Collector_Metrics_Links(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,CLO
         Jitter_to_cloud2=cloud1_gnocchi.get_last_measure("Jit_To_"+cloud2.getExternalIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
         print("JittertoCloud2: "+str(Jitter_to_cloud2))
         PILFile.SearchChangePriceLatencyJitterPIL(Latencia_to_cloud2,Latencia_to_cloud2,Jitter_to_cloud2,CLOUD_FROM,CLOUD_TO)
-        time.sleep(5)
+        time.sleep(10)
 
-def Collector_Metrics_Links_Demand_Interval(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,CLOUD_FROM,CLOUD_TO,interval,metric_name):
+def Collector_Metrics_Links_Demand_Interval_cl1(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,CLOUD_FROM,CLOUD_TO,interval,metric_name):
     now=datetime.now()
     delta = timedelta(seconds=interval)
     time_past=now-delta
@@ -259,22 +259,29 @@ def Collector_Metrics_Links_Demand_Interval(cloud1_gnocchi,cloud1_resource_id,cl
     GRANULARITY=60.0
     return cloud1_gnocchi.get_last_measure(metric_name+cloud2.getExternalIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
 
+def Collector_Metrics_Links_Demand_Date_cl1(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,CLOUD_FROM,CLOUD_TO,start,stop,metric_name):
+    #time_past=now-delta
+    #START=time_past
+    #STOP=now
+    START=start
+    STOP=stop
+    GRANULARITY=60.0
+    return cloud1_gnocchi.get_last_measure(metric_name+cloud2.getExternalIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
+
+
+
 #Collect metric links from cloud1 to cloud2
 def Monitor_Request_LatencyUser_Cloud1(cloud1_gnocchi,cloud1_resource_id,VNFFile,CLOUD_FROM):
     while True:
-        now=datetime.now()
-        intervalo=30
-        delta = timedelta(seconds=intervalo)
-        time_past=now-delta
         #START = "2021-08-01 13:30:33+00:00"
         #STOP = "2021-08-01 13:35:36+00:00"
-        START=time_past
-        STOP=now
+        START=start
+        STOP=stop
         GRANULARITY=60.0
         print("horarioInicio: "+str(START))
         print("hoarioFinal: "+str(STOP))
-        #Latencia_to_cloud2=cloud1_gnocchi.get_last_measure("Lat_To_"+cloud2.getIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
-        #print(Latencia_to_cloud2)
+        Latencia_to_cloud2=cloud1_gnocchi.get_last_measure(metric_name,cloud1_resource_id,None,GRANULARITY,START,STOP)
+        print(Latencia_to_cloud2)
         #Jitter_to_cloud2=cloud1_gnocchi.get_last_measure("Jit_To_"+cloud2.getIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
         #print(Jitter_to_cloud2)
         #PILFile.SearchChangePriceLatencyJitterPIL(Latencia_to_cloud2,Latencia_to_cloud2,Jitter_to_cloud2,CLOUD_FROM,CLOUD_TO)
@@ -283,7 +290,7 @@ def Monitor_Request_LatencyUser_Cloud1(cloud1_gnocchi,cloud1_resource_id,VNFFile
 def Collector_Metrics_Disaggregated_cl1(cloud1_gnocchi,cloud1_resource_id_nova,Cloud,VNFFile):
     while True:
         now=datetime.now()
-        intervalo=400
+        intervalo=30
         delta = timedelta(seconds=intervalo)
         time_past=now-delta
         START=time_past
@@ -300,12 +307,14 @@ def Collector_Metrics_Disaggregated_cl1(cloud1_gnocchi,cloud1_resource_id_nova,C
         print("status da cpu")
         print(Cloud.getCpuStatus())
 
-        if (int(CPU_cloud1) > THRESHOLD) and (Cloud.getCpuStatus() == 0):
-            CPU_STATUS_NOW=1   #Values: 0-cpu normal, 1-cpu high and cost value going to change
-            VNFFile.SearchDownUpVimPrice(CPU_STATUS_NOW,Cloud) #The cost is add by CPU bigger
-        if (int(CPU_cloud1) < THRESHOLD) and (Cloud.getCpuStatus() == 1):
-            CPU_STATUS_NOW=0   #Values: 0-cpu normal, 1-cpu high and cost value going to change
-            VNFFile.SearchDownUpVimPrice(CPU_STATUS_NOW,Cloud) #The cost is add by CPU bigger
+        #if (int(CPU_cloud1) > THRESHOLD) and (Cloud.getCpuStatus() == 0):
+        #    CPU_STATUS_NOW=1   #Values: 0-cpu normal, 1-cpu high and cost value going to change
+        #    VNFFile.SearchDownUpVimPrice(CPU_STATUS_NOW,Cloud) #The cost is add by CPU bigger
+        #if (int(CPU_cloud1) < THRESHOLD) and (Cloud.getCpuStatus() == 1):
+        #    CPU_STATUS_NOW=0   #Values: 0-cpu normal, 1-cpu high and cost value going to change
+        #    VNFFile.SearchDownUpVimPrice(CPU_STATUS_NOW,Cloud) #The cost is add by CPU bigger
+
+        ##### FALTA CRIAR RESOURCE NOVA NOS OPENSTACK E POPULAR, BAIXAR TEMPO DE COLETA TB, ENTENDER...
         time.sleep(5)
 
 
@@ -371,8 +380,7 @@ def main():
 
     #######print ("resource_id: "+str(cloud1_resource_id)) 
 
-    #######cloud1_resource_id_nova=cloud1_gnocchi.get_resource_id("nova_compute")
-    ########print ("resource_id: "+cloud1_resource_id_nova) 
+ 
 
     print("Creating session in Openstack2...")
     #Creating session OpenStack
@@ -407,15 +415,7 @@ def main():
     #teste_Latencia_to_cloud2=Latencia_to_cloud2.head(1).values
    ##print("valorJittertoCloud2: "+str(Jitter_to_cloud2))
 
-    #Thread para atualizar Price, Latency and jitter between cloud1 and 2
-    #thread_MonitorLinks = threading.Thread(target=Collector_Metrics_Links,args=(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,"openstack1","openstack2"))
-    #thread_MonitorLinks.start()
 
-    ###thread_MonitorDisaggregated1 = threading.Thread(target=Collector_Metrics_Disaggregated_cl1,args=(cloud1_gnocchi,cloud1_resource_id_nova,cloud1,VNFFile))
-    ####thread_MonitorDisaggregated1.start()
-
-#    thread_MonitorDisaggregated2 = threading.Thread(target=Collector_Metrics_Disaggregated_cl1,args=(cloud2_gnocchi,cloud2_resource_id,cloud2,VNFFile))
-#    thread_MonitorDisaggregated2.start()
 
 
     #File in Clouds
@@ -493,20 +493,12 @@ def main():
     def stop():
         if request.method == "POST":
 
-            ret_status = 0 #status of return cloud
             request_data = request.get_json()
             payload = request_data['ipuser']
             
             try:
                 a = requests.request(
-                    method="POST", url='http://'+nuvem1+':3333/start/', json=payload)
-
-                if a.text == "System_Already_Started" :
-                    ret_status=ret_status+2
-                    print("PLAO_client_Already_Started:"+ nuvem1)
-                if a.text == "System_Started" :
-                    ret_status=ret_status+3
-                    print("PLAO_client_Started:"+ nuvem1)
+                    method="POST", url='http://'+nuvem1+':3333/stop/', json=payload)
 
             except requests.ConnectionError:
                 print("OOPS!! Connection Error. Make sure you are connected to Internet.\n")           
@@ -519,14 +511,7 @@ def main():
 
             try:
                 a = requests.request(
-                    method="POST", url='http://'+nuvem2+':3333/start/', json=payload)
-                #print(a.text+" Enviando start para "+nuvem2)
-                if a.text == "System_Already_Started" :
-                    ret_status=ret_status+2
-                    print("PLAO_client_Already_Started:"+ nuvem2)
-                if a.text == "System_Started" :
-                    ret_status=ret_status+3
-                    print("PLAO_client_Started:"+ nuvem2)
+                    method="POST", url='http://'+nuvem2+':3333/stop/', json=payload)
             except requests.ConnectionError:
                 print("OOPS!! Connection Error. Make sure you are connected to Internet.\n")
                 return ""            
@@ -536,21 +521,42 @@ def main():
                 print("OOPS!! General Error")
             except KeyboardInterrupt:
                 print("Someone closed the program")
+            return "Stoped"
 
-            print(ret_status)
+    @app.route('/monitor/',methods=['POST'])
+    def monitor():
+        if request.method == "POST":
+            print("Starting Thread to monitor last latency and Jitter betweeen Cloud1 and Cloud2")
+            thread_MonitorLinks = threading.Thread(target=Collector_Metrics_Links_cl1,args=(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,"openstack1","openstack2"))
+            thread_MonitorLinks.start()
 
-            if ret_status == 3:
-                return "Started_PLAO_JustOneCloud"
-            if ret_status == 2:
-                return "PLAO_client_Already_Started_One_Cloud"
-            if ret_status == 4:
-                return "PLAO_client_Already_Started_All_Clouds"
-            if ret_status == 5:
-                return "Started_PLAO_OneClouds_and_AlreadyStartedOneCloud"
-            if ret_status == 6:
-                return "Started_PLAO_AllClouds"
+            cloud1_resource_id_nova=cloud1_gnocchi.get_resource_id("nova_compute")
+            if cloud1_resource_id_nova != -1:
+                print("Starting Thread to monitor last cpu in Cloud 1")
+                #thread_MonitorDisaggregated1 = threading.Thread(target=Collector_Metrics_Disaggregated_cl1,args=(cloud1_gnocchi,cloud1_resource_id_nova,cloud1,VNFFile))
+                #thread_MonitorDisaggregated1.start()
             else:
-                return "Started"
+                print("Resource nova_compute not exist, need to create.")
+            print ("resource_id+cloud1: "+str(cloud1_resource_id_nova))
+
+            cloud2_resource_id_nova=cloud2_gnocchi.get_resource_id("nova_compute")
+            if cloud2_resource_id_nova != -1:
+                print("Starting Thread to monitor last cpu in Cloud 2")
+                #thread_MonitorDisaggregated2 = threading.Thread(target=Collector_Metrics_Disaggregated_cl1,args=(cloud2_gnocchi,cloud2_resource_id,cloud2,VNFFile))
+                #thread_MonitorDisaggregated2.start() 
+            else:
+                print("Resource nova_compute not exist, need to create.")
+            print ("resource_id_cloud2: "+str(cloud2_resource_id_nova))
+       
+            return "MonitorStarted"
+
+    @app.route('/selectMetricTime/',methods=['POST'])
+    def selectMetricTime():
+        if request.method == "POST":
+            print("Select Metric Data")
+            START = "2021-08-01 13:30:33+00:00"
+            STOP = "2021-08-01 13:35:36+00:00"
+            Collector_Metrics_Links_Demand_Date_cl1(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,"openstack1","openstack2",START,STOP,"Lat_To_")
 
     #Latency between clouds and user
     @app.route("/userlatency/", methods=['POST', 'GET', 'DELETE'])
@@ -584,15 +590,17 @@ def main():
             #Em paralelo thread que fica olhando tabela de jobs, compara arquivos e altera se tiver diferenca
             #entrar regras de mudar depois de determinada variacao ou modulo xx
 
+        #Criar rota retorna lista de NS
+        #Criar rota retorna lista de VNFD
+        #Criar rota retorna dados de metricas latencia, jitter, cpu num intervalor de tempo start e stop escolhido
+        #Criar rota retorna 
 
     #servers = Servers()
     #IPServerLocal="10.159.205.10"
     IPServerLocal="127.0.0.1"
     #Alterar para IP do servidor do PLAO
     app.run(IPServerLocal, '3332',debug=True)
-
-    teste=Collector_Metrics_Links(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,"CLOUD1","CLOUD2")
-    print(teste) 
+ 
 
     #Thread para enviar request 
     #thread_MonitorLatencyUser = threading.Thread(target=Request_LatencyUser_Cloud1,args=(cloud1_gnocchi,cloud1_resource_id,cloud2,VNFFile,"openstack1","openstack2"))
