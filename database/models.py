@@ -11,44 +11,59 @@ class BaseModel(Model):
     class Meta:
         database = db
 
-class Services(BaseModel):
-    id_service = AutoField(primary_key=True)
-    name = CharField(max_length=100)
-    token = CharField(max_length=100)
-    creation_date = DateField()
-
-    class Meta:
-        table_name = 'service'
-
-class User(BaseModel):
+class Users(BaseModel):
     id_user = CharField(max_length=100, primary_key=True)
     name = CharField(max_length=100)
     username = CharField(max_length=100, unique=True)
     password = CharField(max_length=100)
     creation_date = DateField(formats=None)
-    fk_service = ForeignKeyField(
-        Services, db_column='id_service')
-
-    # fk_service = ForeignKeyField(Services, to_field='idservice')
-    token_OSM = CharField()
 
     class Meta:
-        table_name = 'user'
+        table_name = 'users'
 
-class Project(BaseModel):
-    id_project = CharField(max_length=100, primary_key=True)
+class Jobs(BaseModel):
+    id_job = AutoField(primary_key=True)
+    name = CharField(max_length=100)
+    data = CharField(max_length=100)
+    userip = CharField(max_length=100)
+    start_date = CharField(max_length=100)
+    finish_date = CharField(max_length=100)
+    ns_name = CharField(max_length=100)
+    fk_user = ForeignKeyField(Users, db_column='id_user')
+    creation_date = DateField()
+
+    class Meta:
+        table_name = 'jobs'
+
+class Vnfs_Jobs(BaseModel):
+    id_vnf_jobs = CharField(max_length=100, primary_key=True)
     name = CharField(max_length=100, unique=True)
     creation_date = DateField()
-    fk_user = ForeignKeyField(User, db_column='id_user')
-    id_openstack = CharField(max_length=100, unique=True)
-    id_OSM = CharField(max_length=100, unique=True)
-    id_vim_OSM = CharField(max_length=100, unique=True)
+    fk_job = ForeignKeyField(Jobs, db_column='id_job')
 
     class Meta:
-        table_name = 'project'
+        table_name = 'vnf_jobs'
 
-class Server(BaseModel):
-    id_server = BigIntegerField(primary_key=True, unique=True,
+
+class Vnfs(BaseModel):
+    id_vnf = CharField(max_length=100, primary_key=True)
+    name = CharField(max_length=100, unique=True)
+    creation_date = DateField()
+    fk_job = ForeignKeyField(Jobs, db_column='id_job')
+
+    class Meta:
+        table_name = 'vnfs'
+
+class Metricas(BaseModel):
+    id_metrica = CharField(max_length=100, primary_key=True)
+    name = CharField(max_length=100, unique=True)
+    creation_date = DateField()
+
+    class Meta:
+        table_name = 'metricas'
+
+class Metricas_Vnfs(BaseModel):
+    id_me = BigIntegerField(primary_key=True, unique=True,
             constraints=[SQL('AUTO_INCREMENT')])
     id_server_openstack = CharField(max_length=100, unique=True)
     name = CharField(max_length=100, unique=True)

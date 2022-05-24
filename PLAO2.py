@@ -263,10 +263,12 @@ def Collector_Metrics_Links_Demand_Date_cl1(cloud1_gnocchi,cloud1_resource_id,cl
     #time_past=now-delta
     #START=time_past
     #STOP=now
+    ###START='2022-05-21 22:50:00'
+    ####STOP='2022-05-21 23:20:00'
     START=start
     STOP=stop
     GRANULARITY=60.0
-    return cloud1_gnocchi.get_last_measure(metric_name+cloud2.getExternalIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
+    return cloud1_gnocchi.get_last_measure_Date(metric_name+cloud2.getExternalIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
 
 
 
@@ -553,11 +555,15 @@ def main():
     @app.route('/selectMetricTime/',methods=['POST'])
     def selectMetricTime():
         if request.method == "POST":
-            print("Select Metric Data")
-            START = "2021-08-01 13:30:33+00:00"
-            STOP = "2021-08-01 13:35:36+00:00"
-            Collector_Metrics_Links_Demand_Date_cl1(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,"openstack1","openstack2",START,STOP,"Lat_To_")
-
+            interval=60
+            request_data = request.get_json()
+            print(request_data)
+            START = request_data['startdate']
+            STOP = request_data['stopdate']
+            result = Collector_Metrics_Links_Demand_Date_cl1(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,"openstack1","openstack2",START,STOP,"Lat_To_")
+            return str(result)
+        return "ok"
+ 
     #Latency between clouds and user
     @app.route("/userlatency/", methods=['POST', 'GET', 'DELETE'])
     def latencia_user_plao():

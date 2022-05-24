@@ -25,7 +25,7 @@ import pandas as pd
 #from PLAO_client2_w_routes import appc
 from flask import Flask, request
 STARTED = 0
-
+THREAD=0
 #VarCloudName='mpes_n1'  #Alterar codigo e colocar como argu
 #SERVERS_FILE="/opt/PLAO/servers.yaml"
 SERVERS_FILE="servers.yaml"
@@ -156,6 +156,8 @@ def startApp():
     #Mark variable with number 1 for started status on
     global STARTED
     STARTED=1
+    global THREAD
+    THREAD=1
 
 #Stop thread collectors
 def stopApp():
@@ -164,6 +166,10 @@ def stopApp():
         print("funcionalidade em desenvolvimento")
         if thread.isAlive():
             print("ativo: "+thread.name)
+    print ("stopping Latency Threads...")
+    global THREAD
+    THREAD=0
+
             
 
 # To execute commands in Linux
@@ -352,6 +358,16 @@ class Gnocchi():
         last_row = df.iloc[-1,2] #colect the last register
         return (last_row)
 
+    #If dont data, return -1, else return data
+    def get_last_measure_Date(self, name_metric, resource_id, aggregation, granularity, start, stop):
+        dados=self.gnocchi_client.metric.get_measures(name_metric,start,stop, aggregation, granularity,resource_id)
+        df = pd.DataFrame(dados, columns =['timestamp', 'granularity', 'value'])
+        df = pd.DataFrame(dados, columns =['timestamp', 'granularity', ''])
+        if (df.__len__() == 0):
+            return -1
+        return (df)
+
+
 #Class to get servers
 class Servers():
     def __init__(self):
@@ -506,28 +522,29 @@ class Latency():
                 return self.resp3
         else:
             while True:
-                time.sleep(1)
-                if platform.system().lower() == "linux":
-                    try:
-                        self.ping = subprocess.check_output(["ping", "-c", QUANTITY_PCK, TARGET])
-                    except:
-                        return "" #if return with error, return empty
-                    self.latency = self.ping.split()[-2]
-                    self.resp = str(self.latency, 'utf-8')
-                    self.resp2= self.resp.split("/")[2]
-                    GNOCCHI.set_add_measures_metric(Metric_ID,self.resp2)
-                    print("ping: "+TARGET+" "+self.resp2)
-                else: # platform.system().lower() == "windows":
-                    try:
-                        self.ping = subprocess.check_output(["ping", "-n", QUANTITY_PCK, TARGET])
-                    except:
-                        return "" #if return with error, return empty
-                    self.latency = self.ping.split()[-1]
-                    self.resp = str(self.latency, 'utf-8')
-                    self.resp2= self.resp.split("=")[0]
-                    self.resp3=self.resp2.split("ms")[0]
-                    GNOCCHI.set_add_measures_metric(Metric_ID,self.resp3)
-                    print ("ping: "+TARGET+" "+self.resp3)
+                if THREAD == 0:
+                    time.sleep(1)
+                    if platform.system().lower() == "linux":
+                        try:
+                            self.ping = subprocess.check_output(["ping", "-c", QUANTITY_PCK, TARGET])
+                        except:
+                            return "" #if return with error, return empty
+                        self.latency = self.ping.split()[-2]
+                        self.resp = str(self.latency, 'utf-8')
+                        self.resp2= self.resp.split("/")[2]
+                        GNOCCHI.set_add_measures_metric(Metric_ID,self.resp2)
+                        print("ping: "+TARGET+" "+self.resp2)
+                    else: # platform.system().lower() == "windows":
+                        try:
+                            self.ping = subprocess.check_output(["ping", "-n", QUANTITY_PCK, TARGET])
+                        except:
+                            return "" #if return with error, return empty
+                        self.latency = self.ping.split()[-1]
+                        self.resp = str(self.latency, 'utf-8')
+                        self.resp2= self.resp.split("=")[0]
+                        self.resp3=self.resp2.split("ms")[0]
+                        GNOCCHI.set_add_measures_metric(Metric_ID,self.resp3)
+                        print ("ping: "+TARGET+" "+self.resp3)
 
 #Jitter to others servers in servers.yaml
 class Jitter():

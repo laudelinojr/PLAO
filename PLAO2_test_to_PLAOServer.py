@@ -21,14 +21,25 @@ if sys.argv[2] == "userlatency":
     if sys.argv[3] == '': 
         print ("Invalido: We need the user ip.")
         exit()
+
+if sys.argv[2] == "selectMetricTime":
+    START_DATE = sys.argv[3] #DATE for data
+    STOP_DATE = sys.argv[4] #DATE for data
+    if sys.argv[3] == '': 
+        print ("Invalido: We need start date.")
+        exit()
+    if sys.argv[4] == '': 
+        print ("Invalido: We need stop date.")
+        exit()    
+        
 print("Conectando em "+IP_PLASERVER)
 URL='http://'+IP_PLASERVER+':3332/'+OPERATION+"/"
 print(URL)
 
 #Future: Send in payload the parametrs of operations. for example the number packets latency and others
 # The payload is the user ip address.
-payload = {"ipuser" : str(IPUSER)}
-
+payload = {"ipuser" : str(IPUSER)} #, "startdate" : str(START_DATE), "stopdate" : str(STOP_DATE)}
+#vnf1, vnf2, pesovnf1, pesovnf2, metrlimite, valmetrlimite, metrrestricao, valmetrrestricao, nsnome
 # Request to start the application agent betwen clouds (ping and jitter). The server will request for the all clouds in enviroment.
 a = requests.request(
     method="POST", url=str(URL), json=payload)
