@@ -543,7 +543,7 @@ def main():
 
             cloud2_resource_id_nova=cloud2_gnocchi.get_resource_id("nova_compute")
             if cloud2_resource_id_nova != -1:
-                print("Starting Thread to monitor last cpu in Cloud 2a")
+                print("Starting Thread to monitor last cpu in Cloud 2")
                 #thread_MonitorDisaggregated2 = threading.Thread(target=Collector_Metrics_Disaggregated_cl1,args=(cloud2_gnocchi,cloud2_resource_id,cloud2,VNFFile))
                 #thread_MonitorDisaggregated2.start() 
             else:
