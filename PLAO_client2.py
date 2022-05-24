@@ -522,29 +522,31 @@ class Latency():
                 return self.resp3
         else:
             while True:
+                print (THREAD)
                 if THREAD == 0:
-                    time.sleep(1)
-                    if platform.system().lower() == "linux":
-                        try:
-                            self.ping = subprocess.check_output(["ping", "-c", QUANTITY_PCK, TARGET])
-                        except:
-                            return "" #if return with error, return empty
-                        self.latency = self.ping.split()[-2]
-                        self.resp = str(self.latency, 'utf-8')
-                        self.resp2= self.resp.split("/")[2]
-                        GNOCCHI.set_add_measures_metric(Metric_ID,self.resp2)
-                        print("ping: "+TARGET+" "+self.resp2)
-                    else: # platform.system().lower() == "windows":
-                        try:
-                            self.ping = subprocess.check_output(["ping", "-n", QUANTITY_PCK, TARGET])
-                        except:
-                            return "" #if return with error, return empty
-                        self.latency = self.ping.split()[-1]
-                        self.resp = str(self.latency, 'utf-8')
-                        self.resp2= self.resp.split("=")[0]
-                        self.resp3=self.resp2.split("ms")[0]
-                        GNOCCHI.set_add_measures_metric(Metric_ID,self.resp3)
-                        print ("ping: "+TARGET+" "+self.resp3)
+                    break
+                time.sleep(1)
+                if platform.system().lower() == "linux":
+                    try:
+                        self.ping = subprocess.check_output(["ping", "-c", QUANTITY_PCK, TARGET])
+                    except:
+                        return "" #if return with error, return empty
+                    self.latency = self.ping.split()[-2]
+                    self.resp = str(self.latency, 'utf-8')
+                    self.resp2= self.resp.split("/")[2]
+                    GNOCCHI.set_add_measures_metric(Metric_ID,self.resp2)
+                    print("ping: "+TARGET+" "+self.resp2)
+                else: # platform.system().lower() == "windows":
+                    try:
+                        self.ping = subprocess.check_output(["ping", "-n", QUANTITY_PCK, TARGET])
+                    except:
+                        return "" #if return with error, return empty
+                    self.latency = self.ping.split()[-1]
+                    self.resp = str(self.latency, 'utf-8')
+                    self.resp2= self.resp.split("=")[0]
+                    self.resp3=self.resp2.split("ms")[0]
+                    GNOCCHI.set_add_measures_metric(Metric_ID,self.resp3)
+                    print ("ping: "+TARGET+" "+self.resp3)
 
 #Jitter to others servers in servers.yaml
 class Jitter():
