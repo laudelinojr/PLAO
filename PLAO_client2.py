@@ -169,6 +169,8 @@ def stopApp():
     print ("stopping Latency Threads...")
     global THREAD
     THREAD=0
+    global STARTED
+    STARTED=0
 
             
 
