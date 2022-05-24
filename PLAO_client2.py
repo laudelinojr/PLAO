@@ -585,6 +585,9 @@ class Jitter():
                 return self.resp
         else:
             while True:
+                print (THREAD)
+                if THREAD == 0:
+                    break
                 time.sleep(1)
                 if platform.system().lower() == "linux":
                     if (ExecuteCommand("ps ax | grep 'iperf3 -s -D'  | grep -v grep | wc -l")==0):
