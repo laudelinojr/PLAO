@@ -35,16 +35,6 @@ class Jobs(BaseModel):
     class Meta:
         table_name = 'jobs'
 
-class Vnfs_Jobs(BaseModel):
-    id_vnf_jobs = CharField(max_length=100, primary_key=True)
-    name = CharField(max_length=100, unique=True)
-    creation_date = DateField()
-    fk_job = ForeignKeyField(Jobs, db_column='id_job')
-
-    class Meta:
-        table_name = 'vnf_jobs'
-
-
 class Vnfs(BaseModel):
     id_vnf = CharField(max_length=100, primary_key=True)
     name = CharField(max_length=100, unique=True)
@@ -53,6 +43,25 @@ class Vnfs(BaseModel):
 
     class Meta:
         table_name = 'vnfs'
+
+class Clouds(BaseModel):
+    id_cloud = CharField(max_length=100, primary_key=True)
+    name = CharField(max_length=100, unique=True)
+    creation_date = DateField()
+
+    class Meta:
+        table_name = 'clouds'
+
+class Jobs_Vnfs_Clouds(BaseModel):
+    id_jobs_vnf_cloud = CharField(max_length=100, primary_key=True)
+    name = CharField(max_length=100, unique=True)
+    creation_date = DateField()
+    fk_job = ForeignKeyField(Jobs, db_column='id_job')
+    fk_vnf = ForeignKeyField(Vnfs, db_column='id_vnf')
+    fk_cloud = ForeignKeyField(Vnfs, db_column='id_cloud')
+
+    class Meta:
+        table_name = 'jobs_vnfs_clouds'
 
 class Metricas(BaseModel):
     id_metrica = CharField(max_length=100, primary_key=True)
@@ -73,6 +82,6 @@ class Metricas_Vnfs(BaseModel):
     cookie = CharField(max_length=100)
 
     class Meta:
-        table_name = 'server'
+        table_name = 'Metricas_Vnfs'
 
-db.create_tables([Services, User, Project, Server])
+db.create_tables([Users, Jobs, Vnfs, Clouds, Jobs_Vnfs_Clouds, Metricas, Metricas_Vnfs ])
