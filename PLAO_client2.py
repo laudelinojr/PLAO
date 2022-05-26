@@ -71,6 +71,7 @@ def startApp():
     #auth_session = OpenStack_Auth(cloud_name=VarCloudName)
     auth_session = OpenStack_Auth(cloud_name=NameServerLocal)
     sess = auth_session.get_session()
+    
 
     print("Creating object and using session in Gnocchi...")
     #Insert Session in Gnocchi object
@@ -163,7 +164,6 @@ def startApp():
 def stopApp():
     for thread in threading.enumerate(): 
         print(thread.name)
-        print("funcionalidade em desenvolvimento")
         if thread.isAlive():
             print("ativo: "+thread.name)
     print ("stopping Latency Threads...")
@@ -171,6 +171,12 @@ def stopApp():
     THREAD=0
     global STARTED
     STARTED=0
+    for thread in threading.enumerate(): 
+        print(thread.name)
+        print("ainda thread ativa")
+        if thread.isAlive():
+            print("ativo: "+thread.name)
+    #Falta no stop excluir objeto gnocchi e session para evitar problemas futuros
 
             
 
