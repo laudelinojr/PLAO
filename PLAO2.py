@@ -1,6 +1,7 @@
 from http.client import HTTPConnection
 from multiprocessing.connection import Connection
 from operator import eq
+from psutil import users
 import yaml
 import threading
 import subprocess
@@ -9,6 +10,8 @@ from PLAO_client2 import *
 #from PLAO2_w_routes import app
 from flask import Flask, request
 import requests
+from database.models import *
+
 
 #Teste para servidor requisicoes
 #from PLAO2_w_routes import app
@@ -417,8 +420,29 @@ def main():
     #teste_Latencia_to_cloud2=Latencia_to_cloud2.head(1).values
    ##print("valorJittertoCloud2: "+str(Jitter_to_cloud2))
 
+    print ('teste banco')
+    teste=Users.get_or_none(Users.id_user=='6', Users.name!="")
+    print (teste)
+    if teste is None:
+        print ('teste none')
 
+    teste=Jobs.insert (
+        id_user = []
 
+    id_user = CharField(max_length=100, primary_key=True)
+    name = CharField(max_length=100)
+    username = CharField(max_length=100, unique=True)
+    password = CharField(max_length=100)
+    creation_date = DateField(formats=None)
+
+    Server.insert(
+                    name=data['server_nome'],
+                    id_server_openstack=data['server_id'],
+                    creation_date=time.time(),
+                    fk_project=data['project_id'],
+                    state='emuso',
+                    cookie='COKKIECOOKIE'
+                ).on_conflict('replace').execute()
 
     #File in Clouds
     app = Flask(__name__)
