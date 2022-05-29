@@ -382,7 +382,7 @@ def InsertMetric(name_metric, cloud_cod):
         creation_date = datetime.now()
     ).execute
 
-def InsertVnf(name_vnf,fk_cloud_id):
+def InsertVnf(name_vnf):
     Vnfs.insert(
         name=name_vnf,
         creation_date=datetime.now()
@@ -400,6 +400,7 @@ def TestLoadBD():
     InsertJobVnfCloud(20,1,1,1)
     InsertMetric("Lat_to_8.8.8.8",1)
     InsertMetric("Lat_to_1.1.1.1",1)
+
 
 def main():
     print ("Iniciando Server PLAO")
