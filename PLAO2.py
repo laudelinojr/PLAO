@@ -1,6 +1,8 @@
+from distutils.util import execute
 from http.client import HTTPConnection
 from multiprocessing.connection import Connection
 from operator import eq
+from uuid import NAMESPACE_X500
 from psutil import users
 import yaml
 import threading
@@ -11,6 +13,7 @@ from PLAO_client2 import *
 from flask import Flask, request
 import requests
 from database.models import *
+import time
 
 
 #Teste para servidor requisicoes
@@ -326,6 +329,77 @@ def Collector_Metrics_Disaggregated_cl1(cloud1_gnocchi,cloud1_resource_id_nova,C
 def Collector_Metrics_VNF():
     pass
 
+def InsertUser(name0, username0, password0):
+    TestUsers=Users.get_or_none(Users.username==username0)
+    if TestUsers is None:
+        print ("The user will be insert.")
+        Users.insert(
+            name = name0,
+            username = username0,
+            password = password0,
+            creation_date = datetime.now()
+        ).execute()
+        return "UserInserted"
+    else:
+        return "UserNotInserted"
+
+def InsertJob(userip0, ns_name0,cod_fkuser):
+    Jobs.insert(
+        userip = userip0,
+        ns_name=ns_name0,
+        fk_user = cod_fkuser,
+        start_date = datetime.now()
+    ).execute()
+
+def InsertJob(userip0, ns_name0,cod_fkuser):
+    Jobs.insert(
+        userip = userip0,
+        start_date = datetime.now(),
+        ns_name=ns_name0,
+        fk_user = cod_fkuser
+    ).execute()
+
+def InsertJobVnfCloud(custo_vnf,id_fk_job,id_fk_vnf,id_fk_cloud):
+    Jobs_Vnfs_Clouds.insert(
+        custo = custo_vnf,
+        fk_job = id_fk_job,
+        fk_vnf = id_fk_vnf,
+        fk_cloud = id_fk_cloud,
+        creation_date = datetime.now()
+    ).execute()
+
+def InsertCloud(name0, ip0, external_ip0):
+    Clouds.insert(
+        name=name0,
+        ip=ip0,
+        external_ip=external_ip0,
+        creation_date=datetime.now()
+    ).execute()
+
+def InsertMetric(name_metric, cloud_cod):
+    Metrics.insert(
+        name = name_metric,
+        creation_date = datetime.now()
+    ).execute
+
+def InsertVnf(name_vnf,fk_cloud_id):
+    Vnfs.insert(
+        name=name_vnf,
+        creation_date=datetime.now()
+    ).execute
+
+def TestLoadBD():
+    print("Iniciando carga BD.")
+    InsertCloud("Serra","10.50.0.159","200.137.75.160" )
+    InsertCloud("Aracruz","172.16.112.60","200.137.82.21" )
+    InsertVnf("VNFA")
+    InsertVnf("VNFB")
+    InsertUser("Jose Carlos","jcarlos","abc")
+    InsertUser("Amarildo de Jesus","ajesus","abcd")
+    InsertJob("10.0.19.148","teste_mestrado",1)
+    InsertJobVnfCloud(20,1,1,1)
+    InsertMetric("Lat_to_8.8.8.8",1)
+    InsertMetric("Lat_to_1.1.1.1",1)
 
 def main():
     print ("Iniciando Server PLAO")
@@ -420,29 +494,12 @@ def main():
     #teste_Latencia_to_cloud2=Latencia_to_cloud2.head(1).values
    ##print("valorJittertoCloud2: "+str(Jitter_to_cloud2))
 
-    print ('teste banco')
-    teste=Users.get_or_none(Users.id_user=='6', Users.name!="")
-    print (teste)
-    if teste is None:
-        print ('teste none')
+    #print ('teste banco')
+    #teste=Users.get_or_none(Users.id_user=='6', Users.name!="")
+    #print (teste)
+    #if teste is None:
 
-    teste=Jobs.insert (
-        id_user = []
 
-    id_user = CharField(max_length=100, primary_key=True)
-    name = CharField(max_length=100)
-    username = CharField(max_length=100, unique=True)
-    password = CharField(max_length=100)
-    creation_date = DateField(formats=None)
-
-    Server.insert(
-                    name=data['server_nome'],
-                    id_server_openstack=data['server_id'],
-                    creation_date=time.time(),
-                    fk_project=data['project_id'],
-                    state='emuso',
-                    cookie='COKKIECOOKIE'
-                ).on_conflict('replace').execute()
 
     #File in Clouds
     app = Flask(__name__)
@@ -514,6 +571,13 @@ def main():
                 return "Started_PLAO_AllClouds"
             else:
                 return "Started"
+
+    @app.route('/TestLoadBD/',methods=['POST'])
+    def cargabd():
+        TestLoadBD()
+
+
+        return "CreatedUser" 
 
     @app.route('/stop/',methods=['POST'])
     def stop():

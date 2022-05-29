@@ -12,7 +12,8 @@ class BaseModel(Model):
         database = db
 
 class Users(BaseModel):
-    id_user = CharField(max_length=100, primary_key=True)
+    id_user=BigIntegerField(primary_key=True, unique=True,
+            constraints=[SQL('AUTO_INCREMENT')])
     name = CharField(max_length=100)
     username = CharField(max_length=100, unique=True)
     password = CharField(max_length=100)
@@ -22,40 +23,44 @@ class Users(BaseModel):
         table_name = 'users'
 
 class Jobs(BaseModel):
-    id_job = AutoField(primary_key=True)
-    name = CharField(max_length=100)
-    data = CharField(max_length=100)
+    id_job=BigIntegerField(primary_key=True, unique=True,
+            constraints=[SQL('AUTO_INCREMENT')])
     userip = CharField(max_length=100)
-    start_date = CharField(max_length=100)
-    finish_date = CharField(max_length=100)
+    start_date = DateField()
+    finish_date = DateField()
     ns_name = CharField(max_length=100)
     fk_user = ForeignKeyField(Users, db_column='id_user')
-    creation_date = DateField()
 
     class Meta:
         table_name = 'jobs'
 
 class Vnfs(BaseModel):
-    id_vnf = CharField(max_length=100, primary_key=True)
+    id_vnf=BigIntegerField(primary_key=True, unique=True,
+            constraints=[SQL('AUTO_INCREMENT')]) 
     name = CharField(max_length=100, unique=True)
     creation_date = DateField()
-    #fk_job = ForeignKeyField(Jobs, db_column='id_job')
 
     class Meta:
         table_name = 'vnfs'
 
 class Clouds(BaseModel):
-    id_cloud = CharField(max_length=100, primary_key=True)
+    id_cloud=BigIntegerField(primary_key=True, unique=True,
+            constraints=[SQL('AUTO_INCREMENT')])
+    #id_cloud = CharField(max_length=100, primary_key=True)
     name = CharField(max_length=100, unique=True)
+    ip = CharField(max_length=100, unique=True)
+    external_ip = CharField(max_length=100, unique=True)
     creation_date = DateField()
 
     class Meta:
         table_name = 'clouds'
 
 class Jobs_Vnfs_Clouds(BaseModel):
-    id_jobs_vnf_cloud = CharField(max_length=100, primary_key=True)
-    name = CharField(max_length=100, unique=True)
+    id_jobs_vnf_cloud=BigIntegerField(primary_key=True, unique=True,
+            constraints=[SQL('AUTO_INCREMENT')])
+    #id_jobs_vnf_cloud = CharField(max_length=100, primary_key=True)
     creation_date = DateField()
+    custo = CharField(max_length=100, unique=True)
     fk_job = ForeignKeyField(Jobs, db_column='id_job')
     fk_vnf = ForeignKeyField(Vnfs, db_column='id_vnf')
     fk_cloud = ForeignKeyField(Vnfs, db_column='id_cloud')
@@ -63,23 +68,26 @@ class Jobs_Vnfs_Clouds(BaseModel):
     class Meta:
         table_name = 'jobs_vnfs_clouds'
 
-class Metricas(BaseModel):
-    id_metrica = CharField(max_length=100, primary_key=True)
+class Metrics(BaseModel):
+    id_metrica=BigIntegerField(primary_key=True, unique=True,
+            constraints=[SQL('AUTO_INCREMENT')])
     name = CharField(max_length=100, unique=True)
+    fk_cloud = ForeignKeyField(Vnfs, db_column='id_cloud')
     creation_date = DateField()
 
     class Meta:
         table_name = 'metricas'
 
-class Metricas_Vnfs(BaseModel):
-    id_metrica_vnf = CharField(max_length=100, primary_key=True)
+class Metrics_Vnfs(BaseModel):
+    id_metrica_vnf=BigIntegerField(primary_key=True, unique=True,
+            constraints=[SQL('AUTO_INCREMENT')])
     creation_date = DateField()
-    value = CharField(max_length=100)
+    metric_value = CharField(max_length=100)
     peso = CharField(max_length=100)
     fk_job = ForeignKeyField(Vnfs, db_column='id_vnf')
-    fk_metrica = ForeignKeyField(Metricas, db_column='id_metrica')
+    fk_metrica = ForeignKeyField(Metrics, db_column='id_metrica')
 
     class Meta:
         table_name = 'metricas_vnfs'
 
-db.create_tables([Users, Jobs, Vnfs, Clouds, Jobs_Vnfs_Clouds, Metricas, Metricas_Vnfs ])
+db.create_tables([Users, Jobs, Vnfs, Clouds, Jobs_Vnfs_Clouds, Metrics, Metrics_Vnfs ])
