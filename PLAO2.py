@@ -343,63 +343,99 @@ def InsertUser(name0, username0, password0):
     else:
         return "UserNotInserted"
 
-def InsertJob(userip0, ns_name0,cod_fkuser):
-    Jobs.insert(
-        userip = userip0,
-        ns_name=ns_name0,
-        fk_user = cod_fkuser,
-        start_date = datetime.now()
-    ).execute()
-
-def InsertJob(userip0, ns_name0,cod_fkuser):
+def InsertJob(userip0, ns_name0,cod_fkuser,cod_status):
     Jobs.insert(
         userip = userip0,
         start_date = datetime.now(),
         ns_name=ns_name0,
-        fk_user = cod_fkuser
+        fk_user = cod_fkuser,
+        fk_status = cod_status
     ).execute()
 
-def InsertJobVnfCloud(custo_vnf,id_fk_job,id_fk_vnf,id_fk_cloud):
+def InsertJobVnfCloud(cost_vnf,id_fk_job,id_fk_vnf,id_fk_cloud):
     Jobs_Vnfs_Clouds.insert(
-        custo = custo_vnf,
+        cost = cost_vnf,
         fk_job = id_fk_job,
         fk_vnf = id_fk_vnf,
         fk_cloud = id_fk_cloud,
         creation_date = datetime.now()
     ).execute()
 
-def InsertCloud(name0, ip0, external_ip0):
+def InsertCloud(name0, ip0, external_ip0,cod_degradation_cloud_type,threshold_value):
     Clouds.insert(
         name=name0,
         ip=ip0,
         external_ip=external_ip0,
+        fk_degradation_cloud_type = cod_degradation_cloud_type,
+        threshold_degradation = threshold_value,
         creation_date=datetime.now()
     ).execute()
 
 def InsertMetric(name_metric, cloud_cod):
     Metrics.insert(
         name = name_metric,
+        fk_cloud = cloud_cod,
         creation_date = datetime.now()
-    ).execute
+    ).execute()
 
 def InsertVnf(name_vnf):
     Vnfs.insert(
         name=name_vnf,
         creation_date=datetime.now()
-    ).execute
+    ).execute()
+
+def InsertMetricsVnf(metric_data, weight_percent0, cod_vnf, cod_metric):
+    Metrics_Vnfs.insert(
+        metric_value = metric_data,
+        weight_percent = weight_percent0,
+        fk_vnf = cod_vnf,
+        fk_metric = cod_metric,
+        creation_date = datetime.now()
+    ).execute()
+
+def InsertStatusJobs(nameStatus):
+    Status_Jobs.insert(
+        name = nameStatus,
+        creation_date = datetime.now()
+    ).execute()
+
+def InsertDegradationsCloudsTypes(name_type):
+    Degradations_Clouds_Types.insert(
+        name = name_type,
+        creation_date = datetime.now()
+    ).execute()
+
+def InsertDegradations_Clouds(id_fk_cloud, status_degradation_cloud, current_value_degradation0):
+    Degradations_Clouds.insert(
+        status_degradation_cloud = status_degradation_cloud, #1 if degration start, and 0 if stoped
+        current_value_degradation = current_value_degradation0,
+        fk_cloud = id_fk_cloud,
+        creation_date = datetime.now()
+    ).execute()
+
 
 def TestLoadBD():
     print("Iniciando carga BD.")
-    InsertCloud("Serra","10.50.0.159","200.137.75.160" )
-    InsertCloud("Aracruz","172.16.112.60","200.137.82.21" )
+    #PreLoadDefault
+    InsertDegradationsCloudsTypes("CPU")
+    InsertDegradationsCloudsTypes("Memoria")
+    InsertCloud("Serra","10.50.0.159","200.137.75.160",1,90)
+    InsertCloud("Aracruz","172.16.112.60","200.137.82.21",2,91 )
+    InsertDegradations_Clouds(1,1,98)
     InsertVnf("VNFA")
     InsertVnf("VNFB")
+    InsertStatusJobs("Started")
+    InsertStatusJobs("Finished")
     InsertUser("Jose Carlos","jcarlos","abc")
     InsertUser("Amarildo de Jesus","ajesus","abcd")
-    InsertJob("10.0.19.148","teste_mestrado",1)
+    #UsingSystem
+    #Insert Job with User IP, name NS, cod administrator user and cod job status
+    InsertJob("10.0.19.148","teste_mestrado",1,1)
+    #Insert Jo
     InsertJobVnfCloud(20,1,1,1)
     InsertMetric("Lat_to_8.8.8.8",1)
     InsertMetric("Lat_to_1.1.1.1",1)
+    InsertMetricsVnf(20,8,1,1)
 
 
 def main():
@@ -576,9 +612,7 @@ def main():
     @app.route('/TestLoadBD/',methods=['POST'])
     def cargabd():
         TestLoadBD()
-
-
-        return "CreatedUser" 
+        return "LoadedBase"
 
     @app.route('/stop/',methods=['POST'])
     def stop():
@@ -667,17 +701,96 @@ def main():
                     method="POST", url='http://'+nuvem1+':3333/userlatency/', json=request_data)
                 print(a.text)
                 print("Fim Teste na nuvem 1")
-                return "Executado"
-            except Exception:
-                print("erro ao conectar na porta 3333")
-                #return "NaoExecutado"
-
                 print("Inicio Teste na nuvem 2")
                 a = requests.request(
                     method="POST", url='http://'+nuvem2+':3333/userlatency/', json=request_data)
                 print(a.text)
                 print("Fim Teste na nuvem 2")
                 return "Executado"
+            except Exception:
+                print("erro ao conectar na porta 3333")
+                return "Executado"
+
+    @app.route("/sendjob/", methods=['POST', 'GET', 'DELETE'])
+    def send_job():
+        if request.method == "POST":
+
+            ret_status = 0 #status of return cloud
+            request_data = request.get_json()
+            ip_user=request_data['ipuser']
+            ns_name="teste_metrado"
+            cod_user=1
+            cod_status_job=1 #(1-Started,2-Finish)
+            cod_job=InsertJob(ip_user,ns_name,cod_user,cod_status_job) #Desejavel retornar o uuid com o codigo unico do job
+            #Start Job in BD
+            InsertJob(ip_user,ns_name,cod_user,cod_status_job)
+
+            try:          
+                #Future: To read config file and start theese request automaticaly, for example to 1, 2, 3, 4 clouds...
+                print("Inicio Teste na nuvem 1")
+                # Request to cloud. Is necessary in http URL the cloud ip address
+                a = requests.request(
+                    method="POST", url='http://'+nuvem1+':3333/userlatency/', json=request_data)
+
+                if a.text == "System_Already_Started" :
+                    ret_status=ret_status+2
+                    print("PLAO_client_Already_Started:"+ nuvem1)
+                if a.text == "Executed" :
+                    ret_status=ret_status+3
+                    print("UserLatencyExecuted:"+ nuvem1)
+
+                print(a.text)
+                print("Fim Teste na nuvem 1")
+            except requests.ConnectionError:
+                print("OOPS!! Connection Error. Make sure you are connected to Internet.\n")           
+            except requests.Timeout:
+                print("OOPS!! Timeout Error")
+            except requests.RequestException:
+                print("OOPS!! General Error")
+            except KeyboardInterrupt:
+                print("Someone closed the program")
+
+
+            try:          
+                #Future: To read config file and start theese request automaticaly, for example to 1, 2, 3, 4 clouds...
+                print("Inicio Teste na nuvem 2")
+                a = requests.request(
+                    method="POST", url='http://'+nuvem2+':3333/userlatency/', json=request_data)
+                print(a.text)
+                print("Fim Teste na nuvem 2")
+
+                if a.text == "System_Already_Started" :
+                    ret_status=ret_status+2
+                    print("PLAO_client_Already_Started:"+ nuvem2)
+                if a.text == "Executed" :
+                    ret_status=ret_status+3
+                    print("UserLatencyExecuted:"+ nuvem2)
+
+            except requests.ConnectionError:
+                print("OOPS!! Connection Error. Make sure you are connected to Internet.\n")           
+            except requests.Timeout:
+                print("OOPS!! Timeout Error")
+            except requests.RequestException:
+                print("OOPS!! General Error")
+            except KeyboardInterrupt:
+                print("Someone closed the program")
+    
+            if ret_status == 3:
+                return "UserLatency_JustOneCloud"
+            if ret_status == 2:
+                return "UserLatency_Already_Started_One_Cloud"
+            if ret_status == 4:
+                return "UserLatency_Already_Started_All_Clouds"
+            if ret_status == 5:
+                return "UserLatency_OneClouds_and_AlreadyStartedOneCloud"
+            if ret_status == 6:
+                return "UserLatency_Executed_PLAO_AllClouds"
+            else:
+                return "Started"
+            
+            vnf_cost=""
+            vnf1="VNFA" #Receber parametro do json
+            vnf2="VNFB" #Receber parametro do json
 
             #Agora pesquisar o valor da coleta de latencia das nuvens para o ip do usuario, cpu da nuvem 1 e cpu da nuvem2, pegar os ultimos valores
             #Criar job no BD com o id do job e guardar: verificado (sim ou nao),ip do usuario, latencia p nuvem1, latencia p nuvem2, ping da nuvem 1 p 2, jitter da nuvem 1 p 2
@@ -701,12 +814,10 @@ def main():
     #thread_MonitorLatencyUser = threading.Thread(target=Request_LatencyUser_Cloud1,args=(cloud1_gnocchi,cloud1_resource_id,cloud2,VNFFile,"openstack1","openstack2"))
     ###thread_MonitorLatencyUser.start()
 
-
     #Jitter_to_cloud2=cloud1_gnocchi.get_measure("Jit_To_"+cloud2.getIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
     #Jitter_to_cloud2 = Jitter_to_cloud2.drop("granularity",axis=1)
     #dataset = Latencia_to_cloud2.merge(Jitter_to_cloud2, how='left',on='timestamp',suffixes=["Lat_To_"+cloud2.getIp(),"Jit_To_"+cloud2.getIp()])
     #print(dataset)
-
     #DataSet(cloud1_gnocchi)
 
     #Creating vector with objects Cloud 

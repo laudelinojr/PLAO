@@ -22,6 +22,14 @@ if sys.argv[2] == "userlatency":
         print ("Invalido: We need the user ip.")
         exit()
 
+if sys.argv[2] == "sendjob":
+    print ("Invalido: We need the Operation.")
+    IPUSER = sys.argv[3] #IPUser to sendJob
+    #Future: to valid the ip in third parameter
+    if sys.argv[3] == '': 
+        print ("Invalido: We need the user ip.")
+        exit()
+
 if sys.argv[2] == "selectMetricTime":
     START_DATE = sys.argv[3] #DATE for data
     STOP_DATE = sys.argv[4] #DATE for data
