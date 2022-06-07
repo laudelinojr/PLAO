@@ -2,12 +2,14 @@ from distutils.util import execute
 from http.client import HTTPConnection
 from multiprocessing.connection import Connection
 from operator import eq
-from uuid import NAMESPACE_X500
+from uuid import NAMESPACE_X500, uuid4
+import uuid
 from psutil import users
 import yaml
 import threading
 import subprocess
 from datetime import date,timedelta
+from PLAO2_test_to_PLAOServer import CLOUD_COD
 from PLAO_client2 import *
 #from PLAO2_w_routes import app
 from flask import Flask, request
@@ -276,6 +278,16 @@ def Collector_Metrics_Links_Demand_Date_cl1(cloud1_gnocchi,cloud1_resource_id,cl
     GRANULARITY=60.0
     return cloud1_gnocchi.get_last_measure_Date(metric_name+cloud2.getExternalIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
 
+def Collector_Metrics_Demand_Date(cloud,cloud1_gnocchi,cloud1_resource_id,cloud2_gnocchi,cloud2_resource_id,cloud2,PILFile,CLOUD_FROM,CLOUD_TO,start,stop,metric_name):
+    START=start
+    STOP=stop
+    GRANULARITY=60.0    
+    if cloud == "1":
+        print ("passei cloud 1")
+        return cloud1_gnocchi.get_last_measure_Date(metric_name,cloud1_resource_id,None,GRANULARITY,START,STOP)
+    if cloud == "2":
+        print ("passei cloud 2")
+        return cloud2_gnocchi.get_last_measure_Date(metric_name,cloud2_resource_id,None,GRANULARITY,START,STOP)
 
 
 #Collect metric links from cloud1 to cloud2
@@ -288,7 +300,7 @@ def Monitor_Request_LatencyUser_Cloud1(cloud1_gnocchi,cloud1_resource_id,VNFFile
         GRANULARITY=60.0
         print("horarioInicio: "+str(START))
         print("hoarioFinal: "+str(STOP))
-        Latencia_to_cloud2=cloud1_gnocchi.get_last_measure(metric_name,cloud1_resource_id,None,GRANULARITY,START,STOP)
+        Latencia_to_cloud2=cloud1_gnocchi.get_last_measure(cloud1_resource_id,None,GRANULARITY,START,STOP)
         print(Latencia_to_cloud2)
         #Jitter_to_cloud2=cloud1_gnocchi.get_last_measure("Jit_To_"+cloud2.getIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
         #print(Jitter_to_cloud2)
@@ -343,9 +355,10 @@ def InsertUser(name0, username0, password0):
     else:
         return "UserNotInserted"
 
-def InsertJob(userip0, ns_name0,cod_fkuser,cod_status):
+def InsertJob(cod_uuid0,userip0, ns_name0,cod_fkuser,cod_status):
     Jobs.insert(
         userip = userip0,
+        cod_uuid= cod_uuid0,
         start_date = datetime.now(),
         ns_name=ns_name0,
         fk_user = cod_fkuser,
@@ -430,7 +443,9 @@ def TestLoadBD():
     InsertUser("Amarildo de Jesus","ajesus","abcd")
     #UsingSystem
     #Insert Job with User IP, name NS, cod administrator user and cod job status
-    InsertJob("10.0.19.148","teste_mestrado",1,1)
+    cod_uuid=uuid.uuid4()
+    print (str(cod_uuid))
+    InsertJob(cod_uuid,"10.0.19.148","teste_mestrado",1,1)
     #Insert Jo
     InsertJobVnfCloud(20,1,1,1)
     InsertMetric("Lat_to_8.8.8.8",1)
@@ -507,7 +522,7 @@ def main():
     print("Creating object and using session in Gnocchi...")
     #Insert Session in Gnocchi object   
     cloud2_gnocchi = Gnocchi(session=cloud2_sess)
-    #cloud2_resource_id=cloud1_gnocchi.get_resource_id("plao")   
+    cloud2_resource_id=cloud2_gnocchi.get_resource_id("plao")   
     #print ("resource_id: "+cloud1_resource_id)
 
     #Test for consult data in gnocchi
@@ -675,9 +690,9 @@ def main():
        
             return "MonitorStarted"
 
-    @app.route('/selectMetricTime/',methods=['POST'])
-    def selectMetricTime():
-        if request.method == "POST":
+    @app.route('/selectMetricTime_old/',methods=['POST'])
+    def selectMetricTime_old():
+        if request.method == "GET":
             interval=60
             request_data = request.get_json()
             print(request_data)
@@ -687,6 +702,20 @@ def main():
             return str(result)
         return "ok"
  
+    @app.route('/selectMetricTime/',methods=['GET'])
+    def selectMetricTime():
+        if request.method == "POST":
+            interval=60
+            request_data = request.get_json()
+            print(request_data)
+            START = request_data['startdate']
+            STOP = request_data['stopdate']
+            METRIC_NAME = request_data['metricname']
+            CLOUD_COD = request_data['cloudcod']
+            result = Collector_Metrics_Demand_Date(CLOUD_COD,cloud1_gnocchi,cloud1_resource_id,cloud2_gnocchi,cloud2_resource_id,cloud2,PILFile,"openstack1","openstack2",START,STOP,METRIC_NAME)
+            return str(result)
+        return "ok"
+
     #Latency between clouds and user
     @app.route("/userlatency/", methods=['POST', 'GET', 'DELETE'])
     def latencia_user_plao():
@@ -711,19 +740,45 @@ def main():
                 print("erro ao conectar na porta 3333")
                 return "Executado"
 
+    #List of VNF in BD
+    @app.route("/listvnf/", methods=['GET'])
+    def listvnf():
+        if request.method == "GET":
+            CHECK_VNF=Vnfs.get_or_none()   
+            if CHECK_VNF is not None: 
+                VNF_LIST=Vnfs.select().dicts()#.get(Vnfs.name!="VNF*")
+                df = pd.DataFrame(VNF_LIST, columns =['id_vnf', 'name', 'creation_date'])
+                if (df.__len__() == 0):
+                    return -1
+                df2=json.dumps(json.loads(df.to_json(orient = 'records')), indent=2)
+                return (df2) 
+                #for row in VNF_LIST:
+                #    print(row)
+                #return "ok"
+            return "NO VNFS IN BD"
+
     @app.route("/sendjob/", methods=['POST', 'GET', 'DELETE'])
     def send_job():
         if request.method == "POST":
 
             ret_status = 0 #status of return cloud
             request_data = request.get_json()
-            ip_user=request_data['ipuser']
-            ns_name="teste_metrado"
-            cod_user=1
-            cod_status_job=1 #(1-Started,2-Finish)
-            cod_job=InsertJob(ip_user,ns_name,cod_user,cod_status_job) #Desejavel retornar o uuid com o codigo unico do job
-            #Start Job in BD
-            InsertJob(ip_user,ns_name,cod_user,cod_status_job)
+            IP_USER=request_data['ipuser']
+            NS_NAME="teste_metrado" #alterar para pegar o parametro tb
+            COD_USER=1 #Criar funcao para validar usuario no futuro
+            COD_STATUS_JOB=1 #(1-Started,2-Finish)
+            COD_UUID=uuid.uuid4()
+            METRIC_NAME = request_data['metricname']
+            METRIC1="Lat_To_"+IP_USER
+            METRIC2="CPU"
+            COD_VNF1=1 #request_data['codvnf1']
+            COD_VNF2=2 #request_data['codvnf2']       
+            WEIGHT_PERCENT_METRIC1_CL1=20 #['weight_percent_metric1_cl1']
+            WEIGHT_PERCENT_METRIC2_CL1=80 #['weight_percent_metric1_cl1']
+            WEIGHT_PERCENT_METRIC1_CL2=20 #['weight_percent_metric1_cl1']
+            WEIGHT_PERCENT_METRIC2_CL2=80 #['weight_percent_metric1_cl1']
+            
+            InsertJob(COD_UUID,IP_USER,NS_NAME,COD_USER,COD_STATUS_JOB) #Desejavel retornar o uuid com o codigo unico do job
 
             try:          
                 #Future: To read config file and start theese request automaticaly, for example to 1, 2, 3, 4 clouds...
@@ -774,7 +829,71 @@ def main():
                 print("OOPS!! General Error")
             except KeyboardInterrupt:
                 print("Someone closed the program")
-    
+
+
+            now=datetime.now()
+            intervalo=60
+            delta = timedelta(seconds=intervalo)
+            time_past=now-delta
+            START=time_past
+            STOP=now
+            GRANULARITY=60.0
+            CLOUD1_COD=1
+            CLOUD2_COD=2
+            #print("horarioInicio: "+str(START))
+            #print("hoarioFinal: "+str(STOP))
+            DATA_METRIC1_CL1=cloud1_gnocchi.get_last_measure(METRIC1,cloud1_resource_id,None,GRANULARITY,START,STOP)
+            DATA_METRIC2_CL1=30   #FALTA coletar CPU
+
+            DATA_METRIC1_CL2=cloud2_gnocchi.get_last_measure(METRIC1,cloud2_resource_id,None,GRANULARITY,START,STOP)
+            DATA_METRIC2_CL2=30   #FALTA coletar CPU
+
+            #Insert metrics in METRICS table
+            InsertMetric(METRIC1,CLOUD1_COD)
+            InsertMetric(METRIC2,CLOUD1_COD)
+            InsertMetric(METRIC1,CLOUD2_COD)
+            InsertMetric(METRIC2,CLOUD2_COD)
+
+            #Insert values metrics in METRICS_VNF table
+            InsertMetricsVnf(DATA_METRIC1_CL1,WEIGHT_PERCENT_METRIC1_CL1,COD_VNF1,codigoselectmetric1pelonometabelametrics)
+            InsertMetricsVnf(DATA_METRIC2_CL1,WEIGHT_PERCENT_METRIC2_CL1,COD_VNF1,codigoselectmetric1pelonometabelametrics)
+            InsertMetricsVnf(DATA_METRIC1_CL2,WEIGHT_PERCENT_METRIC1_CL2,COD_VNF2,codigoselectmetric1pelonometabelametrics)
+            InsertMetricsVnf(DATA_METRIC2_CL2,WEIGHT_PERCENT_METRIC2_CL2,COD_VNF2,codigoselectmetric1pelonometabelametrics)
+
+            #Insert values in JOBS_VNFS_CLOUDS table, necessario math join 2 metrics and wheights
+
+
+
+            #COD_CLOUD1=request_data['cod_cloud1'] #talvez nao
+            #VNF1=request_data['cod_vnf1']
+            #TYPE_METRIC1=request_data['typemetric1'] #cpu or memory or latency
+            #            WEIgHT_PERCENT_METRIC1=request_data['weight_percent_metric1']
+            #if TYPE_METRIC1 == "CPU":
+                #4 cadastrar ultimo valor na tabela metricas
+                #5 de acordo com os pesos, calcular o que vai gravar em cost, tabela Jobs_Vnfs_Clouds
+
+
+
+            
+
+            VNF_COST1=""
+            
+            COD_CLOUD2=request_data['cod_cloud2'] #talvez nao
+            VNF2=request_data['cod_vnf2']
+            TYPE_METRIC2=request_data['typemetric2'] #cpu or memory
+            WEIHT_PERCENT_METRIC2=request_data['weight_percent_metric2']
+            VNF_COST2=""
+
+            CHECK_METRIC_CL1=cloud1_gnocchi.get_metric(METRIC_NAME,cloud1_resource_id)
+            if CHECK_METRIC_CL1 != "":
+                print ("EXITS METRIC CL1")
+            CHECK_METRIC_CL2=cloud2_gnocchi.get_metric(METRIC_NAME,cloud2_resource_id)
+            if CHECK_METRIC_CL2 != "":
+                print ("EXITS METRIC CL2")
+
+            InsertJobVnfCloud(VNF_COST1,COD_UUID,VNF1,1)
+            InsertJobVnfCloud(VNF_COST2,COD_UUID,VNF2,2)
+
             if ret_status == 3:
                 return "UserLatency_JustOneCloud"
             if ret_status == 2:
@@ -788,9 +907,6 @@ def main():
             else:
                 return "Started"
             
-            vnf_cost=""
-            vnf1="VNFA" #Receber parametro do json
-            vnf2="VNFB" #Receber parametro do json
 
             #Agora pesquisar o valor da coleta de latencia das nuvens para o ip do usuario, cpu da nuvem 1 e cpu da nuvem2, pegar os ultimos valores
             #Criar job no BD com o id do job e guardar: verificado (sim ou nao),ip do usuario, latencia p nuvem1, latencia p nuvem2, ping da nuvem 1 p 2, jitter da nuvem 1 p 2
