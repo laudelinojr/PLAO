@@ -1,15 +1,17 @@
+from ast import Try
 from distutils.util import execute
 from http.client import HTTPConnection
 from multiprocessing.connection import Connection
 from operator import eq
 from uuid import NAMESPACE_X500, uuid4
 import uuid
+from wsgiref.validate import validator
+from certifi import where
 from psutil import users
 import yaml
 import threading
 import subprocess
 from datetime import date,timedelta
-from PLAO2_test_to_PLAOServer import CLOUD_COD
 from PLAO_client2 import *
 #from PLAO2_w_routes import app
 from flask import Flask, request
@@ -65,13 +67,13 @@ class File_VNF_Price():
     # If the CPU High - degraded (1), we add the extra THRESHOLD value in Price.
     def ChangeVNFPrice(self,COD_VNFD,VIMURL,PRICE,CLOUD_STATUS_CPU):
         C = len(self.B[COD_VNFD]['prices']) #Elements
-        print(C)
-
+        #print(C)
         if COD_VNFD < 0:
             return -1   
         for i in range(C):
             if self.B[COD_VNFD]['prices'][i]['vim_url'] == VIMURL: #Compare VIMURL between YAML and the new
                 if self.B[COD_VNFD]['prices'][i]['price'] != PRICE:  #Compare new PRICE with actual Price, if equal, no change
+                    #print(self.B[COD_VNFD]['prices'][i]['price'])
                     if (CLOUD_STATUS_CPU == 1):
                         print(self.B[COD_VNFD]['prices'][i]['price'])
                         self.B[COD_VNFD]['prices'][i]['price']=int(PRICE)+THRESHOLD #Change the VNF Price
@@ -87,6 +89,7 @@ class File_VNF_Price():
     #Change VNF File with new Price, change the file
     def SearchChangeVNFDPrice(self,NAME_VNFD,VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU):
         if debug == 1: print("In SearchChangeVNFDPrice")
+        #print(NAME_VNFD+ VIM_URL + PRICE_VNFD+CLOUD_STATUS_CPU)
         if (self.ChangeVNFPrice(self.SearchVNFD(NAME_VNFD),VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU)) != -1: #Change price of specific VIM in specific VNFD
             if debug == 1: print("In ChangeVNFPrice(SearchVNFD")
             with open(FILE_VNF_PRICE, 'w') as file:
@@ -344,29 +347,30 @@ def Collector_Metrics_VNF():
 def InsertUser(name0, username0, password0):
     TestUsers=Users.get_or_none(Users.username==username0)
     if TestUsers is None:
-        print ("The user will be insert.")
-        Users.insert(
+        return Users.insert(
             name = name0,
             username = username0,
             password = password0,
             creation_date = datetime.now()
         ).execute()
-        return "UserInserted"
     else:
-        return "UserNotInserted"
+        -1
 
-def InsertJob(cod_uuid0,userip0, ns_name0,cod_fkuser,cod_status):
-    Jobs.insert(
+def InsertJob(userip0, ns_name0,cod_fkuser,cod_status):
+    return Jobs.insert(
         userip = userip0,
-        cod_uuid= cod_uuid0,
         start_date = datetime.now(),
         ns_name=ns_name0,
         fk_user = cod_fkuser,
         fk_status = cod_status
     ).execute()
 
+def UpdateJob(job_id, job_status):
+    Jobs.update(fk_status = job_status,finish_date = datetime.now()).where(Jobs.id_job==job_id).execute()
+    return "ExecutedUpdate"
+
 def InsertJobVnfCloud(cost_vnf,id_fk_job,id_fk_vnf,id_fk_cloud):
-    Jobs_Vnfs_Clouds.insert(
+    return Jobs_Vnfs_Clouds.insert(
         cost = cost_vnf,
         fk_job = id_fk_job,
         fk_vnf = id_fk_vnf,
@@ -374,37 +378,106 @@ def InsertJobVnfCloud(cost_vnf,id_fk_job,id_fk_vnf,id_fk_cloud):
         creation_date = datetime.now()
     ).execute()
 
-def InsertCloud(name0, ip0, external_ip0,cod_degradation_cloud_type,threshold_value):
-    Clouds.insert(
-        name=name0,
-        ip=ip0,
-        external_ip=external_ip0,
-        fk_degradation_cloud_type = cod_degradation_cloud_type,
-        threshold_degradation = threshold_value,
-        creation_date=datetime.now()
-    ).execute()
+def UpdateJobVnfCloud(id_jobs_vnf_cloud0, cost_vnf):
+    Jobs_Vnfs_Clouds.update(cost = cost_vnf).where(Jobs_Vnfs_Clouds.id_jobs_vnf_cloud==id_jobs_vnf_cloud0).execute()
+    return "ExecutedUpdate"
 
-def InsertMetric(name_metric, cloud_cod):
-    Metrics.insert(
-        name = name_metric,
-        fk_cloud = cloud_cod,
+def SelectIdVnf_UpdateJobVnfCloud(cod):
+    Jobs_Vnfs=Jobs_Vnfs_Clouds.select(Jobs_Vnfs_Clouds.id_vnf).where(Jobs_Vnfs_Clouds.id_jobs_vnf_cloud==cod)
+    for row in Jobs_Vnfs:
+        return str(row.id_vnf)
+    return "-1"
+
+def InsertCloud(name0, ip0, external_ip0,cod_degradation_cloud_type,threshold_value):
+    TestCloud=Clouds.get_or_none(Clouds.name==name0)
+    if TestCloud is None:
+        return Clouds.insert(
+            name=name0,
+            ip=ip0,
+            external_ip=external_ip0,
+            fk_degradation_cloud_type = cod_degradation_cloud_type,
+            threshold_degradation = threshold_value,
+            creation_date=datetime.now()
+        ).execute()
+    else:
+        return -1
+
+def GetIdCloud(name_cloud):
+    cloud=Clouds.select(Clouds.id_cloud).where(Clouds.name==name_cloud)
+    for row in cloud:
+        return str(row.id_cloud)
+    return "-1"
+
+def InsertMetric(name_metric):
+    TestMetric=Metrics.get_or_none(Metrics.name==name_metric)
+    if TestMetric is None:
+        return Metrics.insert(
+            name = name_metric,
+            creation_date = datetime.now()
+        ).execute()
+    else:
+        return GetIdMetric(name_metric)
+
+def InsertMetricCloud(fk_cloud0, fk_metric0):
+    Metrics_Clouds.insert(
+        fk_cloud = fk_cloud0,
+        fk_metric = fk_metric0,
         creation_date = datetime.now()
     ).execute()
+
+def GetIdMetric(NAME_METRIC):
+    #teste = Metrics.select(Metrics.id_metric).where((Metrics.name==NAME_METRIC)&(Metrics.fk_cloud==COD_CLOUD))
+    metrics = Metrics.select(Metrics.id_metric).where(Metrics.name==NAME_METRIC)
+    for row in metrics:
+            return str(row.id_metric)
+    return "-1"
 
 def InsertVnf(name_vnf):
-    Vnfs.insert(
-        name=name_vnf,
-        creation_date=datetime.now()
-    ).execute()
+    TestVnf=Vnfs.get_or_none(Vnfs.name==name_vnf)
+    if TestVnf is None:
+        Vnfs.insert(
+            name=name_vnf,
+            creation_date=datetime.now()
+        ).execute()
+    else:
+        -1
 
-def InsertMetricsVnf(metric_data, weight_percent0, cod_vnf, cod_metric):
-    Metrics_Vnfs.insert(
+def GetIdVNF(NAME_VNF):
+    #teste = Metrics.select(Metrics.id_metric).where((Metrics.name==NAME_METRIC)&(Metrics.fk_cloud==COD_CLOUD))
+    vnfs = Vnfs.select(Vnfs.id_vnf).where(Vnfs.name==NAME_VNF)
+    for row in vnfs:
+            return str(row.id_vnf)
+    return "-1"
+
+def GetNameVNF(COD):
+    VNFGet=Vnfs.select(Vnfs.name).where(Vnfs.id_vnf==COD)
+    for row in VNFGet:
+        return str(row.name)
+    return "-1"
+
+def InsertMetricsVnf(metric_data, weight0, cod_vnf, cod_metric,cod_job_vnf_cloud):
+    return Metrics_Vnfs.insert(
         metric_value = metric_data,
-        weight_percent = weight_percent0,
+        weight = weight0,
         fk_vnf = cod_vnf,
         fk_metric = cod_metric,
+        fk_job_vnf_cloud = cod_job_vnf_cloud,
         creation_date = datetime.now()
     ).execute()
+
+def GetMetricsVnf(metric_vnf_id):
+    print("imprimir metric vnf id")
+    print(metric_vnf_id)
+    TestMetricsVnf=Metrics_Vnfs.get_or_none(Metrics_Vnfs.id_metric_vnf==metric_vnf_id)
+    if TestMetricsVnf is None:
+        return -1
+    else:
+        metricsvnfs = Metrics_Vnfs.select(Metrics_Vnfs.metric_value,Metrics_Vnfs.weight).where(Metrics_Vnfs.id_metric_vnf==metric_vnf_id)
+        for row in metricsvnfs:
+            if row.metric_value > str(0):
+                return str(row.metric_value+":"+row.weight)
+            else:
+                return str("0:"+row.weight)
 
 def InsertStatusJobs(nameStatus):
     Status_Jobs.insert(
@@ -443,38 +516,22 @@ def TestLoadBD():
     InsertUser("Amarildo de Jesus","ajesus","abcd")
     #UsingSystem
     #Insert Job with User IP, name NS, cod administrator user and cod job status
-    cod_uuid=uuid.uuid4()
-    print (str(cod_uuid))
-    InsertJob(cod_uuid,"10.0.19.148","teste_mestrado",1,1)
+    #job_cod_uuid=uuid.uuid4()
+    #print (str(job_cod_uuid))
+    InsertJob("10.0.19.148","teste_mestrado",1,1)
     #Insert Jo
-    InsertJobVnfCloud(20,1,1,1)
-    InsertMetric("Lat_to_8.8.8.8",1)
-    InsertMetric("Lat_to_1.1.1.1",1)
-    InsertMetricsVnf(20,8,1,1)
+    JOBVNFCLOUD=InsertJobVnfCloud(20,1,1,1)
+    print (JOBVNFCLOUD)
+    InsertMetric("Lat_to_8.8.8.8")
+    InsertMetric("Lat_to_1.1.1.1")
+    InsertMetricCloud(1,1)
+    InsertMetricsVnf(20,8,1,1,JOBVNFCLOUD)
 
 
 def main():
     print ("Iniciando Server PLAO")
     VNFFile = File_VNF_Price()
     PILFile = File_PIL_Price()
-
-    NAME_VNFD="VNFA"
-
-    #print receber a posicao do VNF no arquivo confi VNF OSM
-    #print("testando SearchVNFD")
-    #teste1 = VNFFile.SearchVNFD(NAME_VNFD)
-    #print(teste1)
-    #print("     ")
-
-    #print("testando ChangeVNFPrice")
-#    VIM_URL="http://10.159.205.6:5000/v3"
-#    PRICE_VNFD=78
-#    CLOUD_STATUS_CPU=1 #1 se a cpu estiver degradada
-    #teste2 = VNFFile.ChangeVNFPrice(2,VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU)
-    #print(teste2)
-
-#    print("testando SearchChangeVNFDPrice") #Este devera se executaod por thrad que ira coletar das nuvens a latencia e cpu para formar o custo da VNF
-#    VNFFile.SearchChangeVNFDPrice(NAME_VNFD,VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU)
 
     servers = Servers()
 
@@ -491,66 +548,69 @@ def main():
 
     cloud2 = Cloud(servers.getbyIndexIP(1),servers.getbyIndexExternalIP(1))
     cloud2.setName(servers.getServerName(cloud2.getIp()))
-    #cloud2.setVimURL("https://200.137.75.159:5000/v3")
+    cloud2.setVimURL("https://200.137.75.159:5000/v3")
     #cloud2.setVimURL("http://10.159.205.11:5000/v3")
     print(cloud2.getIp())
     print(cloud2.getVimURL())
     print(cloud2.getName())    
     print(cloud2.getCpu())
 
+    try:
+        print("Creating session in Openstack1...")
+        #Creating session OpenStack
+        #auth_session = OpenStack_Auth(cloud_name=VarCloudName)
+        cloud1_auth_session = OpenStack_Auth(cloud_name=cloud1.getName())
+        cloud1_sess = cloud1_auth_session.get_session()
+        print("Creating object and using session in Gnocchi...")
+        #Insert Session in Gnocchi object   
+        cloud1_gnocchi = Gnocchi(session=cloud1_sess)
+        cloud1_resource_id=cloud1_gnocchi.get_resource_id("plao")
 
-    print("Creating session in Openstack1...")
-    #Creating session OpenStack
-    #auth_session = OpenStack_Auth(cloud_name=VarCloudName)
-    cloud1_auth_session = OpenStack_Auth(cloud_name=cloud1.getName())
-    cloud1_sess = cloud1_auth_session.get_session()
-    print("Creating object and using session in Gnocchi...")
-    #Insert Session in Gnocchi object   
-    cloud1_gnocchi = Gnocchi(session=cloud1_sess)
-    cloud1_resource_id=cloud1_gnocchi.get_resource_id("plao")
+        #######print ("resource_id: "+str(cloud1_resource_id)) 
+    except:
+        print ("Problema ao acessar Cloud 1!!!")
 
-    #######print ("resource_id: "+str(cloud1_resource_id)) 
+    
+    try:
+        print("Creating session in Openstack2...")
+        #Creating session OpenStack
+        #auth_session = OpenStack_Auth(cloud_name=VarCloudName)
+        print(cloud2.getName())
+        cloud2_auth_session = OpenStack_Auth(cloud_name=cloud2.getName())
+        cloud2_sess = cloud2_auth_session.get_session()
+        print("Creating object and using session in Gnocchi...")
+        #Insert Session in Gnocchi object   
+        cloud2_gnocchi = Gnocchi(session=cloud2_sess)
+        cloud2_resource_id=cloud2_gnocchi.get_resource_id("plao")   
+        #print ("resource_id: "+cloud1_resource_id)
 
- 
-
-    print("Creating session in Openstack2...")
-    #Creating session OpenStack
-    #auth_session = OpenStack_Auth(cloud_name=VarCloudName)
-    print(cloud2.getName())
-    cloud2_auth_session = OpenStack_Auth(cloud_name=cloud2.getName())
-    cloud2_sess = cloud2_auth_session.get_session()
-    print("Creating object and using session in Gnocchi...")
-    #Insert Session in Gnocchi object   
-    cloud2_gnocchi = Gnocchi(session=cloud2_sess)
-    cloud2_resource_id=cloud2_gnocchi.get_resource_id("plao")   
-    #print ("resource_id: "+cloud1_resource_id)
-
-    #Test for consult data in gnocchi
-    #teste(Gnocchi,cloud1_resource_id,cloud2.getIp(),GRANULARITY,START,STOP)
-    #
+        #Test for consult data in gnocchi
+        #teste(Gnocchi,cloud1_resource_id,cloud2.getIp(),GRANULARITY,START,STOP)
+        #
 
 
-    #Latencia_to_cloud2=cloud1_gnocchi.get_last_measure("Lat_To_"+cloud2.getIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
-    #print (Latencia_to_cloud2)
-    #Latencia_to_cloud2=cloud1_gnocchi.get_last_measure("Lat_To_"+cloud2.getIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
+        #Latencia_to_cloud2=cloud1_gnocchi.get_last_measure("Lat_To_"+cloud2.getIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
+        #print (Latencia_to_cloud2)
+        #Latencia_to_cloud2=cloud1_gnocchi.get_last_measure("Lat_To_"+cloud2.getIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
 
-    #Latencia_to_cloud2 = Latencia_to_cloud2.drop(["granularity","timestamp"],axis=1)
-    #teste_Latencia_to_cloud2=Latencia_to_cloud2.head(1)
-    #teste_Latencia_to_cloud2=Latencia_to_cloud2.head(1).values
-    ##print("valorLatenciatoCloud2: "+str(Latencia_to_cloud2))
-    ##print (Latencia_to_cloud2)
-    ##Jitter_to_cloud2=cloud1_gnocchi.get_last_measure("Jit_To_"+cloud2.getIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
-    #print (Latencia_to_cloud2)
-    #Latencia_to_cloud2 = Latencia_to_cloud2.drop(["granularity","timestamp"],axis=1)
-    #teste_Latencia_to_cloud2=Latencia_to_cloud2.head(1)
-    #teste_Latencia_to_cloud2=Latencia_to_cloud2.head(1).values
-   ##print("valorJittertoCloud2: "+str(Jitter_to_cloud2))
+        #Latencia_to_cloud2 = Latencia_to_cloud2.drop(["granularity","timestamp"],axis=1)
+        #teste_Latencia_to_cloud2=Latencia_to_cloud2.head(1)
+        #teste_Latencia_to_cloud2=Latencia_to_cloud2.head(1).values
+        ##print("valorLatenciatoCloud2: "+str(Latencia_to_cloud2))
+        ##print (Latencia_to_cloud2)
+        ##Jitter_to_cloud2=cloud1_gnocchi.get_last_measure("Jit_To_"+cloud2.getIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
+        #print (Latencia_to_cloud2)
+        #Latencia_to_cloud2 = Latencia_to_cloud2.drop(["granularity","timestamp"],axis=1)
+        #teste_Latencia_to_cloud2=Latencia_to_cloud2.head(1)
+        #teste_Latencia_to_cloud2=Latencia_to_cloud2.head(1).values
+    ##print("valorJittertoCloud2: "+str(Jitter_to_cloud2))
 
-    #print ('teste banco')
-    #teste=Users.get_or_none(Users.id_user=='6', Users.name!="")
-    #print (teste)
-    #if teste is None:
-
+        #print ('teste banco')
+        #teste=Users.get_or_none(Users.id_user=='6', Users.name!="")
+        #print (teste)
+        #if teste is None:
+    except:
+        print ("Problema ao acessar Cloud 2!!!")
 
 
     #File in Clouds
@@ -627,6 +687,9 @@ def main():
     @app.route('/TestLoadBD/',methods=['POST'])
     def cargabd():
         TestLoadBD()
+        #InsertMetricsVnf(20,8,1,1,1)
+        #print(InsertCloud("Aracruz2","172.16.112.40","200.137.82.31",5,90 ))
+        #return GetIdMetrics("Lat_to_8.8.8.8")
         return "LoadedBase"
 
     @app.route('/stop/',methods=['POST'])
@@ -764,21 +827,21 @@ def main():
             ret_status = 0 #status of return cloud
             request_data = request.get_json()
             IP_USER=request_data['ipuser']
-            NS_NAME="teste_metrado" #alterar para pegar o parametro tb
-            COD_USER=1 #Criar funcao para validar usuario no futuro
+            NS_NAME="teste_metrado" #['nsname']#alterar para pegar o parametro tb
+            COD_USER=1 #request_data['coduser'] #Criar funcao para validar usuario no futuro
+            METRIC1_NAME="Lat_To_"+IP_USER #request_data['metric1name']
+            METRIC2_NAME="CPU" #request_data['metric2name']
+            VNF1_NAME="VNFA" #request_data['vnf1name']
+            VNF2_NAME="VNFB" #request_data['vnf2name']   
+            NAME_CLOUD1="Serra" #request_data['cloudname1']
+            NAME_CLOUD2="Aracruz" #request_data['cloudname2']
+            WEIGHT_METRIC1_VNF1=0.2 #['weight_metric1_vnf1']
+            WEIGHT_METRIC2_VNF1=0.8 #['weight_metric2_vnf1']
+            WEIGHT_METRIC1_VNF2=0.9 #['weight_metric1_vnf2']
+            WEIGHT_METRIC2_VNF2=0.1 #['weight_metric2_vnf2']
             COD_STATUS_JOB=1 #(1-Started,2-Finish)
-            COD_UUID=uuid.uuid4()
-            METRIC_NAME = request_data['metricname']
-            METRIC1="Lat_To_"+IP_USER
-            METRIC2="CPU"
-            COD_VNF1=1 #request_data['codvnf1']
-            COD_VNF2=2 #request_data['codvnf2']       
-            WEIGHT_PERCENT_METRIC1_CL1=20 #['weight_percent_metric1_cl1']
-            WEIGHT_PERCENT_METRIC2_CL1=80 #['weight_percent_metric1_cl1']
-            WEIGHT_PERCENT_METRIC1_CL2=20 #['weight_percent_metric1_cl1']
-            WEIGHT_PERCENT_METRIC2_CL2=80 #['weight_percent_metric1_cl1']
             
-            InsertJob(COD_UUID,IP_USER,NS_NAME,COD_USER,COD_STATUS_JOB) #Desejavel retornar o uuid com o codigo unico do job
+            JOB_COD=InsertJob(IP_USER,NS_NAME,COD_USER,COD_STATUS_JOB)
 
             try:          
                 #Future: To read config file and start theese request automaticaly, for example to 1, 2, 3, 4 clouds...
@@ -830,7 +893,6 @@ def main():
             except KeyboardInterrupt:
                 print("Someone closed the program")
 
-
             now=datetime.now()
             intervalo=60
             delta = timedelta(seconds=intervalo)
@@ -838,86 +900,211 @@ def main():
             START=time_past
             STOP=now
             GRANULARITY=60.0
-            CLOUD1_COD=1
-            CLOUD2_COD=2
+
+            CLOUD1_COD=GetIdCloud(NAME_CLOUD1)
+            CLOUD2_COD=GetIdCloud(NAME_CLOUD2)
+            COD_VNF1=GetIdVNF(VNF1_NAME)
+            COD_VNF2=GetIdVNF(VNF2_NAME)
+
             #print("horarioInicio: "+str(START))
             #print("hoarioFinal: "+str(STOP))
-            DATA_METRIC1_CL1=cloud1_gnocchi.get_last_measure(METRIC1,cloud1_resource_id,None,GRANULARITY,START,STOP)
+            #collect data in gnocchi in each cloud
+            DATA_METRIC1_CL1=cloud1_gnocchi.get_last_measure(METRIC1_NAME,cloud1_resource_id,None,GRANULARITY,START,STOP)
             DATA_METRIC2_CL1=30   #FALTA coletar CPU
 
-            DATA_METRIC1_CL2=cloud2_gnocchi.get_last_measure(METRIC1,cloud2_resource_id,None,GRANULARITY,START,STOP)
-            DATA_METRIC2_CL2=30   #FALTA coletar CPU
+            DATA_METRIC1_CL2=cloud2_gnocchi.get_last_measure(METRIC1_NAME,cloud2_resource_id,None,GRANULARITY,START,STOP)
+            DATA_METRIC2_CL2=70   #FALTA coletar CPU
 
-            #Insert metrics in METRICS table
-            InsertMetric(METRIC1,CLOUD1_COD)
-            InsertMetric(METRIC2,CLOUD1_COD)
-            InsertMetric(METRIC1,CLOUD2_COD)
-            InsertMetric(METRIC2,CLOUD2_COD)
+            #print(str(DATA_METRIC1_CL1))
+            #print(str(DATA_METRIC1_CL2))
 
-            #Insert values metrics in METRICS_VNF table
-            InsertMetricsVnf(DATA_METRIC1_CL1,WEIGHT_PERCENT_METRIC1_CL1,COD_VNF1,codigoselectmetric1pelonometabelametrics)
-            InsertMetricsVnf(DATA_METRIC2_CL1,WEIGHT_PERCENT_METRIC2_CL1,COD_VNF1,codigoselectmetric1pelonometabelametrics)
-            InsertMetricsVnf(DATA_METRIC1_CL2,WEIGHT_PERCENT_METRIC1_CL2,COD_VNF2,codigoselectmetric1pelonometabelametrics)
-            InsertMetricsVnf(DATA_METRIC2_CL2,WEIGHT_PERCENT_METRIC2_CL2,COD_VNF2,codigoselectmetric1pelonometabelametrics)
+            #Insert metrics in METRICS plao bd
+            COD_METRIC1=InsertMetric(METRIC1_NAME) #ex latency
+            COD_METRIC2=InsertMetric(METRIC2_NAME) # ex cpu
+
+            #Inser metric for cloud
+            InsertMetricCloud(CLOUD1_COD,COD_METRIC1)
+            InsertMetricCloud(CLOUD1_COD,COD_METRIC2)
+            InsertMetricCloud(CLOUD2_COD,COD_METRIC1)
+            InsertMetricCloud(CLOUD2_COD,COD_METRIC2)
 
             #Insert values in JOBS_VNFS_CLOUDS table, necessario math join 2 metrics and wheights
+            VNF1_CL1=InsertJobVnfCloud("",JOB_COD,COD_VNF1,CLOUD1_COD)
+            VNF2_CL1=InsertJobVnfCloud("",JOB_COD,COD_VNF2,CLOUD1_COD)
+            VNF1_CL2=InsertJobVnfCloud("",JOB_COD,COD_VNF1,CLOUD2_COD)
+            VNF2_CL2=InsertJobVnfCloud("",JOB_COD,COD_VNF2,CLOUD2_COD)
 
+            #Insert values metrics per cloud in METRICS_VNF table
+            #Data of metric one and two, each weight per vnf
+            VNF1_CL1_M1=InsertMetricsVnf(DATA_METRIC1_CL1,WEIGHT_METRIC1_VNF1,COD_VNF1,COD_METRIC1,VNF1_CL1) #valor 26, peso  7, vnfa, latencia
+            VNF1_CL1_M2=InsertMetricsVnf(DATA_METRIC2_CL1,WEIGHT_METRIC2_VNF1,COD_VNF1,COD_METRIC2,VNF1_CL1) #valor 10, peso 3,  vnfa, cpu
+            VNF2_CL1_M1=InsertMetricsVnf(DATA_METRIC1_CL1,WEIGHT_METRIC1_VNF2,COD_VNF2,COD_METRIC1,VNF2_CL1) #valor 26, peso 1, vnfb, latencia
+            VNF2_CL1_M2=InsertMetricsVnf(DATA_METRIC2_CL1,WEIGHT_METRIC2_VNF2,COD_VNF2,COD_METRIC2,VNF2_CL1) #valor 10, peso 9,  vnfb, cpu
+            VNF1_CL2_M1=InsertMetricsVnf(DATA_METRIC1_CL2,WEIGHT_METRIC1_VNF1,COD_VNF1,COD_METRIC1,VNF1_CL2)
+            VNF1_CL2_M2=InsertMetricsVnf(DATA_METRIC2_CL2,WEIGHT_METRIC2_VNF1,COD_VNF1,COD_METRIC2,VNF1_CL2)
+            VNF2_CL2_M1=InsertMetricsVnf(DATA_METRIC1_CL2,WEIGHT_METRIC1_VNF2,COD_VNF2,COD_METRIC1,VNF2_CL2)
+            VNF2_CL2_M2=InsertMetricsVnf(DATA_METRIC2_CL2,WEIGHT_METRIC2_VNF2,COD_VNF2,COD_METRIC2,VNF2_CL2)
 
-
-            #COD_CLOUD1=request_data['cod_cloud1'] #talvez nao
-            #VNF1=request_data['cod_vnf1']
-            #TYPE_METRIC1=request_data['typemetric1'] #cpu or memory or latency
-            #            WEIgHT_PERCENT_METRIC1=request_data['weight_percent_metric1']
-            #if TYPE_METRIC1 == "CPU":
-                #4 cadastrar ultimo valor na tabela metricas
-                #5 de acordo com os pesos, calcular o que vai gravar em cost, tabela Jobs_Vnfs_Clouds
-
-
-
+            #print ( "INSERTED RECORDS IN METRICSVNF TABLE:" +
+            #" VNF1_CL1_M1: " + str(VNF1_CL1_M1) + 
+            #" VNF1_CL1_M2: " + str(VNF1_CL1_M2) +
+            #" VNF2_CL1_M1: " + str(VNF2_CL1_M1) +
+            #" VNF2_CL1_M2: " + str(VNF2_CL1_M2) +
+            #" VNF1_CL2_M1: " + str(VNF1_CL2_M1) +
+            #" VNF1_CL2_M2: " + str(VNF1_CL2_M2) +
+            #" VNF1_CL2_M1: " + str(VNF1_CL2_M1) +
+            #" VNF1_CL2_M2: " + str(VNF1_CL2_M2))
             
+            #Calc VNF1 CL1 M1
+            VNF1_CL1_M1_BD=GetMetricsVnf(VNF1_CL1_M1)
+            VNF1_CL1_M1_BD=VNF1_CL1_M1_BD.split(':')
+            VNF1_CL1_M1_BD_VALUE=VNF1_CL1_M1_BD[0]
+            VNF1_CL1_M1_BD_WEIGHT=VNF1_CL1_M1_BD[1]
+            VNF1_CL1_M1_CALC=(float(VNF1_CL1_M1_BD_VALUE)*float(VNF1_CL1_M1_BD_WEIGHT))
+            print (str(VNF1_CL1_M1_BD_VALUE) + "x" +str(VNF1_CL1_M1_BD_WEIGHT) + "=" +str(VNF1_CL1_M1_CALC))
 
-            VNF_COST1=""
-            
-            COD_CLOUD2=request_data['cod_cloud2'] #talvez nao
-            VNF2=request_data['cod_vnf2']
-            TYPE_METRIC2=request_data['typemetric2'] #cpu or memory
-            WEIHT_PERCENT_METRIC2=request_data['weight_percent_metric2']
-            VNF_COST2=""
+            #Calc VNF1 CL1 M2
+            VNF1_CL1_M2_BD=GetMetricsVnf(VNF1_CL1_M2)
+            VNF1_CL1_M2_BD=VNF1_CL1_M2_BD.split(':')
+            VNF1_CL1_M2_BD_VALUE=VNF1_CL1_M2_BD[0]
+            VNF1_CL1_M2_BD_WEIGHT=VNF1_CL1_M2_BD[1]
+            VNF1_CL1_M2_CALC=(float(VNF1_CL1_M2_BD_VALUE)*float(VNF1_CL1_M2_BD_WEIGHT))
+            print (str(VNF1_CL1_M2_BD_VALUE) + "x" +str(VNF1_CL1_M2_BD_WEIGHT) + "=" +str(VNF1_CL1_M2_CALC))
 
-            CHECK_METRIC_CL1=cloud1_gnocchi.get_metric(METRIC_NAME,cloud1_resource_id)
-            if CHECK_METRIC_CL1 != "":
-                print ("EXITS METRIC CL1")
-            CHECK_METRIC_CL2=cloud2_gnocchi.get_metric(METRIC_NAME,cloud2_resource_id)
-            if CHECK_METRIC_CL2 != "":
-                print ("EXITS METRIC CL2")
+            #Sum for Calc VNF1 in CL1
+            VNF1_CL1_CALC=VNF1_CL1_M1_CALC+VNF1_CL1_M2_CALC
+            #print(VNF1_CL1_CALC)
+            VNF1_CL1_CALC=round(VNF1_CL1_CALC) #round
+            #print(VNF1_CL1_CALC)
+            print ("Cost of VNF1 CL1 is "+str(VNF1_CL1_CALC))
 
-            InsertJobVnfCloud(VNF_COST1,COD_UUID,VNF1,1)
-            InsertJobVnfCloud(VNF_COST2,COD_UUID,VNF2,2)
+            ###############################################################
 
-            if ret_status == 3:
-                return "UserLatency_JustOneCloud"
-            if ret_status == 2:
-                return "UserLatency_Already_Started_One_Cloud"
-            if ret_status == 4:
-                return "UserLatency_Already_Started_All_Clouds"
-            if ret_status == 5:
-                return "UserLatency_OneClouds_and_AlreadyStartedOneCloud"
-            if ret_status == 6:
-                return "UserLatency_Executed_PLAO_AllClouds"
-            else:
-                return "Started"
-            
+            #Calc VNF2 CL1 M1
+            VNF2_CL1_M1_BD=GetMetricsVnf(VNF2_CL1_M1)
+            VNF2_CL1_M1_BD=VNF2_CL1_M1_BD.split(':')
+            VNF2_CL1_M1_BD_VALUE=VNF2_CL1_M1_BD[0]
+            VNF2_CL1_M1_BD_WEIGHT=VNF2_CL1_M1_BD[1]
+            VNF2_CL1_M1_CALC=(float(VNF2_CL1_M1_BD_VALUE)*float(VNF2_CL1_M1_BD_WEIGHT))
+            print (str(VNF2_CL1_M1_BD_VALUE) + "x" +str(VNF2_CL1_M1_BD_WEIGHT) + "=" +str(VNF2_CL1_M1_CALC))
 
-            #Agora pesquisar o valor da coleta de latencia das nuvens para o ip do usuario, cpu da nuvem 1 e cpu da nuvem2, pegar os ultimos valores
-            #Criar job no BD com o id do job e guardar: verificado (sim ou nao),ip do usuario, latencia p nuvem1, latencia p nuvem2, ping da nuvem 1 p 2, jitter da nuvem 1 p 2
+            #Calc VNF2 CL1 M2
+            VNF2_CL1_M2_BD=GetMetricsVnf(VNF2_CL1_M2)
+            VNF2_CL1_M2_BD=VNF2_CL1_M2_BD.split(':')
+            VNF2_CL1_M2_BD_VALUE=VNF2_CL1_M2_BD[0]
+            VNF2_CL1_M2_BD_WEIGHT=VNF2_CL1_M2_BD[1]
+            VNF2_CL1_M2_CALC=(float(VNF2_CL1_M2_BD_VALUE)*float(VNF2_CL1_M2_BD_WEIGHT))
+            print (str(VNF2_CL1_M2_BD_VALUE) + "x" +str(VNF2_CL1_M2_BD_WEIGHT) + "=" +str(VNF2_CL1_M2_CALC))
 
-            #Em paralelo thread que fica olhando tabela de jobs, compara arquivos e altera se tiver diferenca
-            #entrar regras de mudar depois de determinada variacao ou modulo xx
+            #Sum for Calc VNF1 in CL1
+            VNF2_CL1_CALC=VNF2_CL1_M1_CALC+VNF2_CL1_M2_CALC
+            #print(VNF2_CL1_CALC)
+            VNF2_CL1_CALC=round(VNF2_CL1_CALC) #round
+            #print(VNF2_CL1_CALC)
+            print ("Cost of VNF2 CL1 is "+str(VNF2_CL1_CALC))
+
+            ###############################################################
+
+            #Calc VNF1 CL2 M1
+            VNF1_CL2_M1_BD=GetMetricsVnf(VNF1_CL2_M1)
+            VNF1_CL2_M1_BD=VNF1_CL2_M1_BD.split(':')
+            VNF1_CL2_M1_BD_VALUE=VNF1_CL2_M1_BD[0]
+            VNF1_CL2_M1_BD_WEIGHT=VNF1_CL2_M1_BD[1]
+            VNF1_CL2_M1_CALC=(float(VNF1_CL2_M1_BD_VALUE)*float(VNF1_CL2_M1_BD_WEIGHT))
+            print (str(VNF1_CL2_M1_BD_VALUE) + "x" +str(VNF1_CL2_M1_BD_WEIGHT) + "=" +str(VNF1_CL2_M1_CALC))
+
+            #Calc VNF1 CL1 M2
+            VNF1_CL2_M2_BD=GetMetricsVnf(VNF1_CL2_M2)
+            VNF1_CL2_M2_BD=VNF1_CL2_M2_BD.split(':')
+            VNF1_CL2_M2_BD_VALUE=VNF1_CL2_M2_BD[0]
+            VNF1_CL2_M2_BD_WEIGHT=VNF1_CL2_M2_BD[1]
+            VNF1_CL2_M2_CALC=(float(VNF1_CL2_M2_BD_VALUE)*float(VNF1_CL2_M2_BD_WEIGHT))
+            print (str(VNF1_CL2_M2_BD_VALUE) + "x" +str(VNF1_CL2_M2_BD_WEIGHT) + "=" +str(VNF1_CL2_M2_CALC))
+
+            #Sum for Calc VNF1 in CL1
+            VNF1_CL2_CALC=VNF1_CL2_M1_CALC+VNF1_CL2_M2_CALC
+            #print(VNF1_CL2_CALC)
+            VNF1_CL2_CALC=round(VNF1_CL2_CALC) #round
+            #print(VNF1_CL2_CALC)
+            print ("Cost of VNF1 CL2 is "+str(VNF1_CL2_CALC))
+
+            ###############################################################
+
+            #Calc VNF2 CL2 M1
+            VNF2_CL2_M1_BD=GetMetricsVnf(VNF2_CL2_M1)
+            VNF2_CL2_M1_BD=VNF2_CL2_M1_BD.split(':')
+            VNF2_CL2_M1_BD_VALUE=VNF2_CL2_M1_BD[0]
+            VNF2_CL2_M1_BD_WEIGHT=VNF2_CL2_M1_BD[1]
+            VNF2_CL2_M1_CALC=(float(VNF2_CL2_M1_BD_VALUE)*float(VNF2_CL2_M1_BD_WEIGHT))
+            print (str(VNF2_CL1_M1_BD_VALUE) + "x" +str(VNF2_CL2_M1_BD_WEIGHT) + "=" +str(VNF2_CL2_M1_CALC))
+
+            #Calc VNF2 CL1 M2
+            VNF2_CL2_M2_BD=GetMetricsVnf(VNF2_CL2_M2)
+            VNF2_CL2_M2_BD=VNF2_CL2_M2_BD.split(':')
+            VNF2_CL2_M2_BD_VALUE=VNF2_CL2_M2_BD[0]
+            VNF2_CL2_M2_BD_WEIGHT=VNF2_CL2_M2_BD[1]
+            VNF2_CL2_M2_CALC=(float(VNF2_CL2_M2_BD_VALUE)*float(VNF2_CL2_M2_BD_WEIGHT))
+            print (str(VNF2_CL2_M2_BD_VALUE) + "x" +str(VNF2_CL2_M2_BD_WEIGHT) + "=" +str(VNF2_CL2_M2_CALC))
+
+            #Sum for Calc VNF2 in CL2
+            VNF2_CL2_CALC=VNF2_CL2_M1_CALC+VNF2_CL2_M2_CALC
+            #print(VNF2_CL2_CALC)
+            VNF2_CL2_CALC=round(VNF2_CL2_CALC) #round
+            #print(VNF2_CL2_CALC)
+            print ("Cost of VNF2 CL2 is "+str(VNF2_CL2_CALC))
+
+            ###############################################################
+
+            #Check degradation
+            #if has degradation now in specifc cloud, plus 10 units in vnf cost 
+
+            #Update Costs in BD
+            UpdateJobVnfCloud(VNF1_CL1,VNF1_CL1_CALC)
+            UpdateJobVnfCloud(VNF2_CL1,VNF2_CL1_CALC)
+            UpdateJobVnfCloud(VNF1_CL2,VNF1_CL2_CALC)
+            UpdateJobVnfCloud(VNF2_CL2,VNF2_CL2_CALC)
+
+            #store somewhere values link for logs          
+            NAME_VNF=GetNameVNF(SelectIdVnf_UpdateJobVnfCloud(VNF1_CL1))
+            VIM_URL=cloud1.getVimURL()
+            PRICE_VNFD=str(VNF1_CL1_CALC)
+            CLOUD_STATUS_CPU="1" #1 se a cpu estiver degradada select degradacao da nuvem
+            #print("testando SearchChangeVNFDPrice") #Este devera se executaod por thrad que ira coletar das nuvens a latencia e cpu para formar o custo da VNF
+            VNFFile.SearchChangeVNFDPrice(NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU)
+            print((NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU))
+
+            NAME_VNF=GetNameVNF(SelectIdVnf_UpdateJobVnfCloud(VNF2_CL1))
+            VIM_URL=cloud1.getVimURL()
+            PRICE_VNFD=str(VNF2_CL1_CALC)
+            CLOUD_STATUS_CPU="1" #1 se a cpu estiver degradada select degradacao da nuvem
+            #print("testando SearchChangeVNFDPrice") #Este devera se executaod por thrad que ira coletar das nuvens a latencia e cpu para formar o custo da VNF
+            VNFFile.SearchChangeVNFDPrice(NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU)
+            print((NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU))
+
+            NAME_VNF=GetNameVNF(SelectIdVnf_UpdateJobVnfCloud(VNF1_CL2))
+            VIM_URL=cloud2.getVimURL()
+            PRICE_VNFD=str(VNF1_CL2_CALC)
+            CLOUD_STATUS_CPU="1" #1 se a cpu estiver degradada select degradacao da nuvem
+            #print("testando SearchChangeVNFDPrice") #Este devera se executaod por thrad que ira coletar das nuvens a latencia e cpu para formar o custo da VNF
+            VNFFile.SearchChangeVNFDPrice(NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU)
+            print((NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU))
+
+            NAME_VNF=GetNameVNF(SelectIdVnf_UpdateJobVnfCloud(VNF2_CL2))
+            VIM_URL=cloud2.getVimURL()
+            PRICE_VNFD=str(VNF2_CL2_CALC)
+            CLOUD_STATUS_CPU="1" #1 se a cpu estiver degradada select degradacao da nuvem
+            #print("testando SearchChangeVNFDPrice") #Este devera se executaod por thrad que ira coletar das nuvens a latencia e cpu para formar o custo da VNF
+            VNFFile.SearchChangeVNFDPrice(NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU)
+            print((NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU))
+
+            #Instanciate NS in OSM
+
+            #Update Status Job
+            UpdateJob(JOB_COD,2) #Finished the job
+            return "Finished"
 
         #Criar rota retorna lista de NS
         #Criar rota retorna lista de VNFD
-        #Criar rota retorna dados de metricas latencia, jitter, cpu num intervalor de tempo start e stop escolhido
-        #Criar rota retorna 
 
     #servers = Servers()
     #IPServerLocal="10.159.205.10"
@@ -935,17 +1122,6 @@ def main():
     #dataset = Latencia_to_cloud2.merge(Jitter_to_cloud2, how='left',on='timestamp',suffixes=["Lat_To_"+cloud2.getIp(),"Jit_To_"+cloud2.getIp()])
     #print(dataset)
     #DataSet(cloud1_gnocchi)
-
-    #Creating vector with objects Cloud 
-    #To add clouds in vector
-    #clouds = []
-    #for i in range(servers.getServerQtd()):
-    #    clouds.append(Cloud(servers.getbyIndexIP(i))) 
-    #for i in range(len(clouds)):
-    #    print(clouds[i].getIp())
-    #clouds[0].setCpu(20)
-    #print (clouds[0].getCpu())
-    #https://www.geeksforgeeks.org/how-to-create-a-list-of-object-in-python-class/
     
 if __name__ == "__main__":
     main()

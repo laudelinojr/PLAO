@@ -1,5 +1,6 @@
 from genericpath import getsize
 from http.client import FORBIDDEN
+import json
 from logging import exception
 from re import search
 #from winreg import REG_SZ
@@ -24,6 +25,8 @@ import os
 import pandas as pd
 #from PLAO_client2_w_routes import appc
 from flask import Flask, request
+import json
+
 STARTED = 0
 THREAD=0
 #VarCloudName='mpes_n1'  #Alterar codigo e colocar como argu
@@ -368,12 +371,16 @@ class Gnocchi():
 
     #If dont data, return -1, else return data
     def get_last_measure_Date(self, name_metric, resource_id, aggregation, granularity, start, stop):
-        dados=self.gnocchi_client.metric.get_measures(name_metric,start,stop, aggregation, granularity,resource_id)
-        df = pd.DataFrame(dados, columns =['timestamp', 'granularity', 'value'])
-        df = pd.DataFrame(dados, columns =['timestamp', 'granularity', ''])
-        if (df.__len__() == 0):
+        try:
+            dados=self.gnocchi_client.metric.get_measures(name_metric,start,stop, aggregation, granularity,resource_id)
+            df = pd.DataFrame(dados, columns =['timestamp', 'granularity', 'value'])
+            #df = pd.DataFrame(dados, columns =['timestamp', 'granularity', ''])
+            if (df.__len__() == 0):
+                return -1
+            df2=json.dumps(json.loads(df.to_json(orient = 'records')), indent=2)
+            return (df2)            
+        except:
             return -1
-        return (df)
 
 
 #Class to get servers
