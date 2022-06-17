@@ -1,7 +1,0 @@
-INSERT INTO `clouds`(`name`, `creation_date`) VALUES("Serra", "2022:05:27");
-INSERT INTO `clouds`(`name`, `creation_date`) VALUES("Aracruz", "2022:05:27");
-INSERT INTO `vnfs`(`name`, `creation_date`) VALUES ('VNFA','2022-05-27');
-INSERT INTO `vnfs`(`name`, `creation_date`) VALUES ('VNFB','2022-05-27');
-INSERT INTO `users`(`name`, `username`, `password`, `creation_date`) VALUES ('user1','username1','pass','2022-05-27');
-INSERT INTO `metricas`(`name`, `creation_date`) VALUES ('Lat_to_8.8.8.8','2022-05-27');
-INSERT INTO `metricas`(`name`, `creation_date`) VALUES ('Lat_to_1.1.1.1','2022-05-27');

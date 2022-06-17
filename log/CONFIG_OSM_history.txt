@@ -360,3 +360,220 @@
 15.06.22-00:16:12#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 3
 15.06.22-00:16:12#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 56
 15.06.22-00:16:12#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 7
+15.06.22-10:57:28#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 24
+15.06.22-10:57:28#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 3
+15.06.22-10:57:28#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 56
+15.06.22-10:57:28#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 7
+15.06.22-10:58:53#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 24
+15.06.22-10:58:53#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 3
+15.06.22-10:58:53#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 65
+15.06.22-10:58:53#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 47
+15.06.22-11:00:20#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 24
+15.06.22-11:00:20#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 3
+15.06.22-11:00:20#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 56
+15.06.22-11:00:20#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 7
+15.06.22-11:02:38#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 24
+15.06.22-11:02:38#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 3
+15.06.22-11:02:38#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 56
+15.06.22-11:02:38#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 7
+15.06.22-11:05:14#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 24
+15.06.22-11:05:14#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 3
+15.06.22-11:05:14#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 56
+15.06.22-11:05:14#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 7
+15.06.22-11:07:03#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 24
+15.06.22-11:07:03#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 3
+15.06.22-11:07:03#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 56
+15.06.22-11:07:03#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 7
+15.06.22-11:08:08#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 24
+15.06.22-11:08:08#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 3
+15.06.22-11:08:08#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 61
+15.06.22-11:08:08#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 31
+15.06.22-21:17:28#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 24
+15.06.22-21:17:29#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 3
+15.06.22-21:17:29#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 56
+15.06.22-21:17:29#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 7
+15.06.22-21:26:27#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 24
+15.06.22-21:26:27#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 3
+15.06.22-21:26:27#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 56
+15.06.22-21:26:27#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 7
+15.06.22-21:27:30#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 24
+15.06.22-21:27:30#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 3
+15.06.22-21:27:30#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 58
+15.06.22-21:27:30#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 17
+15.06.22-21:28:52#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 24
+15.06.22-21:28:52#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 3
+15.06.22-21:28:52#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 58
+15.06.22-21:28:52#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 17
+15.06.22-21:30:59#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 24
+15.06.22-21:30:59#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 3
+15.06.22-21:30:59#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 56
+15.06.22-21:30:59#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 7
+15.06.22-21:36:15#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 24
+15.06.22-21:36:15#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 3
+15.06.22-21:36:15#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 56
+15.06.22-21:36:15#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 7
+15.06.22-22:36:25#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 24
+15.06.22-22:36:25#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 3
+15.06.22-22:36:25#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 56
+15.06.22-22:36:25#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 7
+15.06.22-22:36:39#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 24
+15.06.22-22:36:39#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 3
+15.06.22-22:36:39#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 58
+15.06.22-22:36:39#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 17
+15.06.22-22:36:56#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 24
+15.06.22-22:36:56#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 3
+15.06.22-22:36:56#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 58
+15.06.22-22:36:56#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 17
+15.06.22-22:37:13#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 24
+15.06.22-22:37:13#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 3
+15.06.22-22:37:13#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 58
+15.06.22-22:37:13#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 17
+15.06.22-22:37:51#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 24
+15.06.22-22:37:51#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 3
+15.06.22-22:37:51#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 58
+15.06.22-22:37:51#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 17
+16.06.22-21:16:49#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 24
+16.06.22-21:16:49#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 3
+16.06.22-21:16:49#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 58
+16.06.22-21:16:49#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 17
+16.06.22-21:17:09#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 58
+16.06.22-21:17:09#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 17
+16.06.22-21:17:24#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 58
+16.06.22-21:17:24#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 17
+16.06.22-21:20:46#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 56
+16.06.22-21:20:46#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 7
+16.06.22-21:22:20#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 56
+16.06.22-21:22:20#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 7
+16.06.22-21:26:36#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 56
+16.06.22-21:26:36#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 7
+16.06.22-21:28:07#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 56
+16.06.22-21:28:07#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 7
+16.06.22-21:48:07#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 58
+16.06.22-21:48:07#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 17
+16.06.22-21:52:45#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 24
+16.06.22-21:52:45#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 3
+16.06.22-21:52:45#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 56
+16.06.22-21:52:45#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 7
+16.06.22-21:53:41#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 58
+16.06.22-21:53:41#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 17
+16.06.22-21:55:52#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 56
+16.06.22-21:55:52#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 7
+16.06.22-21:58:51#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 58
+16.06.22-21:58:51#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 18
+16.06.22-22:00:29#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 56
+16.06.22-22:00:29#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 7
+16.06.22-22:12:25#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 58
+16.06.22-22:12:25#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 17
+16.06.22-22:12:52#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 18
+16.06.22-22:25:05#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 56
+16.06.22-22:25:05#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 7
+16.06.22-23:17:08#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 27
+16.06.22-23:17:08#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 15
+16.06.22-23:17:08#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 58
+16.06.22-23:17:09#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 17
+16.06.22-23:19:14#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 24
+16.06.22-23:19:14#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 3
+16.06.22-23:19:14#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 56
+16.06.22-23:19:14#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 7
+16.06.22-23:20:05#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 27
+16.06.22-23:20:06#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 18
+16.06.22-23:20:06#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 58
+16.06.22-23:20:06#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 17
+16.06.22-23:20:39#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 16
+16.06.22-23:50:20#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 0
+16.06.22-23:50:20#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 0
+16.06.22-23:50:20#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 57
+16.06.22-23:53:24#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 3
+16.06.22-23:53:24#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 15
+16.06.22-23:53:25#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 62
+16.06.22-23:53:25#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 18
+16.06.22-23:56:28#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 16
+16.06.22-23:56:28#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 66
+16.06.22-23:58:22#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 67
+16.06.22-23:58:23#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: http://200.137.82.21:5000/v3 PRICE_VNFD: 26
+16.06.22-23:58:23#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 75
+16.06.22-23:58:23#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 20
+17.06.22-00:09:03#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: -1 LATENCY: -1 JITTER: -1
+17.06.22-00:11:05#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 5.11 LATENCY: 5.11 JITTER: 0.133
+17.06.22-00:11:15#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 4.063 LATENCY: 4.063 JITTER: 0.1165
+17.06.22-00:11:45#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 5.312555555555556 LATENCY: 5.312555555555556 JITTER: 0.15842857142857142
+17.06.22-00:12:06#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.2190000000000003 LATENCY: 3.2190000000000003 JITTER: 0.144
+17.06.22-00:13:07#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.5575 LATENCY: 3.5575 JITTER: 0.207
+17.06.22-00:14:49#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 5.8752 LATENCY: 5.8752 JITTER: 0.18142857142857144
+17.06.22-00:14:59#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 5.446750000000001 LATENCY: 5.446750000000001 JITTER: 0.16533333333333333
+17.06.22-00:15:09#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.132 LATENCY: 3.132 JITTER: 0.39549999999999996
+17.06.22-00:15:50#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.5938000000000003 LATENCY: 3.5938000000000003 JITTER: 0.2225
+17.06.22-00:17:12#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.4425 LATENCY: 3.4425 JITTER: 0.1355
+17.06.22-00:17:43#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.609 LATENCY: 3.609 JITTER: 0.20042857142857143
+17.06.22-00:18:13#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.3945 LATENCY: 3.3945 JITTER: 0.1765
+17.06.22-00:18:44#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.5595 LATENCY: 3.5595 JITTER: 0.20128571428571426
+17.06.22-00:19:04#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.324 LATENCY: 3.324 JITTER: 0.107
+17.06.22-00:20:26#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 4.5394000000000005 LATENCY: 4.5394000000000005 JITTER: 0.30424999999999996
+17.06.22-00:20:36#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 4.146285714285715 LATENCY: 4.146285714285715 JITTER: 0.25333333333333335
+17.06.22-00:21:17#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.4146666666666667 LATENCY: 3.4146666666666667 JITTER: 0.12466666666666666
+17.06.22-00:21:27#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 4.0123999999999995 LATENCY: 4.0123999999999995 JITTER: 0.1502
+17.06.22-00:25:41#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.4739999999999998 LATENCY: 3.4739999999999998 JITTER: 0.144
+17.06.22-00:26:01#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.582 LATENCY: 3.582 JITTER: 0.14833333333333332
+17.06.22-00:26:12#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 5.700333333333334 LATENCY: 5.700333333333334 JITTER: 0.2555
+17.06.22-00:26:22#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 4.7416 LATENCY: 4.7416 JITTER: 0.18775
+17.06.22-00:26:32#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 4.2904285714285715 LATENCY: 4.2904285714285715 JITTER: 0.1732
+17.06.22-00:27:03#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.345 LATENCY: 3.345 JITTER: 0.20059999999999997
+17.06.22-00:27:54#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 4.270363636363637 LATENCY: 4.270363636363637 JITTER: 0.21775
+17.06.22-00:28:04#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.315 LATENCY: 3.315 JITTER: 0.294
+17.06.22-00:28:14#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.5993333333333335 LATENCY: 3.5993333333333335 JITTER: 0.22549999999999998
+17.06.22-00:28:35#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.4519999999999995 LATENCY: 3.4519999999999995 JITTER: 0.36549999999999994
+17.06.22-00:28:55#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.852818181818182 LATENCY: 3.852818181818182 JITTER: 0.287
+17.06.22-00:29:05#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.493 LATENCY: 3.493 JITTER: 0.157
+17.06.22-00:30:06#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.923 LATENCY: 3.923 JITTER: 0.102
+17.06.22-00:30:16#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.4250000000000003 LATENCY: 3.4250000000000003 JITTER: 0.239
+17.06.22-00:31:48#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.516444444444444 LATENCY: 3.516444444444444 JITTER: 0.14942857142857144
+17.06.22-00:32:08#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.372 LATENCY: 3.372 JITTER: 0.195
+17.06.22-00:32:29#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 4.466 LATENCY: 4.466 JITTER: 0.35119999999999996
+17.06.22-00:33:09#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 4.7915 LATENCY: 4.7915 JITTER: 0.21
+17.06.22-00:33:30#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 4.3066666666666675 LATENCY: 4.3066666666666675 JITTER: 0.1728
+17.06.22-00:34:10#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.4725 LATENCY: 3.4725 JITTER: 0.7055
+17.06.22-00:34:21#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.39175 LATENCY: 3.39175 JITTER: 0.4165
+17.06.22-00:34:41#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 4.4076249999999995 LATENCY: 4.4076249999999995 JITTER: 0.28985714285714287
+17.06.22-00:34:51#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 4.556099999999999 LATENCY: 4.556099999999999 JITTER: 0.2712222222222222
+17.06.22-00:35:02#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 4.320833333333332 LATENCY: 4.320833333333332 JITTER: 0.2647
+17.06.22-00:35:12#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 7.867999999999999 LATENCY: 7.867999999999999 JITTER: 0.1235
+17.06.22-00:35:22#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 6.018199999999999 LATENCY: 6.018199999999999 JITTER: 0.125
+17.06.22-00:35:32#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 5.282571428571428 LATENCY: 5.282571428571428 JITTER: 0.1402
+17.06.22-00:36:03#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.303 LATENCY: 3.303 JITTER: 0.154
+17.06.22-00:36:13#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.5253333333333337 LATENCY: 3.5253333333333337 JITTER: 0.16
+17.06.22-00:37:04#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.302 LATENCY: 3.302 JITTER: 0.46
+17.06.22-00:37:35#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 5.726999999999999 LATENCY: 5.726999999999999 JITTER: 0.22183333333333333
+17.06.22-00:37:45#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 5.203888888888889 LATENCY: 5.203888888888889 JITTER: 0.21285714285714286
+17.06.22-00:38:06#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.7 LATENCY: 3.7 JITTER: 0.215
+17.06.22-00:38:16#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.4706666666666663 LATENCY: 3.4706666666666663 JITTER: 0.1525
+17.06.22-00:38:26#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.5043999999999995 LATENCY: 3.5043999999999995 JITTER: 0.14175
+17.06.22-00:38:36#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.411857142857143 LATENCY: 3.411857142857143 JITTER: 0.1414
+17.06.22-00:38:47#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 4.107222222222222 LATENCY: 4.107222222222222 JITTER: 0.1357142857142857
+17.06.22-00:39:18#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.4103333333333334 LATENCY: 3.4103333333333334 JITTER: 0.11499999999999999
+17.06.22-00:40:09#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.3985000000000003 LATENCY: 3.3985000000000003 JITTER: 0.626
+17.06.22-00:40:19#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.4202500000000002 LATENCY: 3.4202500000000002 JITTER: 0.3136666666666667
+17.06.22-00:40:29#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.994 LATENCY: 3.994 JITTER: 0.27075
+17.06.22-00:41:10#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.183 LATENCY: 3.183 JITTER: 0.22849999999999998
+17.06.22-00:41:31#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.5431666666666666 LATENCY: 3.5431666666666666 JITTER: 0.2092
+17.06.22-00:42:11#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 5.292 LATENCY: 5.292 JITTER: 0.18
+17.06.22-00:42:22#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 4.402749999999999 LATENCY: 4.402749999999999 JITTER: 0.155
+17.06.22-00:43:13#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.465666666666667 LATENCY: 3.465666666666667 JITTER: 0.13
+17.06.22-00:43:23#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.5298000000000003 LATENCY: 3.5298000000000003 JITTER: 0.14675
+17.06.22-00:43:33#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 10.284857142857144 LATENCY: 10.284857142857144 JITTER: 0.13466666666666666
+17.06.22-00:43:44#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 8.723999999999998 LATENCY: 8.723999999999998 JITTER: 0.1327142857142857
+17.06.22-00:43:54#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 8.169909090909089 LATENCY: 8.169909090909089 JITTER: 0.1298888888888889
+17.06.22-00:44:04#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.934 LATENCY: 3.934 JITTER: 0.216
+17.06.22-00:44:14#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.3993333333333333 LATENCY: 3.3993333333333333 JITTER: 0.17099999999999999
+17.06.22-00:44:25#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 5.6628 LATENCY: 5.6628 JITTER: 0.191
+17.06.22-00:44:35#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 5.0211428571428565 LATENCY: 5.0211428571428565 JITTER: 0.22240000000000001
+17.06.22-00:44:55#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 4.429636363636363 LATENCY: 4.429636363636363 JITTER: 0.18833333333333335
+17.06.22-00:45:05#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.495 LATENCY: 3.495 JITTER: 0.116
+17.06.22-00:45:16#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 4.374333333333333 LATENCY: 4.374333333333333 JITTER: 0.11933333333333333
+17.06.22-00:46:06#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.32 LATENCY: 3.32 JITTER: 0.139
+17.06.22-00:46:47#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.758777777777778 LATENCY: 3.758777777777778 JITTER: 0.22414285714285714
+17.06.22-00:47:08#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.307 LATENCY: 3.307 JITTER: 0.1765
+17.06.22-00:48:09#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.5775 LATENCY: 3.5775 JITTER: 0.173
+17.06.22-00:48:39#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.4792500000000004 LATENCY: 3.4792500000000004 JITTER: 0.13599999999999998
+17.06.22-00:48:49#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.7534 LATENCY: 3.7534 JITTER: 0.13749999999999998
+17.06.22-00:49:10#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.3815 LATENCY: 3.3815 JITTER: 0.1795
+17.06.22-00:49:51#CHANGE_PIL# Changed and copied file teste/pil_price_list.yaml to container PLA.  PRICE: 3.9383000000000004 LATENCY: 3.9383000000000004 JITTER: 0.2407777777777778

@@ -34,7 +34,6 @@ class Status_Jobs(BaseModel):
 class Jobs(BaseModel):
     id_job=BigIntegerField(primary_key=True, unique=True,
             constraints=[SQL('AUTO_INCREMENT')])
-    #cod_uuid=UUIDField(unique=True)
     userip = CharField(max_length=100)
     start_date = DateTimeField()
     finish_date = DateTimeField()
@@ -70,8 +69,8 @@ class Clouds(BaseModel):
     name = CharField(max_length=100, unique=True)
     ip = CharField(max_length=100, unique=True)
     external_ip = CharField(max_length=100, unique=True)
-    fk_degradation_cloud_type = ForeignKeyField(Degradations_Clouds_Types, db_column='id_degradation_cloud_type')
-    threshold_degradation = CharField(max_length=100)
+    fk_degradation_cloud_type = ForeignKeyField(Degradations_Clouds_Types, db_column='id_degradation_cloud_type') #type degradation configured
+    threshold_degradation = CharField(max_length=100) #the threshold value for degradation
     creation_date = DateTimeField()
 
     class Meta:
@@ -93,7 +92,7 @@ class Jobs_Vnfs_Clouds(BaseModel):
 class Degradations_Clouds(BaseModel):
     id_degradation_cloud=BigIntegerField(primary_key=True, unique=True,
             constraints=[SQL('AUTO_INCREMENT')])
-    status_degradation_cloud = CharField(max_length=100)
+    status_degradation_cloud = CharField(max_length=100) #if 1, is degrated, if 0, no degrated
     creation_date = DateTimeField()
     current_value_degradation = CharField(max_length=100)
     fk_cloud = ForeignKeyField(Clouds, db_column='id_cloud')

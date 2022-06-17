@@ -3,6 +3,7 @@ from distutils.util import execute
 from http.client import HTTPConnection
 from multiprocessing.connection import Connection
 from operator import eq
+from random import randint
 from uuid import NAMESPACE_X500, uuid4
 import uuid
 from wsgiref.validate import validator
@@ -64,22 +65,31 @@ class File_VNF_Price():
     #Change price of specific VIMNAME using the index (position) OF VNFD in vnf_price_list.
     #Change only in MEMORY. If no result, return -1  
     # In this, the target is to change the price cloud for specif Cloud (VIM)
-    # If the CPU High - degraded (1), we add the extra THRESHOLD value in Price.
-    def ChangeVNFPrice(self,COD_VNFD,VIMURL,PRICE,CLOUD_STATUS_CPU):
+    # If the CPU High - degraded (1), we add the extra value in Price.
+    def ChangeVNFPrice(self,COD_VNFD,VIMURL,PRICE,CLOUD_STATUS_DEGRADATION):
         C = len(self.B[COD_VNFD]['prices']) #Elements
         #print(C)
         if COD_VNFD < 0:
-            return -1   
+            return -1  
+        if (CLOUD_STATUS_DEGRADATION == 1):
+            #print ("PRICE BEFORE DEGRADATION_STATUS: "+ str(PRICE))
+            PRICE=int(PRICE)+DOWN_UP_PRICE
+            #print ("PRICE AFTER DEGRADATION_STATUS: "+ str(PRICE))
+            #print("Add value because is in degradation status.") 
         for i in range(C):
             if self.B[COD_VNFD]['prices'][i]['vim_url'] == VIMURL: #Compare VIMURL between YAML and the new
-                if self.B[COD_VNFD]['prices'][i]['price'] != PRICE:  #Compare new PRICE with actual Price, if equal, no change
+                if self.B[COD_VNFD]['prices'][i]['price'] != int(PRICE):  #Compare new PRICE with actual Price, if equal, no change
+                    print ("Change the Price "+ VIMURL + " " + str(PRICE))
                     #print(self.B[COD_VNFD]['prices'][i]['price'])
-                    if (CLOUD_STATUS_CPU == 1):
-                        print(self.B[COD_VNFD]['prices'][i]['price'])
-                        self.B[COD_VNFD]['prices'][i]['price']=int(PRICE)+THRESHOLD #Change the VNF Price
-                        print(self.B[COD_VNFD]['prices'][i]['price'])
-                    else:
-                        self.B[COD_VNFD]['prices'][i]['price']=int(PRICE) #Change the VNF Price
+                    #if (CLOUD_STATUS_DEGRADATION == 1):
+                    #    print(self.B[COD_VNFD]['prices'][i]['price'])
+                    #    self.B[COD_VNFD]['prices'][i]['price']=int(PRICE)+DOWN_UP_PRICE #Change the VNF Price
+                    #    print("Add value because is in degradation status.")
+                    #    print(self.B[COD_VNFD]['prices'][i]['price'])
+                    #else:
+                    #    print("no else")
+                    #    self.B[COD_VNFD]['prices'][i]['price']=int(PRICE) #Change the VNF Price
+                    self.B[COD_VNFD]['prices'][i]['price']=int(PRICE) #Change the VNF Price
                     return i
                 else:
                     return -1
@@ -87,10 +97,10 @@ class File_VNF_Price():
             return -1
 
     #Change VNF File with new Price, change the file
-    def SearchChangeVNFDPrice(self,NAME_VNFD,VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU):
+    def SearchChangeVNFDPrice(self,NAME_VNFD,VIM_URL,PRICE_VNFD,CLOUD_STATUS_DEGRADATION):
         if debug == 1: print("In SearchChangeVNFDPrice")
-        #print(NAME_VNFD+ VIM_URL + PRICE_VNFD+CLOUD_STATUS_CPU)
-        if (self.ChangeVNFPrice(self.SearchVNFD(NAME_VNFD),VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU)) != -1: #Change price of specific VIM in specific VNFD
+        #print(NAME_VNFD+ VIM_URL + PRICE_VNFD+CLOUD_STATUS_DEGRADATION)
+        if (self.ChangeVNFPrice(self.SearchVNFD(NAME_VNFD),VIM_URL,PRICE_VNFD,CLOUD_STATUS_DEGRADATION)) != -1: #Change price of specific VIM in specific VNFD
             if debug == 1: print("In ChangeVNFPrice(SearchVNFD")
             with open(FILE_VNF_PRICE, 'w') as file:
                 documents = yaml.dump(self.B, file, sort_keys=False) #Export changes to file without order, equal original file
@@ -110,10 +120,10 @@ class File_VNF_Price():
         else:
             if debug ==1: print ("DEBUG: File not changed")
 
-    #Receive the CPU STATUS NOW and update in list cloud, the CLOUD_STATUS_CPU
+    #Receive the CPU STATUS NOW and update in list cloud, all VNF of this cloud, the CLOUD_STATUS_DEGRADATION
     def SearchDownUpVimPrice(self,STATUS_CPU_NOW,Cloud):    #VIM_URL,CLOUD_COD,STATUS_CPU_NOW):
         VIM_URL=Cloud.getVimURL() # Get vim url for use in next operations
-        CLOUD_STATUS_CPU=Cloud.getCpuStatus() #int(clouds.get(str(CLOUD_COD)).get('CPU')) #Values: 0-cpu normal, 1-cpu high and cost value changed
+        CLOUD_STATUS_DEGRADATION=Cloud.getCpuStatus() #int(clouds.get(str(CLOUD_COD)).get('CPU')) #Values: 0-cpu normal, 1-cpu high and cost value changed
         PRICE=0 #Inicialize local variable
         CHANGED_PRICE_VIM_URL=0 #count auxiliar variable for count the total changes
 
@@ -125,21 +135,21 @@ class File_VNF_Price():
                         print(PRICE)
                         if PRICE >= 0:
                             #If the cloud CPU now is high (1), but in dict is normal (0), we need change dict to(1);
-                            if STATUS_CPU_NOW == 1 and CLOUD_STATUS_CPU == 0: 
+                            if STATUS_CPU_NOW == 1 and CLOUD_STATUS_DEGRADATION == 0: 
                                 Cloud.setCpuStatus(1)
                                 self.B[i]['prices'][f]['price']=PRICE+DOWN_UP_PRICE #Change the VNF Price with the rate price
                                 CHANGED_PRICE_VIM_URL=CHANGED_PRICE_VIM_URL+1 #count auxiliar variable
                                 print (self.B[i]['prices'][f]['price'])
 
                             #If the cloud CPU now is ok (0), but in dict is high (1), we need change dict to (0)
-                            if STATUS_CPU_NOW == 0 and CLOUD_STATUS_CPU == 1 and PRICE >= DOWN_UP_PRICE: 
+                            if STATUS_CPU_NOW == 0 and CLOUD_STATUS_DEGRADATION == 1 and PRICE >= DOWN_UP_PRICE: 
                                 Cloud.setCpuStatus(0)
                                 self.B[i]['prices'][f]['price']=int(PRICE-DOWN_UP_PRICE) #Change the VNF Price with the rate price
                                 CHANGED_PRICE_VIM_URL=CHANGED_PRICE_VIM_URL+1 #count auxiliar variable
                                 print(self.B[i]['prices'][f]['price'])
 
                             #If the cloud CPU now is ok (0), but in dict is high (1), we need change dict to (0)
-                            if STATUS_CPU_NOW == 0 and CLOUD_STATUS_CPU == 1 and PRICE <= DOWN_UP_PRICE: 
+                            if STATUS_CPU_NOW == 0 and CLOUD_STATUS_DEGRADATION == 1 and PRICE <= DOWN_UP_PRICE: 
                                 Cloud.setCpuStatus(0)
                                 self.B[i]['prices'][f]['price']=0 #Change the VNF Price with the rate price
                                 CHANGED_PRICE_VIM_URL=CHANGED_PRICE_VIM_URL+1 #count auxiliar variable
@@ -321,7 +331,7 @@ def Collector_Metrics_Disaggregated_cl1(cloud1_gnocchi,cloud1_resource_id_nova,C
         GRANULARITY=60.0
         print("horarioInicio: "+str(START))
         print("hoarioFinal: "+str(STOP))
-        CPU_cloud1=cloud1_gnocchi.get_last_measure("compute.node.cpu.idle.percent",cloud1_resource_id_nova,None,GRANULARITY,START,STOP)
+        CPU_cloud1=randint(60,99)#cloud1_gnocchi.get_last_measure("compute.node.cpu.idle.percent",cloud1_resource_id_nova,None,GRANULARITY,START,STOP)
         print (CPU_cloud1)
         print("url da cloud na thread")
         print(Cloud.getVimURL())
@@ -329,6 +339,8 @@ def Collector_Metrics_Disaggregated_cl1(cloud1_gnocchi,cloud1_resource_id_nova,C
         print(CPU_cloud1)
         print("status da cpu")
         print(Cloud.getCpuStatus())
+        #comparar dado da CPU com threashold da nuvem, verificar se o tipo configurado eh cpu, e se for o caso registrar a degradacao
+        # fazer o mesmo para tirar o status de degradacao
 
         #if (int(CPU_cloud1) > THRESHOLD) and (Cloud.getCpuStatus() == 0):
         #    CPU_STATUS_NOW=1   #Values: 0-cpu normal, 1-cpu high and cost value going to change
@@ -340,9 +352,6 @@ def Collector_Metrics_Disaggregated_cl1(cloud1_gnocchi,cloud1_resource_id_nova,C
         ##### FALTA CRIAR RESOURCE NOVA NOS OPENSTACK E POPULAR, BAIXAR TEMPO DE COLETA TB, ENTENDER...
         time.sleep(5)
 
-
-def Collector_Metrics_VNF():
-    pass
 
 def InsertUser(name0, username0, password0):
     TestUsers=Users.get_or_none(Users.username==username0)
@@ -382,10 +391,17 @@ def UpdateJobVnfCloud(id_jobs_vnf_cloud0, cost_vnf):
     Jobs_Vnfs_Clouds.update(cost = cost_vnf).where(Jobs_Vnfs_Clouds.id_jobs_vnf_cloud==id_jobs_vnf_cloud0).execute()
     return "ExecutedUpdate"
 
-def SelectIdVnf_UpdateJobVnfCloud(cod):
+def SelectIdVnf_JobVnfCloud(cod):
     Jobs_Vnfs=Jobs_Vnfs_Clouds.select(Jobs_Vnfs_Clouds.id_vnf).where(Jobs_Vnfs_Clouds.id_jobs_vnf_cloud==cod)
     for row in Jobs_Vnfs:
         return str(row.id_vnf)
+    return "-1"
+
+
+def SelectIdCloud_JobVnfCloud(cod):
+    Jobs_Vnfs=Jobs_Vnfs_Clouds.select(Jobs_Vnfs_Clouds.id_cloud).where(Jobs_Vnfs_Clouds.id_jobs_vnf_cloud==cod)
+    for row in Jobs_Vnfs:
+        return str(row.id_cloud)
     return "-1"
 
 def InsertCloud(name0, ip0, external_ip0,cod_degradation_cloud_type,threshold_value):
@@ -499,6 +515,11 @@ def InsertDegradations_Clouds(id_fk_cloud, status_degradation_cloud, current_val
         creation_date = datetime.now()
     ).execute()
 
+def SelectStatusDegradationCloud(CLOUD_ID):
+    CloudDegra=Degradations_Clouds.select(Degradations_Clouds.status_degradation_cloud).where((Degradations_Clouds.id_cloud==CLOUD_ID)&(Degradations_Clouds.status_degradation_cloud==1))
+    for row in CloudDegra:
+        return str(row.status_degradation_cloud)
+    return "0"   
 
 def TestLoadBD():
     print("Iniciando carga BD.")
@@ -736,8 +757,8 @@ def main():
             cloud1_resource_id_nova=cloud1_gnocchi.get_resource_id("nova_compute")
             if cloud1_resource_id_nova != -1:
                 print("Starting Thread to monitor last cpu in Cloud 1")
-                #thread_MonitorDisaggregated1 = threading.Thread(target=Collector_Metrics_Disaggregated_cl1,args=(cloud1_gnocchi,cloud1_resource_id_nova,cloud1,VNFFile))
-                #thread_MonitorDisaggregated1.start()
+                thread_MonitorDisaggregated1 = threading.Thread(target=Collector_Metrics_Disaggregated_cl1,args=(cloud1_gnocchi,cloud1_resource_id_nova,cloud1,VNFFile))
+                thread_MonitorDisaggregated1.start()
             else:
                 print("Resource nova_compute not exist, need to create.")
             print ("resource_id+cloud1: "+str(cloud1_resource_id_nova))
@@ -745,8 +766,8 @@ def main():
             cloud2_resource_id_nova=cloud2_gnocchi.get_resource_id("nova_compute")
             if cloud2_resource_id_nova != -1:
                 print("Starting Thread to monitor last cpu in Cloud 2")
-                #thread_MonitorDisaggregated2 = threading.Thread(target=Collector_Metrics_Disaggregated_cl1,args=(cloud2_gnocchi,cloud2_resource_id,cloud2,VNFFile))
-                #thread_MonitorDisaggregated2.start() 
+                thread_MonitorDisaggregated2 = threading.Thread(target=Collector_Metrics_Disaggregated_cl1,args=(cloud2_gnocchi,cloud2_resource_id_nova,cloud2,VNFFile))
+                thread_MonitorDisaggregated2.start() 
             else:
                 print("Resource nova_compute not exist, need to create.")
             print ("resource_id_cloud2: "+str(cloud2_resource_id_nova))
@@ -905,15 +926,17 @@ def main():
             CLOUD2_COD=GetIdCloud(NAME_CLOUD2)
             COD_VNF1=GetIdVNF(VNF1_NAME)
             COD_VNF2=GetIdVNF(VNF2_NAME)
-
+            time.sleep(4) #Waiting collects
             #print("horarioInicio: "+str(START))
             #print("hoarioFinal: "+str(STOP))
             #collect data in gnocchi in each cloud
             DATA_METRIC1_CL1=cloud1_gnocchi.get_last_measure(METRIC1_NAME,cloud1_resource_id,None,GRANULARITY,START,STOP)
-            DATA_METRIC2_CL1=30   #FALTA coletar CPU
-
+            DATA_METRIC2_CL1=randint(60,99)   #FALTA coletar CPU
+            
             DATA_METRIC1_CL2=cloud2_gnocchi.get_last_measure(METRIC1_NAME,cloud2_resource_id,None,GRANULARITY,START,STOP)
-            DATA_METRIC2_CL2=70   #FALTA coletar CPU
+            DATA_METRIC2_CL2=randint(70,99)   #FALTA coletar CPU
+
+
 
             #print(str(DATA_METRIC1_CL1))
             #print(str(DATA_METRIC1_CL2))
@@ -956,6 +979,7 @@ def main():
             #" VNF1_CL2_M2: " + str(VNF1_CL2_M2))
             
             #Calc VNF1 CL1 M1
+            print("Calc VNF1 CL1 M1")
             VNF1_CL1_M1_BD=GetMetricsVnf(VNF1_CL1_M1)
             VNF1_CL1_M1_BD=VNF1_CL1_M1_BD.split(':')
             VNF1_CL1_M1_BD_VALUE=VNF1_CL1_M1_BD[0]
@@ -964,7 +988,9 @@ def main():
             print (str(VNF1_CL1_M1_BD_VALUE) + "x" +str(VNF1_CL1_M1_BD_WEIGHT) + "=" +str(VNF1_CL1_M1_CALC))
 
             #Calc VNF1 CL1 M2
+            print("Calc VNF1 CL1 M2")
             VNF1_CL1_M2_BD=GetMetricsVnf(VNF1_CL1_M2)
+            print(VNF1_CL1_M2_BD)
             VNF1_CL1_M2_BD=VNF1_CL1_M2_BD.split(':')
             VNF1_CL1_M2_BD_VALUE=VNF1_CL1_M2_BD[0]
             VNF1_CL1_M2_BD_WEIGHT=VNF1_CL1_M2_BD[1]
@@ -972,6 +998,7 @@ def main():
             print (str(VNF1_CL1_M2_BD_VALUE) + "x" +str(VNF1_CL1_M2_BD_WEIGHT) + "=" +str(VNF1_CL1_M2_CALC))
 
             #Sum for Calc VNF1 in CL1
+            print("Sum for Calc VNF1 in CL1")
             VNF1_CL1_CALC=VNF1_CL1_M1_CALC+VNF1_CL1_M2_CALC
             #print(VNF1_CL1_CALC)
             VNF1_CL1_CALC=round(VNF1_CL1_CALC) #round
@@ -1055,47 +1082,56 @@ def main():
 
             ###############################################################
 
-            #Check degradation
-            #if has degradation now in specifc cloud, plus 10 units in vnf cost 
-
             #Update Costs in BD
             UpdateJobVnfCloud(VNF1_CL1,VNF1_CL1_CALC)
             UpdateJobVnfCloud(VNF2_CL1,VNF2_CL1_CALC)
             UpdateJobVnfCloud(VNF1_CL2,VNF1_CL2_CALC)
             UpdateJobVnfCloud(VNF2_CL2,VNF2_CL2_CALC)
 
+            #Check degradation
+            #if has degradation now in specifc cloud, plus 10 units in vnf cost 
+            VNF1_CL1_STATUS_DEGRADATION=SelectStatusDegradationCloud(SelectIdCloud_JobVnfCloud(VNF1_CL1))
+            VNF2_CL1_STATUS_DEGRADATION=SelectStatusDegradationCloud(SelectIdCloud_JobVnfCloud(VNF2_CL1))
+            VNF1_CL2_STATUS_DEGRADATION=SelectStatusDegradationCloud(SelectIdCloud_JobVnfCloud(VNF1_CL2))
+            VNF2_CL2_STATUS_DEGRADATION=SelectStatusDegradationCloud(SelectIdCloud_JobVnfCloud(VNF2_CL2))
+            print("id clouds from vnf")
+            print (SelectIdCloud_JobVnfCloud(VNF1_CL1), SelectIdCloud_JobVnfCloud(VNF2_CL1), SelectIdCloud_JobVnfCloud(VNF1_CL2), SelectIdCloud_JobVnfCloud(VNF2_CL2) )
+            
+            print("vnf degradation")
+            print(VNF1_CL1_STATUS_DEGRADATION,VNF2_CL1_STATUS_DEGRADATION,VNF1_CL2_STATUS_DEGRADATION,VNF2_CL2_STATUS_DEGRADATION )
+
             #store somewhere values link for logs          
-            NAME_VNF=GetNameVNF(SelectIdVnf_UpdateJobVnfCloud(VNF1_CL1))
+            NAME_VNF=GetNameVNF(SelectIdVnf_JobVnfCloud(VNF1_CL1))
             VIM_URL=cloud1.getVimURL()
             PRICE_VNFD=str(VNF1_CL1_CALC)
-            CLOUD_STATUS_CPU="1" #1 se a cpu estiver degradada select degradacao da nuvem
+            CLOUD_STATUS_DEGRADATION=int(VNF1_CL1_STATUS_DEGRADATION) #1 se a cpu estiver degradada select degradacao da nuvem
             #print("testando SearchChangeVNFDPrice") #Este devera se executaod por thrad que ira coletar das nuvens a latencia e cpu para formar o custo da VNF
-            VNFFile.SearchChangeVNFDPrice(NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU)
-            print((NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU))
+            VNFFile.SearchChangeVNFDPrice(NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_DEGRADATION)
+            print((NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_DEGRADATION))
 
-            NAME_VNF=GetNameVNF(SelectIdVnf_UpdateJobVnfCloud(VNF2_CL1))
+            NAME_VNF=GetNameVNF(SelectIdVnf_JobVnfCloud(VNF2_CL1))
             VIM_URL=cloud1.getVimURL()
             PRICE_VNFD=str(VNF2_CL1_CALC)
-            CLOUD_STATUS_CPU="1" #1 se a cpu estiver degradada select degradacao da nuvem
+            CLOUD_STATUS_DEGRADATION=int(VNF2_CL1_STATUS_DEGRADATION) #1 se a cpu estiver degradada select degradacao da nuvem
             #print("testando SearchChangeVNFDPrice") #Este devera se executaod por thrad que ira coletar das nuvens a latencia e cpu para formar o custo da VNF
-            VNFFile.SearchChangeVNFDPrice(NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU)
-            print((NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU))
+            VNFFile.SearchChangeVNFDPrice(NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_DEGRADATION)
+            print((NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_DEGRADATION))
 
-            NAME_VNF=GetNameVNF(SelectIdVnf_UpdateJobVnfCloud(VNF1_CL2))
+            NAME_VNF=GetNameVNF(SelectIdVnf_JobVnfCloud(VNF1_CL2))
             VIM_URL=cloud2.getVimURL()
             PRICE_VNFD=str(VNF1_CL2_CALC)
-            CLOUD_STATUS_CPU="1" #1 se a cpu estiver degradada select degradacao da nuvem
+            CLOUD_STATUS_DEGRADATION=int(VNF1_CL2_STATUS_DEGRADATION) #1 se a cpu estiver degradada select degradacao da nuvem
             #print("testando SearchChangeVNFDPrice") #Este devera se executaod por thrad que ira coletar das nuvens a latencia e cpu para formar o custo da VNF
-            VNFFile.SearchChangeVNFDPrice(NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU)
-            print((NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU))
+            VNFFile.SearchChangeVNFDPrice(NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_DEGRADATION)
+            print((NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_DEGRADATION))
 
-            NAME_VNF=GetNameVNF(SelectIdVnf_UpdateJobVnfCloud(VNF2_CL2))
+            NAME_VNF=GetNameVNF(SelectIdVnf_JobVnfCloud(VNF2_CL2))
             VIM_URL=cloud2.getVimURL()
             PRICE_VNFD=str(VNF2_CL2_CALC)
-            CLOUD_STATUS_CPU="1" #1 se a cpu estiver degradada select degradacao da nuvem
+            CLOUD_STATUS_DEGRADATION=int(VNF2_CL2_STATUS_DEGRADATION) #1 se a cpu estiver degradada select degradacao da nuvem
             #print("testando SearchChangeVNFDPrice") #Este devera se executaod por thrad que ira coletar das nuvens a latencia e cpu para formar o custo da VNF
-            VNFFile.SearchChangeVNFDPrice(NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU)
-            print((NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_CPU))
+            VNFFile.SearchChangeVNFDPrice(NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_DEGRADATION)
+            print((NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_DEGRADATION))
 
             #Instanciate NS in OSM
 
@@ -1112,16 +1148,6 @@ def main():
     #Alterar para IP do servidor do PLAO
     app.run(IPServerLocal, '3332',debug=True)
  
-
-    #Thread para enviar request 
-    #thread_MonitorLatencyUser = threading.Thread(target=Request_LatencyUser_Cloud1,args=(cloud1_gnocchi,cloud1_resource_id,cloud2,VNFFile,"openstack1","openstack2"))
-    ###thread_MonitorLatencyUser.start()
-
-    #Jitter_to_cloud2=cloud1_gnocchi.get_measure("Jit_To_"+cloud2.getIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
-    #Jitter_to_cloud2 = Jitter_to_cloud2.drop("granularity",axis=1)
-    #dataset = Latencia_to_cloud2.merge(Jitter_to_cloud2, how='left',on='timestamp',suffixes=["Lat_To_"+cloud2.getIp(),"Jit_To_"+cloud2.getIp()])
-    #print(dataset)
-    #DataSet(cloud1_gnocchi)
     
 if __name__ == "__main__":
     main()
