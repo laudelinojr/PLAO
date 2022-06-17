@@ -1,5 +1,6 @@
 import requests
 from urls import *
+import time
 
 def osm_create_token(project_id='admin'):
 
@@ -22,9 +23,6 @@ def osm_create_token(project_id='admin'):
 
 
 def osm_get_vim_accounts(token):
-    print("agora vai")
-    print(type(token))
-    str(token)
     # GET /admin/v1/vims Query information about multiple VIMs
     method_osm = "/admin/v1/vims/"
     url = url_osm+method_osm
@@ -37,13 +35,53 @@ def osm_get_vim_accounts(token):
         'Accept': 'application/json',
         "Authorization": 'Bearer '+str(token)
     }
-    print("testes")
     response = requests.request("GET", url, headers=headers, data=payload,verify=False)
-    print (response.json())
     return response.json()
 
+def geturls(url):
+        
+    urls = { 'url_projects'  : '/osm/admin/v1/projects',  
+    'url_users' : '/osm/admin/v1/users',
+    'url_vim' : '/osm/admin/v1/vims' ,
+    'url_vnf' : '/osm/vnfpkgm/v1/vnf_packages',
+    'url_associate' : '/osm/admin/v1/users/admin',
+    'url_token_osm' : '/osm/admin/v1/tokens',
+    'url_ns_descriptor' : '/osm/nsd/v1/ns_descriptors_content',
+    'url_vim_accounts' : '/osm/admin/v1/vim_accounts',
+    'url_ns_instance' : '/osm/nslcm/v1/ns_instances',
+    'url_osm' : '/osm'
+    }
+    return "https://"+IP+":"+PORT+urls.get(url)
+
+def check_token_valid(token):
+    #Compara unixtimestemp e se for o caso gera outro invocando o osm_create_token
+    actual=1655499441.8314078 #time.time()
+    to_expire=1655498598.1036203 #token['expires']
+    if (to_expire < actual):
+        print(to_expire)
+        print(actual)
+        print("renovando token")
+        osm_create_token()
+
 token = osm_create_token()
-print (token)
-token = token['id']
-print (type(token))
-osm_get_vim_accounts(token)
+check_token_valid(token)
+
+print(token)
+token2 = token['id']
+token3 = token['expires']
+check_token_valid(token)
+VIM_ACCOUNTS=osm_get_vim_accounts(token)
+print(type(VIM_ACCOUNTS))
+
+print (token3)
+#print(token)
+
+print(geturls('url_projects' ))
+
+for i in (1,len(VIM_ACCOUNTS)-1):
+    #print (VIM_ACCOUNTS[i]['_id'])
+    #print (VIM_ACCOUNTS[i]['name'])
+    #print (VIM_ACCOUNTS[i]['vim_type'])
+    #print (VIM_ACCOUNTS[i]['vim_url'])
+
+    print (time.time())

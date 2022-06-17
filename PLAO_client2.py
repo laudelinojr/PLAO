@@ -27,6 +27,8 @@ import pandas as pd
 from flask import Flask, request
 import json
 
+from osm.urls import PORT
+
 STARTED = 0
 THREAD=0
 #VarCloudName='mpes_n1'  #Alterar codigo e colocar como argu
