@@ -20,6 +20,8 @@ import requests
 from database.models import *
 import time
 
+from osm.osm import osm_create_token
+
 
 #Teste para servidor requisicoes
 #from PLAO2_w_routes import app
@@ -43,6 +45,71 @@ DOWN_UP_PRICE=10 #Number to add vnf Price
 #Classe monitorar arquivo entrada_comandos_legado
 
 #classe enviar ip para controladores clientes
+
+class OSM_Auth():
+    def __init__(self, IP):
+        self.ip = IP
+        self.token = ''
+        self.name = ''
+        self.port= 9999
+
+    def geturls(self,url):   
+        urls = { 'url_projects'  : '/osm/admin/v1/projects',  
+        'url_users' : '/osm/admin/v1/users',
+        'url_vim' : '/osm/admin/v1/vims' ,
+        'url_vnf' : '/osm/vnfpkgm/v1/vnf_packages',
+        'url_associate' : '/osm/admin/v1/users/admin',
+        'url_token_osm' : '/osm/admin/v1/tokens',
+        'url_ns_descriptor' : '/osm/nsd/v1/ns_descriptors_content',
+        'url_vim_accounts' : '/osm/admin/v1/vim_accounts',
+        'url_ns_instance' : '/osm/nslcm/v1/ns_instances',
+        'url_osm' : '/osm'
+        }
+        return "https://"+str(self.ip)+":"+str(self.port)+str(urls.get(url))
+    
+    def osm_create_token(self):
+        project_id='admin'
+        headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        }
+        payload = {
+            "username": 'admin',
+            "password": 'admin',
+            "project_id": project_id
+        }
+        response = requests.request(method="POST", url=str(self.geturls('url_token_osm')), headers=headers,
+                                    json=payload, verify=False)
+        return response.json()
+
+    def osm_get_vim_accounts(self,token):
+        # GET /admin/v1/vims Query information about multiple VIMs
+        method_osm = "/admin/v1/vims/"
+        #url = url_osm+method_osm
+        #url=str(url)
+        url=self.geturls(self.ip,'url_token_osm')
+        payload = {}
+        # token = token.replace('\r','')
+
+        headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            "Authorization": 'Bearer '+str(token)
+        }
+        response = requests.request("GET", url, headers=headers, data=payload,verify=False)
+        return response.json()
+
+    def check_token_valid(self,token):
+        #Compara unixtimestemp e se for o caso gera outro invocando o osm_create_token
+        actual=time.time()
+        to_expire=token['expires']
+        if (to_expire < actual):
+            print ("Unixtimestamp atual:")
+            print(actual)
+            print("Unixtimestamp do token")
+            print (to_expire)
+            print("Renovando token...")
+            self.osm_create_token()
 
 class File_VNF_Price():
     def __init__(self):
@@ -554,8 +621,11 @@ def main():
     VNFFile = File_VNF_Price()
     PILFile = File_PIL_Price()
 
-    servers = Servers()
+    IP_OSM="10.159.205.10"
+    OSM = OSM_Auth(IP_OSM)
+    token=OSM.osm_create_token()
 
+    servers = Servers()
     print("Loading Cloud Class with Clouds")
     cloud1 = Cloud(servers.getbyIndexIP(0),servers.getbyIndexExternalIP(0))   
     cloud1.setName(servers.getServerName(cloud1.getIp()))
@@ -712,6 +782,11 @@ def main():
         #print(InsertCloud("Aracruz2","172.16.112.40","200.137.82.31",5,90 ))
         #return GetIdMetrics("Lat_to_8.8.8.8")
         return "LoadedBase"
+
+    @app.route('/getOSMlistvim/',methods=['GET'])
+    def OSMlistvim():
+        OSM.check_token_valid(token)
+        return OSM.osm_get_vim_accounts(token)
 
     @app.route('/stop/',methods=['POST'])
     def stop():
