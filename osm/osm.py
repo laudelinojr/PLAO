@@ -2,6 +2,7 @@ import requests
 from urls import *
 import time
 import json
+import pandas as pd
 
 def osm_create_token(project_id='admin'):
 
@@ -93,17 +94,22 @@ token2 = token['id']
 retorno=osm_get_ns(token2)
 
 #retorno.get('vld')
-
+print(retorno)
 for i in (retorno):
-    VNFDLIST=()
+    ID=i['id']
+    VNFDLIST=[]
+    VNFDLIST2={}
     VLD=(i['vld'])
     for i in VLD:
         VNFD=(i['vnfd-connection-point-ref'])
         for i in VNFD:
-            print (i['vnfd-id-ref'])
-            #VNFDLIST.get('vnfd-id-ref')
-            VNFDLIST.append(i['vnfd-id-ref'])
-    print(VNFDLIST)
+            NEWVNFD=i['vnfd-id-ref']
+            if (not VNFDLIST.__contains__(NEWVNFD)):
+                VNFDLIST.append(i['vnfd-id-ref'])
+
+    VNFDLIST2.update({ID:VNFDLIST})
+    df5=json.dumps(VNFDLIST2, indent=2)
+    print(df5)
 
 
 

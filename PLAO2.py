@@ -20,8 +20,6 @@ import requests
 from database.models import *
 import time
 
-from osm.osm import osm_create_token
-
 
 #Teste para servidor requisicoes
 #from PLAO2_w_routes import app
@@ -60,6 +58,7 @@ class OSM_Auth():
         'url_vnf' : '/osm/vnfpkgm/v1/vnf_packages',
         'url_associate' : '/osm/admin/v1/users/admin',
         'url_token_osm' : '/osm/admin/v1/tokens',
+        'url_ns_descriptors' : "/osm/nsd/v1/ns_descriptors/",
         'url_ns_descriptor' : '/osm/nsd/v1/ns_descriptors_content',
         'url_vim_accounts' : '/osm/admin/v1/vim_accounts',
         'url_ns_instance' : '/osm/nslcm/v1/ns_instances',
@@ -83,13 +82,23 @@ class OSM_Auth():
         return response.json()
 
     def osm_get_vim_accounts(self,token):
-        # GET /admin/v1/vims Query information about multiple VIMs
-        method_osm = "/admin/v1/vims/"
-        #url = url_osm+method_osm
-        #url=str(url)
-        url=self.geturls(self.ip,'url_token_osm')
+        url=self.geturls('url_token_osm')
+        print (url)
         payload = {}
-        # token = token.replace('\r','')
+
+        headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            "Authorization": 'Bearer '+str(token)
+        }
+        response = requests.request("GET", url, headers=headers, data=payload,verify=False)
+        return response.json()
+
+    def osm_get_nsvnf(self,token):
+
+        url=self.geturls('url_ns_descriptors')
+        url=str(url)
+        payload = {}
 
         headers = {
             'Content-Type': 'application/json',
@@ -101,8 +110,11 @@ class OSM_Auth():
 
     def check_token_valid(self,token):
         #Compara unixtimestemp e se for o caso gera outro invocando o osm_create_token
+        print ("Checking token")
         actual=time.time()
+        print(actual)
         to_expire=token['expires']
+        print(to_expire)
         if (to_expire < actual):
             print ("Unixtimestamp atual:")
             print(actual)
@@ -786,7 +798,28 @@ def main():
     @app.route('/getOSMlistvim/',methods=['GET'])
     def OSMlistvim():
         OSM.check_token_valid(token)
-        return OSM.osm_get_vim_accounts(token)
+        print(OSM.osm_get_vim_accounts(token['id']))
+        return "ok"
+    
+    @app.route('/getLISTNSVNF/',methods=['GET'])
+    def OSMlistNSVNF():
+        OSM.check_token_valid(token)
+        t2=token['id']
+        listnsvnf=OSM.osm_get_nsvnf(t2)
+        VNFDLISTSUM={}
+        for i in (listnsvnf):
+            ID=i['id']
+            VNFDLIST=[]
+            
+            VLD=(i['vld'])
+            for i in VLD:
+                VNFD=(i['vnfd-connection-point-ref'])
+                for i in VNFD:
+                    NEWVNFD=i['vnfd-id-ref']
+                    if (not VNFDLIST.__contains__(NEWVNFD)):
+                        VNFDLIST.append(i['vnfd-id-ref'])
+            VNFDLISTSUM.update({ID:VNFDLIST})
+        return (json.dumps(VNFDLISTSUM, indent=2))
 
     @app.route('/stop/',methods=['POST'])
     def stop():
