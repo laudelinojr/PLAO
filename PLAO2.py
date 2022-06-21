@@ -61,7 +61,7 @@ class OSM_Auth():
         'url_ns_descriptors' : "/osm/nsd/v1/ns_descriptors/",
         'url_ns_descriptor' : '/osm/nsd/v1/ns_descriptors_content',
         'url_vim_accounts' : '/osm/admin/v1/vim_accounts',
-        'url_ns_instance' : '/osm/nslcm/v1/ns_instances',
+        'url_ns_instance' : '/osm/nslcm/v1/ns_instances/',
         'url_osm' : '/osm'
         }
         return "https://"+str(self.ip)+":"+str(self.port)+str(urls.get(url))
@@ -81,8 +81,49 @@ class OSM_Auth():
                                     json=payload, verify=False)
         return response.json()
 
+    def osm_create_instance_ns(self, token, nsName, nsId, vimAccountId):
+        nsDescription="created by PLAO"
+        headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            "Authorization": 'Bearer ' + str(token)
+        }
+        payload = {
+            "nsdId": nsId,
+            "nsName": nsName,
+            "nsDescription": nsDescription,
+            "vimAccountId": vimAccountId
+        }
+        response = requests.request(method="POST", url=str(self.geturls('url_ns_instance')), headers=headers,
+                                    json=payload, verify=False)
+        return response.json()
+
+
+    def osm_create_instance_ns_scheduled(self, token, nsName, nsIdscheduled, vimAccountId):
+        nsDescription="created by PLAO"
+        headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            "Authorization": 'Bearer ' + str(token)
+        }
+        payload = {
+            "nsdId": nsIdscheduled,
+            "nsName": nsName,
+            "vimAccountId": vimAccountId,
+            "placement-engine": "PLAO",
+            "placement-constraints": {
+            "vld-constraints": [{"id": "ns_vl_2mlm", "link-constraints": {"latency": 2, "jitter": 20}}], "wim_account": False
+            },
+        }
+        #tratar apara ns_vl_2mlm ser resultado de uma recuperacao no nsd
+        response = requests.request(method="POST", url=str(self.geturls('url_ns_instance'))+str(nsIdscheduled)+'/instantiate/', headers=headers,
+                                    json=payload, verify=False)
+        print (response.json())
+        return response.json()
+
+
     def osm_get_vim_accounts(self,token):
-        url=self.geturls('url_token_osm')
+        url=self.geturls('url_vim_accounts')
         print (url)
         payload = {}
 
@@ -801,11 +842,31 @@ def main():
         print(OSM.osm_get_vim_accounts(token['id']))
         return "ok"
     
-    @app.route('/getLISTNSVNF/',methods=['GET'])
+    @app.route('/setns/',methods=['POST'])
+    def OSMsetns():
+        OSM.check_token_valid(token)
+        #coletarNSid
+        #coletarNSVIM_1
+        #Falta inserir constraint PLA no ns scheduled, e tb restricao de jitter e latencia
+        id_ns_scheduled=(OSM.osm_create_instance_ns((token['id']),"teste_metrado_plao","de0bf24c-a3b4-4b7f-9066-61b4cb90f883","9f104eee-5470-4e23-a8dd-3f64a53aa547"))
+        OSM.osm_create_instance_ns_scheduled((token['id']),"teste_metrado_plao",str(id_ns_scheduled['id']),"9f104eee-5470-4e23-a8dd-3f64a53aa547")
+        return "ok"
+    
+    #Return token for user
+
+    #Return resultado de check token user
+
+    #Inserir em todas as rotas um check do usuario e seu respectivo token
+
+    #documentar rota para receber parametros, roda sendjob
+
+    #implamentar rota pra informar onde foram isntanciados os NS e em quais nuvens
+
+    #Return NS and VNFS of OSM
+    @app.route('/listnsvnf/',methods=['GET'])
     def OSMlistNSVNF():
         OSM.check_token_valid(token)
-        t2=token['id']
-        listnsvnf=OSM.osm_get_nsvnf(t2)
+        listnsvnf=OSM.osm_get_nsvnf(token['id'])
         VNFDLISTSUM={}
         for i in (listnsvnf):
             ID=i['id']
