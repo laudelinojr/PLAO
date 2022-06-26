@@ -56,12 +56,13 @@ class OSM_Auth():
         'url_users' : '/osm/admin/v1/users',
         'url_vim' : '/osm/admin/v1/vims' ,
         'url_vnf' : '/osm/vnfpkgm/v1/vnf_packages',
+        'url_vnf_instances' : '/osm/nslcm/v1/vnf_instances/',
         'url_associate' : '/osm/admin/v1/users/admin',
         'url_token_osm' : '/osm/admin/v1/tokens',
         'url_ns_descriptors' : "/osm/nsd/v1/ns_descriptors/",
         'url_ns_descriptor' : '/osm/nsd/v1/ns_descriptors_content',
         'url_vim_accounts' : '/osm/admin/v1/vim_accounts',
-        'url_ns_instance' : '/osm/nslcm/v1/ns_instances/',
+        'url_ns_instances' : '/osm/nslcm/v1/ns_instances/',
         'url_osm' : '/osm'
         }
         return "https://"+str(self.ip)+":"+str(self.port)+str(urls.get(url))
@@ -81,6 +82,41 @@ class OSM_Auth():
                                     json=payload, verify=False)
         return response.json()
 
+    def osm_delete_instance_ns(self, token, nsId_instance):
+        headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            "Authorization": 'Bearer ' + str(token)
+        }
+        payload = {
+            "autoremove": True
+        }
+        response = requests.request(method="POST", url=str(self.geturls('url_ns_instances'))+str(nsId_instance)+'/terminate/', headers=headers,
+                                    json=payload, verify=False)
+        return response.json()
+
+    def osm_get_instance_vnf(self, token):
+        headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            "Authorization": 'Bearer ' + str(token)
+        }
+        print(str(self.geturls('url_vnf_instances')))
+        response = requests.request(method="GET", url=str(self.geturls('url_vnf_instances')), headers=headers,
+                                     verify=False)
+        return response.json()
+
+    def osm_get_instance_ns(self, token):
+        headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            "Authorization": 'Bearer ' + str(token)
+        }
+        print(str(self.geturls('url_ns_instances')))
+        response = requests.request(method="GET", url=str(self.geturls('url_ns_instances')), headers=headers,
+                                     verify=False)
+        return response.json()
+
     def osm_create_instance_ns(self, token, nsName, nsId, vimAccountId):
         nsDescription="created by PLAO"
         headers = {
@@ -94,29 +130,58 @@ class OSM_Auth():
             "nsDescription": nsDescription,
             "vimAccountId": vimAccountId
         }
-        response = requests.request(method="POST", url=str(self.geturls('url_ns_instance')), headers=headers,
+        response = requests.request(method="POST", url=str(self.geturls('url_ns_instances')), headers=headers,
                                     json=payload, verify=False)
         return response.json()
 
-
-    def osm_create_instance_ns_scheduled(self, token, nsName, nsIdscheduled, vimAccountId):
-        nsDescription="created by PLAO"
+    def osm_create_instance_ns_scheduled(self, token, nsName, nsIdscheduled, vimAccountId, nsdID,constraint_operacao,constraint_latency,constraint_jitter,constraint_vld_id):
         headers = {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
             "Authorization": 'Bearer ' + str(token)
         }
-        payload = {
-            "nsdId": nsIdscheduled,
-            "nsName": nsName,
-            "vimAccountId": vimAccountId,
-            "placement-engine": "PLAO",
-            "placement-constraints": {
-            "vld-constraints": [{"id": "ns_vl_2mlm", "link-constraints": {"latency": 2, "jitter": 20}}], "wim_account": False
-            },
-        }
+        #contraint_operacao=1 #operation 1: without constraints, operation2: just latency, operation3: just jiter, operation4: latency and jitter 
+        #constraint_latency=2 #need integer
+        #constraint_jitter=20 #need integer
+        #constraint_vld_id="ns_vl_2mlm" #need string
+        if constraint_operacao == 1:
+            payload = {
+                "nsName": nsName,
+                "nsdId": nsdID,
+                "vimAccountId": vimAccountId,
+                "wimAccountId": False,
+                "placement-engine": "PLA"
+                },
+        if constraint_operacao == 2:
+            payload = {
+                "nsName": nsName,
+                "nsdId": nsdID,
+                "vimAccountId": vimAccountId,
+                "wimAccountId": False,
+                "placement-engine": "PLA",
+                "placement-constraints": {"vld-constraints": [{"id": constraint_vld_id, "link-constraints": {"latency": constraint_latency}}]},
+            }
+        if constraint_operacao == 3:
+            payload = {
+                "nsName": nsName,
+                "nsdId": nsdID,
+                "vimAccountId": vimAccountId,
+                "wimAccountId": False,
+                "placement-engine": "PLA",
+                "placement-constraints": {"vld-constraints": [{"id": constraint_vld_id, "link-constraints": {"jitter": constraint_jitter}}]},
+            }
+        if constraint_operacao == 4:
+            payload = {
+                "nsName": nsName,
+                "nsdId": nsdID,
+                "vimAccountId": vimAccountId,
+                "wimAccountId": False,
+                "placement-engine": "PLA",
+                "placement-constraints": {"vld-constraints": [{"id": constraint_vld_id, "link-constraints": {"latency": constraint_latency, "jitter": constraint_jitter}}]},
+            }
+
         #tratar apara ns_vl_2mlm ser resultado de uma recuperacao no nsd
-        response = requests.request(method="POST", url=str(self.geturls('url_ns_instance'))+str(nsIdscheduled)+'/instantiate/', headers=headers,
+        response = requests.request(method="POST", url=str(self.geturls('url_ns_instances'))+str(nsIdscheduled)+'/instantiate/', headers=headers,
                                     json=payload, verify=False)
         print (response.json())
         return response.json()
@@ -124,7 +189,6 @@ class OSM_Auth():
 
     def osm_get_vim_accounts(self,token):
         url=self.geturls('url_vim_accounts')
-        print (url)
         payload = {}
 
         headers = {
@@ -148,6 +212,23 @@ class OSM_Auth():
         }
         response = requests.request("GET", url, headers=headers, data=payload,verify=False)
         return response.json()
+
+
+    def osm_get_nsd_id_byname(self,token,name0):
+        url=self.geturls('url_ns_descriptors')
+        url=str(url)
+        payload = {}
+        headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            "Authorization": 'Bearer '+str(token)
+        }
+        response = requests.request("GET", url, headers=headers, data=payload,verify=False)
+
+        for i in (response.json()):
+            if i['name'] == name0:
+                return i['_id']
+        return "-1"
 
     def check_token_valid(self,token):
         #Compara unixtimestemp e se for o caso gera outro invocando o osm_create_token
@@ -474,28 +555,28 @@ def Collector_Metrics_Disaggregated_cl1(cloud1_gnocchi,cloud1_resource_id_nova,C
 
 
 def InsertUser(name0, username0, password0):
-    TestUsers=Users.get_or_none(Users.username==username0)
+    TestUsers=Users.get_or_none(Users.username_user==username0)
     if TestUsers is None:
         return Users.insert(
-            name = name0,
-            username = username0,
-            password = password0,
-            creation_date = datetime.now()
+            name_user = name0,
+            username_user = username0,
+            password_user = password0,
+            creation_date_user = datetime.now()
         ).execute()
     else:
         -1
 
-def InsertJob(userip0, ns_name0,cod_fkuser,cod_status):
+def InsertJob(userip0, nsd_name0,cod_fkuser,cod_status):
     return Jobs.insert(
-        userip = userip0,
-        start_date = datetime.now(),
-        ns_name=ns_name0,
+        userip_job = userip0,
+        start_date_job = datetime.now(),
+        nsd_name_job=nsd_name0,
         fk_user = cod_fkuser,
         fk_status = cod_status
     ).execute()
 
 def UpdateJob(job_id, job_status):
-    Jobs.update(fk_status = job_status,finish_date = datetime.now()).where(Jobs.id_job==job_id).execute()
+    Jobs.update(fk_status = job_status,finish_date_job = datetime.now()).where(Jobs.id_job==job_id).execute()
     return "ExecutedUpdate"
 
 def InsertJobVnfCloud(cost_vnf,id_fk_job,id_fk_vnf,id_fk_cloud):
@@ -507,6 +588,37 @@ def InsertJobVnfCloud(cost_vnf,id_fk_job,id_fk_vnf,id_fk_cloud):
         creation_date = datetime.now()
     ).execute()
 
+def InsertStatusNsInstanced(name):
+    return Status_NS_Instanciateds.insert(
+        name_osm_status_ns_instanciated = name,
+        creation_date_status_ns_instanciated = datetime.now()
+    ).execute()  
+
+def InsertNsInstanciated(name0,id_osm0,id_status0,id_job0):
+    return NS_Instanciateds.insert(
+        name_ns_instanciated = name0,
+        id_osm_ns_instanciated = id_osm0,
+        fk_status = id_status0,
+        fk_job = id_job0,
+        creation_date_ns_instanciated = datetime.now()
+    ).execute()
+
+def InsertStatusVnfInstanced(name):
+    return Status_Vnf_Instanciateds.insert(
+        name_osm_status_vnf_instanciated = name,
+        creation_date_status_vnf_instanciated = datetime.now()
+    ).execute()  
+
+def InsertVnfInstanciated(id_osm0,name_osm,id_fk_cloud,id_status,id_ns_instanciated):
+    return Vnf_Instanciateds.insert(
+        id_osm_vnf_instanciated = id_osm0,
+        name_osm_vnf_instanciated = name_osm,
+        fk_cloud = id_fk_cloud,
+        fk_status = id_status,
+        fk_ns_instanciated = id_ns_instanciated,
+        creation_date_ns_instanciated = datetime.now()
+    ).execute()
+
 def UpdateJobVnfCloud(id_jobs_vnf_cloud0, cost_vnf):
     Jobs_Vnfs_Clouds.update(cost = cost_vnf).where(Jobs_Vnfs_Clouds.id_jobs_vnf_cloud==id_jobs_vnf_cloud0).execute()
     return "ExecutedUpdate"
@@ -516,7 +628,6 @@ def SelectIdVnf_JobVnfCloud(cod):
     for row in Jobs_Vnfs:
         return str(row.id_vnf)
     return "-1"
-
 
 def SelectIdCloud_JobVnfCloud(cod):
     Jobs_Vnfs=Jobs_Vnfs_Clouds.select(Jobs_Vnfs_Clouds.id_cloud).where(Jobs_Vnfs_Clouds.id_jobs_vnf_cloud==cod)
@@ -591,11 +702,11 @@ def GetNameVNF(COD):
         return str(row.name)
     return "-1"
 
-def InsertMetricsVnf(metric_data, weight0, cod_vnf, cod_metric,cod_job_vnf_cloud):
+def InsertMetricsVnf(metric_data, weight0,  cod_metric,cod_job_vnf_cloud):
     return Metrics_Vnfs.insert(
         metric_value = metric_data,
         weight = weight0,
-        fk_vnf = cod_vnf,
+        #fk_vnf = cod_vnf,
         fk_metric = cod_metric,
         fk_job_vnf_cloud = cod_job_vnf_cloud,
         creation_date = datetime.now()
@@ -616,7 +727,7 @@ def GetMetricsVnf(metric_vnf_id):
                 return str("0:"+row.weight)
 
 def InsertStatusJobs(nameStatus):
-    Status_Jobs.insert(
+    Status.insert(
         name = nameStatus,
         creation_date = datetime.now()
     ).execute()
@@ -653,6 +764,7 @@ def TestLoadBD():
     InsertVnf("VNFB")
     InsertStatusJobs("Started")
     InsertStatusJobs("Finished")
+    InsertStatusJobs("Running")
     InsertUser("Jose Carlos","jcarlos","abc")
     InsertUser("Amarildo de Jesus","ajesus","abcd")
     #UsingSystem
@@ -666,8 +778,11 @@ def TestLoadBD():
     InsertMetric("Lat_to_8.8.8.8")
     InsertMetric("Lat_to_1.1.1.1")
     InsertMetricCloud(1,1)
-    InsertMetricsVnf(20,8,1,1,JOBVNFCLOUD)
-
+    InsertMetricsVnf(20,8,1,JOBVNFCLOUD)
+    InsertStatusNsInstanced('Started')
+    InsertStatusNsInstanced('Deleted')
+    InsertStatusVnfInstanced('Started')
+    InsertStatusVnfInstanced('Deleted')
 
 def main():
     print ("Iniciando Server PLAO")
@@ -841,7 +956,70 @@ def main():
         OSM.check_token_valid(token)
         print(OSM.osm_get_vim_accounts(token['id']))
         return "ok"
-    
+
+    @app.route('/getvnf/',methods=['GET'])
+    def OSMgetvnf():
+        OSM.check_token_valid(token)
+        #coletarNSid
+        #coletarNSVIM_1
+        #Falta inserir constraint PLA no ns scheduled, e tb restricao de jitter e latencia
+        #id_ns_scheduled=(OSM.osm_create_instance_ns((token['id']),"teste_metrado_plao","de0bf24c-a3b4-4b7f-9066-61b4cb90f883","9f104eee-5470-4e23-a8dd-3f64a53aa547"))
+        #OSM.osm_create_instance_ns_scheduled((token['id']),"teste_metrado_plao",str(id_ns_scheduled['id']),"9f104eee-5470-4e23-a8dd-3f64a53aa547")
+        NS_ATRIBUTES={}
+        VNF_ATRIBUTES={}  
+        LISTA=[]      
+        teste=()
+        for i in OSM.osm_get_instance_ns(token['id']):
+            NS_ATRIBUTES.update({'_id':i['_id']})
+            NS_ATRIBUTES.update({'name':i['name']})
+
+        #print(NS_ATRIBUTES.get('_id')=="f05969ed-9eb0-492d-8c73-905fc416e6d7")
+        #print("testes")
+        #
+        # print(NS_ATRIBUTES)
+
+        for i in OSM.osm_get_instance_vnf(token['id']):
+            #for i in RETURN_VNF:
+            print(i['_id'])
+            VNF_ATRIBUTES.update({'_id':i['_id']})
+            VNF_ATRIBUTES.update({'vnfd-ref':i['vnfd-ref']})
+            VNF_ATRIBUTES.update({'nsr-id-ref':i['nsr-id-ref']})
+            VNF_ATRIBUTES.update({'nsr-name':'resolver'})
+            VNF_ATRIBUTES.update({'vim-account-id':i['vim-account-id']})
+            LISTA.append(VNF_ATRIBUTES.copy())
+
+            #if (NS_ATRIBUTES.get('_id')==i['nsr-id-ref']):
+            #    print(NS_ATRIBUTES.__getattribute__s get('_id'.
+            #    print('oiiiii')
+
+
+                #print("asfa")
+                #for j in NS_ATRIBUTES:
+                #    print ("aa")
+                #    if NS_ATRIBUTES.get("_id") == i['nsr-id-ref']:
+                #        VNF_ATRIBUTES.update({'nsr-name':NS_ATRIBUTES.get('name')})
+            #    for i in NS_ATRIBUTES:
+            #{"ns_vnfs":[
+            #{ "_id" : "12313131", "vnfd-ref": "VNFA", "nsr-name" : "teste-mestrado" , "nsr-id-ref": "asdfafafa123", "vim-account-id" : "asfaff242242" },
+            #{ "_id" : "12313131", "vnfd-ref": "VNFA", "nsr-name" : "teste-mestrado" , "nsr-id-ref": "asdfafafa123", "vim-account-id" : "asfaff242242" },
+            #]}
+
+        return (json.dumps(LISTA, indent=2))
+
+    @app.route('/getns/',methods=['GET'])
+    def OSMgetns():
+        OSM.check_token_valid(token)
+        #coletarNSid
+        #coletarNSVIM_1
+        #Falta inserir constraint PLA no ns scheduled, e tb restricao de jitter e latencia
+        #id_ns_scheduled=(OSM.osm_create_instance_ns((token['id']),"teste_metrado_plao","de0bf24c-a3b4-4b7f-9066-61b4cb90f883","9f104eee-5470-4e23-a8dd-3f64a53aa547"))
+        #OSM.osm_create_instance_ns_scheduled((token['id']),"teste_metrado_plao",str(id_ns_scheduled['id']),"9f104eee-5470-4e23-a8dd-3f64a53aa547")
+        for i in OSM.osm_get_instance_ns(token['id']):
+            print (i['_id'])
+            print (i)
+            #OSM.osm_delete_instance_ns(token['id'],i['_id'])
+        return "ok"
+
     @app.route('/setns/',methods=['POST'])
     def OSMsetns():
         OSM.check_token_valid(token)
@@ -851,7 +1029,18 @@ def main():
         id_ns_scheduled=(OSM.osm_create_instance_ns((token['id']),"teste_metrado_plao","de0bf24c-a3b4-4b7f-9066-61b4cb90f883","9f104eee-5470-4e23-a8dd-3f64a53aa547"))
         OSM.osm_create_instance_ns_scheduled((token['id']),"teste_metrado_plao",str(id_ns_scheduled['id']),"9f104eee-5470-4e23-a8dd-3f64a53aa547")
         return "ok"
-    
+
+    @app.route('/deletens/',methods=['POST'])
+    def OSMdeletens():
+        OSM.check_token_valid(token)
+        #OSM.osm_delete_instance_ns((token['id']),"c86a26f2-99af-4806-8e52-861a6098404a")
+        #OSM.osm_delete_instance_ns((token['id']),"72cb1c7f-8cea-4448-957d-90da62edbcff")
+        OSM.osm_delete_instance_ns((token['id']),"82c1b561-4a7c-46e1-9e4f-431b10789da3")
+        
+        #id_ns_scheduled=(OSM.create_instance_ns((token['id']),"teste_metrado_plao","de0bf24c-a3b4-4b7f-9066-61b4cb90f883","9f104eee-5470-4e23-a8dd-3f64a53aa547"))
+        #OSM.osm_create_instance_ns_scheduled((token['id']),"teste_metrado_plao",str(id_ns_scheduled['id']),"9f104eee-5470-4e23-a8dd-3f64a53aa547")
+        return "ok"
+
     #Return token for user
 
     #Return resultado de check token user
@@ -957,7 +1146,7 @@ def main():
  
     @app.route('/selectMetricTime/',methods=['GET'])
     def selectMetricTime():
-        if request.method == "POST":
+        if request.method == "GET":
             interval=60
             request_data = request.get_json()
             print(request_data)
@@ -1017,7 +1206,8 @@ def main():
             ret_status = 0 #status of return cloud
             request_data = request.get_json()
             IP_USER=request_data['ipuser']
-            NS_NAME="teste_metrado" #['nsname']#alterar para pegar o parametro tb
+            NSD_NAME="teste_mestrado" #['nsdname']#a interface vai enviar depois de receber lista
+            NS_NAME_INSTANCIATED="ns_name-username"  #['nsname'] #sugiro ser NS_User_namex
             COD_USER=1 #request_data['coduser'] #Criar funcao para validar usuario no futuro
             METRIC1_NAME="Lat_To_"+IP_USER #request_data['metric1name']
             METRIC2_NAME="CPU" #request_data['metric2name']
@@ -1030,9 +1220,14 @@ def main():
             WEIGHT_METRIC1_VNF2=0.9 #['weight_metric1_vnf2']
             WEIGHT_METRIC2_VNF2=0.1 #['weight_metric2_vnf2']
             COD_STATUS_JOB=1 #(1-Started,2-Finish)
+            VIMACCOUNTID="9f104eee-5470-4e23-a8dd-3f64a53aa547"#fixo por enquanto
+            CONSTRAINT_OPERACAO=4 #['constraint_operacao']
+            CONSTRAINT_LATENCY=2 #['constraint_latency']
+            CONSTRAINT_JITTER=20 #['constraint_jitter']
+            CONSTRAINT_VLD_ID="ns_vl_2mlm" #['constraint_vld_id']
             
-            JOB_COD=InsertJob(IP_USER,NS_NAME,COD_USER,COD_STATUS_JOB)
-
+            JOB_COD=InsertJob(IP_USER,NSD_NAME,COD_USER,COD_STATUS_JOB)
+            
             try:          
                 #Future: To read config file and start theese request automaticaly, for example to 1, 2, 3, 4 clouds...
                 print("Inicio Teste na nuvem 1")
@@ -1128,14 +1323,14 @@ def main():
 
             #Insert values metrics per cloud in METRICS_VNF table
             #Data of metric one and two, each weight per vnf
-            VNF1_CL1_M1=InsertMetricsVnf(DATA_METRIC1_CL1,WEIGHT_METRIC1_VNF1,COD_VNF1,COD_METRIC1,VNF1_CL1) #valor 26, peso  7, vnfa, latencia
-            VNF1_CL1_M2=InsertMetricsVnf(DATA_METRIC2_CL1,WEIGHT_METRIC2_VNF1,COD_VNF1,COD_METRIC2,VNF1_CL1) #valor 10, peso 3,  vnfa, cpu
-            VNF2_CL1_M1=InsertMetricsVnf(DATA_METRIC1_CL1,WEIGHT_METRIC1_VNF2,COD_VNF2,COD_METRIC1,VNF2_CL1) #valor 26, peso 1, vnfb, latencia
-            VNF2_CL1_M2=InsertMetricsVnf(DATA_METRIC2_CL1,WEIGHT_METRIC2_VNF2,COD_VNF2,COD_METRIC2,VNF2_CL1) #valor 10, peso 9,  vnfb, cpu
-            VNF1_CL2_M1=InsertMetricsVnf(DATA_METRIC1_CL2,WEIGHT_METRIC1_VNF1,COD_VNF1,COD_METRIC1,VNF1_CL2)
-            VNF1_CL2_M2=InsertMetricsVnf(DATA_METRIC2_CL2,WEIGHT_METRIC2_VNF1,COD_VNF1,COD_METRIC2,VNF1_CL2)
-            VNF2_CL2_M1=InsertMetricsVnf(DATA_METRIC1_CL2,WEIGHT_METRIC1_VNF2,COD_VNF2,COD_METRIC1,VNF2_CL2)
-            VNF2_CL2_M2=InsertMetricsVnf(DATA_METRIC2_CL2,WEIGHT_METRIC2_VNF2,COD_VNF2,COD_METRIC2,VNF2_CL2)
+            VNF1_CL1_M1=InsertMetricsVnf(DATA_METRIC1_CL1,WEIGHT_METRIC1_VNF1,COD_METRIC1,VNF1_CL1) #valor 26, peso  7, vnfa, latencia
+            VNF1_CL1_M2=InsertMetricsVnf(DATA_METRIC2_CL1,WEIGHT_METRIC2_VNF1,COD_METRIC2,VNF1_CL1) #valor 10, peso 3,  vnfa, cpu
+            VNF2_CL1_M1=InsertMetricsVnf(DATA_METRIC1_CL1,WEIGHT_METRIC1_VNF2,COD_METRIC1,VNF2_CL1) #valor 26, peso 1, vnfb, latencia
+            VNF2_CL1_M2=InsertMetricsVnf(DATA_METRIC2_CL1,WEIGHT_METRIC2_VNF2,COD_METRIC2,VNF2_CL1) #valor 10, peso 9,  vnfb, cpu
+            VNF1_CL2_M1=InsertMetricsVnf(DATA_METRIC1_CL2,WEIGHT_METRIC1_VNF1,COD_METRIC1,VNF1_CL2)
+            VNF1_CL2_M2=InsertMetricsVnf(DATA_METRIC2_CL2,WEIGHT_METRIC2_VNF1,COD_METRIC2,VNF1_CL2)
+            VNF2_CL2_M1=InsertMetricsVnf(DATA_METRIC1_CL2,WEIGHT_METRIC1_VNF2,COD_METRIC1,VNF2_CL2)
+            VNF2_CL2_M2=InsertMetricsVnf(DATA_METRIC2_CL2,WEIGHT_METRIC2_VNF2,COD_METRIC2,VNF2_CL2)
 
             #print ( "INSERTED RECORDS IN METRICSVNF TABLE:" +
             #" VNF1_CL1_M1: " + str(VNF1_CL1_M1) + 
@@ -1303,13 +1498,19 @@ def main():
             print((NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_DEGRADATION))
 
             #Instanciate NS in OSM
+            OSM.check_token_valid(token)
+            print(token['id'])
+            NSDID=OSM.osm_get_nsd_id_byname(token['id'],NSD_NAME)
+            
+            if (NSDID) == "-1":
+                return "NSD not exits"
+
+            id_ns_scheduled=(OSM.osm_create_instance_ns((token['id']),NS_NAME_INSTANCIATED,NSDID,VIMACCOUNTID))
+            OSM.osm_create_instance_ns_scheduled((token['id']),NS_NAME_INSTANCIATED,str(id_ns_scheduled['id']),VIMACCOUNTID,NSDID,CONSTRAINT_OPERACAO,CONSTRAINT_LATENCY,CONSTRAINT_JITTER,CONSTRAINT_VLD_ID)
 
             #Update Status Job
             UpdateJob(JOB_COD,2) #Finished the job
             return "Finished"
-
-        #Criar rota retorna lista de NS
-        #Criar rota retorna lista de VNFD
 
     #servers = Servers()
     #IPServerLocal="10.159.205.10"
