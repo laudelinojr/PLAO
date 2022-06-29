@@ -72,6 +72,7 @@ class Clouds(BaseModel):
     name = CharField(max_length=100, unique=True)
     ip = CharField(max_length=100, unique=True)
     external_ip = CharField(max_length=100, unique=True)
+    vim_id_osm = CharField(max_length=100, unique=True)
     fk_degradation_cloud_type = ForeignKeyField(Degradations_Clouds_Types, db_column='id_degradation_cloud_type') #type degradation configured
     threshold_degradation = CharField(max_length=100) #the threshold value for degradation
     creation_date = DateTimeField()
