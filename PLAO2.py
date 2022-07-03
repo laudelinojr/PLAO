@@ -22,6 +22,10 @@ import requests
 from database.models import *
 import time
 
+import logging
+logger = logging.getLogger('peewee')
+logger.addHandler(logging.StreamHandler())
+logger.setLevel(logging.DEBUG)
 
 #Teste para servidor requisicoes
 #from PLAO2_w_routes import app
@@ -237,6 +241,8 @@ class OSM_Auth():
         response = requests.request("GET", url, headers=headers, data=payload,verify=False)
 
         for i in (response.json()):
+            print(type(i['name']))
+            print(type(name0))
             if i['name'] == name0:
                 return i['_id']
         return "-1"
@@ -645,10 +651,30 @@ def SelectNsInstanciated(cod):
     .where((NS_Instanciateds.id_osm_ns_instanciated==cod)&(Vnf_Instanciateds.fk_status==Status_Vnf_Instanciateds.id_status)).dicts().get())
 
 def SelectNsjoinVNFInstanciated(cod):
-    return (NS_Instanciateds.select().join(Vnf_Instanciateds).dicts())#.where(NS_Instanciateds.id_ns_instanciated==Vnf_Instanciateds.id_ns_instanciated)
-    #print (json.dumps(teste), indent=2))
-       # return str(row.id_osm_vnf_instanciated, row.name_osm_vnf_instanciated,row.id_cloud )
-    return "-1"
+    return (Jobs.select(
+                                    Jobs.id_job,
+                                    Jobs.fk_user,
+                                    NS_Instanciateds.name_ns_instanciated,
+                                    NS_Instanciateds.id_osm_ns_instanciated,
+                                    NS_Instanciateds.creation_date_ns_instanciated,
+                                    NS_Instanciateds.fk_status,
+                                    #Status_NS_Instanciateds.name_osm_status_ns_instanciated,
+                                    Vnf_Instanciateds.id_osm_vnf_instanciated,
+                                    Vnf_Instanciateds.name_osm_vnf_instanciated,
+                                    Vnf_Instanciateds.creation_date_vnf_instanciated,
+                                    Vnf_Instanciateds.fk_status,
+                                    Vnf_Instanciateds.fk_cloud,
+                                    Clouds.name,
+                                    Clouds.id_cloud,
+                                    Clouds.external_ip
+                                    #Status_NS_Instanciateds.name_osm_status_ns_instanciated
+                                    )
+    .join(NS_Instanciateds)
+    .join(Vnf_Instanciateds)  
+    #.join(Status_Vnf_Instanciateds) 
+    #.join(Status_NS_Instanciateds)
+    .join(Clouds)                            
+    .dicts())
 
 def UpdateJobVnfCloud(id_jobs_vnf_cloud0, cost_vnf):
     Jobs_Vnfs_Clouds.update(cost = cost_vnf).where(Jobs_Vnfs_Clouds.id_jobs_vnf_cloud==id_jobs_vnf_cloud0).execute()
@@ -765,9 +791,9 @@ def GetMetricsVnf(metric_vnf_id):
                 return str("0:"+row.weight)
 
 def InsertStatusJobs(nameStatus):
-    Status.insert(
-        name = nameStatus,
-        creation_date = datetime.now()
+    Status_Jobs.insert(
+        name_status_jobs = nameStatus,
+        creation_date_status_jobs = datetime.now()
     ).execute()
 
 def InsertDegradationsCloudsTypes(name_type):
@@ -790,7 +816,7 @@ def SelectStatusDegradationCloud(CLOUD_ID):
         return str(row.status_degradation_cloud)
     return "0"   
 
-def TestLoadBD():
+def FirstLoadBD():
     print("Iniciando carga BD.")
     #PreLoadDefault
     InsertDegradationsCloudsTypes("CPU")
@@ -809,19 +835,19 @@ def TestLoadBD():
     #Insert Job with User IP, name NS, cod administrator user and cod job status
     #job_cod_uuid=uuid.uuid4()
     #print (str(job_cod_uuid))
-    InsertJob("10.0.19.148","teste_mestrado",1,1)
+    ##########InsertJob("10.0.19.148","teste_mestrado",1,1)
     #Insert Jo
-    JOBVNFCLOUD=InsertJobVnfCloud(20,1,1,1)
-    print (JOBVNFCLOUD)
-    InsertMetric("Lat_to_8.8.8.8")
-    InsertMetric("Lat_to_1.1.1.1")
+    ############JOBVNFCLOUD=InsertJobVnfCloud(20,1,1,1)
+    ###########print (JOBVNFCLOUD)
+    InsertMetric("Lat_to_8.8.8.8")  ###proximos a comentar, verificar
+    InsertMetric("Lat_to_1.1.1.1")   #proximos a comentar, verificar 
     InsertMetricCloud(1,1)
-    InsertMetricsVnf(20,8,1,JOBVNFCLOUD)
-    InsertStatusNsInstanced('Building')
-    InsertStatusNsInstanced('Ready')
-    InsertStatusNsInstanced('Deleted')
-    InsertStatusVnfInstanced('Ready')
-    InsertStatusVnfInstanced('Deleted')
+    ###########InsertMetricsVnf(20,8,1,JOBVNFCLOUD)
+    InsertStatusNsInstanced('BUILDING')
+    InsertStatusNsInstanced('READY')
+    InsertStatusNsInstanced('DELETED')
+    InsertStatusVnfInstanced('INSTANTIATED')
+    InsertStatusVnfInstanced('DELETED')
 
 def main():
     print ("Iniciando Server PLAO")
@@ -863,8 +889,17 @@ def main():
         #Insert Session in Gnocchi object   
         cloud1_gnocchi = Gnocchi(session=cloud1_sess)
         cloud1_resource_id=cloud1_gnocchi.get_resource_id("plao")
+        cloud1_resource_id_nova=cloud1_gnocchi.get_resource_id("nova_compute")
+        print(cloud1_resource_id_nova)
 
-        #######print ("resource_id: "+str(cloud1_resource_id)) 
+        #cloud1adm_auth_session = OpenStack_Auth(cloud_name2=cloud1.getName()+"-adm")
+        #print(cloud1adm_auth_session)
+        #cloud1adm_sess = cloud1adm_auth_session.get_session()
+        #print(cloud1adm_sess)
+        #cloud1adm_gnocchi = Gnocchi(session2=cloud1adm_sess)
+        #cloud1adm_resource_id_nova=cloud1adm_gnocchi.get_resource_id("nova_compute")
+        #print("compute_id_resource: " +cloud1adm_resource_id_nova)
+
     except:
         print ("Problema ao acessar Cloud 1!!!")
 
@@ -879,18 +914,13 @@ def main():
         print("Creating object and using session in Gnocchi...")
         #Insert Session in Gnocchi object   
         cloud2_gnocchi = Gnocchi(session=cloud2_sess)
-        cloud2_resource_id=cloud2_gnocchi.get_resource_id("plao")   
-        #print ("resource_id: "+cloud1_resource_id)
-
-        #Test for consult data in gnocchi
-        #teste(Gnocchi,cloud1_resource_id,cloud2.getIp(),GRANULARITY,START,STOP)
-        #
+        cloud2_resource_id=cloud2_gnocchi.get_resource_id("plao")
+        cloud2_resource_id_nova=cloud2_gnocchi.get_resource_id("nova_compute") 
 
 
         #Latencia_to_cloud2=cloud1_gnocchi.get_last_measure("Lat_To_"+cloud2.getIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
         #print (Latencia_to_cloud2)
         #Latencia_to_cloud2=cloud1_gnocchi.get_last_measure("Lat_To_"+cloud2.getIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
-
         #Latencia_to_cloud2 = Latencia_to_cloud2.drop(["granularity","timestamp"],axis=1)
         #teste_Latencia_to_cloud2=Latencia_to_cloud2.head(1)
         #teste_Latencia_to_cloud2=Latencia_to_cloud2.head(1).values
@@ -901,12 +931,7 @@ def main():
         #Latencia_to_cloud2 = Latencia_to_cloud2.drop(["granularity","timestamp"],axis=1)
         #teste_Latencia_to_cloud2=Latencia_to_cloud2.head(1)
         #teste_Latencia_to_cloud2=Latencia_to_cloud2.head(1).values
-    ##print("valorJittertoCloud2: "+str(Jitter_to_cloud2))
 
-        #print ('teste banco')
-        #teste=Users.get_or_none(Users.id_user=='6', Users.name!="")
-        #print (teste)
-        #if teste is None:
     except:
         print ("Problema ao acessar Cloud 2!!!")
 
@@ -982,12 +1007,10 @@ def main():
             else:
                 return "Started"
 
-    @app.route('/TestLoadBD/',methods=['POST'])
+    #Load BD after to create BD
+    @app.route('/firstloadbd/',methods=['POST'])
     def cargabd():
-        TestLoadBD()
-        #InsertMetricsVnf(20,8,1,1,1)
-        #print(InsertCloud("Aracruz2","172.16.112.40","200.137.82.31",5,90 ))
-        #return GetIdMetrics("Lat_to_8.8.8.8")
+        FirstLoadBD()
         return "LoadedBase"
 
     @app.route('/getOSMlistvim/',methods=['GET'])
@@ -996,61 +1019,12 @@ def main():
         print(OSM.osm_get_vim_accounts(token['id']))
         return "ok"
 
-    @app.route('/getvnf/',methods=['GET'])
-    def OSMgetvnf():
+    @app.route('/getvnf3/',methods=['GET'])
+    def OSMgetvnf3():
         OSM.check_token_valid(token)
-        id_ns_instanciated="fab9de68-37c8-4831-ae65-680909777d43"
-        #coletarNSid
-        #coletarNSVIM_1
-        #Falta inserir constraint PLA no ns scheduled, e tb restricao de jitter e latencia
-        #id_ns_scheduled=(OSM.osm_create_instance_ns((token['id']),"teste_metrado_plao","de0bf24c-a3b4-4b7f-9066-61b4cb90f883","9f104eee-5470-4e23-a8dd-3f64a53aa547"))
-        #OSM.osm_create_instance_ns_scheduled((token['id']),"teste_metrado_plao",str(id_ns_scheduled['id']),"9f104eee-5470-4e23-a8dd-3f64a53aa547")
-        NS_ATRIBUTES={}
-        VNF_ATRIBUTES={}  
-        LISTA=[]      
-        teste=()
-        for i in OSM.osm_get_instance_ns(token['id']):
-            NS_ATRIBUTES.update({'_id':i['_id']})
-            NS_ATRIBUTES.update({'name':i['name']})
-
-        #print(NS_ATRIBUTES.get('_id')=="f05969ed-9eb0-492d-8c73-905fc416e6d7")
-        #print("testes")
-        #
-        # print(NS_ATRIBUTES)
-
         for i in OSM.osm_get_instance_vnf(token['id']):
-            if i['nsr-id-ref'] == id_ns_instanciated:
-                print("id vnf")
-                print (i['_id'])
-                print("vim account id")
-                print(i['vim-account-id'])
-            #for i in RETURN_VNF:
-            #print(i)
-            #print(i['_id'])
-            VNF_ATRIBUTES.update({'_id':i['_id']})
-            VNF_ATRIBUTES.update({'vnfd-ref':i['vnfd-ref']})
-            VNF_ATRIBUTES.update({'nsr-id-ref':i['nsr-id-ref']})
-            VNF_ATRIBUTES.update({'nsr-name':'resolver'})
-            VNF_ATRIBUTES.update({'vim-account-id':i['vim-account-id']})
-            LISTA.append(VNF_ATRIBUTES.copy())
-
-            #if (NS_ATRIBUTES.get('_id')==i['nsr-id-ref']):
-            #    print(NS_ATRIBUTES.__getattribute__s get('_id'.
-            #    print('oiiiii')
-
-
-                #print("asfa")
-                #for j in NS_ATRIBUTES:
-                #    print ("aa")
-                #    if NS_ATRIBUTES.get("_id") == i['nsr-id-ref']:
-                #        VNF_ATRIBUTES.update({'nsr-name':NS_ATRIBUTES.get('name')})
-            #    for i in NS_ATRIBUTES:
-            #{"ns_vnfs":[
-            #{ "_id" : "12313131", "vnfd-ref": "VNFA", "nsr-name" : "teste-mestrado" , "nsr-id-ref": "asdfafafa123", "vim-account-id" : "asfaff242242" },
-            #{ "_id" : "12313131", "vnfd-ref": "VNFA", "nsr-name" : "teste-mestrado" , "nsr-id-ref": "asdfafafa123", "vim-account-id" : "asfaff242242" },
-            #]}
-
-        return (json.dumps(LISTA, indent=2))
+            print (i)
+        return "ok"
 
     @app.route('/getns/',methods=['GET'])
     def OSMgetns():
@@ -1065,6 +1039,28 @@ def main():
             print (i)
             #OSM.osm_delete_instance_ns(token['id'],i['_id'])
         return "ok"
+
+    #Delete rows in database
+    @app.route('/deleteallbdns/',methods=['POST'])
+    def OSMdeleteallbdns():
+        OSM.check_token_valid(token)
+        for i in OSM.osm_get_instance_ns(token['id']):
+            OSM.osm_delete_instance_ns(token['id'],i['_id'])
+            Vnf_Instanciateds.delete().execute()
+            NS_Instanciateds.delete().execute()
+            return "DeletedAll"
+        return "-1"
+
+    #Change de status to deleted, but not delete the row
+    @app.route('/deleteallns/',methods=['POST'])
+    def OSMdeleteallns():
+        OSM.check_token_valid(token)
+        for i in OSM.osm_get_instance_ns(token['id']):
+            OSM.osm_delete_instance_ns(token['id'],i['_id'])
+            Vnf_Instanciateds.update(fk_status=2).where(Vnf_Instanciateds.fk_ns_instanciated==i['_id']).execute()
+            NS_Instanciateds.update(fk_status=3).where(NS_Instanciateds.id_osm_ns_instanciated==i['_id']).execute()
+            return "DeletedAll"
+        return "-1"
 
     @app.route('/setns/',methods=['POST'])
     def OSMsetns():
@@ -1090,7 +1086,8 @@ def main():
             print (i)
         return 'ok'
 
-    @app.route('/getvnf2/',methods=['GET'])
+    #Get NS Join VNF Instanciated All
+    @app.route('/getnsjoinvnfall/',methods=['GET'])
     def OSMgetvnf2():
         OSM.check_token_valid(token)
         id_ns_scheduled="fe97314c-df28-4477-8b23-97f7778ebdc6"
@@ -1098,34 +1095,28 @@ def main():
         df = pd.DataFrame(LIST)
         if (df.__len__() == 0):
             return -1
-        df2=json.dumps(json.loads(df.to_json(orient = 'records')), indent=4)
+        df2=json.dumps(json.loads(df.to_json(orient = 'records')), indent=2)
         return df2
 
-
-
-    @app.route('/deletens/',methods=['POST'])
-    def OSMdeletens():
+    #Mark wifh flag Delete specific ns instanciated
+    @app.route('/deletensinstanciated/',methods=['POST'])
+    ########################Falta coletar informacao com id e usar no metodo
+    def OSMdeletensbyjob():
         OSM.check_token_valid(token)
-        #OSM.osm_delete_instance_ns((token['id']),"c86a26f2-99af-4806-8e52-861a6098404a")
-        #OSM.osm_delete_instance_ns((token['id']),"72cb1c7f-8cea-4448-957d-90da62edbcff")
-        OSM.osm_delete_instance_ns((token['id']),"82c1b561-4a7c-46e1-9e4f-431b10789da3")
-        
-        #id_ns_scheduled=(OSM.create_instance_ns((token['id']),"teste_metrado_plao","de0bf24c-a3b4-4b7f-9066-61b4cb90f883","9f104eee-5470-4e23-a8dd-3f64a53aa547"))
-        #OSM.osm_create_instance_ns_scheduled((token['id']),"teste_metrado_plao",str(id_ns_scheduled['id']),"9f104eee-5470-4e23-a8dd-3f64a53aa547")
+        ID_JOB=1
+        ID_NS_INSTANCIATED=NS_Instanciateds.select(NS_Instanciateds.id_osm_ns_instanciated).where(NS_Instanciateds.fk_job==ID_JOB)
+        OSM.osm_delete_instance_ns((token['id']),ID_NS_INSTANCIATED)
+        Vnf_Instanciateds.update(Vnf_Instanciatedsfk_status=2).where(Vnf_Instanciateds.fk_ns_instanciated==ID_NS_INSTANCIATED).execute()
+        NS_Instanciateds.update(fk_status=3).where(NS_Instanciateds.id_osm_ns_instanciated==ID_NS_INSTANCIATED).execute()
+        #Mark in bd deleted vnf and ns instanciateds
         return "ok"
 
     #Return token for user
-
     #Return resultado de check token user
-
     #Inserir em todas as rotas um check do usuario e seu respectivo token
 
-    #documentar rota para receber parametros, roda sendjob
-
-    #implamentar rota pra informar onde foram isntanciados os NS e em quais nuvens
-
-    #Return NS and VNFS of OSM
-    @app.route('/listnsvnf/',methods=['GET'])
+    #Return NS packages and VNFS pakages of OSM
+    @app.route('/listnsvnfpackage/',methods=['GET'])
     def OSMlistNSVNF():
         OSM.check_token_valid(token)
         listnsvnf=OSM.osm_get_nsvnf(token['id'])
@@ -1284,6 +1275,8 @@ def main():
             COD_USER=1 #request_data['coduser'] #Criar funcao para validar usuario no futuro
             METRIC1_NAME="Lat_To_"+IP_USER #request_data['metric1name']
             METRIC2_NAME="CPU" #request_data['metric2name']
+            if METRIC2_NAME=="CPU":
+                METRIC2_NAME="compute.node.cpu.percent"
             VNF1_NAME="VNFA" #request_data['vnf1name']
             VNF2_NAME="VNFB" #request_data['vnf2name']   
             NAME_CLOUD1="Serra" #request_data['cloudname1']
@@ -1354,10 +1347,11 @@ def main():
             now=datetime.now()
             intervalo=60
             delta = timedelta(seconds=intervalo)
-            time_past=now-delta
+            deltagm= timedelta(seconds=10600)
+            time_past=now-delta+deltagm
             START=time_past
-            STOP=now
-            GRANULARITY=60.0
+            STOP=now+deltagm
+            GRANULARITY=60
 
             CLOUD1_COD=GetIdCloud(NAME_CLOUD1)
             CLOUD2_COD=GetIdCloud(NAME_CLOUD2)
@@ -1367,12 +1361,18 @@ def main():
             #print("horarioInicio: "+str(START))
             #print("hoarioFinal: "+str(STOP))
             #collect data in gnocchi in each cloud
+            #DATA_METRIC1_CL1=randint(70,99)
             DATA_METRIC1_CL1=cloud1_gnocchi.get_last_measure(METRIC1_NAME,cloud1_resource_id,None,GRANULARITY,START,STOP)
-            DATA_METRIC2_CL1=randint(60,99)   #FALTA coletar CPU
-            
-            DATA_METRIC1_CL2=cloud2_gnocchi.get_last_measure(METRIC1_NAME,cloud2_resource_id,None,GRANULARITY,START,STOP)
+            ##########DATA_METRIC2_CL1=randint(60,99)   #FALTA coletar CPU
+            DATA_METRIC2_CL1=cloud1_gnocchi.get_last_measure(METRIC2_NAME,cloud1_resource_id_nova,None,1,START,STOP)
+            #print(str(METRIC2_NAME)+str(cloud1_resource_id_nova)+str(None)+str(1)+str(START)+str(STOP))
+            #DATA_METRIC2_CL1=cloud1_gnocchi.get_last_measure(METRIC2_NAME,cloud1_resource_id_nova,None,1,START,STOP)
+            #DATA_METRIC1_CL2=cloud2_gnocchi.get_last_measure(METRIC1_NAME,cloud2_resource_id,None,GRANULARITY,START,STOP)
+            DATA_METRIC1_CL2=randint(70,99)
             DATA_METRIC2_CL2=randint(70,99)   #FALTA coletar CPU
-
+            #print(str(METRIC2_NAME)+str(cloud2_resource_id_nova)+str(START)+str(STOP))
+            #DATA_METRIC2_CL2=cloud2_gnocchi.get_last_measure(METRIC2_NAME,cloud2_resource_id_nova,None,1,START,STOP)
+            return "ok"
             #print(str(DATA_METRIC1_CL1))
             #print(str(DATA_METRIC1_CL2))
 
@@ -1571,6 +1571,8 @@ def main():
             #Instanciate NS in OSM
             OSM.check_token_valid(token)
             #print(token['id'])
+            print("nsd name")
+            print(NSD_NAME)
             NSDID=OSM.osm_get_nsd_id_byname(token['id'],NSD_NAME)
             
             if (NSDID) == "-1":
@@ -1599,36 +1601,47 @@ def main():
             OSM.osm_create_instance_ns_scheduled((token['id']),NS_NAME_INSTANCIATED,str(id_ns_scheduled['id']),VIMACCOUNTID,NSDID,CONSTRAINT_OPERACAO,CONSTRAINT_LATENCY,CONSTRAINT_JITTER,CONSTRAINT_VLD_ID)
 
             #criar metodo passar o codigo osm da nuvem e retorar o codigo primary key nele na tabela Cloud
-
-            for i in OSM.osm_get_instance_vnf(token['id']):
-                print(i)
-                print("id vnf")
-                print (i['_id'])
-                print("vim account id")
-                print(i['vim-account-id'])
-                if i['nsr-id-ref'] == id_ns_scheduled['id']:
-                    InsertVnfInstanciated(i['_id'],i['vnfd-ref'],GetIdCloudbyvimidosm(i['vim-account-id']),1,id_ns_instanciated)
-                    print(i)
-                    print("id vnf")
-                    print (i['_id'])
-                    print("vim account id")
-                    print(i['vim-account-id'])
+            #out=False
+            #while out==False:
+            #    for i in OSM.osm_get_instance_vnf(token['id']):
+            #        if i['nsr-id-ref'] == id_ns_scheduled['id']:
+            #            if i['_admin']['nsState'] == 'INSTANTIATED':
+            #                #InsertVnfInstanciated(i['_id'],i['vnfd-ref'],GetIdCloudbyvimidosm(i['vim-account-id']),1,id_ns_instanciated)
+            #                print(i)
+            #                print("id vnf")
+            #                print (i['_id'])
+            #                print("vim account id")
+            #                print(i['vim-account-id'])
+            #                print(i['_admin']['nsState'])
+            #                out=True
 
             OSM.check_token_valid(token)
 
-            #while True:
-            #    test=OSM.osm_get_instance_ns_byid(token['id'],id_ns_scheduled['id'])
-            #    if test['nsState']:
-            #        if test['nsState'] == "READY": #BUILDING whilen making
-                        #update tabela vnfd
+            out=False
+            while out==False:
+                test=OSM.osm_get_instance_ns_byid(token['id'],id_ns_scheduled['id'])
+                if test['nsState']:
+                    if test['nsState'] == "READY": #BUILDING whilen making
+                        print('NS pronto, registrando VNFs')
 
-            #            UpdateNsInstanciated(id_ns_scheduled,2,JOB_COD)
-            #            break
+                        for i in OSM.osm_get_instance_vnf(token['id']):
+                            if i['nsr-id-ref'] == id_ns_scheduled['id']:
+                                if i['_admin']['nsState'] == 'INSTANTIATED':
+                                    InsertVnfInstanciated(i['_id'],i['vnfd-ref'],GetIdCloudbyvimidosm(i['vim-account-id']),1,id_ns_instanciated)
+             #                       print(i)
+             #                       print("id vnf")
+             #                       print (i['_id'])
+             #                       print("vim account id")
+             #                       print(i['vim-account-id'])
+             #                       print(i['_admin']['nsState'])
+    
+                        UpdateNsInstanciated(id_ns_scheduled,2,JOB_COD)
+                        out=True
 
             #Update Status Jobs
             UpdateJob(JOB_COD,2) #Finished the job
 
-            return "Finished"
+            return str(JOB_COD)
 
     #servers = Servers()
     #IPServerLocal="10.159.205.10"

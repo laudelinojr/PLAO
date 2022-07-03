@@ -25,14 +25,14 @@ class Users(BaseModel):
     class Meta:
         table_name = 'users'
         
-class Status(BaseModel):
-    id_status=BigIntegerField(primary_key=True, unique=True,
+class Status_Jobs(BaseModel):
+    id_status_jobs=BigIntegerField(primary_key=True, unique=True,
             constraints=[SQL('AUTO_INCREMENT')])
-    creation_date = DateTimeField()
-    name = CharField(max_length=100)
+    creation_date_status_jobs = DateTimeField()
+    name_status_jobs = CharField(max_length=100)
 
     class Meta:
-        table_name = 'status'
+        table_name = 'status_jobs'
 
 class Jobs(BaseModel):
     id_job=BigIntegerField(primary_key=True, unique=True,
@@ -42,7 +42,7 @@ class Jobs(BaseModel):
     finish_date_job = DateTimeField()
     nsd_name_job = CharField(max_length=100)
     fk_user = ForeignKeyField(Users, db_column='id_user')
-    fk_status = ForeignKeyField(Status, db_column='id_status')
+    fk_status = ForeignKeyField(Status_Jobs, db_column='id_status_jobs')
 
     class Meta:
         table_name = 'jobs'
@@ -173,7 +173,7 @@ class Vnf_Instanciateds(BaseModel):
     id_osm_vnf_instanciated = CharField(max_length=100)
     name_osm_vnf_instanciated = CharField(max_length=100)
     fk_cloud = ForeignKeyField(Clouds, db_column='id_cloud')
-    fk_status = ForeignKeyField(Status, db_column='id_status')
+    fk_status = ForeignKeyField(Status_Vnf_Instanciateds, db_column='id_status_vnf_instanciated')
     fk_ns_instanciated = ForeignKeyField(NS_Instanciateds, db_column='id_ns_instanciated')
     creation_date_vnf_instanciated = DateTimeField()
     finish_date_vnf_instanciated = DateTimeField()
@@ -181,4 +181,4 @@ class Vnf_Instanciateds(BaseModel):
     class Meta:
         table_name = 'vnf_instanciateds'
 
-db.create_tables([Users, Jobs, Vnfs, Clouds, Jobs_Vnfs_Clouds, Metrics, Metrics_Vnfs, Status, Degradations_Clouds_Types, Degradations_Clouds, Metrics_Clouds, Status_NS_Instanciateds,NS_Instanciateds, Status_Vnf_Instanciateds,Vnf_Instanciateds ])
+db.create_tables([Users, Jobs, Vnfs, Clouds, Jobs_Vnfs_Clouds, Metrics, Metrics_Vnfs, Status_Jobs, Degradations_Clouds_Types, Degradations_Clouds, Metrics_Clouds, Status_NS_Instanciateds,NS_Instanciateds, Status_Vnf_Instanciateds,Vnf_Instanciateds ])
