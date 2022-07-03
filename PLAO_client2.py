@@ -335,8 +335,7 @@ class Gnocchi():
     #add measures in metrics
     def set_add_measures_metric(self,id,value):
         #print ("id da metrica in set_add_measures_metric: "+id)
-        self.timestamp = str(datetime.now().utcnow).split('.')[0]
-        print(str(self.timestamp))
+        self.timestamp = str(datetime.now().utcnow()).split('.')[0]
         self.addmeasures=self.gnocchi_client.metric.add_measures(id, [{'timestamp': self.timestamp,'value': value}])
 
     def get_metric_cpu_utilization(self, resource_id, granularity, vcpus, start, stop):

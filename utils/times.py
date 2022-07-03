@@ -2,6 +2,9 @@ from datetime import datetime
 
 
 def UnixTimeStamp():
-    return datetime.timestamp(datetime.now())
+    print (datetime.now().utcnow())
+    #print (datetime.now().utcnow()).split('.')[0]
+    print(datetime.timestamp(datetime.now()))
+    return "ok"
 
 print (UnixTimeStamp())
