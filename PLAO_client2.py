@@ -335,7 +335,6 @@ class Gnocchi():
     #add measures in metrics
     def set_add_measures_metric(self,id,value):
         #print ("id da metrica in set_add_measures_metric: "+id)
-        print(str(self.timestamp))
         self.timestamp = str(datetime.now().utcnow).split('.')[0]
         print(str(self.timestamp))
         self.addmeasures=self.gnocchi_client.metric.add_measures(id, [{'timestamp': self.timestamp,'value': value}])
