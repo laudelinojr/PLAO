@@ -181,4 +181,34 @@ class Vnf_Instanciateds(BaseModel):
     class Meta:
         table_name = 'vnf_instanciateds'
 
-db.create_tables([Users, Jobs, Vnfs, Clouds, Jobs_Vnfs_Clouds, Metrics, Metrics_Vnfs, Status_Jobs, Degradations_Clouds_Types, Degradations_Clouds, Metrics_Clouds, Status_NS_Instanciateds,NS_Instanciateds, Status_Vnf_Instanciateds,Vnf_Instanciateds ])
+
+class Tests(BaseModel):
+    id_tests=BigIntegerField( unique=True, primary_key=True,
+            constraints=[SQL('AUTO_INCREMENT')])
+    start_date_test = DateTimeField()
+    finish_date_test = DateTimeField()
+    description = CharField(max_length=100)
+
+    class Meta:
+        table_name = 'tests'
+
+class Methods(BaseModel):
+    id_methods=BigIntegerField( unique=True, primary_key=True,
+            constraints=[SQL('AUTO_INCREMENT')])
+    name_methods = CharField(max_length=100)
+
+    class Meta:
+        table_name = 'methods'
+
+class Tests_Methods(BaseModel):
+    id_tests_methods=BigIntegerField( unique=True, primary_key=True,
+            constraints=[SQL('AUTO_INCREMENT')])
+    start_date_test_methods = DateTimeField()
+    finish_date_test_methods = DateTimeField()
+    fk_tests = ForeignKeyField(Tests, db_column='id_tests')
+    fk_methods = ForeignKeyField(Methods, db_column='id_methods')
+
+    class Meta:
+        table_name = 'tests_methods'
+
+db.create_tables([Users, Jobs, Vnfs, Clouds, Jobs_Vnfs_Clouds, Metrics, Metrics_Vnfs, Status_Jobs, Degradations_Clouds_Types, Degradations_Clouds, Metrics_Clouds, Status_NS_Instanciateds,NS_Instanciateds, Status_Vnf_Instanciateds,Vnf_Instanciateds, Tests, Methods, Tests_Methods ])
