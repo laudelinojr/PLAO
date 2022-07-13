@@ -1,5 +1,5 @@
 servers:
-  - name: openstack-controller-adm
+  - name: openstack-controller
     ip: 172.16.112.60
     external_ip: 200.137.82.21
   - name: openstack-serra-controller

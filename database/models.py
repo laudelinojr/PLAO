@@ -11,6 +11,36 @@ class BaseModel(Model):
     class Meta:
         database = db
 
+
+class Tests(BaseModel):
+    id_tests=BigIntegerField( unique=True, primary_key=True,
+            constraints=[SQL('AUTO_INCREMENT')])
+    start_date_test = DateTimeField()
+    finish_date_test = DateTimeField()
+    description = CharField(max_length=100)
+
+    class Meta:
+        table_name = 'tests'
+
+class Methods(BaseModel):
+    id_methods=BigIntegerField( unique=True, primary_key=True,
+            constraints=[SQL('AUTO_INCREMENT')])
+    name_methods = CharField(max_length=100)
+
+    class Meta:
+        table_name = 'methods'
+
+class Tests_Methods(BaseModel):
+    id_tests_methods=BigIntegerField( unique=True, primary_key=True,
+            constraints=[SQL('AUTO_INCREMENT')])
+    start_date_test_methods = DateTimeField()
+    finish_date_test_methods = DateTimeField()
+    fk_tests = ForeignKeyField(Tests, db_column='id_tests')
+    fk_methods = ForeignKeyField(Methods, db_column='id_methods')
+
+    class Meta:
+        table_name = 'tests_methods'
+
 class Users(BaseModel):
     id_user=BigIntegerField(primary_key=True, unique=True,
             constraints=[SQL('AUTO_INCREMENT')])
@@ -43,6 +73,7 @@ class Jobs(BaseModel):
     nsd_name_job = CharField(max_length=100)
     fk_user = ForeignKeyField(Users, db_column='id_user')
     fk_status = ForeignKeyField(Status_Jobs, db_column='id_status_jobs')
+    fk_tests = ForeignKeyField(Tests, db_column='id_tests')
 
     class Meta:
         table_name = 'jobs'
@@ -80,12 +111,24 @@ class Clouds(BaseModel):
     class Meta:
         table_name = 'clouds'
 
+class Degradations_Vnfs_Clouds_Types(BaseModel):
+    id_degradations_vnfs_clouds_types=BigIntegerField(primary_key=True, unique=True,
+            constraints=[SQL('AUTO_INCREMENT')])
+    creation_date_degradations_vnfs_clouds_types = DateTimeField()
+    name_degradations_vnfs_clouds_types = CharField(max_length=100)
 
+    class Meta:
+        table_name = 'degradations_vnfs_clouds_types'
+        
 class Jobs_Vnfs_Clouds(BaseModel):
     id_jobs_vnf_cloud=BigIntegerField(primary_key=True, unique=True,
             constraints=[SQL('AUTO_INCREMENT')])
     creation_date = DateTimeField()
     cost = CharField(max_length=100)
+    degradation_threshold_jobs_vnfs_clouds = CharField(max_length=100)
+    degradation_status_jobs_vnfs_clouds = CharField(max_length=100)
+    degradation_monitoring_value_now_jobs_vnfs_clouds = CharField(max_length=100)
+    fk_degradation_vnfs_clouds_types = ForeignKeyField(Degradations_Vnfs_Clouds_Types, db_column='id_degradations_vnfs_clouds_types')
     fk_job = ForeignKeyField(Jobs, db_column='id_job')
     fk_vnf = ForeignKeyField(Vnfs, db_column='id_vnf')
     fk_cloud = ForeignKeyField(Clouds, db_column='id_cloud')
@@ -181,34 +224,4 @@ class Vnf_Instanciateds(BaseModel):
     class Meta:
         table_name = 'vnf_instanciateds'
 
-
-class Tests(BaseModel):
-    id_tests=BigIntegerField( unique=True, primary_key=True,
-            constraints=[SQL('AUTO_INCREMENT')])
-    start_date_test = DateTimeField()
-    finish_date_test = DateTimeField()
-    description = CharField(max_length=100)
-
-    class Meta:
-        table_name = 'tests'
-
-class Methods(BaseModel):
-    id_methods=BigIntegerField( unique=True, primary_key=True,
-            constraints=[SQL('AUTO_INCREMENT')])
-    name_methods = CharField(max_length=100)
-
-    class Meta:
-        table_name = 'methods'
-
-class Tests_Methods(BaseModel):
-    id_tests_methods=BigIntegerField( unique=True, primary_key=True,
-            constraints=[SQL('AUTO_INCREMENT')])
-    start_date_test_methods = DateTimeField()
-    finish_date_test_methods = DateTimeField()
-    fk_tests = ForeignKeyField(Tests, db_column='id_tests')
-    fk_methods = ForeignKeyField(Methods, db_column='id_methods')
-
-    class Meta:
-        table_name = 'tests_methods'
-
-db.create_tables([Users, Jobs, Vnfs, Clouds, Jobs_Vnfs_Clouds, Metrics, Metrics_Vnfs, Status_Jobs, Degradations_Clouds_Types, Degradations_Clouds, Metrics_Clouds, Status_NS_Instanciateds,NS_Instanciateds, Status_Vnf_Instanciateds,Vnf_Instanciateds, Tests, Methods, Tests_Methods ])
+db.create_tables([Users, Jobs, Vnfs, Clouds, Jobs_Vnfs_Clouds, Metrics, Metrics_Vnfs, Status_Jobs, Degradations_Clouds_Types, Degradations_Clouds, Metrics_Clouds, Status_NS_Instanciateds,NS_Instanciateds, Status_Vnf_Instanciateds,Vnf_Instanciateds, Tests, Methods, Tests_Methods, Degradations_Vnfs_Clouds_Types ])
