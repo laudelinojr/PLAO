@@ -15,8 +15,8 @@ class BaseModel(Model):
 class Tests(BaseModel):
     id_tests=BigIntegerField( unique=True, primary_key=True,
             constraints=[SQL('AUTO_INCREMENT')])
-    start_date_test = DateTimeField()
-    finish_date_test = DateTimeField()
+    start_date_test = CharField(max_length=100)
+    finish_date_test = CharField(max_length=100)
     description = CharField(max_length=100)
 
     class Meta:
@@ -33,8 +33,8 @@ class Methods(BaseModel):
 class Tests_Methods(BaseModel):
     id_tests_methods=BigIntegerField( unique=True, primary_key=True,
             constraints=[SQL('AUTO_INCREMENT')])
-    start_date_test_methods = DateTimeField()
-    finish_date_test_methods = DateTimeField()
+    start_date_test_methods = CharField(max_length=100)
+    finish_date_test_methods = CharField(max_length=100)
     fk_tests = ForeignKeyField(Tests, db_column='id_tests')
     fk_methods = ForeignKeyField(Methods, db_column='id_methods')
 

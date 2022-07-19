@@ -8,3 +8,11 @@ def UnixTimeStamp():
     return "ok"
 
 print (UnixTimeStamp())
+
+
+teste=datetime.now().utcnow()
+print(teste)
+
+
+unix_time = datetime.timestamp(teste)
+print(unix_time)

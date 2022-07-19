@@ -593,28 +593,41 @@ def InsertMethods(name):
 def InsertTests(desc):
     return Tests.insert(
         description = desc,
-        start_date_test = datetime.now().utcnow()
+        start_date_test = datetime.timestamp(datetime.now().utcnow())
     ).execute()
+
 
 def InsertTestsMethods(cod_test,cod_method):
     return Tests_Methods.insert(
-        start_date_test_methods = datetime.now().utcnow(),
+        start_date_test_methods = datetime.timestamp(datetime.now().utcnow()),
         fk_tests = cod_test,
         fk_methods=cod_method
     ).execute()
 
-def InsertDegradationType(codtype):
+def InsertDegradationVnfType(nametype):
     return Degradations_Vnfs_Clouds_Types.insert(
         creation_date_degradations_vnfs_clouds_types=datetime.now().utcnow(),
-        name_degradations_vnfs_clouds_types = codtype
+        name_degradations_vnfs_clouds_types = nametype
     ).execute()
 
 
 def UpdateFinishTestsMethods(cod_method_test):
-    return Tests_Methods.update(finish_date_test_methods=datetime.now().utcnow()).where(Tests_Methods.fk_tests==cod_method_test).execute()
+    return Tests_Methods.update(finish_date_test_methods=datetime.timestamp(datetime.now().utcnow())).where(Tests_Methods.id_tests_methods==cod_method_test).execute()
+    #print(datetime.timestamp(datetime.now().utcnow()))
+    #time.sleep(2)
+    #return timetestmethod
 
 def UpdateFinishDateTestsbyId(id):
-    return Tests.update(finish_date_test=datetime.now().utcnow()).where(Tests.id_tests==id).execute()
+    return Tests.update(finish_date_test=datetime.timestamp(datetime.now().utcnow())).where(Tests.id_tests==id).execute()
+    #print(datetime.timestamp(datetime.now().utcnow()))
+    #time.sleep(2)
+    #return timetest
+
+#def UpdateFinishTestsMethods(cod_method_test):
+#    return Tests_Methods.update(finish_date_test_methods=datetime.now().utcnow()).where(Tests_Methods.id_tests_methods==cod_method_test).execute()
+
+#def UpdateFinishDateTestsbyId(id):
+#    return Tests.update(finish_date_test=datetime.now().utcnow()).where(Tests.id_tests==id).execute()
 
 def InsertJob(userip0, nsd_name0,cod_fkuser,cod_status, cod_test):
     return Jobs.insert(
@@ -630,7 +643,7 @@ def UpdateJob(job_id, job_status):
     Jobs.update(fk_status = job_status,finish_date_job = datetime.now().utcnow()).where(Jobs.id_job==job_id).execute()
     return "ExecutedUpdate"
 
-def InsertJobVnfCloud(cost_vnf,id_fk_job,id_fk_vnf,id_fk_cloud,vnf_threshold,vnf_threshold_type):
+def insertJobVnfCloud(cost_vnf,id_fk_job,id_fk_vnf,id_fk_cloud,vnf_threshold,vnf_threshold_type,degradation_monitoring_value):
     return Jobs_Vnfs_Clouds.insert(
         cost = cost_vnf,
         fk_job = id_fk_job,
@@ -638,6 +651,7 @@ def InsertJobVnfCloud(cost_vnf,id_fk_job,id_fk_vnf,id_fk_cloud,vnf_threshold,vnf
         fk_cloud = id_fk_cloud,
         degradation_threshold_jobs_vnfs_clouds = vnf_threshold,
         fk_degradation_vnfs_clouds_types = vnf_threshold_type,
+        degradation_monitoring_value_now_jobs_vnfs_clouds = degradation_monitoring_value,
         creation_date = datetime.now().utcnow()
     ).execute()
 
@@ -712,7 +726,7 @@ def SelectNsjoinVNFInstanciated(cod):
     .join(Clouds)                            
     .dicts())
 
-def UpdateJobVnfCloud(id_jobs_vnf_cloud0, cost_vnf):
+def updateCostJobVnfCloud(id_jobs_vnf_cloud0, cost_vnf):
     Jobs_Vnfs_Clouds.update(cost = cost_vnf).where(Jobs_Vnfs_Clouds.id_jobs_vnf_cloud==id_jobs_vnf_cloud0).execute()
     return "ExecutedUpdate"
 
@@ -727,6 +741,29 @@ def SelectIdCloud_JobVnfCloud(cod):
     for row in Jobs_Vnfs:
         return str(row.id_cloud)
     return "-1"
+
+def getVnfStatusDegradation(id_job_vnf):
+    THRESHOLD=Jobs_Vnfs_Clouds.select(Jobs_Vnfs_Clouds.degradation_threshold_jobs_vnfs_clouds).where(Jobs_Vnfs_Clouds.id_jobs_vnf_cloud==id_job_vnf)
+    THRESHOLD2=0
+    VALUE2=0
+    
+    for row in THRESHOLD:
+        THRESHOLD2=row.degradation_threshold_jobs_vnfs_clouds
+    
+    VALUE=Jobs_Vnfs_Clouds.select(Jobs_Vnfs_Clouds.degradation_monitoring_value_now_jobs_vnfs_clouds).where(Jobs_Vnfs_Clouds.id_jobs_vnf_cloud==id_job_vnf) 
+    for row2 in VALUE:
+        VALUE2=row2.degradation_monitoring_value_now_jobs_vnfs_clouds
+
+    print(" value")
+    print (VALUE2)
+    print (" mais detalhes")
+    print(THRESHOLD2)
+    if VALUE2 > THRESHOLD2:
+        print (" esta degradado ")
+        return 1
+    else:
+        print (" nao esta degradado ")
+        return 0
 
 def InsertCloud(name0, ip0, external_ip0,cod_degradation_cloud_type,threshold_value,vim_id_osm0):
     TestCloud=Clouds.get_or_none(Clouds.name==name0)
@@ -755,7 +792,7 @@ def GetIdCloudbyvimidosm(vim_id_osm0):
         return str(row.id_cloud)
     return "-1"
 
-def InsertMetric(name_metric):
+def insertMetric(name_metric):
     TestMetric=Metrics.get_or_none(Metrics.name==name_metric)
     if TestMetric is None:
         return Metrics.insert(
@@ -765,7 +802,7 @@ def InsertMetric(name_metric):
     else:
         return GetIdMetric(name_metric)
 
-def InsertMetricCloud(fk_cloud0, fk_metric0):
+def insertMetricCloud(fk_cloud0, fk_metric0):
     Metrics_Clouds.insert(
         fk_cloud = fk_cloud0,
         fk_metric = fk_metric0,
@@ -802,7 +839,7 @@ def GetNameVNF(COD):
         return str(row.name)
     return "-1"
 
-def InsertMetricsVnf(metric_data, weight0,  cod_metric,cod_job_vnf_cloud):
+def insertMetricsVnf(metric_data, weight0,  cod_metric,cod_job_vnf_cloud):
     return Metrics_Vnfs.insert(
         metric_value = metric_data,
         weight = weight0,
@@ -850,24 +887,26 @@ def SelectStatusDegradationCloud(CLOUD_ID):
     CloudDegra=Degradations_Clouds.select(Degradations_Clouds.status_degradation_cloud).where((Degradations_Clouds.id_cloud==CLOUD_ID)&(Degradations_Clouds.status_degradation_cloud==1))
     for row in CloudDegra:
         return str(row.status_degradation_cloud)
-    return "0"   
+    return "0"    
 
 def FirstLoadBD():
     print("Iniciando carga BD.")
     #PreLoadDefault
     InsertMethods("insertJob()")
     InsertMethods("userLatency()")
-    InsertMethods("get_last_measure()")
+    InsertMethods("getLastMeasureClouds()")
     InsertMethods("insertMetric()")
-    InsertMethods("InsertMetricCloud()")
-    InsertMethods("InsertJobVnfCloud()")
-    InsertMethods("InsertMetricsVnf()")
-    InsertMethods("GetMetricsVnfApplyWeight()")
-    InsertMethods("GetMetricsVnf()")
-    InsertMethods("GetStatusDegra()")
-    InsertMethods("SetProcessModel()")
-    InsertMethods("configVNFsCosts()")
-    InsertMethods("createNSInstance()")
+    InsertMethods("insertMetricCloud()")
+    InsertMethods("insertJobVnfCloud()")
+    InsertMethods("insertMetricsVnf()")
+    InsertMethods("getMetricsVnfApplyWeight()")
+    InsertMethods("updateCostJobVnfCloud()")
+    InsertMethods("getVnfStatusDegradation()")
+    #InsertMethods("SetProcessModel()")
+    InsertMethods("configVNFsCostsOSM()")
+    InsertMethods("createNSInstanceOSM()")
+    InsertDegradationVnfType("CPU")
+    InsertDegradationVnfType("Memoria")
     InsertDegradationsCloudsTypes("CPU")
     InsertDegradationsCloudsTypes("Memoria")
     InsertCloud("Serra","10.50.0.159","200.137.75.160",1,90,"9f104eee-5470-4e23-a8dd-3f64a53aa547")
@@ -888,9 +927,9 @@ def FirstLoadBD():
     #Insert Jo
     ############JOBVNFCLOUD=InsertJobVnfCloud(20,1,1,1)
     ###########print (JOBVNFCLOUD)
-    InsertMetric("Lat_to_8.8.8.8")  ###proximos a comentar, verificar
-    InsertMetric("Lat_to_1.1.1.1")   #proximos a comentar, verificar 
-    InsertMetricCloud(1,1)
+    insertMetric("Lat_to_8.8.8.8")  ###proximos a comentar, verificar
+    insertMetric("Lat_to_1.1.1.1")   #proximos a comentar, verificar 
+    insertMetricCloud(1,1)
     ###########InsertMetricsVnf(20,8,1,JOBVNFCLOUD)
     InsertStatusNsInstanced('BUILDING')
     InsertStatusNsInstanced('READY')
@@ -1343,11 +1382,13 @@ def main():
             CONSTRAINT_VLD_ID="ns_vl_2mlm" #['constraint_vld_id']
             #['threshold_metric_cloud']
             #['threshold_cloud']
-            DEGRADATION_THRESHOLD_VNF1=80
-            DEGRADATION_THRESHOLD_TYPE_VNF1=1
-            DEGRADATION_THRESHOLD_VNF2=90
-            DEGRADATION_THRESHOLD_TYPE_VNF2=2
-            
+            DEGRADATION_THRESHOLD_VNF1=80 #['degradation_threshold_vnf1']
+            DEGRADATION_THRESHOLD_TYPE_VNF1=1 #['degradation_threshold_type_vnf1']
+            DEGRADATION_THRESHOLD_VNF2=90 #['degradation_threshold_vnf2']
+            DEGRADATION_THRESHOLD_TYPE_VNF2=1 #['degradation_threshold_type_vnf2']
+            DEGRADATION_VNF1_METRIC_NAME="compute.node.cpu.percent"
+            DEGRADATION_VNF2_METRIC_NAME="compute.node.cpu.percent"
+
             METHOD_1=InsertTestsMethods(TEST_ID,1)
             JOB_COD=InsertJob(IP_USER,NSD_NAME,COD_USER,COD_STATUS_JOB,TEST_ID)
             UpdateFinishTestsMethods(METHOD_1)
@@ -1418,7 +1459,8 @@ def main():
             CLOUD2_COD=GetIdCloud(NAME_CLOUD2)
             COD_VNF1=GetIdVNF(VNF1_NAME)
             COD_VNF2=GetIdVNF(VNF2_NAME)
-            time.sleep(4) #Waiting collects
+
+            #time.sleep(4) #Waiting collects
             #print("horarioInicio: "+str(START))
             #print("hoarioFinal: "+str(STOP))
             #collect data in gnocchi in each cloud
@@ -1426,68 +1468,28 @@ def main():
             print(" id nova compute cloud1 ")
             print(str(cloud1_resource_ids_nova))
             print(" id nova compute cloud2 ")
-            print(str(cloud2_resource_ids_nova))
-            time.sleep(5)
-            
+            print(str(cloud2_resource_ids_nova))    
+
             METHOD_3=InsertTestsMethods(TEST_ID,3)
             #####Test#####Start#####get_last_measure()
-            if (METRIC1_NAME.__contains__("Lat_To_")):
-                DATA_METRIC1_CL1=cloud1_gnocchi.get_last_measure(METRIC1_NAME,cloud1_resource_id,None,GRANULARITY,START,STOP)
-            else:
-                INDEX=0
-                DATA_METRIC1_CL1=0
-                DATA_METRIC1_CL1_TOT=0
-                for i in cloud1_resource_ids_nova:
-                    DATA_METRIC1_CL1_PRE1=cloud1_gnocchi.get_last_measure(METRIC1_NAME,cloud1_resource_ids_nova[INDEX],None,GRANULARITY,START,STOP)
-                    DATA_METRIC1_CL1_TOT=DATA_METRIC1_CL1_TOT+DATA_METRIC1_CL1_PRE1
-                    INDEX=INDEX+1
-                DATA_METRIC1_CL1=DATA_METRIC1_CL1_TOT/INDEX
-
-
-            if (METRIC2_NAME.__contains__("Lat_To_")):
-                DATA_METRIC2_CL1=cloud1_gnocchi.get_last_measure(METRIC2_NAME,cloud1_resource_id,None,GRANULARITY,START,STOP)
-            else:
-                INDEX=0
-                DATA_METRIC2_CL1=0
-                DATA_METRIC2_CL1_TOT=0
-                for i in cloud1_resource_ids_nova:
-                    DATA_METRIC2_CL1_PRE1=cloud1_gnocchi.get_last_measure(METRIC2_NAME,cloud1_resource_ids_nova[INDEX],None,GRANULARITY,START,STOP)
-                    DATA_METRIC2_CL1_TOT=DATA_METRIC2_CL1_TOT+DATA_METRIC2_CL1_PRE1
-                    INDEX=INDEX+1
-                DATA_METRIC2_CL1=DATA_METRIC2_CL1_TOT/INDEX
-
-            if (METRIC1_NAME.__contains__("Lat_To_")):
-                DATA_METRIC1_CL2=cloud2_gnocchi.get_last_measure(METRIC1_NAME,cloud2_resource_id,None,GRANULARITY,START,STOP)
-            else:
-                INDEX=0
-                DATA_METRIC1_CL2=0
-                DATA_METRIC1_CL2_TOT=0
-                for i in cloud2_resource_ids_nova:
-                    DATA_METRIC1_CL2_PRE1=cloud2_gnocchi.get_last_measure(METRIC1_NAME,cloud2_resource_ids_nova[INDEX],None,GRANULARITY,START,STOP)
-                    DATA_METRIC1_CL2_TOT=DATA_METRIC1_CL2_TOT+DATA_METRIC1_CL2_PRE1
-                    INDEX=INDEX+1
-                DATA_METRIC1_CL2=DATA_METRIC1_CL2_TOT/INDEX
-
-
-            if (METRIC2_NAME.__contains__("Lat_To_")):
-                DATA_METRIC2_CL2=cloud2_gnocchi.get_last_measure(METRIC2_NAME,cloud2_resource_id,None,GRANULARITY,START,STOP)
-            else:
-                INDEX=0
-                DATA_METRIC2_CL2=0
-                DATA_METRIC2_CL2_TOT=0
-                for i in cloud2_resource_ids_nova:
-                    DATA_METRIC2_CL2_PRE1=cloud2_gnocchi.get_last_measure(METRIC2_NAME,cloud2_resource_ids_nova[INDEX],None,GRANULARITY,START,STOP)
-                    DATA_METRIC2_CL2_TOT=DATA_METRIC2_CL2_TOT+DATA_METRIC2_CL2_PRE1
-                    INDEX=INDEX+1
-                DATA_METRIC2_CL2=DATA_METRIC2_CL2_TOT/INDEX
+            DATA_METRIC1_CL1=getLastMeasureClouds(METRIC1_NAME,cloud1_gnocchi,cloud1_resource_ids_nova,cloud1_resource_id,GRANULARITY,START,STOP)
+            DATA_METRIC2_CL1=getLastMeasureClouds(METRIC2_NAME,cloud1_gnocchi,cloud1_resource_ids_nova,cloud1_resource_id,GRANULARITY,START,STOP)
+            DATA_METRIC1_CL2=getLastMeasureClouds(METRIC1_NAME,cloud2_gnocchi,cloud2_resource_ids_nova,cloud2_resource_id,GRANULARITY,START,STOP)
+            DATA_METRIC2_CL2=getLastMeasureClouds(METRIC2_NAME,cloud2_gnocchi,cloud2_resource_ids_nova,cloud2_resource_id,GRANULARITY,START,STOP)
+        
+            DATA_METRIC_DEGRADATION_VNF1_CL1=getLastMeasureClouds(DEGRADATION_VNF1_METRIC_NAME,cloud1_gnocchi,cloud1_resource_ids_nova,cloud1_resource_id,GRANULARITY,START,STOP)
+            DATA_METRIC_DEGRADATION_VNF1_CL2=getLastMeasureClouds(DEGRADATION_VNF1_METRIC_NAME,cloud2_gnocchi,cloud2_resource_ids_nova,cloud1_resource_id,GRANULARITY,START,STOP)
+            DATA_METRIC_DEGRADATION_VNF2_CL1=getLastMeasureClouds(DEGRADATION_VNF2_METRIC_NAME,cloud1_gnocchi,cloud1_resource_ids_nova,cloud1_resource_id,GRANULARITY,START,STOP)
+            DATA_METRIC_DEGRADATION_VNF2_CL2=getLastMeasureClouds(DEGRADATION_VNF2_METRIC_NAME,cloud2_gnocchi,cloud2_resource_ids_nova,cloud2_resource_id,GRANULARITY,START,STOP)
             #####Test#####Stop#####get_last_measure()
             UpdateFinishTestsMethods(METHOD_3)
+
 
             METHOD_4=InsertTestsMethods(TEST_ID,4)
             #####Test#####Start#####InsertMetric()
             #Insert metrics in METRICS plao bd
-            COD_METRIC1=InsertMetric(METRIC1_NAME) #ex latency
-            COD_METRIC2=InsertMetric(METRIC2_NAME) # ex cpu
+            COD_METRIC1=insertMetric(METRIC1_NAME) #ex latency
+            COD_METRIC2=insertMetric(METRIC2_NAME) # ex cpu
             #####Test#####Stop#####InsertMetric()
             UpdateFinishTestsMethods(METHOD_4)
 
@@ -1495,94 +1497,104 @@ def main():
             METHOD_5=InsertTestsMethods(TEST_ID,5)
             #####Test#####Start#####InsertMetricCloud()
             #Inser metric for cloud
-            InsertMetricCloud(CLOUD1_COD,COD_METRIC1)
-            InsertMetricCloud(CLOUD1_COD,COD_METRIC2)
-            InsertMetricCloud(CLOUD2_COD,COD_METRIC1)
-            InsertMetricCloud(CLOUD2_COD,COD_METRIC2)
+            insertMetricCloud(CLOUD1_COD,COD_METRIC1)
+            insertMetricCloud(CLOUD1_COD,COD_METRIC2)
+            insertMetricCloud(CLOUD2_COD,COD_METRIC1)
+            insertMetricCloud(CLOUD2_COD,COD_METRIC2)
             #####Test#####Stop#####InsertMetricCloud()
             UpdateFinishTestsMethods(METHOD_5)
+
 
             METHOD_6=InsertTestsMethods(TEST_ID,6)
             #####Test#####Start#####InsertJobVnfCloud()
             #Insert values in JOBS_VNFS_CLOUDS table, necessario math join 2 metrics and wheights
-            VNF1_CL1=InsertJobVnfCloud("",JOB_COD,COD_VNF1,CLOUD1_COD,DEGRADATION_THRESHOLD_VNF1,DEGRADATION_THRESHOLD_TYPE_VNF1)
-            VNF2_CL1=InsertJobVnfCloud("",JOB_COD,COD_VNF2,CLOUD1_COD,DEGRADATION_THRESHOLD_VNF2,DEGRADATION_THRESHOLD_TYPE_VNF2)
-            VNF1_CL2=InsertJobVnfCloud("",JOB_COD,COD_VNF1,CLOUD2_COD,DEGRADATION_THRESHOLD_VNF1,DEGRADATION_THRESHOLD_TYPE_VNF1)
-            VNF2_CL2=InsertJobVnfCloud("",JOB_COD,COD_VNF2,CLOUD2_COD,DEGRADATION_THRESHOLD_VNF2,DEGRADATION_THRESHOLD_TYPE_VNF2)
+            VNF1_CL1=insertJobVnfCloud("",JOB_COD,COD_VNF1,CLOUD1_COD,DEGRADATION_THRESHOLD_VNF1,DEGRADATION_THRESHOLD_TYPE_VNF1,DATA_METRIC_DEGRADATION_VNF1_CL1)
+            VNF2_CL1=insertJobVnfCloud("",JOB_COD,COD_VNF2,CLOUD1_COD,DEGRADATION_THRESHOLD_VNF2,DEGRADATION_THRESHOLD_TYPE_VNF2,DATA_METRIC_DEGRADATION_VNF1_CL2)
+            VNF1_CL2=insertJobVnfCloud("",JOB_COD,COD_VNF1,CLOUD2_COD,DEGRADATION_THRESHOLD_VNF1,DEGRADATION_THRESHOLD_TYPE_VNF1,DATA_METRIC_DEGRADATION_VNF2_CL1)
+            VNF2_CL2=insertJobVnfCloud("",JOB_COD,COD_VNF2,CLOUD2_COD,DEGRADATION_THRESHOLD_VNF2,DEGRADATION_THRESHOLD_TYPE_VNF2,DATA_METRIC_DEGRADATION_VNF2_CL2)
             #####Test#####Stop#####InsertJobVnfCloud()
             UpdateFinishTestsMethods(METHOD_6)
+
 
             METHOD_7=InsertTestsMethods(TEST_ID,7)
             #####Test#####Start#####InsertMetricsVnf()
             #Insert values metrics per cloud in METRICS_VNF table
             #Data of metric one and two, each weight per vnf
-            VNF1_CL1_M1=InsertMetricsVnf(DATA_METRIC1_CL1,WEIGHT_METRIC1_VNF1,COD_METRIC1,VNF1_CL1) #valor 26, peso  7, vnfa, latencia
-            VNF1_CL1_M2=InsertMetricsVnf(DATA_METRIC2_CL1,WEIGHT_METRIC2_VNF1,COD_METRIC2,VNF1_CL1) #valor 10, peso 3,  vnfa, cpu
-            VNF2_CL1_M1=InsertMetricsVnf(DATA_METRIC1_CL1,WEIGHT_METRIC1_VNF2,COD_METRIC1,VNF2_CL1) #valor 26, peso 1, vnfb, latencia
-            VNF2_CL1_M2=InsertMetricsVnf(DATA_METRIC2_CL1,WEIGHT_METRIC2_VNF2,COD_METRIC2,VNF2_CL1) #valor 10, peso 9,  vnfb, cpu
-            VNF1_CL2_M1=InsertMetricsVnf(DATA_METRIC1_CL2,WEIGHT_METRIC1_VNF1,COD_METRIC1,VNF1_CL2)
-            VNF1_CL2_M2=InsertMetricsVnf(DATA_METRIC2_CL2,WEIGHT_METRIC2_VNF1,COD_METRIC2,VNF1_CL2)
-            VNF2_CL2_M1=InsertMetricsVnf(DATA_METRIC1_CL2,WEIGHT_METRIC1_VNF2,COD_METRIC1,VNF2_CL2)
-            VNF2_CL2_M2=InsertMetricsVnf(DATA_METRIC2_CL2,WEIGHT_METRIC2_VNF2,COD_METRIC2,VNF2_CL2)
+            VNF1_CL1_M1=insertMetricsVnf(DATA_METRIC1_CL1,WEIGHT_METRIC1_VNF1,COD_METRIC1,VNF1_CL1) #valor 26, peso  7, vnfa, latencia
+            VNF1_CL1_M2=insertMetricsVnf(DATA_METRIC2_CL1,WEIGHT_METRIC2_VNF1,COD_METRIC2,VNF1_CL1) #valor 10, peso 3,  vnfa, cpu
+            VNF2_CL1_M1=insertMetricsVnf(DATA_METRIC1_CL1,WEIGHT_METRIC1_VNF2,COD_METRIC1,VNF2_CL1) #valor 26, peso 1, vnfb, latencia
+            VNF2_CL1_M2=insertMetricsVnf(DATA_METRIC2_CL1,WEIGHT_METRIC2_VNF2,COD_METRIC2,VNF2_CL1) #valor 10, peso 9,  vnfb, cpu
+            VNF1_CL2_M1=insertMetricsVnf(DATA_METRIC1_CL2,WEIGHT_METRIC1_VNF1,COD_METRIC1,VNF1_CL2)
+            VNF1_CL2_M2=insertMetricsVnf(DATA_METRIC2_CL2,WEIGHT_METRIC2_VNF1,COD_METRIC2,VNF1_CL2)
+            VNF2_CL2_M1=insertMetricsVnf(DATA_METRIC1_CL2,WEIGHT_METRIC1_VNF2,COD_METRIC1,VNF2_CL2)
+            VNF2_CL2_M2=insertMetricsVnf(DATA_METRIC2_CL2,WEIGHT_METRIC2_VNF2,COD_METRIC2,VNF2_CL2)
             #####Test#####Stop#####InsertMetricsVnf()
             UpdateFinishTestsMethods(METHOD_7)
-
-            #print ( "INSERTED RECORDS IN METRICSVNF TABLE:" +
-            #" VNF1_CL1_M1: " + str(VNF1_CL1_M1) + 
-            #" VNF1_CL1_M2: " + str(VNF1_CL1_M2) +
-            #" VNF2_CL1_M1: " + str(VNF2_CL1_M1) +
-            #" VNF2_CL1_M2: " + str(VNF2_CL1_M2) +
-            #" VNF1_CL2_M1: " + str(VNF1_CL2_M1) +
-            #" VNF1_CL2_M2: " + str(VNF1_CL2_M2) +
-            #" VNF1_CL2_M1: " + str(VNF1_CL2_M1) +
-            #" VNF1_CL2_M2: " + str(VNF1_CL2_M2))
             
+
             METHOD_8=InsertTestsMethods(TEST_ID,8)
             #####Test#####Start#####GetMetricsVnfbyWeight()
-            VNF1_CL1_M1_CALC=GetMetricsVnfApplyWeight(VNF1_CL1_M1)#Calc VNF1 CL1 M1
-            VNF1_CL1_M2_CALC=GetMetricsVnfApplyWeight(VNF1_CL1_M2)#Calc VNF1 CL1 M2
+            VNF1_CL1_M1_CALC=getMetricsVnfApplyWeight(VNF1_CL1_M1)#Calc VNF1 CL1 M1
+            VNF1_CL1_M2_CALC=getMetricsVnfApplyWeight(VNF1_CL1_M2)#Calc VNF1 CL1 M2
             VNF1_CL1_CALC=VNF1_CL1_M1_CALC+VNF1_CL1_M2_CALC#Sum for Calc VNF1 in CL1
             VNF1_CL1_CALC=round(VNF1_CL1_CALC) #round
             print ("Cost of VNF1 CL1 is "+str(VNF1_CL1_CALC))
             ############################
-            VNF2_CL1_M1_CALC=GetMetricsVnfApplyWeight(VNF2_CL1_M1)#Calc VNF2 CL1 M1
-            VNF2_CL1_M2_CALC=GetMetricsVnfApplyWeight(VNF2_CL1_M2)#Calc VNF2 CL1 M2
+            VNF2_CL1_M1_CALC=getMetricsVnfApplyWeight(VNF2_CL1_M1)#Calc VNF2 CL1 M1
+            VNF2_CL1_M2_CALC=getMetricsVnfApplyWeight(VNF2_CL1_M2)#Calc VNF2 CL1 M2
             VNF2_CL1_CALC=VNF2_CL1_M1_CALC+VNF2_CL1_M2_CALC#Sum for Calc VNF2 in CL1
             VNF2_CL1_CALC=round(VNF2_CL1_CALC) #round
             print ("Cost of VNF2 CL1 is "+str(VNF2_CL1_CALC))
             ############################
-            VNF1_CL2_M1_CALC=GetMetricsVnfApplyWeight(VNF1_CL2_M1)#Calc VNF1 CL2 M1
-            VNF1_CL2_M2_CALC=GetMetricsVnfApplyWeight(VNF1_CL2_M2)#Calc VNF1 CL2 M2
+            VNF1_CL2_M1_CALC=getMetricsVnfApplyWeight(VNF1_CL2_M1)#Calc VNF1 CL2 M1
+            VNF1_CL2_M2_CALC=getMetricsVnfApplyWeight(VNF1_CL2_M2)#Calc VNF1 CL2 M2
             VNF1_CL2_CALC=VNF1_CL2_M1_CALC+VNF1_CL2_M2_CALC #Sum for Calc VNF1 in CL2
             VNF1_CL2_CALC=round(VNF1_CL2_CALC) #round
             print ("Cost of VNF1 CL2 is "+str(VNF1_CL2_CALC))
             ############################    
-            VNF2_CL2_M1_CALC=GetMetricsVnfApplyWeight(VNF2_CL2_M1)#Calc VNF2 CL2 M1   
-            VNF2_CL2_M2_CALC=GetMetricsVnfApplyWeight(VNF2_CL2_M2)#Calc VNF2 CL2 M2
+            VNF2_CL2_M1_CALC=getMetricsVnfApplyWeight(VNF2_CL2_M1)#Calc VNF2 CL2 M1   
+            VNF2_CL2_M2_CALC=getMetricsVnfApplyWeight(VNF2_CL2_M2)#Calc VNF2 CL2 M2
             VNF2_CL2_CALC=VNF2_CL2_M1_CALC+VNF2_CL2_M2_CALC#Sum for Calc VNF2 in CL2
             VNF2_CL2_CALC=round(VNF2_CL2_CALC) #round
             print ("Cost of VNF2 CL2 is "+str(VNF2_CL2_CALC))
             ############################
             UpdateFinishTestsMethods(METHOD_8)
 
-            #Update Costs in BD
-            UpdateJobVnfCloud(VNF1_CL1,VNF1_CL1_CALC)
-            UpdateJobVnfCloud(VNF2_CL1,VNF2_CL1_CALC)
-            UpdateJobVnfCloud(VNF1_CL2,VNF1_CL2_CALC)
-            UpdateJobVnfCloud(VNF2_CL2,VNF2_CL2_CALC)
 
+            METHOD_9=InsertTestsMethods(TEST_ID,9)
+            ############################
+            #Update Costs in BD
+            updateCostJobVnfCloud(VNF1_CL1,VNF1_CL1_CALC)
+            updateCostJobVnfCloud(VNF2_CL1,VNF2_CL1_CALC)
+            updateCostJobVnfCloud(VNF1_CL2,VNF1_CL2_CALC)
+            updateCostJobVnfCloud(VNF2_CL2,VNF2_CL2_CALC)
+            ############################
+            UpdateFinishTestsMethods(METHOD_9)
+
+            METHOD_10=InsertTestsMethods(TEST_ID,10)
             #Check degradation
             #if has degradation now in specifc cloud, plus 10 units in vnf cost 
-            VNF1_CL1_STATUS_DEGRADATION=SelectStatusDegradationCloud(SelectIdCloud_JobVnfCloud(VNF1_CL1))
-            VNF2_CL1_STATUS_DEGRADATION=SelectStatusDegradationCloud(SelectIdCloud_JobVnfCloud(VNF2_CL1))
-            VNF1_CL2_STATUS_DEGRADATION=SelectStatusDegradationCloud(SelectIdCloud_JobVnfCloud(VNF1_CL2))
-            VNF2_CL2_STATUS_DEGRADATION=SelectStatusDegradationCloud(SelectIdCloud_JobVnfCloud(VNF2_CL2))
+            #VNF1_CL1_STATUS_DEGRADATION=SelectStatusDegradationCloud(SelectIdCloud_JobVnfCloud(VNF1_CL1))
+            #VNF2_CL1_STATUS_DEGRADATION=SelectStatusDegradationCloud(SelectIdCloud_JobVnfCloud(VNF2_CL1))
+            #VNF1_CL2_STATUS_DEGRADATION=SelectStatusDegradationCloud(SelectIdCloud_JobVnfCloud(VNF1_CL2))
+            #VNF2_CL2_STATUS_DEGRADATION=SelectStatusDegradationCloud(SelectIdCloud_JobVnfCloud(VNF2_CL2))
+            VNF1_CL1_STATUS_DEGRADATION=getVnfStatusDegradation(VNF1_CL1)
+            VNF2_CL1_STATUS_DEGRADATION=getVnfStatusDegradation(VNF2_CL1)
+            VNF1_CL2_STATUS_DEGRADATION=getVnfStatusDegradation(VNF1_CL2)
+            VNF2_CL2_STATUS_DEGRADATION=getVnfStatusDegradation(VNF2_CL2)
+            #print (VNF1_CL1_STATUS_DEGRADATION + VNF2_CL1_STATUS_DEGRADATION + VNF1_CL2_STATUS_DEGRADATION + VNF2_CL2_STATUS_DEGRADATION)
+            UpdateFinishTestsMethods(METHOD_10)
+
             print("id clouds from vnf")
             print (SelectIdCloud_JobVnfCloud(VNF1_CL1), SelectIdCloud_JobVnfCloud(VNF2_CL1), SelectIdCloud_JobVnfCloud(VNF1_CL2), SelectIdCloud_JobVnfCloud(VNF2_CL2) )
             
             print("vnf degradation")
-            print(VNF1_CL1_STATUS_DEGRADATION,VNF2_CL1_STATUS_DEGRADATION,VNF1_CL2_STATUS_DEGRADATION,VNF2_CL2_STATUS_DEGRADATION )
+            print(VNF1_CL1_STATUS_DEGRADATION,VNF2_CL1_STATUS_DEGRADATION,VNF1_CL2_STATUS_DEGRADATION,VNF2_CL2_STATUS_DEGRADATION +VNF1_CL2_STATUS_DEGRADATION + VNF2_CL2_STATUS_DEGRADATION)
 
+
+
+            #Refatorar para virar um metodo #####configVNFsCostsOSM()
+            METHOD_11=InsertTestsMethods(TEST_ID,11)
             #store somewhere values link for logs          
             NAME_VNF=GetNameVNF(SelectIdVnf_JobVnfCloud(VNF1_CL1))
             VIM_URL=cloud1.getVimURL()
@@ -1615,7 +1627,10 @@ def main():
             #print("testando SearchChangeVNFDPrice") #Este devera se executaod por thrad que ira coletar das nuvens a latencia e cpu para formar o custo da VNF
             VNFFile.SearchChangeVNFDPrice(NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_DEGRADATION)
             print((NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_DEGRADATION))
+            UpdateFinishTestsMethods(METHOD_11)
 
+
+            METHOD_12=InsertTestsMethods(TEST_ID,12)
             #Instanciate NS in OSM
             OSM.check_token_valid(token)
             #print(token['id'])
@@ -1663,7 +1678,6 @@ def main():
             #                print(i['_admin']['nsState'])
             #                out=True
 
-            return "sair"
             out=False
             timeout=0
             while out==False:
@@ -1692,12 +1706,14 @@ def main():
             if (timeout != 1200) :
                 #Update Status Jobs
                 UpdateJob(JOB_COD,2) #Finished the job
+                UpdateFinishTestsMethods(METHOD_12)
+                UpdateFinishDateTestsbyId(TEST_ID)
                 return str(JOB_COD)
             else:
                 print("Problem Instanciation")
+                UpdateFinishTestsMethods(METHOD_12)
+                UpdateFinishDateTestsbyId(TEST_ID)
                 return "-1"
-
-
 
     #servers = Servers()
     #IPServerLocal="10.159.205.10"
@@ -1705,7 +1721,7 @@ def main():
     #Alterar para IP do servidor do PLAO
     app.run(IPServerLocal, '3332',debug=True)
 
-def GetMetricsVnfApplyWeight(VNF_CL_M):
+def getMetricsVnfApplyWeight(VNF_CL_M):
     #Calc VNF CL M
     print("- - - -")
     VNF_CL_M_BD=GetMetricsVnf(VNF_CL_M)
@@ -1718,9 +1734,10 @@ def GetMetricsVnfApplyWeight(VNF_CL_M):
     return VNF_CL_M_CALC
 
 
-def getMetricCPUorOther(METRIC2_NAME,cloud1_gnocchi,cloud1_resource_ids_nova,cloud1_resource_id,GRANULARITY,START,STOP):
+def getLastMeasureClouds(METRIC2_NAME,cloud1_gnocchi,cloud1_resource_ids_nova,cloud1_resource_id,GRANULARITY,START,STOP):
     if (METRIC2_NAME.__contains__("Lat_To_")):
         DATA_METRIC2_CL2=cloud1_gnocchi.get_last_measure(METRIC2_NAME,cloud1_resource_id,None,GRANULARITY,START,STOP)
+        return DATA_METRIC2_CL2
     else:
         INDEX=0
         DATA_METRIC2_CL2=0
