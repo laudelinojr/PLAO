@@ -9,7 +9,7 @@ from uuid import NAMESPACE_X500, uuid4
 import uuid
 from wsgiref.validate import validator
 from attr import has
-import bson
+#import bson
 from certifi import where
 from psutil import users
 import yaml
