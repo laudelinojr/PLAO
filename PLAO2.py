@@ -984,7 +984,7 @@ def main():
     VNFFile = File_VNF_Price()
     PILFile = File_PIL_Price()
 
-    IP_OSM="10.159.205.10"
+    IP_OSM="127.0.0.1"
     OSM = OSM_Auth(IP_OSM)
     token=OSM.osm_create_token()
 
