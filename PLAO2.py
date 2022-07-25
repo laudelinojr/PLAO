@@ -1,5 +1,6 @@
 from ast import Try
 from cgi import test
+import csv
 from distutils.util import execute
 from http.client import HTTPConnection
 from multiprocessing.connection import Connection
@@ -22,12 +23,13 @@ from flask import Flask, request
 import requests
 from database.models import *
 import time
+import openpyxl
 
 #Block to active log
-#import logging
-#logger = logging.getLogger('peewee')
-#logger.addHandler(logging.StreamHandler())
-#logger.setLevel(logging.DEBUG)
+import logging
+logger = logging.getLogger('peewee')
+logger.addHandler(logging.StreamHandler())
+logger.setLevel(logging.DEBUG)
 
 #Teste para servidor requisicoes
 #from PLAO2_w_routes import app
@@ -700,6 +702,46 @@ def SelectNsInstanciated(cod):
     .join(Status_NS_Instanciateds)
     .where((NS_Instanciateds.id_osm_ns_instanciated==cod)&(Vnf_Instanciateds.fk_status==Status_Vnf_Instanciateds.id_status)).dicts().get())
 
+def SelectTests():
+    result = (Tests.select(
+        Tests.id_tests,
+        Tests.start_date_test,
+        Tests.finish_date_test,
+        Tests.description,
+        Tests_Methods.id_tests_methods,
+        Tests_Methods.start_date_test_methods,
+        Tests_Methods.finish_date_test_methods,
+        Tests_Methods.fk_tests,
+        Tests_Methods.fk_methods,
+        Methods.id_methods,
+        Methods.name_methods,
+        fn.AVG(Tests.finish_date_test-Tests.start_date_test).alias('diftimeTest'),
+        fn.AVG(Tests_Methods.finish_date_test_methods-Tests_Methods.start_date_test_methods).alias('diftimeMethod')
+    )
+    .join(Tests_Methods)
+    .join(Methods)
+    .group_by(Tests.id_tests,Methods.id_methods)
+    .dicts())
+    print(result)
+    df = pd.DataFrame(result)
+    #df['start_date_test']=df['start_date_test'].astype(float)
+    #df['finish_date_test']=df['finish_date_test'].astype(float)
+    #df['diftimeTest']=df['finish_date_test']-df['start_date_test']
+
+    #df['start_date_test_methods']=df['start_date_test_methods'].astype(float)
+    #df['finish_date_test_methods']=df['finish_date_test_methods'].astype(float)
+    #df['diftimeMethod']=df['finish_date_test_methods']-df['start_date_test_methods']
+
+    #print(df.groupby('name_methods').mean())
+    #df2=df.groupby(['id_methods']).mean()
+
+    #print(df['start_date_test'].sum())
+    print(df)
+    #print(df2)
+    #df.to_excel("teste.xlsx", index=False)
+    #df2.to_excel("teste2.xlsx", index=False)
+    return 1
+
 def SelectNsjoinVNFInstanciated(cod):
     return (Jobs.select(
                                     Jobs.id_job,
@@ -1099,6 +1141,12 @@ def main():
     def cargabd():
         FirstLoadBD()
         return "LoadedBase"
+
+    #Load BD after to create BD
+    @app.route('/selecttestes/',methods=['GET'])
+    def selecttests():
+        SelectTests()
+        return "SelectTests"
 
     @app.route('/getOSMlistvim/',methods=['GET'])
     def OSMlistvim():
