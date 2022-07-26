@@ -4,7 +4,7 @@ from peewee import *
 from database.connection_db import *
 
 db = create_connection_db('plao',
-                          'plao', 'adm81@349!', '127.0.0.1', 3306)
+                          'root', 'root', '127.0.0.1', 3306)
 
 class BaseModel(Model):
     class Meta:

@@ -715,12 +715,12 @@ def SelectTests():
         Tests_Methods.fk_methods,
         Methods.id_methods,
         Methods.name_methods,
-        fn.AVG(Tests.finish_date_test-Tests.start_date_test).alias('diftimeTest'),
-        fn.AVG(Tests_Methods.finish_date_test_methods-Tests_Methods.start_date_test_methods).alias('diftimeMethod')
+        #fn.AVG(Tests.finish_date_test-Tests.start_date_test).alias('diftimeTest'),
+        #fn.AVG(Tests_Methods.finish_date_test_methods-Tests_Methods.start_date_test_methods).alias('diftimeMethod')
     )
     .join(Tests_Methods)
     .join(Methods)
-    .group_by(Tests.id_tests,Methods.id_methods)
+    #.group_by(Tests.id_tests,Methods.id_methods)
     .dicts())
     print(result)
     df = pd.DataFrame(result)
@@ -738,8 +738,8 @@ def SelectTests():
     #print(df['start_date_test'].sum())
     print(df)
     #print(df2)
-    #df.to_excel("teste.xlsx", index=False)
-    #df2.to_excel("teste2.xlsx", index=False)
+    df.to_excel("coleta2/teste.xlsx", index=False)
+    #df2.to_excel("coleta2\teste2.xlsx", index=False)
     return 1
 
 def SelectNsjoinVNFInstanciated(cod):
@@ -984,7 +984,7 @@ def main():
     VNFFile = File_VNF_Price()
     PILFile = File_PIL_Price()
 
-    IP_OSM="127.0.0.1"
+    IP_OSM="10.159.205.10"
     OSM = OSM_Auth(IP_OSM)
     token=OSM.osm_create_token()
 
