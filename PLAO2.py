@@ -328,7 +328,7 @@ class File_VNF_Price():
                 documents = yaml.dump(self.B, file, sort_keys=False) #Export changes to file without order, equal original file
             if debug == 1: print("going to copy to SearchChangeVNFDPrice ")
             print("lembrar descomentar linha para docker fazer copia vnf")
-            #####ExecuteCommand('docker cp '+FILE_VNF_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')  
+            ExecuteCommand('docker cp '+FILE_VNF_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')  
 
             try:
                 nomearquivo4=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
@@ -389,7 +389,7 @@ class File_VNF_Price():
             with open(nomearquivo5, 'a') as arquivo:
                 arquivo.write(DATEHOURS() + ','+ Cloud.getName() + ","+ Cloud.getIP() +","+ str(STATUS_CPU_NOW)+'\n')
             print("lembrar de descomentar")
-            #ExecuteCommand('docker cp '+FILE_VNF_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
+            ExecuteCommand('docker cp '+FILE_VNF_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
             try:
                 nomearquivo6=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
                 with open(nomearquivo6, 'a') as arquivo:
@@ -422,7 +422,7 @@ class File_PIL_Price():
                     documents = yaml.dump(self.B, file, sort_keys=False) #Export changes to file without order, equal original file
 
                 print("lembrar descomentar linha para docker fazer copia pil")
-                ############ExecuteCommand('docker cp '+FILE_PIL_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
+                ExecuteCommand('docker cp '+FILE_PIL_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
                 try:
                     nomearquivo8=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
                     with open(nomearquivo8, 'a') as arquivo:
