@@ -16,10 +16,10 @@
   prices:
   - vim_url: http://200.137.82.21:5000/v3
     vim_name: openstackAracruz
-    price: 6
+    price: 0
   - vim_url: https://200.137.75.159:5000/v3
     vim_name: openstackSerra
-    price: 2
+    price: 4
   - vim_url: http://10.159.205.6:5000/v3
     vim_name: openstack1
     price: 10
@@ -30,7 +30,7 @@
   prices:
   - vim_url: http://200.137.82.21:5000/v3
     vim_name: openstackAracruz
-    price: 1
+    price: 0
   - vim_url: https://200.137.75.159:5000/v3
     vim_name: openstackSerra
     price: 0

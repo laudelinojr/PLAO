@@ -4,7 +4,7 @@ from peewee import *
 from database.connection_db import *
 
 db = create_connection_db('plao',
-                          'root', 'root', '127.0.0.1', 3306)
+                          'plao', 'adm81@349!', '127.0.0.1', 3306)
 
 class BaseModel(Model):
     class Meta:
@@ -39,6 +39,24 @@ class Tests_Methods(BaseModel):
 
     class Meta:
         table_name = 'tests_methods'
+
+class Actions_Tests_Types(BaseModel):
+    id_actions_tests_types=BigIntegerField( unique=True, primary_key=True,
+            constraints=[SQL('AUTO_INCREMENT')])
+    name_action_test_type = CharField(max_length=200)
+
+    class Meta:
+        table_name = 'actions_tests_types'
+
+class Actions_Tests(BaseModel):
+    id_actions_tests=BigIntegerField( unique=True, primary_key=True,
+            constraints=[SQL('AUTO_INCREMENT')])
+    date_actions_tests = CharField(max_length=100)
+    fk_tests = ForeignKeyField(Tests, db_column='id_tests')
+    fk_actions_tests_types = ForeignKeyField(Actions_Tests_Types, db_column='id_actions_tests_types')
+
+    class Meta:
+        table_name = 'actions_tests'
 
 class Users(BaseModel):
     id_user=BigIntegerField(primary_key=True, unique=True,
@@ -223,4 +241,4 @@ class Vnf_Instanciateds(BaseModel):
     class Meta:
         table_name = 'vnf_instanciateds'
 
-db.create_tables([Users, Jobs, Vnfs, Clouds, Jobs_Vnfs_Clouds, Metrics, Metrics_Vnfs, Status_Jobs, Degradations_Clouds_Types, Degradations_Clouds, Metrics_Clouds, Status_NS_Instanciateds,NS_Instanciateds, Status_Vnf_Instanciateds,Vnf_Instanciateds, Tests, Methods, Tests_Methods, Degradations_Vnfs_Clouds_Types ])
+db.create_tables([Users, Jobs, Vnfs, Clouds, Jobs_Vnfs_Clouds, Metrics, Metrics_Vnfs, Status_Jobs, Degradations_Clouds_Types, Degradations_Clouds, Metrics_Clouds, Status_NS_Instanciateds,NS_Instanciateds, Status_Vnf_Instanciateds,Vnf_Instanciateds, Tests, Methods, Tests_Methods, Degradations_Vnfs_Clouds_Types, Actions_Tests, Actions_Tests_Types ])

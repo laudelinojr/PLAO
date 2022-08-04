@@ -288,7 +288,7 @@ class File_VNF_Price():
     #Change only in MEMORY. If no result, return -1  
     # In this, the target is to change the price cloud for specif Cloud (VIM)
     # If the CPU High - degraded (1), we add the extra value in Price.
-    def ChangeVNFPrice(self,COD_VNFD,VIMURL,PRICE,CLOUD_STATUS_DEGRADATION):
+    def ChangeVNFPrice(self,COD_VNFD,VIMURL,PRICE,CLOUD_STATUS_DEGRADATION,COD_TEST):
         C = len(self.B[COD_VNFD]['prices']) #Elements
         #print(C)
         if COD_VNFD < 0:
@@ -296,6 +296,7 @@ class File_VNF_Price():
         if (CLOUD_STATUS_DEGRADATION == 1):
             #print ("PRICE BEFORE DEGRADATION_STATUS: "+ str(PRICE))
             PRICE=int(PRICE)+DOWN_UP_PRICE
+            InsertActionsTests(COD_TEST,4,datetime.timestamp(datetime.now().utcnow()))
             #print ("PRICE AFTER DEGRADATION_STATUS: "+ str(PRICE))
             #print("Add value because is in degradation status.") 
         for i in range(C):
@@ -312,6 +313,7 @@ class File_VNF_Price():
                     #    print("no else")
                     #    self.B[COD_VNFD]['prices'][i]['price']=int(PRICE) #Change the VNF Price
                     self.B[COD_VNFD]['prices'][i]['price']=int(PRICE) #Change the VNF Price
+                    InsertActionsTests(COD_TEST,3,datetime.timestamp(datetime.now().utcnow()))
                     return i
                 else:
                     return -1
@@ -319,16 +321,16 @@ class File_VNF_Price():
             return -1
 
     #Change VNF File with new Price, change the file
-    def SearchChangeVNFDPrice(self,NAME_VNFD,VIM_URL,PRICE_VNFD,CLOUD_STATUS_DEGRADATION):
+    def SearchChangeVNFDPrice(self,NAME_VNFD,VIM_URL,PRICE_VNFD,CLOUD_STATUS_DEGRADATION,COD_TEST):
         if debug == 1: print("In SearchChangeVNFDPrice")
         #print(NAME_VNFD+ VIM_URL + PRICE_VNFD+CLOUD_STATUS_DEGRADATION)
-        if (self.ChangeVNFPrice(self.SearchVNFD(NAME_VNFD),VIM_URL,PRICE_VNFD,CLOUD_STATUS_DEGRADATION)) != -1: #Change price of specific VIM in specific VNFD
+        if (self.ChangeVNFPrice(self.SearchVNFD(NAME_VNFD),VIM_URL,PRICE_VNFD,CLOUD_STATUS_DEGRADATION,COD_TEST)) != -1: #Change price of specific VIM in specific VNFD
             if debug == 1: print("In ChangeVNFPrice(SearchVNFD")
             with open(FILE_VNF_PRICE, 'w') as file:
                 documents = yaml.dump(self.B, file, sort_keys=False) #Export changes to file without order, equal original file
             if debug == 1: print("going to copy to SearchChangeVNFDPrice ")
             print("lembrar descomentar linha para docker fazer copia vnf")
-            ExecuteCommand('docker cp '+FILE_VNF_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')  
+            ###ExecuteCommand('docker cp '+FILE_VNF_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')  
 
             try:
                 nomearquivo4=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
@@ -343,7 +345,7 @@ class File_VNF_Price():
             if debug ==1: print ("DEBUG: File not changed")
 
     #Receive the CPU STATUS NOW and update in list cloud, all VNF of this cloud, the CLOUD_STATUS_DEGRADATION
-    def SearchDownUpVimPrice(self,STATUS_CPU_NOW,Cloud):    #VIM_URL,CLOUD_COD,STATUS_CPU_NOW):
+    def SearchDownUpVimPrice(self,STATUS_CPU_NOW,Cloud,fk_test):    #VIM_URL,CLOUD_COD,STATUS_CPU_NOW):
         VIM_URL=Cloud.getVimURL() # Get vim url for use in next operations
         CLOUD_STATUS_DEGRADATION=Cloud.getCpuStatus() #int(clouds.get(str(CLOUD_COD)).get('CPU')) #Values: 0-cpu normal, 1-cpu high and cost value changed
         PRICE=0 #Inicialize local variable
@@ -384,7 +386,7 @@ class File_VNF_Price():
             with open(FILE_VNF_PRICE, 'w') as file:
                 documents = yaml.dump(self.B, file, sort_keys=False) #Export changes to file without order, equal original file
             print ("CPU CHANGE: File pil_price changed because High CPU.")
-
+            #InsertActionsTests(fk_test,4,datetime.timestamp(datetime.now().utcnow()))
             nomearquivo5=PATH_LOG+'CPU_TRIGGER_'+ Cloud.getName() +'_history.txt' #write data in file
             with open(nomearquivo5, 'a') as arquivo:
                 arquivo.write(DATEHOURS() + ','+ Cloud.getName() + ","+ Cloud.getIP() +","+ str(STATUS_CPU_NOW)+'\n')
@@ -413,14 +415,14 @@ class File_PIL_Price():
         return -1
 
     #Search cloud combination and change the price, latency and jitter
-    def SearchChangePriceLatencyJitterPIL(self, PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENSTACK_TO):
+    def SearchChangePriceLatencyJitterPIL(self, PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENSTACK_TO,COD_TEST):
         CLOUD_COD=self.SearchChangePILPrice(OPENSTACK_FROM,OPENSTACK_TO)
         #if debug == 1: print("CLOUD_COD: "+str(CLOUD_COD))
         if CLOUD_COD != -1:
             if (self.ChangePriceLatencyJitterPIL(CLOUD_COD,PRICE,LATENCY,JITTER)) != -1: #Change Price Latency and Jitter
                 with open(FILE_PIL_PRICE, 'w') as file:
                     documents = yaml.dump(self.B, file, sort_keys=False) #Export changes to file without order, equal original file
-
+                InsertActionsTests(COD_TEST,2,datetime.timestamp(datetime.now().utcnow()))
                 print("lembrar descomentar linha para docker fazer copia pil")
                 ExecuteCommand('docker cp '+FILE_PIL_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
                 try:
@@ -490,7 +492,7 @@ def Collector_Metrics_Links_cl1(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile
         print("LatenciatoCloud2: "+str(Latencia_to_cloud2))
         Jitter_to_cloud2=cloud1_gnocchi.get_last_measure("Jit_To_"+cloud2.getExternalIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
         print("JittertoCloud2: "+str(Jitter_to_cloud2))
-        PILFile.SearchChangePriceLatencyJitterPIL(Latencia_to_cloud2,Latencia_to_cloud2,Jitter_to_cloud2,CLOUD_FROM,CLOUD_TO)
+        PILFile.SearchChangePriceLatencyJitterPIL(Latencia_to_cloud2,Latencia_to_cloud2,Jitter_to_cloud2,CLOUD_FROM,CLOUD_TO,0)
         time.sleep(10)
 
 def Collector_Metrics_Links_Demand_Interval_cl1(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,CLOUD_FROM,CLOUD_TO,interval,metric_name):
@@ -598,6 +600,17 @@ def InsertTests(desc):
         start_date_test = datetime.timestamp(datetime.now().utcnow())
     ).execute()
 
+def InsertActionsTestsTypes(name_test_type):
+    return Actions_Tests_Types.insert(
+        name_action_test_type = name_test_type
+    ).execute()
+
+def InsertActionsTests(id_fk_test,cod_test_type,date_actions_tests):
+    return Actions_Tests.insert(
+        date_actions_tests = date_actions_tests,
+        fk_tests = id_fk_test,
+        fk_actions_tests_types = cod_test_type
+    ).execute()
 
 def InsertTestsMethods(cod_test,cod_method):
     return Tests_Methods.insert(
@@ -732,14 +745,14 @@ def SelectTests():
     #df['finish_date_test_methods']=df['finish_date_test_methods'].astype(float)
     #df['diftimeMethod']=df['finish_date_test_methods']-df['start_date_test_methods']
 
-    #print(df.groupby('name_methods').mean())
+    #print(df.groupby(['id_methods','name_methods']).mean())
     #df2=df.groupby(['id_methods']).mean()
 
     #print(df['start_date_test'].sum())
-    print(df)
+    #print(df)
     #print(df2)
-    df.to_excel("coleta2/teste.xlsx", index=False)
-    #df2.to_excel("coleta2\teste2.xlsx", index=False)
+    df.to_csv("coleta2/teste.csv", index=False)
+    #df2.to_excel("coleta2teste2.xlsx", index=False)
     return 1
 
 def SelectNsjoinVNFInstanciated(cod):
@@ -947,6 +960,10 @@ def FirstLoadBD():
     #InsertMethods("SetProcessModel()")
     InsertMethods("configVNFsCostsOSM()")
     InsertMethods("createNSInstanceOSM()")
+    InsertActionsTestsTypes("Instanciação de NS.")
+    InsertActionsTestsTypes("Alteração do custo do link, considerando latência e jitter entre nuvens.")
+    InsertActionsTestsTypes("Alteração do custo das VNFDs de acordo com a latência para o usuário final e percentual de uso de CPU da nuvem.")
+    InsertActionsTestsTypes("Aumento dos custos de todos os VNFDs da nuvem após degradação do uso de CPU.")
     InsertDegradationVnfType("CPU")
     InsertDegradationVnfType("Memoria")
     InsertDegradationsCloudsTypes("CPU")
@@ -1020,6 +1037,8 @@ def main():
         cloud1_gnocchi = Gnocchi(session=cloud1_sess)
         cloud1_resource_id=cloud1_gnocchi.get_resource_id("plao")
         cloud1_resource_ids_nova=cloud1_gnocchi.get_resource_ids("nova_compute")
+        print("number vms")
+        print(cloud1_auth_session.getstats())
 
         ###Alternativa se o usuario nao for adm, acessar com um adm so para isto
         ###cloud1adm_auth_session = OpenStack_Auth(cloud_name=cloud1.getName()+"-adm")
@@ -1311,23 +1330,23 @@ def main():
             thread_MonitorLinks = threading.Thread(target=Collector_Metrics_Links_cl1,args=(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,"openstack1","openstack2"))
             thread_MonitorLinks.start()
 
-            cloud1_resource_id_nova=cloud1_gnocchi.get_resource_id("nova_compute")
-            if cloud1_resource_id_nova != -1:
-                print("Starting Thread to monitor last cpu in Cloud 1")
-                thread_MonitorDisaggregated1 = threading.Thread(target=Collector_Metrics_Disaggregated_cl1,args=(cloud1_gnocchi,cloud1_resource_id_nova,cloud1,VNFFile))
-                thread_MonitorDisaggregated1.start()
-            else:
-                print("Resource nova_compute not exist, need to create.")
-            print ("resource_id+cloud1: "+str(cloud1_resource_id_nova))
+            #cloud1_resource_id_nova=cloud1_gnocchi.get_resource_id("nova_compute")
+            #if cloud1_resource_id_nova != -1:
+            #    print("Starting Thread to monitor last cpu in Cloud 1")
+            #    thread_MonitorDisaggregated1 = threading.Thread(target=Collector_Metrics_Disaggregated_cl1,args=(cloud1_gnocchi,cloud1_resource_id_nova,cloud1,VNFFile))
+            #    thread_MonitorDisaggregated1.start()
+            #else:
+            #    print("Resource nova_compute not exist, need to create.")
+            #print ("resource_id+cloud1: "+str(cloud1_resource_id_nova))
 
-            cloud2_resource_id_nova=cloud2_gnocchi.get_resource_id("nova_compute")
-            if cloud2_resource_id_nova != -1:
-                print("Starting Thread to monitor last cpu in Cloud 2")
-                thread_MonitorDisaggregated2 = threading.Thread(target=Collector_Metrics_Disaggregated_cl1,args=(cloud2_gnocchi,cloud2_resource_id_nova,cloud2,VNFFile))
-                thread_MonitorDisaggregated2.start() 
-            else:
-                print("Resource nova_compute not exist, need to create.")
-            print ("resource_id_cloud2: "+str(cloud2_resource_id_nova))
+            #cloud2_resource_id_nova=cloud2_gnocchi.get_resource_id("nova_compute")
+            #if cloud2_resource_id_nova != -1:
+            #    print("Starting Thread to monitor last cpu in Cloud 2")
+            #    thread_MonitorDisaggregated2 = threading.Thread(target=Collector_Metrics_Disaggregated_cl1,args=(cloud2_gnocchi,cloud2_resource_id_nova,cloud2,VNFFile))
+            #    thread_MonitorDisaggregated2.start() 
+            #else:
+            #    print("Resource nova_compute not exist, need to create.")
+            #print ("resource_id_cloud2: "+str(cloud2_resource_id_nova))
        
             return "MonitorStarted"
 
@@ -1649,7 +1668,7 @@ def main():
             PRICE_VNFD=str(VNF1_CL1_CALC)
             CLOUD_STATUS_DEGRADATION=int(VNF1_CL1_STATUS_DEGRADATION) #1 se a cpu estiver degradada select degradacao da nuvem
             #print("testando SearchChangeVNFDPrice") #Este devera se executaod por thrad que ira coletar das nuvens a latencia e cpu para formar o custo da VNF
-            VNFFile.SearchChangeVNFDPrice(NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_DEGRADATION)
+            VNFFile.SearchChangeVNFDPrice(NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_DEGRADATION,TEST_ID)
             print((NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_DEGRADATION))
 
             NAME_VNF=GetNameVNF(SelectIdVnf_JobVnfCloud(VNF2_CL1))
@@ -1657,7 +1676,7 @@ def main():
             PRICE_VNFD=str(VNF2_CL1_CALC)
             CLOUD_STATUS_DEGRADATION=int(VNF2_CL1_STATUS_DEGRADATION) #1 se a cpu estiver degradada select degradacao da nuvem
             #print("testando SearchChangeVNFDPrice") #Este devera se executaod por thrad que ira coletar das nuvens a latencia e cpu para formar o custo da VNF
-            VNFFile.SearchChangeVNFDPrice(NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_DEGRADATION)
+            VNFFile.SearchChangeVNFDPrice(NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_DEGRADATION,TEST_ID)
             print((NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_DEGRADATION))
 
             NAME_VNF=GetNameVNF(SelectIdVnf_JobVnfCloud(VNF1_CL2))
@@ -1665,7 +1684,7 @@ def main():
             PRICE_VNFD=str(VNF1_CL2_CALC)
             CLOUD_STATUS_DEGRADATION=int(VNF1_CL2_STATUS_DEGRADATION) #1 se a cpu estiver degradada select degradacao da nuvem
             #print("testando SearchChangeVNFDPrice") #Este devera se executaod por thrad que ira coletar das nuvens a latencia e cpu para formar o custo da VNF
-            VNFFile.SearchChangeVNFDPrice(NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_DEGRADATION)
+            VNFFile.SearchChangeVNFDPrice(NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_DEGRADATION,TEST_ID)
             print((NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_DEGRADATION))
 
             NAME_VNF=GetNameVNF(SelectIdVnf_JobVnfCloud(VNF2_CL2))
@@ -1673,7 +1692,7 @@ def main():
             PRICE_VNFD=str(VNF2_CL2_CALC)
             CLOUD_STATUS_DEGRADATION=int(VNF2_CL2_STATUS_DEGRADATION) #1 se a cpu estiver degradada select degradacao da nuvem
             #print("testando SearchChangeVNFDPrice") #Este devera se executaod por thrad que ira coletar das nuvens a latencia e cpu para formar o custo da VNF
-            VNFFile.SearchChangeVNFDPrice(NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_DEGRADATION)
+            VNFFile.SearchChangeVNFDPrice(NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_DEGRADATION,TEST_ID)
             print((NAME_VNF,VIM_URL,PRICE_VNFD,CLOUD_STATUS_DEGRADATION))
             UpdateFinishTestsMethods(METHOD_11)
 
@@ -1744,7 +1763,8 @@ def main():
              #                       print("vim account id")
              #                       print(i['vim-account-id'])
              #                       print(i['_admin']['nsState'])
-
+                        print("passei aqui")
+                        InsertActionsTests(TEST_ID,1,datetime.timestamp(datetime.now().utcnow()))
                         UpdateNsInstanciated(id_ns_scheduled,2,JOB_COD)
                         out=True
                 timeout=timeout+1
@@ -1756,6 +1776,7 @@ def main():
                 UpdateJob(JOB_COD,2) #Finished the job
                 UpdateFinishTestsMethods(METHOD_12)
                 UpdateFinishDateTestsbyId(TEST_ID)
+                
                 return str(JOB_COD)
             else:
                 print("Problem Instanciation")
