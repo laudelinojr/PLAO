@@ -92,6 +92,20 @@ class OSM_Auth():
                                     json=payload, verify=False)
         return response.json()
 
+    def osm_delete_vim(self,token,vimID):
+        print ("vai")
+        headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            "Authorization": 'Bearer ' + str(token)
+        }
+        print(str(token))
+        payload = {
+        }
+        response = requests.request("DELETE", url=str(self.geturls('url_vim')+"/"+vimID), headers=headers,verify=False)
+        print(response.json())
+        return response.json()
+
     def osm_delete_instance_ns(self, token, nsId_instance):
         headers = {
             'Content-Type': 'application/json',
@@ -1001,7 +1015,9 @@ def main():
     VNFFile = File_VNF_Price()
     PILFile = File_PIL_Price()
 
-    IP_OSM="10.159.205.10"
+    #IP_OSM="10.159.205.10"
+    #IP_OSM="200.137.82.24"
+    IP_OSM="127.0.0.1"
     OSM = OSM_Auth(IP_OSM)
     token=OSM.osm_create_token()
 
@@ -1166,6 +1182,12 @@ def main():
     def selecttests():
         SelectTests()
         return "SelectTests"
+
+    @app.route('/deletevims/',methods=['GET'])
+    def getvims():
+        OSM.check_token_valid(token)
+        OSM.osm_delete_vim(token['id'],"59ea6654-25f4-4196-a362-9745498721e1")
+        return "ok"
 
     @app.route('/getOSMlistvim/',methods=['GET'])
     def OSMlistvim():
