@@ -1080,7 +1080,8 @@ def main():
         #Insert Session in Gnocchi object   
         cloud2_gnocchi = Gnocchi(session=cloud2_sess)
         cloud2_resource_id=cloud2_gnocchi.get_resource_id("plao")
-        cloud2_resource_ids_nova=cloud2_gnocchi.get_resource_ids("nova_compute") 
+        cloud2_resource_ids_nova=cloud2_gnocchi.get_resource_ids("nova_compute")
+        print(cloud2_auth_session.getstats())
 
 
         #Latencia_to_cloud2=cloud1_gnocchi.get_last_measure("Lat_To_"+cloud2.getIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
