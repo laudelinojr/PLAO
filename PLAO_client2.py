@@ -713,7 +713,6 @@ class NVNF():
                     self.resp = TARGET.getstats()
                     GNOCCHI.set_add_measures_metric(Metric_ID,self.resp)
                     print("NVNF: "+" "+self.resp)
-                    return self.resp
                 else:
                     self.resp = TARGET.getstats()
                     GNOCCHI.set_add_measures_metric(Metric_ID,self.resp)
