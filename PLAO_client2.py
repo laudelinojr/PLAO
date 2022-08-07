@@ -241,11 +241,33 @@ class OpenStack_Auth():
         # Get hypervisor statistics over all compute nodes
         
 
-    def getstats(self):
+    def getstats(self,PARAMETER):
         stats = self.nova.hypervisor_stats.statistics()._info
         print(stats)
-        running_vms=self.stats['running_vms']
-        return str(round(running_vms))
+        #running_vms=stats['running_vms']
+        #return str(round(running_vms))
+
+        if PARAMETER == "memory_use_percent":
+            memory_mb_used=stats['memory_mb_used']
+            memory_mb=stats['memory_mb']
+            memory_use_percent=(memory_mb_used*100)/memory_mb
+            return str(round(memory_use_percent))
+
+        if PARAMETER == "vcpu_use_percent":
+            vcpus=stats['vcpus']
+            vcpus_used=stats['vcpus_used']        
+            vcpu_use_percent=(vcpus_used*100)/vcpus
+            return str(round(vcpu_use_percent))
+
+        if PARAMETER == "local_gb_percent":
+            local_gb=stats['local_gb']
+            local_gb_used=stats['local_gb_used']       
+            local_gb_percent=(local_gb_used*100)/local_gb
+            return str(round(local_gb_percent))
+
+        if PARAMETER == "running_vms":
+            running_vms=stats['running_vms']
+            return str(round(running_vms))
 
     # Return authentication session
     def get_session(self):
@@ -695,12 +717,12 @@ class NVNF():
         
         if (LOOP == "0"):
             if platform.system().lower() == "linux":
-                self.resp = TARGET.getstats()
+                self.resp = TARGET.getstats("running_vms")
                 GNOCCHI.set_add_measures_metric(Metric_ID,self.resp)
                 print("NVNF: "+" "+self.resp)
                 return self.resp
             else:
-                self.resp = TARGET.getstats()
+                self.resp = TARGET.getstats("running_vms")
                 GNOCCHI.set_add_measures_metric(Metric_ID,self.resp)
                 print("NVNF: "+" "+self.resp)
                 return self.resp

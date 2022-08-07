@@ -1055,7 +1055,7 @@ def main():
         cloud1_resource_id=cloud1_gnocchi.get_resource_id("plao")
         cloud1_resource_ids_nova=cloud1_gnocchi.get_resource_ids("nova_compute")
         print("number vms")
-        print(cloud1_auth_session.getstats())
+        print(cloud1_auth_session.getstats("running_vms"))
 
         ###Alternativa se o usuario nao for adm, acessar com um adm so para isto
         ###cloud1adm_auth_session = OpenStack_Auth(cloud_name=cloud1.getName()+"-adm")
@@ -1081,7 +1081,7 @@ def main():
         cloud2_gnocchi = Gnocchi(session=cloud2_sess)
         cloud2_resource_id=cloud2_gnocchi.get_resource_id("plao")
         cloud2_resource_ids_nova=cloud2_gnocchi.get_resource_ids("nova_compute")
-        print(cloud2_auth_session.getstats())
+        print(cloud2_auth_session.getstats("running_vms" ))
 
 
         #Latencia_to_cloud2=cloud1_gnocchi.get_last_measure("Lat_To_"+cloud2.getIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
