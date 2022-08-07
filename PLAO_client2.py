@@ -731,7 +731,7 @@ class NVNF():
                 print (THREAD)
                 if THREAD == 0:
                     break
-                time.sleep(1)
+                time.sleep(5)
  
                 if platform.system().lower() == "linux":
                     self.resp = TARGET.getstats("running_vms")

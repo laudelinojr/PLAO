@@ -24,7 +24,7 @@ print("psutil.disk_usage('/') = {0}".format(du))
 # System memory usage statistics
 mem = psutil.virtual_memory()
 print("psutil.virtual_memory() = {0}".format(mem))
-print(mem.percent())
+print(str(mem.percent()))
 
 
 ##THRESHOLD = 100 * 1024 * 1024  # 100MB
