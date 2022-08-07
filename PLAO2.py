@@ -6,6 +6,7 @@ from http.client import HTTPConnection
 from multiprocessing.connection import Connection
 from operator import contains, eq
 from random import randint
+from sqlite3 import Date
 from uuid import NAMESPACE_X500, uuid4
 import uuid
 from wsgiref.validate import validator
@@ -1015,9 +1016,9 @@ def main():
     VNFFile = File_VNF_Price()
     PILFile = File_PIL_Price()
 
-    #IP_OSM="10.159.205.10"
+    IP_OSM="10.159.205.10"
     #IP_OSM="200.137.82.24"
-    IP_OSM="127.0.0.1"
+    #IP_OSM="127.0.0.1"
     OSM = OSM_Auth(IP_OSM)
     token=OSM.osm_create_token()
 
@@ -1771,11 +1772,13 @@ def main():
             timeout=0
             while out==False:
                 test=OSM.osm_get_instance_ns_byid(token['id'],id_ns_scheduled['id'])
+                #print("dentro while")
                 if test['nsState']:
-                    
+                    #print("condicao test ok")
                     if test['nsState'] == "READY": #BUILDING whilen making
                         print('NS pronto, registrando VNFs')
                         for i in OSM.osm_get_instance_vnf(token['id']):
+                            #time.sleep(1)
                             if i['nsr-id-ref'] == id_ns_scheduled['id']:
                                 if i['_admin']['nsState'] == 'INSTANTIATED':
                                     InsertVnfInstanciated(i['_id'],i['vnfd-ref'],GetIdCloudbyvimidosm(i['vim-account-id']),1,id_ns_instanciated)
@@ -1785,15 +1788,14 @@ def main():
              #                       print("vim account id")
              #                       print(i['vim-account-id'])
              #                       print(i['_admin']['nsState'])
-                        print("passei aqui")
                         InsertActionsTests(TEST_ID,1,datetime.timestamp(datetime.now().utcnow()))
                         UpdateNsInstanciated(id_ns_scheduled,2,JOB_COD)
                         out=True
                 timeout=timeout+1
-                if(timeout==600):
+                if(timeout==60000):
                     out=True
 
-            if (timeout != 1200) :
+            if (timeout != 60000) :
                 #Update Status Jobs
                 UpdateJob(JOB_COD,2) #Finished the job
                 UpdateFinishTestsMethods(METHOD_12)

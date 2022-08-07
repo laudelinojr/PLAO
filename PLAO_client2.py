@@ -149,6 +149,17 @@ def startApp():
             else:
                 print("Created Metrics.")
 
+    print("Checking if metric NVNF exists...")      
+    Metric_NVNF_test=""
+    Name_Metric_NVNF="NVNF"
+    Metric_NVNF_test=gnocchi.get_metric_id(Name_Metric_NVNF,resource_id)
+    if (Metric_NVNF_test == ""):
+        print("The "+ Name_Metric_NVNF + " do not exist. Creating metric NVNF.")
+        if (gnocchi.set_create_metric(Name_Metric_NVNF,VarPlao,resource_id,"un") == "MetricaJaExiste" ):
+            print ("Metric already exists.")            
+        else:
+            print("Created Metrics.")
+
     print("Creating Latency Threads to all servers...")
     for i in IpOthersServers:
         #to create thread for Latency
@@ -160,6 +171,12 @@ def startApp():
         #to create thread for Latency
         Thread_Jitt = CreateThread()
         Thread_Jitt.ThreadIperf(IpOthersServers.get(i).get('external_ip'),"5","1",resource_id,gnocchi)
+
+    print("Creating NVNF Thread...")
+    #to create thread for NVNF
+    Thread_NVNF = CreateThread()
+    Thread_NVNF.ThreadNVNF(auth_session,"5","1",resource_id,gnocchi)
+
     #Mark variable with number 1 for started status on
     global STARTED
     STARTED=1
@@ -664,6 +681,45 @@ class Jitter():
                     GNOCCHI.set_add_measures_metric(Metric_ID,self.resp)
                     print("jitter: "+TARGET+" "+self.resp)
 
+#Jitter to others servers in servers.yaml
+class NVNF():
+    def __init__(self):
+        pass
+
+    def execNVNF(self,TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI):
+        Metric_Name="NVNF"
+        Metric_ID=GNOCCHI.get_metric_id(Metric_Name,RESOURCE_ID)
+        print ("metric ID in execNVNF: "+ Metric_ID)
+        
+        if (LOOP == "0"):
+            if platform.system().lower() == "linux":
+                self.resp = TARGET.getstats()
+                GNOCCHI.set_add_measures_metric(Metric_ID,self.resp)
+                print("NVNF: "+" "+self.resp)
+                return self.resp
+            else:
+                self.resp = TARGET.getstats()
+                GNOCCHI.set_add_measures_metric(Metric_ID,self.resp)
+                print("NVNF: "+" "+self.resp)
+                return self.resp
+        else:
+            while True:
+                print (THREAD)
+                if THREAD == 0:
+                    break
+                time.sleep(1)
+ 
+                if platform.system().lower() == "linux":
+                    self.resp = TARGET.getstats()
+                    GNOCCHI.set_add_measures_metric(Metric_ID,self.resp)
+                    print("NVNF: "+" "+self.resp)
+                    return self.resp
+                else:
+                    self.resp = TARGET.getstats()
+                    GNOCCHI.set_add_measures_metric(Metric_ID,self.resp)
+                    print("NVNF: "+" "+self.resp)
+
+
 # To create Thread
 class CreateThread():
     def __init__(self):
@@ -680,9 +736,15 @@ class CreateThread():
 
     def ThreadIperf(self,TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI):
         print ("funcaoThreadIperf")
-        self.ExecJitter = Jitter()
+        self.ExecNV = Jitter()
         self.thread_iperf = threading.Thread(target=self.ExecJitter.execJitter,args=(TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI))
         self.thread_iperf.start()
+
+    def ThreadNVNF(self,TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI):
+        print ("funcaoThreadNVNF")
+        self.ExecNVNF = NVNF()
+        self.thread_nvnf = threading.Thread(target=self.ExecNVNF.execNVNF,args=(TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI))
+        self.thread_nvnf.start()
 
         
 
