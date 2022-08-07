@@ -237,9 +237,9 @@ class OpenStack_Auth():
         # Create a session with credentials clouds.yml
         self.sess = session.Session(auth=self.auth, verify=False)
         # Create nova client with the session created
-        nova = nova_client.Client(version='2.1', session=self.sess)
+        self.nova = nova_client.Client(version='2.1', session=self.sess)
         # Get hypervisor statistics over all compute nodes
-        stats = nova.hypervisor_stats.statistics()._info
+        self.stats = self.nova.hypervisor_stats.statistics()._info
 
     def getstats(self):
         print(self.stats)
