@@ -734,11 +734,11 @@ class NVNF():
                 time.sleep(1)
  
                 if platform.system().lower() == "linux":
-                    self.resp = TARGET.getstats()
+                    self.resp = TARGET.getstats("running_vms")
                     GNOCCHI.set_add_measures_metric(Metric_ID,self.resp)
                     print("NVNF: "+" "+self.resp)
                 else:
-                    self.resp = TARGET.getstats()
+                    self.resp = TARGET.getstats("running_vms")
                     GNOCCHI.set_add_measures_metric(Metric_ID,self.resp)
                     print("NVNF: "+" "+self.resp)
 
