@@ -239,10 +239,11 @@ class OpenStack_Auth():
         # Create nova client with the session created
         self.nova = nova_client.Client(version='2.1', session=self.sess)
         # Get hypervisor statistics over all compute nodes
-        self.stats = self.nova.hypervisor_stats.statistics()._info
+        
 
     def getstats(self):
-        print(self.stats)
+        stats = self.nova.hypervisor_stats.statistics()._info
+        print(stats)
         running_vms=self.stats['running_vms']
         return str(round(running_vms))
 

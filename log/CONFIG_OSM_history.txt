@@ -1376,3 +1376,5 @@
 07.08.22-01:09:41#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 0
 07.08.22-01:19:23#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 4
 07.08.22-01:19:23#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 11
+07.08.22-10:03:48#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFA VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 2
+07.08.22-10:03:49#CHANGE_VNFD#  - Changed and copied file teste/vnf_price_list.yamlto container PLA.NAME_VNFD: VNFB VIM_URL: https://200.137.75.159:5000/v3 PRICE_VNFD: 0
