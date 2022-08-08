@@ -742,7 +742,6 @@ class NVNF():
                     GNOCCHI.set_add_measures_metric(Metric_ID,self.resp)
                     print("NVNF: "+" "+self.resp)
 
-
 # To create Thread
 class CreateThread():
     def __init__(self):
@@ -769,7 +768,6 @@ class CreateThread():
         self.thread_nvnf = threading.Thread(target=self.ExecNVNF.execNVNF,args=(TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI))
         self.thread_nvnf.start()
 
-        
 
 def main():
     collectip()

@@ -609,6 +609,19 @@ def InsertMethods(name):
         name_methods = name
     ).execute()
 
+def InsertDataTestsTypes(name):
+    return Data_Tests_Types.insert(
+        name_data_tests = name
+    ).execute()
+
+def InsertDataTests(date, id_test, id_data_test_type, id_cloud ):
+    return Data_Tests.insert(
+        date_data_tests = date,
+        fk_tests = id_test,
+        fk_data_tests_types = id_data_test_type,
+        fk_cloud = id_cloud
+    ).execute()
+
 def InsertTests(desc):
     return Tests.insert(
         description = desc,
@@ -962,19 +975,31 @@ def SelectStatusDegradationCloud(CLOUD_ID):
 def FirstLoadBD():
     print("Iniciando carga BD.")
     #PreLoadDefault
-    InsertMethods("insertJob()")
-    InsertMethods("userLatency()")
-    InsertMethods("getLastMeasureClouds()")
-    InsertMethods("insertMetric()")
-    InsertMethods("insertMetricCloud()")
-    InsertMethods("insertJobVnfCloud()")
-    InsertMethods("insertMetricsVnf()")
-    InsertMethods("getMetricsVnfApplyWeight()")
-    InsertMethods("updateCostJobVnfCloud()")
-    InsertMethods("getVnfStatusDegradation()")
+    InsertMethods("insertJob_cl1()")
+    InsertMethods("insertJob_cl2()")
+    InsertMethods("userLatency_cl1()")
+    InsertMethods("userLatency_cl2()")
+    InsertMethods("getLastMeasureClouds_cl1()")
+    InsertMethods("getLastMeasureClouds_cl2()")
+    InsertMethods("insertMetric_cl1()")
+    InsertMethods("insertMetric_cl2()")
+    InsertMethods("insertMetricCloud_cl1()")
+    InsertMethods("insertMetricCloud_cl2()")
+    InsertMethods("insertJobVnfCloud_cl1()")
+    InsertMethods("insertJobVnfCloud_cl2()")
+    InsertMethods("insertMetricsVnf_cl1()")
+    InsertMethods("insertMetricsVnf_cl2()")
+    InsertMethods("getMetricsVnfApplyWeight_cl1()")
+    InsertMethods("getMetricsVnfApplyWeight_cl2()")
+    InsertMethods("updateCostJobVnfCloud_cl1()")
+    InsertMethods("updateCostJobVnfCloud_cl2()")
+    InsertMethods("getVnfStatusDegradation_cl1()")
+    InsertMethods("getVnfStatusDegradation_cl2()")
     #InsertMethods("SetProcessModel()")
-    InsertMethods("configVNFsCostsOSM()")
-    InsertMethods("createNSInstanceOSM()")
+    InsertMethods("configVNFsCostsOSM_cl1()")
+    InsertMethods("configVNFsCostsOSM_cl2()")
+    InsertMethods("createNSInstanceOSM_cl1()")
+    InsertMethods("createNSInstanceOSM_cl2()")
     InsertActionsTestsTypes("Instanciação de NS.")
     InsertActionsTestsTypes("Alteração do custo do link, considerando latência e jitter entre nuvens.")
     InsertActionsTestsTypes("Alteração do custo das VNFDs de acordo com a latência para o usuário final e percentual de uso de CPU da nuvem.")
@@ -986,6 +1011,12 @@ def FirstLoadBD():
     InsertCloud("Serra","10.50.0.159","200.137.75.160",1,90,"9f104eee-5470-4e23-a8dd-3f64a53aa547")
     InsertCloud("Aracruz","172.16.112.60","200.137.82.21",2,91,"59ea6654-25f4-4196-a362-9745498721e1")
     InsertDegradations_Clouds(1,1,98)
+    InsertDataTestsTypes("CPU")
+    InsertDataTestsTypes("Memoria")
+    InsertDataTestsTypes("NVNF")
+    InsertDataTestsTypes("Latencia_to_N2")
+    InsertDataTestsTypes("Jitter_to_N2")
+    InsertDataTestsTypes("Latencia_to_User_Test")
     InsertVnf("VNFA")
     InsertVnf("VNFB")
     InsertStatusJobs("Started")
@@ -1292,6 +1323,18 @@ def main():
     #Return token for user
     #Return resultado de check token user
     #Inserir em todas as rotas um check do usuario e seu respectivo token
+
+    @app.route('/copydatatests/',methods=['GET'])
+    def copydatatest():
+        OSM.check_token_valid(token)
+        ID_JOB=1
+        ID_NS_INSTANCIATED=NS_Instanciateds.select(NS_Instanciateds.id_osm_ns_instanciated).where(NS_Instanciateds.fk_job==ID_JOB)
+        OSM.osm_delete_instance_ns((token['id']),ID_NS_INSTANCIATED)
+        Vnf_Instanciateds.update(Vnf_Instanciatedsfk_status=2).where(Vnf_Instanciateds.fk_ns_instanciated==ID_NS_INSTANCIATED).execute()
+        NS_Instanciateds.update(fk_status=3).where(NS_Instanciateds.id_osm_ns_instanciated==ID_NS_INSTANCIATED).execute()
+        #Mark in bd deleted vnf and ns instanciateds
+        return "ok"
+
 
     #Return NS packages and VNFS pakages of OSM
     @app.route('/listnsvnfpackage/',methods=['GET'])
