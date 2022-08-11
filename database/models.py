@@ -140,6 +140,8 @@ class Data_Tests(BaseModel):
     id_data_tests=BigIntegerField( unique=True, primary_key=True,
             constraints=[SQL('AUTO_INCREMENT')])
     date_data_tests = CharField(max_length=100)
+    granularity_data_tests = CharField(max_length=100)
+    value_data_tests = CharField(max_length=100)
     fk_tests = ForeignKeyField(Tests, db_column='id_tests')
     fk_data_tests_types = ForeignKeyField(Data_Tests_Types, db_column='id_data_tests_types')
     fk_cloud = ForeignKeyField(Clouds, db_column='id_cloud')

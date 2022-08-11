@@ -376,7 +376,7 @@ class Gnocchi():
     #To create archive-policy
     def set_create_archive_policy(self,name):      
         try:
-            self.create_metric=self.gnocchi_client.archive_policy.create({'name': name, 'back_window': 0, 'definition': [{'timespan': '60 days, 0:00:00', 'granularity': '0:01:00', 'points': 86400}], 'aggregation_methods': ['mean', 'sum', 'min', 'std', 'count', 'max']})
+            self.create_metric=self.gnocchi_client.archive_policy.create({'name': name, 'back_window': 0, 'definition': [{'timespan': '60 days, 0:00:00', 'granularity': '0:01:00', 'points': 86400},{'timespan': '12:00:00', 'granularity': '0:00:05', 'points': 8640}], 'aggregation_methods': ['mean', 'sum', 'min', 'std', 'count', 'max']})
         except:
             return "NoAccess"
 
@@ -446,7 +446,31 @@ class Gnocchi():
         return (last_row)
 
     #If dont data, return -1, else return data
-    def get_last_measure_Date(self, name_metric, resource_id, aggregation, granularity, start, stop):
+    def get_last_measure_Data_Test(self, name_metric, resource_id, aggregation, granularity, start, stop):
+
+        #df3=(self.gnocchi_client.metric.list())
+        #df4 = pd.DataFrame(df3)
+        #print(df4.to_csv("teste.txt"))
+        print(str(name_metric)+"-"+str(resource_id)+"-"+ str(aggregation)+"-"+str(granularity)+"-"+str(start)+"-"+str(stop))
+
+        dados=self.gnocchi_client.metric.get_measures(name_metric,start,stop, aggregation, granularity,resource_id)
+        return dados
+
+    #If dont data, return -1, else return data
+    def get_last_measure_Date(self, name_metric, resource_id, aggregation, granularity, start, stop, cod_test, cod_cloud, cloud_data_type):
+        try:
+            dados=self.gnocchi_client.metric.get_measures(name_metric,start,stop, aggregation, granularity,resource_id)
+            df = pd.DataFrame(dados, columns =['date_data_tests', 'granularity_data_tests', 'value_data_tests'])
+            df = df.assign(fk_tests=1,fk_data_tests_types=1,fk_cloud=1)
+            if (df.__len__() == 0):
+                return -1
+            df2=json.dumps(json.loads(df.to_json(orient = 'records')), indent=2)
+            return (df2)            
+        except:
+            return -1
+
+    #If dont data, return -1, else return data
+    def get_last_measure_Date_origin(self, name_metric, resource_id, aggregation, granularity, start, stop):
         try:
             dados=self.gnocchi_client.metric.get_measures(name_metric,start,stop, aggregation, granularity,resource_id)
             df = pd.DataFrame(dados, columns =['timestamp', 'granularity', 'value'])
@@ -457,8 +481,7 @@ class Gnocchi():
             return (df2)            
         except:
             return -1
-
-
+            
 #Class to get servers
 class Servers():
     def __init__(self):

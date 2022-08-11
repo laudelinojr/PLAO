@@ -9,6 +9,7 @@ from random import randint
 from sqlite3 import Date
 from uuid import NAMESPACE_X500, uuid4
 import uuid
+from webbrowser import get
 from wsgiref.validate import validator
 from attr import has
 #import bson
@@ -1327,12 +1328,31 @@ def main():
     @app.route('/copydatatests/',methods=['GET'])
     def copydatatest():
         OSM.check_token_valid(token)
-        ID_JOB=1
-        ID_NS_INSTANCIATED=NS_Instanciateds.select(NS_Instanciateds.id_osm_ns_instanciated).where(NS_Instanciateds.fk_job==ID_JOB)
-        OSM.osm_delete_instance_ns((token['id']),ID_NS_INSTANCIATED)
-        Vnf_Instanciateds.update(Vnf_Instanciatedsfk_status=2).where(Vnf_Instanciateds.fk_ns_instanciated==ID_NS_INSTANCIATED).execute()
-        NS_Instanciateds.update(fk_status=3).where(NS_Instanciateds.id_osm_ns_instanciated==ID_NS_INSTANCIATED).execute()
-        #Mark in bd deleted vnf and ns instanciateds
+        now=datetime.now().utcnow()
+        intervalo=240
+        delta = timedelta(seconds=intervalo)
+        time_past=now-delta
+        #START = "2021-08-01 13:30:33+00:00"
+        #STOP = "2021-08-01 13:35:36+00:00"
+        START=time_past
+        STOP=now
+        GRANULARITY=60.0
+        #metrics_test=json.loads(cloud1_gnocchi.get_last_measure_Data_Test("NVNF",cloud1_resource_id,None,GRANULARITY,START,STOP))
+        get_data=cloud1_gnocchi.get_last_measure_Date("NVNF",cloud1_resource_id,None,GRANULARITY,START,STOP,1,1,1)
+        print(get_data)
+        if get_data == -1:
+            return "ok" 
+        metrics_test=json.loads(get_data)
+        print(metrics_test)
+        
+        #dados=[{'a':'21' ,'b': '60.0', 'c':'1.0',  'd':1, 'e':1,  'f':1}]
+        #print(type(dados))
+        #dados2=[{'name_data_tests':'o44ii'},{'name_data_tests':'oii33332'}   ]
+        #Data_Tests_Types.insert_many(dados2, fields=['name_data_tests']).execute()
+
+        #Data_Tests.insert_many(dados, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
+        
+        Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
         return "ok"
 
 
@@ -1600,7 +1620,7 @@ def main():
             #collect data in gnocchi in each cloud
             # nova cpu 7c4d2383-1e6f-5bb3-a1f9-e210c10017e6    496967e6-8f56-54bb-8c1c-adca3318a52b
             print(" id nova compute cloud1 ")
-            print(str(cloud1_resource_ids_nova))
+            print(str(cloud1_resource_ids_nova)) 
             print(" id nova compute cloud2 ")
             print(str(cloud2_resource_ids_nova))    
 
@@ -1844,6 +1864,29 @@ def main():
                 UpdateJob(JOB_COD,2) #Finished the job
                 UpdateFinishTestsMethods(METHOD_12)
                 UpdateFinishDateTestsbyId(TEST_ID)
+
+                #now=datetime.now().utcnow()
+                #intervalo=30
+                #delta = timedelta(seconds=intervalo)
+                #time_past=now-delta
+                #####START = "2021-08-01 13:30:33+00:00"
+                ####3STOP = "2021-08-01 13:35:36+00:00"
+                #START=time_past
+                #STOP=now
+                #GRANULARITY=60.0
+                #metrics_test=json.loads(cloud1_gnocchi.get_last_measure_Data_Test("NVNF",cloud1_resource_id,None,GRANULARITY,START,STOP))
+                #metrics_test=json.loads(cloud1_gnocchi.get_last_measure_Date("NVNF",cloud1_resource_id,None,GRANULARITY,START,STOP))
+                #teste=cloud1_gnocchi.get_last_measure_Data_Test("NVNF",cloud1_resource_id,None,GRANULARITY,START,STOP)
+                #print("imprimir testes")
+                #print(metrics_test)
+                #Data_Tests.insert_many(rows=res,fields=metrics_test)
+                #querymany = query.insert_many(res, fields=[data_tes TestsMethodsData.timestmp,TestsMethodsData.granularity,TestsMethodsData.metric_utilization])
+
+        # print('query insert Many result', querymany)
+        # result = querymany.execute()
+        # print('insert Many result', result)
+        # print(resultado)
+        #return 'resultado'
                 
                 return str(JOB_COD)
             else:
