@@ -537,10 +537,10 @@ def Collector_Metrics_Demand_Date(cloud,cloud1_gnocchi,cloud1_resource_id,cloud2
     GRANULARITY=60.0    
     if cloud == "1":
         print ("passei cloud 1")
-        return cloud1_gnocchi.get_last_measure_Date(metric_name,cloud1_resource_id,None,GRANULARITY,START,STOP)
+        return cloud1_gnocchi.get_last_measure_Date(metric_name,cloud1_resource_id,None,GRANULARITY,START,STOP,1,1,1)
     if cloud == "2":
         print ("passei cloud 2")
-        return cloud2_gnocchi.get_last_measure_Date(metric_name,cloud2_resource_id,None,GRANULARITY,START,STOP)
+        return cloud2_gnocchi.get_last_measure_Date(metric_name,cloud2_resource_id,None,GRANULARITY,START,STOP,1,1,1)
 
 
 #Collect metric links from cloud1 to cloud2
@@ -615,7 +615,7 @@ def InsertDataTestsTypes(name):
         name_data_tests = name
     ).execute()
 
-def InsertDataTests(date, id_test, id_data_test_type, id_cloud ):
+def c(date, id_test, id_data_test_type, id_cloud ):
     return Data_Tests.insert(
         date_data_tests = date,
         fk_tests = id_test,
@@ -626,7 +626,7 @@ def InsertDataTests(date, id_test, id_data_test_type, id_cloud ):
 def InsertTests(desc):
     return Tests.insert(
         description = desc,
-        start_date_test = datetime.timestamp(datetime.now().utcnow())
+        start_date_test = datetime.timestamp(datetime.now())
     ).execute()
 
 def InsertActionsTestsTypes(name_test_type):
@@ -641,11 +641,12 @@ def InsertActionsTests(id_fk_test,cod_test_type,date_actions_tests):
         fk_actions_tests_types = cod_test_type
     ).execute()
 
-def InsertTestsMethods(cod_test,cod_method):
+def InsertTestsMethods(cod_test,cod_method,cod_cloud):
     return Tests_Methods.insert(
         start_date_test_methods = datetime.timestamp(datetime.now().utcnow()),
         fk_tests = cod_test,
-        fk_methods=cod_method
+        fk_methods=cod_method,
+        fk_clouds=cod_cloud
     ).execute()
 
 def InsertDegradationVnfType(nametype):
@@ -656,7 +657,7 @@ def InsertDegradationVnfType(nametype):
 
 
 def UpdateFinishTestsMethods(cod_method_test):
-    return Tests_Methods.update(finish_date_test_methods=datetime.timestamp(datetime.now().utcnow())).where(Tests_Methods.id_tests_methods==cod_method_test).execute()
+    return Tests_Methods.update(finish_date_test_methods=datetime.timestamp(datetime.now())).where(Tests_Methods.id_tests_methods==cod_method_test).execute()
     #print(datetime.timestamp(datetime.now().utcnow()))
     #time.sleep(2)
     #return timetestmethod
@@ -666,6 +667,10 @@ def UpdateFinishDateTestsbyId(id):
     #print(datetime.timestamp(datetime.now().utcnow()))
     #time.sleep(2)
     #return timetest
+
+def SelectTestbyId(id):
+    return (Tests.select(Tests.start_date_test,Tests.finish_date_test)
+    .where(Tests.id_tests==id).dicts().get())
 
 #def UpdateFinishTestsMethods(cod_method_test):
 #    return Tests_Methods.update(finish_date_test_methods=datetime.now().utcnow()).where(Tests_Methods.id_tests_methods==cod_method_test).execute()
@@ -976,31 +981,19 @@ def SelectStatusDegradationCloud(CLOUD_ID):
 def FirstLoadBD():
     print("Iniciando carga BD.")
     #PreLoadDefault
-    InsertMethods("insertJob_cl1()")
-    InsertMethods("insertJob_cl2()")
-    InsertMethods("userLatency_cl1()")
-    InsertMethods("userLatency_cl2()")
-    InsertMethods("getLastMeasureClouds_cl1()")
-    InsertMethods("getLastMeasureClouds_cl2()")
-    InsertMethods("insertMetric_cl1()")
-    InsertMethods("insertMetric_cl2()")
-    InsertMethods("insertMetricCloud_cl1()")
-    InsertMethods("insertMetricCloud_cl2()")
-    InsertMethods("insertJobVnfCloud_cl1()")
-    InsertMethods("insertJobVnfCloud_cl2()")
-    InsertMethods("insertMetricsVnf_cl1()")
-    InsertMethods("insertMetricsVnf_cl2()")
-    InsertMethods("getMetricsVnfApplyWeight_cl1()")
-    InsertMethods("getMetricsVnfApplyWeight_cl2()")
-    InsertMethods("updateCostJobVnfCloud_cl1()")
-    InsertMethods("updateCostJobVnfCloud_cl2()")
-    InsertMethods("getVnfStatusDegradation_cl1()")
-    InsertMethods("getVnfStatusDegradation_cl2()")
+    InsertMethods("insertJob()")
+    InsertMethods("userLatency()")
+    InsertMethods("getLastMeasureClouds()")
+    InsertMethods("insertMetric()")
+    InsertMethods("insertMetricCloud()")
+    InsertMethods("insertJobVnfCloud()")
+    InsertMethods("insertMetricsVnf()")
+    InsertMethods("getMetricsVnfApplyWeight()")
+    InsertMethods("updateCostJobVnfCloud()")
+    InsertMethods("getVnfStatusDegradation()")
     #InsertMethods("SetProcessModel()")
-    InsertMethods("configVNFsCostsOSM_cl1()")
-    InsertMethods("configVNFsCostsOSM_cl2()")
-    InsertMethods("createNSInstanceOSM_cl1()")
-    InsertMethods("createNSInstanceOSM_cl2()")
+    InsertMethods("configVNFsCostsOSM()")
+    InsertMethods("createNSInstanceOSM()")
     InsertActionsTestsTypes("Instanciação de NS.")
     InsertActionsTestsTypes("Alteração do custo do link, considerando latência e jitter entre nuvens.")
     InsertActionsTestsTypes("Alteração do custo das VNFDs de acordo com a latência para o usuário final e percentual de uso de CPU da nuvem.")
@@ -1336,25 +1329,56 @@ def main():
         #STOP = "2021-08-01 13:35:36+00:00"
         START=time_past
         STOP=now
-        GRANULARITY=60.0
-        #metrics_test=json.loads(cloud1_gnocchi.get_last_measure_Data_Test("NVNF",cloud1_resource_id,None,GRANULARITY,START,STOP))
-        get_data=cloud1_gnocchi.get_last_measure_Date("NVNF",cloud1_resource_id,None,GRANULARITY,START,STOP,1,1,1)
+
+        START2=1660205102.1287
+        STOP2=1660205137.468756
+        print("convertido para start2")
+        print(datetime.fromtimestamp(START2))
+        print("convertido para stop 2")
+        print(datetime.fromtimestamp(STOP2))
+
+        CLOUD_GNOCCHI=cloud1_gnocchi
+        CLOUD_RESOURCE=cloud1_resource_id
+        GRANULARITY=5.0
+        METRIC="NVNF"
+        AGGREGATION="max"
+        COD_TEST=8
+        COD_DATA_TYPE=1
+        COD_CLOUD=1
+        get_data=CLOUD_GNOCCHI.get_last_measure_Date(METRIC,CLOUD_RESOURCE,AGGREGATION,GRANULARITY,START,STOP,COD_TEST,COD_CLOUD,COD_DATA_TYPE)
         print(get_data)
         if get_data == -1:
             return "ok" 
         metrics_test=json.loads(get_data)
         print(metrics_test)
-        
-        #dados=[{'a':'21' ,'b': '60.0', 'c':'1.0',  'd':1, 'e':1,  'f':1}]
-        #print(type(dados))
-        #dados2=[{'name_data_tests':'o44ii'},{'name_data_tests':'oii33332'}   ]
-        #Data_Tests_Types.insert_many(dados2, fields=['name_data_tests']).execute()
-
-        #Data_Tests.insert_many(dados, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
-        
         Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
+
+        CLOUD_GNOCCHI=cloud2_gnocchi
+        CLOUD_RESOURCE=cloud2_resource_id
+        GRANULARITY=5.0
+        METRIC="NVNF"
+        AGGREGATION="max"
+        COD_TEST=8
+        COD_DATA_TYPE=1
+        COD_CLOUD=1
+        get_data=CLOUD_GNOCCHI.get_last_measure_Date(METRIC,CLOUD_RESOURCE,AGGREGATION,GRANULARITY,START,STOP,COD_TEST,COD_CLOUD,COD_DATA_TYPE)
+        print(get_data)
+        if get_data == -1:
+            return "ok" 
+        metrics_test=json.loads(get_data)
+        print(metrics_test)
+        get_data=CLOUD_GNOCCHI.get_last_measure_Date(METRIC,CLOUD_RESOURCE,AGGREGATION,GRANULARITY,START,STOP,COD_TEST,COD_CLOUD,COD_DATA_TYPE)
+        Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
+
         return "ok"
 
+    @app.route('/selectidtest/',methods=['GET'])
+    def SelectIdTests():
+        test=SelectTestbyId(8)
+        print(test)
+        print (test.get('start_date_test'))
+        print (test.get('finish_date_test'))       
+        return "ok"
 
     #Return NS packages and VNFS pakages of OSM
     @app.route('/listnsvnfpackage/',methods=['GET'])
@@ -1543,11 +1567,11 @@ def main():
             DEGRADATION_VNF1_METRIC_NAME="compute.node.cpu.percent"
             DEGRADATION_VNF2_METRIC_NAME="compute.node.cpu.percent"
 
-            METHOD_1=InsertTestsMethods(TEST_ID,1)
+            METHOD_1=InsertTestsMethods(TEST_ID,1,1)
             JOB_COD=InsertJob(IP_USER,NSD_NAME,COD_USER,COD_STATUS_JOB,TEST_ID)
             UpdateFinishTestsMethods(METHOD_1)
 
-            METHOD_2=InsertTestsMethods(TEST_ID,2)
+            METHOD_2=InsertTestsMethods(TEST_ID,2,1)
             try:          
                 #Future: To read config file and start theese request automaticaly, for example to 1, 2, 3, 4 clouds...
                 print("Inicio Teste na nuvem 1")
@@ -1624,7 +1648,7 @@ def main():
             print(" id nova compute cloud2 ")
             print(str(cloud2_resource_ids_nova))    
 
-            METHOD_3=InsertTestsMethods(TEST_ID,3)
+            METHOD_3=InsertTestsMethods(TEST_ID,3,1)
             #####Test#####Start#####get_last_measure()
             DATA_METRIC1_CL1=getLastMeasureClouds(METRIC1_NAME,cloud1_gnocchi,cloud1_resource_ids_nova,cloud1_resource_id,GRANULARITY,START,STOP)
             DATA_METRIC2_CL1=getLastMeasureClouds(METRIC2_NAME,cloud1_gnocchi,cloud1_resource_ids_nova,cloud1_resource_id,GRANULARITY,START,STOP)
@@ -1639,7 +1663,7 @@ def main():
             UpdateFinishTestsMethods(METHOD_3)
 
 
-            METHOD_4=InsertTestsMethods(TEST_ID,4)
+            METHOD_4=InsertTestsMethods(TEST_ID,4,1)
             #####Test#####Start#####InsertMetric()
             #Insert metrics in METRICS plao bd
             COD_METRIC1=insertMetric(METRIC1_NAME) #ex latency
@@ -1648,7 +1672,7 @@ def main():
             UpdateFinishTestsMethods(METHOD_4)
 
 
-            METHOD_5=InsertTestsMethods(TEST_ID,5)
+            METHOD_5=InsertTestsMethods(TEST_ID,5,1)
             #####Test#####Start#####InsertMetricCloud()
             #Inser metric for cloud
             insertMetricCloud(CLOUD1_COD,COD_METRIC1)
@@ -1659,7 +1683,7 @@ def main():
             UpdateFinishTestsMethods(METHOD_5)
 
 
-            METHOD_6=InsertTestsMethods(TEST_ID,6)
+            METHOD_6=InsertTestsMethods(TEST_ID,6,1)
             #####Test#####Start#####InsertJobVnfCloud()
             #Insert values in JOBS_VNFS_CLOUDS table, necessario math join 2 metrics and wheights
             VNF1_CL1=insertJobVnfCloud("",JOB_COD,COD_VNF1,CLOUD1_COD,DEGRADATION_THRESHOLD_VNF1,DEGRADATION_THRESHOLD_TYPE_VNF1,DATA_METRIC_DEGRADATION_VNF1_CL1)
@@ -1670,7 +1694,7 @@ def main():
             UpdateFinishTestsMethods(METHOD_6)
 
 
-            METHOD_7=InsertTestsMethods(TEST_ID,7)
+            METHOD_7=InsertTestsMethods(TEST_ID,7,1)
             #####Test#####Start#####InsertMetricsVnf()
             #Insert values metrics per cloud in METRICS_VNF table
             #Data of metric one and two, each weight per vnf
@@ -1686,7 +1710,7 @@ def main():
             UpdateFinishTestsMethods(METHOD_7)
             
 
-            METHOD_8=InsertTestsMethods(TEST_ID,8)
+            METHOD_8=InsertTestsMethods(TEST_ID,8,1)
             #####Test#####Start#####GetMetricsVnfbyWeight()
             VNF1_CL1_M1_CALC=getMetricsVnfApplyWeight(VNF1_CL1_M1)#Calc VNF1 CL1 M1
             VNF1_CL1_M2_CALC=getMetricsVnfApplyWeight(VNF1_CL1_M2)#Calc VNF1 CL1 M2
@@ -1715,7 +1739,7 @@ def main():
             UpdateFinishTestsMethods(METHOD_8)
 
 
-            METHOD_9=InsertTestsMethods(TEST_ID,9)
+            METHOD_9=InsertTestsMethods(TEST_ID,9,1)
             ############################
             #Update Costs in BD
             updateCostJobVnfCloud(VNF1_CL1,VNF1_CL1_CALC)
@@ -1725,7 +1749,7 @@ def main():
             ############################
             UpdateFinishTestsMethods(METHOD_9)
 
-            METHOD_10=InsertTestsMethods(TEST_ID,10)
+            METHOD_10=InsertTestsMethods(TEST_ID,10,1)
             #Check degradation
             #if has degradation now in specifc cloud, plus 10 units in vnf cost 
             #VNF1_CL1_STATUS_DEGRADATION=SelectStatusDegradationCloud(SelectIdCloud_JobVnfCloud(VNF1_CL1))
@@ -1748,7 +1772,7 @@ def main():
 
 
             #Refatorar para virar um metodo #####configVNFsCostsOSM()
-            METHOD_11=InsertTestsMethods(TEST_ID,11)
+            METHOD_11=InsertTestsMethods(TEST_ID,11,1)
             #store somewhere values link for logs          
             NAME_VNF=GetNameVNF(SelectIdVnf_JobVnfCloud(VNF1_CL1))
             VIM_URL=cloud1.getVimURL()
@@ -1784,7 +1808,7 @@ def main():
             UpdateFinishTestsMethods(METHOD_11)
 
 
-            METHOD_12=InsertTestsMethods(TEST_ID,12)
+            METHOD_12=InsertTestsMethods(TEST_ID,12,1)
             #Instanciate NS in OSM
             OSM.check_token_valid(token)
             #print(token['id'])
@@ -1865,28 +1889,35 @@ def main():
                 UpdateFinishTestsMethods(METHOD_12)
                 UpdateFinishDateTestsbyId(TEST_ID)
 
-                #now=datetime.now().utcnow()
-                #intervalo=30
-                #delta = timedelta(seconds=intervalo)
-                #time_past=now-delta
-                #####START = "2021-08-01 13:30:33+00:00"
-                ####3STOP = "2021-08-01 13:35:36+00:00"
-                #START=time_past
-                #STOP=now
-                #GRANULARITY=60.0
-                #metrics_test=json.loads(cloud1_gnocchi.get_last_measure_Data_Test("NVNF",cloud1_resource_id,None,GRANULARITY,START,STOP))
-                #metrics_test=json.loads(cloud1_gnocchi.get_last_measure_Date("NVNF",cloud1_resource_id,None,GRANULARITY,START,STOP))
-                #teste=cloud1_gnocchi.get_last_measure_Data_Test("NVNF",cloud1_resource_id,None,GRANULARITY,START,STOP)
-                #print("imprimir testes")
-                #print(metrics_test)
-                #Data_Tests.insert_many(rows=res,fields=metrics_test)
-                #querymany = query.insert_many(res, fields=[data_tes TestsMethodsData.timestmp,TestsMethodsData.granularity,TestsMethodsData.metric_utilization])
+                TestTimes=SelectTestbyId(TEST_ID)
+                START_TEST=TestTimes.get('start_date_test')
+                STOP_TEST=TestTimes.get('finish_date_test')
+                print ("start test")
+                print(START_TEST)
+                print("stop test")
+                print(STOP_TEST)
 
-        # print('query insert Many result', querymany)
-        # result = querymany.execute()
-        # print('insert Many result', result)
-        # print(resultado)
-        #return 'resultado'
+                OSM.check_token_valid(token)
+
+                #print(datetime.fromtimestamp(START_TEST))
+                #print(datetime.fromtimestamp(STOP_TEST))
+
+                CLOUD_GNOCCHI=cloud1_gnocchi
+                CLOUD_RESOURCE=cloud1_resource_id
+                GRANULARITY=5.0
+                METRIC="NVNF"
+                AGGREGATION="max"
+                #TEST_ID=1
+                COD_DATA_TYPE=1
+                COD_CLOUD=1
+                get_data=CLOUD_GNOCCHI.get_last_measure_Date(METRIC,CLOUD_RESOURCE,AGGREGATION,GRANULARITY,START_TEST,STOP_TEST,TEST_ID,COD_CLOUD,COD_DATA_TYPE)
+                print(get_data)
+                if get_data == -1:
+                    return "ok" 
+                metrics_test=json.loads(get_data)
+                print(metrics_test)
+                Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
+
                 
                 return str(JOB_COD)
             else:

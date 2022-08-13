@@ -4,7 +4,7 @@ from datetime import datetime, tzinfo
 
 
 def DATEHOURS():
-    DATEHOUR = datetime.now()  #.strftime('%d.%m.%y-%H:%M:%S')  # converte hora para string do cliente
+    DATEHOUR = datetime.now().utcnow()  #.strftime('%d.%m.%y-%H:%M:%S')  # converte hora para string do cliente
     return DATEHOUR
 
 

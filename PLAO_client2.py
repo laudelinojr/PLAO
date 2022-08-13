@@ -461,7 +461,7 @@ class Gnocchi():
         try:
             dados=self.gnocchi_client.metric.get_measures(name_metric,start,stop, aggregation, granularity,resource_id)
             df = pd.DataFrame(dados, columns =['date_data_tests', 'granularity_data_tests', 'value_data_tests'])
-            df = df.assign(fk_tests=1,fk_data_tests_types=1,fk_cloud=1)
+            df = df.assign(fk_tests=cod_test,fk_data_tests_types=cloud_data_type,fk_cloud=cod_cloud)
             if (df.__len__() == 0):
                 return -1
             df2=json.dumps(json.loads(df.to_json(orient = 'records')), indent=2)

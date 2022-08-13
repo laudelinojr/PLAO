@@ -21,43 +21,6 @@ class Tests(BaseModel):
     class Meta:
         table_name = 'tests'
 
-class Methods(BaseModel):
-    id_methods=BigIntegerField( unique=True, primary_key=True,
-            constraints=[SQL('AUTO_INCREMENT')])
-    name_methods = CharField(max_length=100)
-
-    class Meta:
-        table_name = 'methods'
-
-class Tests_Methods(BaseModel):
-    id_tests_methods=BigIntegerField( unique=True, primary_key=True,
-            constraints=[SQL('AUTO_INCREMENT')])
-    start_date_test_methods = CharField(max_length=100)
-    finish_date_test_methods = CharField(max_length=100)
-    fk_tests = ForeignKeyField(Tests, db_column='id_tests')
-    fk_methods = ForeignKeyField(Methods, db_column='id_methods')
-
-    class Meta:
-        table_name = 'tests_methods'
-
-class Actions_Tests_Types(BaseModel):
-    id_actions_tests_types=BigIntegerField( unique=True, primary_key=True,
-            constraints=[SQL('AUTO_INCREMENT')])
-    name_action_test_type = CharField(max_length=200)
-
-    class Meta:
-        table_name = 'actions_tests_types'
-
-class Actions_Tests(BaseModel):
-    id_actions_tests=BigIntegerField( unique=True, primary_key=True,
-            constraints=[SQL('AUTO_INCREMENT')])
-    date_actions_tests = CharField(max_length=100)
-    fk_tests = ForeignKeyField(Tests, db_column='id_tests')
-    fk_actions_tests_types = ForeignKeyField(Actions_Tests_Types, db_column='id_actions_tests_types')
-
-    class Meta:
-        table_name = 'actions_tests'
-
 class Users(BaseModel):
     id_user=BigIntegerField(primary_key=True, unique=True,
             constraints=[SQL('AUTO_INCREMENT')])
@@ -149,6 +112,44 @@ class Data_Tests(BaseModel):
     class Meta:
         table_name = 'data_tests'
 
+class Methods(BaseModel):
+    id_methods=BigIntegerField( unique=True, primary_key=True,
+            constraints=[SQL('AUTO_INCREMENT')])
+    name_methods = CharField(max_length=100)
+
+    class Meta:
+        table_name = 'methods'
+
+class Tests_Methods(BaseModel):
+    id_tests_methods=BigIntegerField( unique=True, primary_key=True,
+            constraints=[SQL('AUTO_INCREMENT')])
+    start_date_test_methods = CharField(max_length=100)
+    finish_date_test_methods = CharField(max_length=100)
+    fk_tests = ForeignKeyField(Tests, db_column='id_tests')
+    fk_methods = ForeignKeyField(Methods, db_column='id_methods')
+    fk_clouds = ForeignKeyField(Clouds, db_column='id_cloud')
+
+    class Meta:
+        table_name = 'tests_methods'
+
+class Actions_Tests_Types(BaseModel):
+    id_actions_tests_types=BigIntegerField( unique=True, primary_key=True,
+            constraints=[SQL('AUTO_INCREMENT')])
+    name_action_test_type = CharField(max_length=200)
+
+    class Meta:
+        table_name = 'actions_tests_types'
+
+class Actions_Tests(BaseModel):
+    id_actions_tests=BigIntegerField( unique=True, primary_key=True,
+            constraints=[SQL('AUTO_INCREMENT')])
+    date_actions_tests = CharField(max_length=100)
+    fk_tests = ForeignKeyField(Tests, db_column='id_tests')
+    fk_actions_tests_types = ForeignKeyField(Actions_Tests_Types, db_column='id_actions_tests_types')
+
+    class Meta:
+        table_name = 'actions_tests'
+        
 class Degradations_Vnfs_Clouds_Types(BaseModel):
     id_degradations_vnfs_clouds_types=BigIntegerField(primary_key=True, unique=True,
             constraints=[SQL('AUTO_INCREMENT')])
