@@ -45,7 +45,7 @@ PATH_LOG='log/'
 #PATH_LOG='/opt/PLAO/log/'
 PATH='/opt/PLAO/'
 #Debug mode is 1
-debug=0
+debug=1
 debug_file = 0 #keep 0
 #requisites for change all price of specif VIM (Cloud)
 DOWN_UP_PRICE=10 #Number to add vnf Price
@@ -1005,12 +1005,14 @@ def FirstLoadBD():
     InsertCloud("Serra","10.50.0.159","200.137.75.160",1,90,"9f104eee-5470-4e23-a8dd-3f64a53aa547")
     InsertCloud("Aracruz","172.16.112.60","200.137.82.21",2,91,"59ea6654-25f4-4196-a362-9745498721e1")
     InsertDegradations_Clouds(1,1,98)
-    InsertDataTestsTypes("CPU")
-    InsertDataTestsTypes("Memoria")
+    InsertDataTestsTypes("CPU1")
+    InsertDataTestsTypes("CPU2")
     InsertDataTestsTypes("NVNF")
-    InsertDataTestsTypes("Latencia_to_N2")
-    InsertDataTestsTypes("Jitter_to_N2")
-    InsertDataTestsTypes("Latencia_to_User_Test")
+    InsertDataTestsTypes("Memoria")
+    InsertDataTestsTypes("Latencia_to_Aracruz")
+    InsertDataTestsTypes("Jitter_to_Aracruz")
+    InsertDataTestsTypes("Latencia_Aracruz_to_User_Test")
+    InsertDataTestsTypes("Latencia_Serra_to_User_Test")
     InsertVnf("VNFA")
     InsertVnf("VNFB")
     InsertStatusJobs("Started")
@@ -1052,8 +1054,7 @@ def main():
     cloud1 = Cloud(servers.getbyIndexIP(0),servers.getbyIndexExternalIP(0))   
     cloud1.setName(servers.getServerName(cloud1.getIp()))
     print(cloud1.getName())
-    cloud1.setVimURL("http://200.137.82.21:5000/v3")
-    #cloud1.setVimURL("http://10.159.205.8:5000/v3")
+    cloud1.setVimURL("https://200.137.75.159:5000/v3")
     print(cloud1.getIp())
     print(cloud1.getVimURL())
     print(cloud1.getName())       
@@ -1061,8 +1062,7 @@ def main():
 
     cloud2 = Cloud(servers.getbyIndexIP(1),servers.getbyIndexExternalIP(1))
     cloud2.setName(servers.getServerName(cloud2.getIp()))
-    cloud2.setVimURL("https://200.137.75.159:5000/v3")
-    #cloud2.setVimURL("http://10.159.205.11:5000/v3")
+    cloud2.setVimURL("http://200.137.82.21:5000/v3")
     print(cloud2.getIp())
     print(cloud2.getVimURL())
     print(cloud2.getName())    
@@ -1079,17 +1079,7 @@ def main():
         cloud1_gnocchi = Gnocchi(session=cloud1_sess)
         cloud1_resource_id=cloud1_gnocchi.get_resource_id("plao")
         cloud1_resource_ids_nova=cloud1_gnocchi.get_resource_ids("nova_compute")
-        print("number vms")
-        print(cloud1_auth_session.getstats("running_vms"))
 
-        ###Alternativa se o usuario nao for adm, acessar com um adm so para isto
-        ###cloud1adm_auth_session = OpenStack_Auth(cloud_name=cloud1.getName()+"-adm")
-        ###print(cloud1adm_auth_session)
-        ###cloud1adm_sess = cloud1adm_auth_session.get_session()
-        ###print(cloud1adm_sess)
-        ###cloud1adm_gnocchi = Gnocchi(session=cloud1adm_sess)
-        ###cloud1adm_resource_id_nova=cloud1adm_gnocchi.get_resource_id("nova_compute")
-        ###print("compute_id_resource: " +cloud1adm_resource_id_nova)
     except:
         print ("Problema ao acessar Cloud 1!!!")
 
@@ -1106,22 +1096,6 @@ def main():
         cloud2_gnocchi = Gnocchi(session=cloud2_sess)
         cloud2_resource_id=cloud2_gnocchi.get_resource_id("plao")
         cloud2_resource_ids_nova=cloud2_gnocchi.get_resource_ids("nova_compute")
-        print(cloud2_auth_session.getstats("running_vms" ))
-
-
-        #Latencia_to_cloud2=cloud1_gnocchi.get_last_measure("Lat_To_"+cloud2.getIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
-        #print (Latencia_to_cloud2)
-        #Latencia_to_cloud2=cloud1_gnocchi.get_last_measure("Lat_To_"+cloud2.getIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
-        #Latencia_to_cloud2 = Latencia_to_cloud2.drop(["granularity","timestamp"],axis=1)
-        #teste_Latencia_to_cloud2=Latencia_to_cloud2.head(1)
-        #teste_Latencia_to_cloud2=Latencia_to_cloud2.head(1).values
-        ##print("valorLatenciatoCloud2: "+str(Latencia_to_cloud2))
-        ##print (Latencia_to_cloud2)
-        ##Jitter_to_cloud2=cloud1_gnocchi.get_last_measure("Jit_To_"+cloud2.getIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
-        #print (Latencia_to_cloud2)
-        #Latencia_to_cloud2 = Latencia_to_cloud2.drop(["granularity","timestamp"],axis=1)
-        #teste_Latencia_to_cloud2=Latencia_to_cloud2.head(1)
-        #teste_Latencia_to_cloud2=Latencia_to_cloud2.head(1).values
 
     except:
         print ("Problema ao acessar Cloud 2!!!")
@@ -1131,10 +1105,10 @@ def main():
     app = Flask(__name__)
 
     # The payload is the user ip address.
-    #nuvem1="10.159.205.8"
-    nuvem1="200.137.82.21"
-    #nuvem2="10.159.205.11"
-    nuvem2="200.137.75.159"
+    #nuvem1="10.159.205.11"
+    nuvem1="200.137.75.159"
+    #nuvem2="10.159.205.8"
+    nuvem2="200.137.82.21"
 
     #Start aplication in server and clients, and start Thread of collector links metrics.
     @app.route('/start/',methods=['POST'])
@@ -1372,6 +1346,103 @@ def main():
 
         return "ok"
 
+    @app.route('/copydatatests2/',methods=['GET'])
+    def copydatatest2():
+        TEST_ID=23
+        TestTimes=SelectTestbyId(TEST_ID)
+        START_TEST=TestTimes.get('start_date_test')
+        STOP_TEST=TestTimes.get('finish_date_test')
+        print ("start test")
+        print(START_TEST)
+        print("stop test")
+        print(STOP_TEST)
+
+        OSM.check_token_valid(token)
+
+        #print(datetime.fromtimestamp(START_TEST))
+        #print(datetime.fromtimestamp(STOP_TEST))
+
+        ###DADOS NVNF
+        CLOUD_GNOCCHI=cloud1_gnocchi
+        CLOUD_RESOURCE=cloud1_resource_id
+        print("cloud 1 NVNF ")
+        GRANULARITY=5.0
+        METRIC="NVNF"
+        AGGREGATION="max"
+        COD_DATA_TYPE=3 #NVNF
+        COD_CLOUD=1
+        get_data=CLOUD_GNOCCHI.get_last_measure_Date(METRIC,CLOUD_RESOURCE,AGGREGATION,GRANULARITY,START_TEST,STOP_TEST,TEST_ID,COD_CLOUD,COD_DATA_TYPE)
+        print(get_data)
+        if get_data == -1:
+            return "-1" 
+        metrics_test=json.loads(get_data)
+        print(metrics_test)
+        Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
+
+        print("cloud 2 NVNF ")
+        CLOUD_GNOCCHI=cloud2_gnocchi
+        CLOUD_RESOURCE=cloud2_resource_id
+        print(CLOUD_RESOURCE)
+        COD_CLOUD=2
+        get_data=CLOUD_GNOCCHI.get_last_measure_Date(METRIC,CLOUD_RESOURCE,AGGREGATION,GRANULARITY,START_TEST,STOP_TEST,TEST_ID,COD_CLOUD,COD_DATA_TYPE)
+        print(get_data)
+        if get_data == -1:
+            return "-1" 
+        metrics_test=json.loads(get_data)
+        print(metrics_test)
+        Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
+
+        ###DADOS CPU
+        print("cloud 1 CPU ")
+        print(type(START_TEST))
+        START_TEST=float(START_TEST)-60
+        CLOUD_GNOCCHI=cloud1_gnocchi
+        CLOUD_RESOURCE=cloud1_resource_ids_nova[0]
+        print (cloud_resource)
+        print(CLOUD_RESOURCE)
+        COD_CLOUD=1
+        COD_DATA_TYPE=1 #CPU1
+        GRANULARITY=60.0
+        METRIC="compute.node.cpu.percent"
+        AGGREGATION="mean"
+        COD_DATA_TYPE=1 #CPU     
+        get_data=CLOUD_GNOCCHI.get_last_measure_Date(METRIC,CLOUD_RESOURCE,AGGREGATION,GRANULARITY,START_TEST,STOP_TEST,TEST_ID,COD_CLOUD,COD_DATA_TYPE)
+        print(get_data)
+        if get_data == -1:
+            return "-1" 
+        metrics_test=json.loads(get_data)
+        print(metrics_test)
+        Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
+
+        ###DADOS CPU
+        CLOUD_GNOCCHI=cloud2_gnocchi
+        CLOUD_RESOURCE=cloud2_resource_ids_nova[0]
+        print("cloud 2 CPU ")
+        GRANULARITY=60.0
+        AGGREGATION="mean"
+        COD_DATA_TYPE=1 #CPU1
+        COD_CLOUD=2
+        get_data=CLOUD_GNOCCHI.get_last_measure_Date(METRIC,CLOUD_RESOURCE,AGGREGATION,GRANULARITY,START_TEST,STOP_TEST,TEST_ID,COD_CLOUD,COD_DATA_TYPE)
+        print(get_data)
+        if get_data == -1:
+            return "-1" 
+        metrics_test=json.loads(get_data)
+        print(metrics_test)
+        Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
+
+        ###DADOS CPU
+        CLOUD_RESOURCE=cloud2_resource_ids_nova[1]
+        COD_DATA_TYPE=2 #CPU2
+        COD_CLOUD=2
+        get_data=CLOUD_GNOCCHI.get_last_measure_Date(METRIC,CLOUD_RESOURCE,AGGREGATION,GRANULARITY,START_TEST,STOP_TEST,TEST_ID,COD_CLOUD,COD_DATA_TYPE)
+        print(get_data)
+        if get_data == -1:
+            return "-1" 
+        metrics_test=json.loads(get_data)
+        print(metrics_test)
+        Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
+
+
     @app.route('/selectidtest/',methods=['GET'])
     def SelectIdTests():
         test=SelectTestbyId(8)
@@ -1380,7 +1451,7 @@ def main():
         print (test.get('finish_date_test'))       
         return "ok"
 
-    #Return NS packages and VNFS pakages of OSM
+    #Return NS packages and VNFS pakages of OSMs
     @app.route('/listnsvnfpackage/',methods=['GET'])
     def OSMlistNSVNF():
         OSM.check_token_valid(token)
@@ -1533,7 +1604,7 @@ def main():
         if request.method == "POST":
 
             TEST_ID=InsertTests("Teste_send_job")
-
+            print("oiiiiii")
             ret_status = 0 #status of return cloud
             request_data = request.get_json()
             IP_USER=request_data['ipuser']
@@ -1902,23 +1973,90 @@ def main():
                 #print(datetime.fromtimestamp(START_TEST))
                 #print(datetime.fromtimestamp(STOP_TEST))
 
+                ###DADOS NVNF
                 CLOUD_GNOCCHI=cloud1_gnocchi
                 CLOUD_RESOURCE=cloud1_resource_id
                 GRANULARITY=5.0
                 METRIC="NVNF"
                 AGGREGATION="max"
-                #TEST_ID=1
-                COD_DATA_TYPE=1
+                COD_DATA_TYPE=3 #NVNF
                 COD_CLOUD=1
                 get_data=CLOUD_GNOCCHI.get_last_measure_Date(METRIC,CLOUD_RESOURCE,AGGREGATION,GRANULARITY,START_TEST,STOP_TEST,TEST_ID,COD_CLOUD,COD_DATA_TYPE)
                 print(get_data)
                 if get_data == -1:
-                    return "ok" 
+                    return "-1" 
                 metrics_test=json.loads(get_data)
                 print(metrics_test)
                 Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
 
-                
+
+                CLOUD_GNOCCHI=cloud2_gnocchi
+                CLOUD_RESOURCE=cloud2_resource_id
+                GRANULARITY=5.0
+                METRIC="NVNF"
+                AGGREGATION="max"
+                COD_DATA_TYPE=3 #NVNF
+                COD_CLOUD=2
+                get_data=CLOUD_GNOCCHI.get_last_measure_Date(METRIC,CLOUD_RESOURCE,AGGREGATION,GRANULARITY,START_TEST,STOP_TEST,TEST_ID,COD_CLOUD,COD_DATA_TYPE)
+                print(get_data)
+                if get_data == -1:
+                    return "-1" 
+                metrics_test=json.loads(get_data)
+                print(metrics_test)
+                Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
+
+                print("vai comecar cpu n1")
+                ###DADOS CPU
+                CLOUD_GNOCCHI=cloud1_gnocchi
+                CLOUD_RESOURCE=cloud1_resource_ids_nova[0]
+                GRANULARITY=60.0
+                METRIC=METRIC2_NAME
+                AGGREGATION="mean"
+                COD_DATA_TYPE=1 #CPU
+                COD_CLOUD=1
+                get_data=CLOUD_GNOCCHI.get_last_measure_Date(METRIC,CLOUD_RESOURCE,AGGREGATION,GRANULARITY,START_TEST,STOP_TEST,TEST_ID,COD_CLOUD,COD_DATA_TYPE)
+                print(get_data)
+                if get_data == -1:
+                    return "-1" 
+                metrics_test=json.loads(get_data)
+                print(metrics_test)
+                Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
+
+                print("vai comecar cpu cloud2")
+                ###DADOS CPU
+                CLOUD_GNOCCHI=cloud2_gnocchi
+                CLOUD_RESOURCE=cloud2_resource_ids_nova[0]
+                GRANULARITY=60.0
+                METRIC=METRIC2_NAME
+                AGGREGATION="mean"
+                COD_DATA_TYPE=1 #CPU
+                COD_CLOUD=2
+                get_data=CLOUD_GNOCCHI.get_last_measure_Date(METRIC,CLOUD_RESOURCE,AGGREGATION,GRANULARITY,START_TEST,STOP_TEST,TEST_ID,COD_CLOUD,COD_DATA_TYPE)
+                print(get_data)
+                if get_data == -1:
+                    return "-1" 
+                metrics_test=json.loads(get_data)
+                print(metrics_test)
+                Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
+
+                print("vai comecar cpu cloud2")
+                ###DADOS CPU
+                CLOUD_GNOCCHI=cloud2_gnocchi
+                CLOUD_RESOURCE=cloud2_resource_ids_nova[1]
+                GRANULARITY=60.0
+                METRIC=METRIC2_NAME
+                AGGREGATION="mean"
+                COD_DATA_TYPE=2 #CPU2
+                COD_CLOUD=2
+                get_data=CLOUD_GNOCCHI.get_last_measure_Date(METRIC,CLOUD_RESOURCE,AGGREGATION,GRANULARITY,START_TEST,STOP_TEST,TEST_ID,COD_CLOUD,COD_DATA_TYPE)
+                print(get_data)
+                if get_data == -1:
+                    return "-1" 
+                metrics_test=json.loads(get_data)
+                print(metrics_test)
+                Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
+
+
                 return str(JOB_COD)
             else:
                 print("Problem Instanciation")

@@ -459,14 +459,21 @@ class Gnocchi():
     #If dont data, return -1, else return data
     def get_last_measure_Date(self, name_metric, resource_id, aggregation, granularity, start, stop, cod_test, cod_cloud, cloud_data_type):
         try:
+            print("entrou dentro metodo")
+            print(resource_id)
+            print(cod_cloud)
             dados=self.gnocchi_client.metric.get_measures(name_metric,start,stop, aggregation, granularity,resource_id)
+            print(dados)
             df = pd.DataFrame(dados, columns =['date_data_tests', 'granularity_data_tests', 'value_data_tests'])
             df = df.assign(fk_tests=cod_test,fk_data_tests_types=cloud_data_type,fk_cloud=cod_cloud)
             if (df.__len__() == 0):
                 return -1
             df2=json.dumps(json.loads(df.to_json(orient = 'records')), indent=2)
             return (df2)            
-        except:
+        except Exception as err:
+            print("exception")
+            print(err)
+            
             return -1
 
     #If dont data, return -1, else return data
@@ -793,9 +800,11 @@ class CreateThread():
 
 
 def main():
+    print("oi")
     collectip()
     appc = Flask(__name__)
-
+    print("oi2")
+    
     @appc.route('/check/',methods=['GET'])
     def check():
         #If startApp() started, return 1, or 0 for not 
