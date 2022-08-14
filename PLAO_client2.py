@@ -389,7 +389,8 @@ class Gnocchi():
     def set_update_archive_policy(self,name):      
         try:
             self.update_metric=self.gnocchi_client.archive_policy.update({'name': name, 'back_window': 0, 'definition': [{'timespan': '60 days, 0:00:00', 'granularity': '0:01:00', 'points': 86400},{'timespan': '12:00:00', 'granularity': '0:00:05', 'points': 8640}], 'aggregation_methods': ['mean', 'sum', 'min', 'std', 'count', 'max']})
-        except:
+        except Exception as e:
+            print (e)
             return "NoAccess"
 
     #To get archive-policy and reply True  our False if archive-policy exist
