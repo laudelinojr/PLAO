@@ -100,7 +100,7 @@ def startApp():
 
     print("id_nova_compute")
     #gnocchi.get_archive_policy("nova_compute")
-    gnocchi_adm.set_update_archive_policy("nova_compute")
+    gnocchi_adm.set_update_archive_policy("high")
 
 
     #Checking when starting Agent
