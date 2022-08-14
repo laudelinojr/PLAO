@@ -98,6 +98,12 @@ def startApp():
     else:
         print("ArchivePolicy plao exists")
 
+    print("id_nova_compute")
+    gnocchi.get_archive_policy("nova_compute")
+
+    
+
+
     #Checking when starting Agent
     print("Checking if resource_type plao exists...")
     if(gnocchi.get_resource_type(VarPlao)==False):
@@ -377,6 +383,13 @@ class Gnocchi():
     def set_create_archive_policy(self,name):      
         try:
             self.create_metric=self.gnocchi_client.archive_policy.create({'name': name, 'back_window': 0, 'definition': [{'timespan': '60 days, 0:00:00', 'granularity': '0:01:00', 'points': 86400},{'timespan': '12:00:00', 'granularity': '0:00:05', 'points': 8640}], 'aggregation_methods': ['mean', 'sum', 'min', 'std', 'count', 'max']})
+        except:
+            return "NoAccess"
+
+    #To create archive-policy
+    def set_update_archive_policy(self,name):      
+        try:
+            self.update_metric=self.gnocchi_client.archive_policy.update({'name': name, 'back_window': 0, 'definition': [{'timespan': '60 days, 0:00:00', 'granularity': '0:01:00', 'points': 86400},{'timespan': '12:00:00', 'granularity': '0:00:05', 'points': 8640}], 'aggregation_methods': ['mean', 'sum', 'min', 'std', 'count', 'max']})
         except:
             return "NoAccess"
 
