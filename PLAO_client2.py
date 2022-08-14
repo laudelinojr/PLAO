@@ -99,9 +99,8 @@ def startApp():
         print("ArchivePolicy plao exists")
 
     print("id_nova_compute")
-    gnocchi.get_archive_policy("nova_compute")
-
-    
+    #gnocchi.get_archive_policy("nova_compute")
+    gnocchi_adm.set_update_archive_policy("nova_compute")
 
 
     #Checking when starting Agent
