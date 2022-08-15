@@ -259,7 +259,7 @@ class OSM_Auth():
             "Authorization": 'Bearer '+str(token)
         }
         response = requests.request("GET", url, headers=headers, data=payload,verify=False)
-
+        print(response.json())
         for i in (response.json()):
             print(type(i['name']))
             print(type(name0))
@@ -1626,7 +1626,8 @@ def main():
             WEIGHT_METRIC2_VNF2=0.1 #['weight_metric2_vnf2']
             COD_STATUS_JOB=1 #(1-Started,2-Finish)
             VIMACCOUNTID="9f104eee-5470-4e23-a8dd-3f64a53aa547"#fixo por enquanto
-            CONSTRAINT_OPERACAO=4 #['constraint_operacao']
+            CONSTRAINT_OPERACAO=int(request_data['constraint_operation'])
+            print(CONSTRAINT_OPERACAO)
             CONSTRAINT_LATENCY=2 #['constraint_latency']
             CONSTRAINT_JITTER=20 #['constraint_jitter']
             CONSTRAINT_VLD_ID="ns_vl_2mlm" #['constraint_vld_id']
@@ -1983,12 +1984,13 @@ def main():
                 COD_DATA_TYPE=3 #NVNF
                 COD_CLOUD=1
                 get_data=CLOUD_GNOCCHI.get_last_measure_Date(METRIC,CLOUD_RESOURCE,AGGREGATION,GRANULARITY,START_TEST,STOP_TEST,TEST_ID,COD_CLOUD,COD_DATA_TYPE)
-                print(get_data)
+                #print(get_data)
                 if get_data == -1:
-                    return "-1" 
-                metrics_test=json.loads(get_data)
-                print(metrics_test)
-                Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
+                    print ("Error-NVNF Cloud 1") 
+                else:
+                    metrics_test=json.loads(get_data)
+                    print(metrics_test)
+                    Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
 
 
                 CLOUD_GNOCCHI=cloud2_gnocchi
@@ -1999,12 +2001,13 @@ def main():
                 COD_DATA_TYPE=3 #NVNF
                 COD_CLOUD=2
                 get_data=CLOUD_GNOCCHI.get_last_measure_Date(METRIC,CLOUD_RESOURCE,AGGREGATION,GRANULARITY,START_TEST,STOP_TEST,TEST_ID,COD_CLOUD,COD_DATA_TYPE)
-                print(get_data)
+                #print(get_data)
                 if get_data == -1:
-                    return "-1" 
-                metrics_test=json.loads(get_data)
-                print(metrics_test)
-                Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
+                    print ("Error-NVNF Cloud 2") 
+                else:
+                    metrics_test=json.loads(get_data)
+                    print(metrics_test)
+                    Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
 
                 print("vai comecar cpu n1")
                 ###DADOS CPU
@@ -2016,12 +2019,13 @@ def main():
                 COD_DATA_TYPE=1 #CPU
                 COD_CLOUD=1
                 get_data=CLOUD_GNOCCHI.get_last_measure_Date(METRIC,CLOUD_RESOURCE,AGGREGATION,GRANULARITY,START_TEST,STOP_TEST,TEST_ID,COD_CLOUD,COD_DATA_TYPE)
-                print(get_data)
+                #print(get_data)
                 if get_data == -1:
-                    return "-1" 
-                metrics_test=json.loads(get_data)
-                print(metrics_test)
-                Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
+                    print ("Error-CPU Cloud 1 60")
+                else:
+                    metrics_test=json.loads(get_data)
+                    print(metrics_test)
+                    Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
 
 
                 print("vai comecar cpu n1")
@@ -2034,9 +2038,9 @@ def main():
                 COD_DATA_TYPE=1 #CPU
                 COD_CLOUD=1
                 get_data=CLOUD_GNOCCHI.get_last_measure_Date(METRIC,CLOUD_RESOURCE,AGGREGATION,GRANULARITY,START_TEST,STOP_TEST,TEST_ID,COD_CLOUD,COD_DATA_TYPE)
-                print(get_data)
+                #print(get_data)
                 if get_data == -1:
-                    return "-1" 
+                    print ("Error-CPU Cloud 1 cpu1 5")   
                 metrics_test=json.loads(get_data)
                 print(metrics_test)
                 Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
@@ -2051,29 +2055,31 @@ def main():
                 COD_DATA_TYPE=1 #CPU
                 COD_CLOUD=2
                 get_data=CLOUD_GNOCCHI.get_last_measure_Date(METRIC,CLOUD_RESOURCE,AGGREGATION,GRANULARITY,START_TEST,STOP_TEST,TEST_ID,COD_CLOUD,COD_DATA_TYPE)
-                print(get_data)
+                #print(get_data)
                 if get_data == -1:
-                    return "-1" 
-                metrics_test=json.loads(get_data)
-                print(metrics_test)
-                Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
+                    print ("Error-CPU Cloud 2 cpu1 c1 60")  
+                else:
+                    metrics_test=json.loads(get_data)
+                    print(metrics_test)
+                    Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
 
                 #print("vai comecar cpu cloud2")
                 ###DADOS CPU
-                #CLOUD_GNOCCHI=cloud2_gnocchi
-                #CLOUD_RESOURCE=cloud2_resource_ids_nova[0]
-                #GRANULARITY=5.0
-                #METRIC=METRIC2_NAME
-                #AGGREGATION="mean"
-                #COD_DATA_TYPE=1 #CPU
-                #COD_CLOUD=2
-                #get_data=CLOUD_GNOCCHI.get_last_measure_Date(METRIC,CLOUD_RESOURCE,AGGREGATION,GRANULARITY,START_TEST,STOP_TEST,TEST_ID,COD_CLOUD,COD_DATA_TYPE)
+                CLOUD_GNOCCHI=cloud2_gnocchi
+                CLOUD_RESOURCE=cloud2_resource_ids_nova[0]
+                GRANULARITY=5.0
+                METRIC=METRIC2_NAME
+                AGGREGATION="mean"
+                COD_DATA_TYPE=1 #CPU
+                COD_CLOUD=2
+                get_data=CLOUD_GNOCCHI.get_last_measure_Date(METRIC,CLOUD_RESOURCE,AGGREGATION,GRANULARITY,START_TEST,STOP_TEST,TEST_ID,COD_CLOUD,COD_DATA_TYPE)
                 #print(get_data)
-                #if get_data == -1:
-                #    return "-1" 
-                #metrics_test=json.loads(get_data)
-                #print(metrics_test)
-                #Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
+                if get_data == -1:
+                    print ("Error-CPU Cloud 2 cpu2 c1 5") 
+                else: 
+                    metrics_test=json.loads(get_data)
+                    print(metrics_test)
+                    Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
 
                 print("vai comecar cpu cloud2")
                 ###DADOS CPU
@@ -2085,30 +2091,31 @@ def main():
                 COD_DATA_TYPE=2 #CPU2
                 COD_CLOUD=2
                 get_data=CLOUD_GNOCCHI.get_last_measure_Date(METRIC,CLOUD_RESOURCE,AGGREGATION,GRANULARITY,START_TEST,STOP_TEST,TEST_ID,COD_CLOUD,COD_DATA_TYPE)
-                print(get_data)
-                if get_data == -1:
-                    return "-1" 
-                metrics_test=json.loads(get_data)
-                print(metrics_test)
-                Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
-
-                #print("vai comecar cpu cloud2")
-                ###DADOS CPU
-                #CLOUD_GNOCCHI=cloud2_gnocchi
-                #CLOUD_RESOURCE=cloud2_resource_ids_nova[1]
-                #GRANULARITY=5.0
-                #METRIC=METRIC2_NAME
-                #AGGREGATION="mean"
-                #COD_DATA_TYPE=2 #CPU2
-                #COD_CLOUD=2
-                #get_data=CLOUD_GNOCCHI.get_last_measure_Date(METRIC,CLOUD_RESOURCE,AGGREGATION,GRANULARITY,START_TEST,STOP_TEST,TEST_ID,COD_CLOUD,COD_DATA_TYPE)
                 #print(get_data)
-                #if get_data == -1:
-                #    return "-1" 
-                #metrics_test=json.loads(get_data)
-                #print(metrics_test)
-                #Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
+                if get_data == -1:
+                    print ("Error-CPU Cloud 2 cpu2 c2 60")  
+                else:
+                    metrics_test=json.loads(get_data)
+                    print(metrics_test)
+                    Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
 
+                print("vai comecar cpu cloud2")
+                ###DADOS CPU
+                CLOUD_GNOCCHI=cloud2_gnocchi
+                CLOUD_RESOURCE=cloud2_resource_ids_nova[1]
+                GRANULARITY=5.0
+                METRIC=METRIC2_NAME
+                AGGREGATION="mean"
+                COD_DATA_TYPE=2 #CPU2
+                COD_CLOUD=2
+                get_data=CLOUD_GNOCCHI.get_last_measure_Date(METRIC,CLOUD_RESOURCE,AGGREGATION,GRANULARITY,START_TEST,STOP_TEST,TEST_ID,COD_CLOUD,COD_DATA_TYPE)
+                #print(get_data)
+                if get_data == -1:
+                    print ("Error-CPU Cloud 1 c2 5")  
+                else:
+                    metrics_test=json.loads(get_data)
+                    print(metrics_test)
+                    Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
 
                 return str(JOB_COD)
             else:

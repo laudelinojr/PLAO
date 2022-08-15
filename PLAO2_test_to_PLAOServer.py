@@ -35,9 +35,13 @@ if sys.argv[3] == "userlatency":
 if sys.argv[3] == "sendjob":
     print ("Invalido: We need the Operation.")
     IPUSER = sys.argv[4] #IPUser to sendJob
+    CONSTRAINT_OPERATION = sys.argv[5] #Send operational
     #Future: to valid the ip in third parameter
     if sys.argv[4] == '': 
         print ("Invalido: We need the user ip.")
+        exit()
+    if sys.argv[5] == '': 
+        print ("Invalido: We need the operation.")
         exit()
 
 if sys.argv[3] == "selectMetricTime":
@@ -64,7 +68,7 @@ print(URL)
 
 #Future: Send in payload the parametrs of operations. for example the number packets latency and others
 # The payload is the user ip address.
-payload = {"ipuser" : str(IPUSER) , "startdate" : str(START_DATE), "stopdate" : str(STOP_DATE), "metricname" : str(METRIC_NAME), "cloudcod" : CLOUD_COD}
+payload = {"ipuser" : str(IPUSER) , "constraint_operation" : str(CONSTRAINT_OPERATION),"startdate" : str(START_DATE), "stopdate" : str(STOP_DATE), "metricname" : str(METRIC_NAME), "cloudcod" : CLOUD_COD}
 #vnf1, vnf2, pesovnf1, pesovnf2, metrlimite, valmetrlimite, metrrestricao, valmetrrestricao, nsnome
 # Request to start the application agent betwen clouds (ping and jitter). The server will request for the all clouds in enviroment.
 a = requests.request(
