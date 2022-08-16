@@ -1,3 +1,4 @@
+from ast import Return
 import subprocess
 import time
 import requests
@@ -110,17 +111,19 @@ def reglog(typemensage):
             arquivo.write('data#type#log'+'\n')        
 
 
-reglog('cabconfig')
+#reglog('cabconfig')
 print(DATEHOURS())
 print("### Cenario 1###")
-ExecuteCommand("ssh root@10.159.205.7 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
-ExecuteCommand("ssh root@10.159.205.13 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'")
-ExecuteCommand("ssh root@10.159.205.7 'for pid in $(ps -ef | grep 'stress-ng' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'")
-ExecuteCommand("ssh root@10.159.205.13 'for pid in $(ps -ef | grep 'stress-ng' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'")
-ExecuteCommand("ssh root@10.159.205.7 'stress-ng -c 4 -l 10 > /dev/null 2>&1 &'")
-ExecuteCommand("ssh root@10.159.205.13 'stress-ng -c 4 -l 20 > /dev/null 2>&1 &'")
+#ExecuteCommand("ssh root@10.159.205.7 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
+#ExecuteCommand("ssh root@10.159.205.13 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'")
+ExecuteCommand("ssh root@200.137.82.21 'for pid in $(ps -ef | grep 'stress-ng' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'")
+#ExecuteCommand("ssh laudelinoas@200.137.75.159 'for pid in $(ps -ef | grep 'stress-ng' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'")
+#ExecuteCommand("ssh root@10.159.205.7 'stress-ng -c 4 -l 10 > /dev/null 2>&1 &'")
+#ExecuteCommand("ssh root@10.159.205.13 'stress-ng -c 4 -l 20 > /dev/null 2>&1 &'")
 #ExecuteCommand("ssh root@10.159.205.7 'tc qdisc add dev eth0 root netem delay 11ms'")
 
+print ("ok")
+exit(1)
 ExecuteCommand("ssh root@10.159.205.7 'tc qdisc del dev eth0 root'")
 ExecuteCommand("ssh root@10.159.205.13 'tc qdisc del dev eth0 root'")
 
@@ -307,38 +310,6 @@ ExecuteCommand("ssh root@10.159.205.7 'for pid in $(ps -ef | grep 'stress-ng' | 
 ExecuteCommand("ssh root@10.159.205.13 'for pid in $(ps -ef | grep 'stress-ng' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'")
 #print("Intervalo descanso Experimento")
 #time.sleep(INTERVALO_DESCANSO_EXPERIMENTO)
-
-'''
-print("### Cenario 6 ###")   #Aumentar quantidade de CPU usada no SO com nstress
-print("Incluindo simulacao Latencia 6")
-ExecuteCommand("ssh root@10.159.205.7 'tc qdisc add dev eth0 root netem delay 4ms'")
-print('Simulando aumento de CPU Cloud 1')
-ExecuteCommand("cd /opt/PLAO; python3 /opt/PLAO/PLAO.py > /dev/null 2>&1 &")
-time.sleep(10)
-ExecuteCommand("ssh root@10.159.205.7 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack1 10.159.205.6 > /dev/null 2>&1 &'")
-ExecuteCommand("ssh root@10.159.205.13 'cd /opt/PLAO; git pull; python3 /opt/PLAO/PLAO_client.py 10.159.205.10 openstack2 10.159.205.12 > /dev/null 2>&1 &'")
-ExecuteCommand("ssh root@10.159.205.7 'stress-ng --cpu 1 > /dev/null 2>&1 &'")
-time.sleep(30) #Aguardando nova coleta para alterar dinamicamente a pontuacao do link e cpu
-ExecuteCommand("python3 USER_TEST.py 3a") #Create NS with 2 VNFD using PLA module OSM sem latencia do usuario
-print('vamos aguardar '+str(INTERVALO_EXPERIMENTO)+' segundos.')
-time.sleep(INTERVALO_EXPERIMENTO)
-print('Finalizando cenário6, excluir NSs')
-print('Collecting token access in OSM.')
-print('Collecting NS itens')
-print('Token Gerado: '+getoken())
-print('Lista de NS: ')
-print (getlistaNS(getoken()))
-print('Removendo todas as NSs: ')
-deleteAllNS(getlistaNS(getoken()))
-RegisterLOGLaunch('REMOVING')
-print("Excluindo simulacao de latencia")
-ExecuteCommand("ssh root@10.159.205.7 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
-ExecuteCommand("ssh root@10.159.205.13 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
-ExecuteCommand("for pid in $(ps -ef | grep 'PLAO.py' | awk '{print $2}'); do kill -9 $pid; done")
-ExecuteCommand("ssh root@10.159.205.7 'tc qdisc del dev eth0 root'")
-print("Excluindo simulacao de aumento CPU Cloud 1")
-ExecuteCommand("ssh root@10.159.205.7 'for pid in $(ps -ef | grep 'stress-ng' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
-'''
 
 print("Coletando logs.")
 ExecuteCommand("mkdir -p /opt/PLAO/exp/; mv /opt/PLAO/log/* /opt/PLAO/exp/  ")

@@ -186,8 +186,8 @@ class OSM_Auth():
                 "nsdId": nsdID,
                 "vimAccountId": vimAccountId,
                 "wimAccountId": False,
-                "placement-engine": "PLA"
-                },
+                "placement-engine": "PLA",
+            }
         if constraint_operacao == 2:
             payload = {
                 "nsName": nsName,
@@ -195,7 +195,7 @@ class OSM_Auth():
                 "vimAccountId": vimAccountId,
                 "wimAccountId": False,
                 "placement-engine": "PLA",
-                "placement-constraints": {"vld-constraints": [{"id": constraint_vld_id, "link-constraints": {"latency": constraint_latency}}]},
+                "placement-constraints": {"vld-constraints": [{"id": constraint_vld_id, "link-constraints": False }]},
             }
         if constraint_operacao == 3:
             payload = {
@@ -1003,7 +1003,7 @@ def FirstLoadBD():
     InsertDegradationsCloudsTypes("CPU")
     InsertDegradationsCloudsTypes("Memoria")
     InsertCloud("Serra","10.50.0.159","200.137.75.160",1,90,"9f104eee-5470-4e23-a8dd-3f64a53aa547")
-    InsertCloud("Aracruz","172.16.112.60","200.137.82.21",2,91,"59ea6654-25f4-4196-a362-9745498721e1")
+    InsertCloud("Aracruz","172.16.112.60","200.137.82.21",2,91,"6ba02d24-6320-4322-9177-eb4987ad9465")
     InsertDegradations_Clouds(1,1,98)
     InsertDataTestsTypes("CPU1")
     InsertDataTestsTypes("CPU2")
@@ -1942,6 +1942,7 @@ def main():
                             #time.sleep(1)
                             if i['nsr-id-ref'] == id_ns_scheduled['id']:
                                 if i['_admin']['nsState'] == 'INSTANTIATED':
+                                    print(i['vim-account-id'])
                                     InsertVnfInstanciated(i['_id'],i['vnfd-ref'],GetIdCloudbyvimidosm(i['vim-account-id']),1,id_ns_instanciated)
              #                       print(i)
              #                       print("id vnf")
