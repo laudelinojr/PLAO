@@ -1362,7 +1362,7 @@ def main():
 
     @app.route('/copydatatests2/',methods=['GET'])
     def copydatatest2():
-        TEST_ID=8
+        TEST_ID=2
         TestTimes=SelectTestbyId(TEST_ID)
         START_TEST=TestTimes.get('start_date_test')
         STOP_TEST=TestTimes.get('finish_date_test')
@@ -1370,7 +1370,7 @@ def main():
         print(START_TEST)
         print("stop test")
         print(STOP_TEST)
-        START_TEST=float(START_TEST)-5000
+        START_TEST=float(START_TEST)-50000
         OSM.check_token_valid(token)
         print("vai comecar latencia n1 to n2")
         ###DADOS Latencia
