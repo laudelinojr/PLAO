@@ -402,7 +402,7 @@ class Gnocchi():
     #add measures in metrics
     def set_add_measures_metric(self,id,value):
         #print ("id da metrica in set_add_measures_metric: "+id)
-        self.timestamp = str(datetime.now()).split('.')[0]
+        self.timestamp = str(datetime.now().utcnow()).split('.')[0]
         self.addmeasures=self.gnocchi_client.metric.add_measures(id, [{'timestamp': self.timestamp,'value': value}])
 
     def get_metric_cpu_utilization(self, resource_id, granularity, vcpus, start, stop):
@@ -460,8 +460,15 @@ class Gnocchi():
     def get_last_measure_Date(self, name_metric, resource_id, aggregation, granularity, start, stop, cod_test, cod_cloud, cloud_data_type):
         try:
             print("entrou dentro metodo")
+            print(name_metric)
             print(resource_id)
+            print(aggregation)
+            print(granularity)
+            print(start)
+            print(stop)
+            print(cod_test)
             print(cod_cloud)
+            print(cloud_data_type)
             dados=self.gnocchi_client.metric.get_measures(name_metric,start,stop, aggregation, granularity,resource_id)
             print(dados)
             df = pd.DataFrame(dados, columns =['date_data_tests', 'granularity_data_tests', 'value_data_tests'])
@@ -573,9 +580,16 @@ class Cloud():
         self.Cpu=""
         self.CPUStatus=0
         self.VimURL=""
+        self.Status=0
         
     def setName(self,name):
         self.Name=name
+
+    def setStatus(self,status):
+        self.Status=status
+
+    def getStatus(self,status):
+        return self.Name
 
     def getName(self):
         return self.Name

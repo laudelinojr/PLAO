@@ -114,16 +114,26 @@ def reglog(typemensage):
 #reglog('cabconfig')
 print(DATEHOURS())
 print("### Cenario 1###")
-#ExecuteCommand("ssh root@10.159.205.7 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'") 
-#ExecuteCommand("ssh root@10.159.205.13 'for pid in $(ps -ef | grep 'PLAO_client.py' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'")
-ExecuteCommand("ssh root@200.137.82.21 'for pid in $(ps -ef | grep 'stress-ng' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'")
+#ExecuteCommand("ssh laudelinoas@200.137.82.21 'for pid in $(ps -ef | grep 'stress-ng' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'")
 #ExecuteCommand("ssh laudelinoas@200.137.75.159 'for pid in $(ps -ef | grep 'stress-ng' | awk '\\''{print $2}'\\''); do kill -9 $pid; done'")
-#ExecuteCommand("ssh root@10.159.205.7 'stress-ng -c 4 -l 10 > /dev/null 2>&1 &'")
-#ExecuteCommand("ssh root@10.159.205.13 'stress-ng -c 4 -l 20 > /dev/null 2>&1 &'")
-#ExecuteCommand("ssh root@10.159.205.7 'tc qdisc add dev eth0 root netem delay 11ms'")
+#ExecuteCommand("ssh laudelinoas@200.137.82.21 'sudo stress-ng -c 4 -l 10 > /dev/null 2>&1 &'")
+#ExecuteCommand("ssh laudelinoas@200.137.75.159 'sudo stress-ng -c 4 -l 20 > /dev/null 2>&1 &'")
+#ExecuteCommand("ssh laudelinoas@200.137.82.21 'sudo tc qdisc add dev eth0 root netem delay 11ms'")
+
+ExecuteCommand("ssh laudelinoas@200.137.82.21 'ssh laudelinoas@172.16.112.58 'sudo stress-ng -c 4 -l 10 > /dev/null 2>&1 &''")
+print("saiu")
+exit(1)
+
+ExecuteCommand("ssh laudelinoas@200.137.82.21 'sudo tc qdisc del dev eth0 root'")
+#ExecuteCommand("ssh laudelinoas@200.137.75.159 'sudo tc qdisc del dev eth0 root'")
+
+ExecuteCommand("ssh laudelinoas@200.137.82.21 'sudo tc qdisc add dev eth0 root handle 1: prio'")
+ExecuteCommand("ssh laudelinoas@200.137.82.21 'sudo tc filter add dev eth0 parent 1:0 protocol ip prio 1 u32 match ip dst 189.84.209.100 flowid 2:1'")
+ExecuteCommand("ssh laudelinoas@200.137.82.21 'sudo tc qdisc add dev eth0 parent 1:1 handle 2: netem delay 20ms'")
 
 print ("ok")
 exit(1)
+
 ExecuteCommand("ssh root@10.159.205.7 'tc qdisc del dev eth0 root'")
 ExecuteCommand("ssh root@10.159.205.13 'tc qdisc del dev eth0 root'")
 

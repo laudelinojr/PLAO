@@ -8,6 +8,7 @@ STOP_DATE=''
 METRIC_NAME=''
 CLOUD_COD=''
 TYPE=''
+CONSTRAINT_OPERATION=''
 
 IP_PLASERVER = sys.argv[1] #Address Server PLAO SERVER IP
 if sys.argv[1] == '':
