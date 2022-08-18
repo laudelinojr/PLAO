@@ -643,7 +643,7 @@ def InsertActionsTests(id_fk_test,cod_test_type,date_actions_tests):
 
 def InsertTestsMethods(cod_test,cod_method,cod_cloud):
     return Tests_Methods.insert(
-        start_date_test_methods = datetime.timestamp(datetime.now()),
+        start_date_test_methods = datetime.timestamp(datetime.now().utcnow()),
         fk_tests = cod_test,
         fk_methods=cod_method,
         fk_clouds=cod_cloud
@@ -1393,7 +1393,7 @@ def main():
 
     @app.route('/selectidtest/',methods=['GET'])
     def SelectIdTests():
-        test=SelectTestbyId(8)
+        test=SelectTestbyId(2)
         print(test)
         print (test.get('start_date_test'))
         print (test.get('finish_date_test'))       
@@ -1950,7 +1950,7 @@ def main():
                                     if (i['vim-account-id']=="6ba02d24-6320-4322-9177-eb4987ad9465"):
                                         UpdateFinishTestsMethodsifNone(METHOD_12_CL2) #CL2
                                     print(i['_admin']['nsState'])
-                        InsertActionsTests(TEST_ID,1,datetime.timestamp(datetime.now()))
+                        InsertActionsTests(TEST_ID,1,datetime.timestamp(datetime.now().utcnow()))
                         UpdateNsInstanciated(id_ns_scheduled,2,JOB_COD)
                         out=True
                 timeout=timeout+1
