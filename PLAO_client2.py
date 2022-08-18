@@ -588,8 +588,8 @@ class Cloud():
     def setStatus(self,status):
         self.Status=status
 
-    def getStatus(self,status):
-        return self.Name
+    def getStatus(self):
+        return self.Status
 
     def getName(self):
         return self.Name
