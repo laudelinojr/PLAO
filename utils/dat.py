@@ -1,5 +1,5 @@
 import datetime
-from datetime import datetime, tzinfo,date,timedelta
+from datetime import datetime, tzinfo,date,timedelta,timezone
 
 
 
@@ -30,3 +30,23 @@ time_past=stop-delta
 start=time_past
 print("oi")
 print(start)
+
+TESTE=datetime.now().utcnow()
+print(TESTE)
+
+#utc = timezone.utc()
+
+#TESTE=datetime.now(utc)
+#print(TESTE)
+
+from datetime import datetime
+import pytz
+
+newYorkTz = pytz.timezone("America/New_York") 
+timeInNewYork = datetime.now(newYorkTz)
+currentTimeInNewYork = timeInNewYork.strftime("%H:%M:%S")
+print(timeInNewYork)
+currentTimeInNewYork2 = timeInNewYork
+print(currentTimeInNewYork)
+print("The current time in New York is:", currentTimeInNewYork)
+# Output: The current time in New York is: 05:36:59

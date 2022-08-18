@@ -312,7 +312,7 @@ class File_VNF_Price():
         if (CLOUD_STATUS_DEGRADATION == 1):
             #print ("PRICE BEFORE DEGRADATION_STATUS: "+ str(PRICE))
             PRICE=int(PRICE)+DOWN_UP_PRICE
-            InsertActionsTests(COD_TEST,4,datetime.timestamp(datetime.now().utcnow()))
+            InsertActionsTests(COD_TEST,4,datetime.timestamp(datetime.now()))
             #print ("PRICE AFTER DEGRADATION_STATUS: "+ str(PRICE))
             #print("Add value because is in degradation status.") 
         for i in range(C):
@@ -329,7 +329,7 @@ class File_VNF_Price():
                     #    print("no else")
                     #    self.B[COD_VNFD]['prices'][i]['price']=int(PRICE) #Change the VNF Price
                     self.B[COD_VNFD]['prices'][i]['price']=int(PRICE) #Change the VNF Price
-                    InsertActionsTests(COD_TEST,3,datetime.timestamp(datetime.now().utcnow()))
+                    InsertActionsTests(COD_TEST,3,datetime.timestamp(datetime.now()))
                     return i
                 else:
                     return -1
@@ -346,7 +346,7 @@ class File_VNF_Price():
                 documents = yaml.dump(self.B, file, sort_keys=False) #Export changes to file without order, equal original file
             if debug == 1: print("going to copy to SearchChangeVNFDPrice ")
             print("lembrar descomentar linha para docker fazer copia vnf")
-            #ExecuteCommand('docker cp '+FILE_VNF_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')  
+            ExecuteCommand('docker cp '+FILE_VNF_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')  
 
             try:
                 nomearquivo4=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
@@ -402,7 +402,7 @@ class File_VNF_Price():
             with open(FILE_VNF_PRICE, 'w') as file:
                 documents = yaml.dump(self.B, file, sort_keys=False) #Export changes to file without order, equal original file
             print ("CPU CHANGE: File pil_price changed because High CPU.")
-            #InsertActionsTests(fk_test,4,datetime.timestamp(datetime.now().utcnow()))
+            #InsertActionsTests(fk_test,4,datetime.timestamp(datetime.now()))
             nomearquivo5=PATH_LOG+'CPU_TRIGGER_'+ Cloud.getName() +'_history.txt' #write data in file
             with open(nomearquivo5, 'a') as arquivo:
                 arquivo.write(DATEHOURS() + ','+ Cloud.getName() + ","+ Cloud.getIP() +","+ str(STATUS_CPU_NOW)+'\n')
@@ -438,7 +438,7 @@ class File_PIL_Price():
             if (self.ChangePriceLatencyJitterPIL(CLOUD_COD,PRICE,LATENCY,JITTER)) != -1: #Change Price Latency and Jitter
                 with open(FILE_PIL_PRICE, 'w') as file:
                     documents = yaml.dump(self.B, file, sort_keys=False) #Export changes to file without order, equal original file
-                InsertActionsTests(COD_TEST,2,datetime.timestamp(datetime.now().utcnow()))
+                InsertActionsTests(COD_TEST,2,datetime.timestamp(datetime.now()))
                 print("lembrar descomentar linha para docker fazer copia pil")
                 ExecuteCommand('docker cp '+FILE_PIL_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
                 try:
@@ -469,7 +469,7 @@ class File_PIL_Price():
             return -1
 
 def DATEHOURS():
-    DATEHOUR = datetime.now().utcnow().strftime('%d.%m.%y-%H:%M:%S')  # converte hora para string do cliente
+    DATEHOUR = datetime.now().strftime('%d.%m.%y-%H:%M:%S')  # converte hora para string do cliente
     return DATEHOUR
 
 def ExecuteCommand(exec_command):
@@ -487,13 +487,13 @@ def ExecuteCommand(exec_command):
         return ret.returncode
 
 def DATEHOURS():
-    DATEHOUR = datetime.now().utcnow().strftime('%d.%m.%y-%H:%M:%S')  # converte hora para string do cliente
+    DATEHOUR = datetime.now().strftime('%d.%m.%y-%H:%M:%S')  # converte hora para string do cliente
     return DATEHOUR
 
 #Collect metric links from cloud1 to cloud2.
 def Collector_Metrics_Links_cl1(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,CLOUD_FROM,CLOUD_TO):
     while True:
-        now=datetime.now().utcnow()
+        now=datetime.now()
         intervalo=30
         delta = timedelta(seconds=intervalo)
         time_past=now-delta
@@ -512,7 +512,7 @@ def Collector_Metrics_Links_cl1(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile
         time.sleep(10)
 
 def Collector_Metrics_Links_Demand_Interval_cl1(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,CLOUD_FROM,CLOUD_TO,interval,metric_name):
-    now=datetime.now().utcnow()
+    now=datetime.now()
     delta = timedelta(seconds=interval)
     time_past=now-delta
     START=time_past
@@ -562,7 +562,7 @@ def Monitor_Request_LatencyUser_Cloud1(cloud1_gnocchi,cloud1_resource_id,VNFFile
 
 def Collector_Metrics_Disaggregated_cl1(cloud1_gnocchi,cloud1_resource_id_nova,Cloud,VNFFile):
     while True:
-        now=datetime.now().utcnow()
+        now=datetime.now()
         intervalo=30
         delta = timedelta(seconds=intervalo)
         time_past=now-delta
@@ -600,7 +600,7 @@ def InsertUser(name0, username0, password0):
             name_user = name0,
             username_user = username0,
             password_user = password0,
-            creation_date_user = datetime.now().utcnow()
+            creation_date_user = datetime.now()
         ).execute()
     else:
         -1
@@ -626,7 +626,7 @@ def c(date, id_test, id_data_test_type, id_cloud ):
 def InsertTests(desc):
     return Tests.insert(
         description = desc,
-        start_date_test = datetime.timestamp(datetime.now().utcnow())
+        start_date_test = datetime.timestamp(datetime.now())
     ).execute()
 
 def InsertActionsTestsTypes(name_test_type):
@@ -643,7 +643,7 @@ def InsertActionsTests(id_fk_test,cod_test_type,date_actions_tests):
 
 def InsertTestsMethods(cod_test,cod_method,cod_cloud):
     return Tests_Methods.insert(
-        start_date_test_methods = datetime.timestamp(datetime.now().utcnow()),
+        start_date_test_methods = datetime.timestamp(datetime.now()),
         fk_tests = cod_test,
         fk_methods=cod_method,
         fk_clouds=cod_cloud
@@ -651,26 +651,26 @@ def InsertTestsMethods(cod_test,cod_method,cod_cloud):
 
 def InsertDegradationVnfType(nametype):
     return Degradations_Vnfs_Clouds_Types.insert(
-        creation_date_degradations_vnfs_clouds_types=datetime.now().utcnow(),
+        creation_date_degradations_vnfs_clouds_types=datetime.now(),
         name_degradations_vnfs_clouds_types = nametype
     ).execute()
 
 
 def UpdateFinishTestsMethods(cod_method_test):
-    return Tests_Methods.update(finish_date_test_methods=datetime.timestamp(datetime.now().utcnow())).where(Tests_Methods.id_tests_methods==cod_method_test).execute()
-    #print(datetime.timestamp(datetime.now().utcnow()))
+    return Tests_Methods.update(finish_date_test_methods=datetime.timestamp(datetime.now())).where(Tests_Methods.id_tests_methods==cod_method_test).execute()
+    #print(datetime.timestamp(datetime.now()))
     #time.sleep(2)
     #return timetestmethod
 
 def UpdateFinishTestsMethodsifNone(cod_method_test):
-    return Tests_Methods.update(finish_date_test_methods=datetime.timestamp(datetime.now().utcnow())).where((Tests_Methods.id_tests_methods==cod_method_test)&(Tests_Methods.finish_date_test_methods==None)).execute()
-    #print(datetime.timestamp(datetime.now().utcnow()))
+    return Tests_Methods.update(finish_date_test_methods=datetime.timestamp(datetime.now())).where((Tests_Methods.id_tests_methods==cod_method_test)&(Tests_Methods.finish_date_test_methods==None)).execute()
+    #print(datetime.timestamp(datetime.now()))
     #time.sleep(2)
     #return timetestmethod
 
 def UpdateFinishDateTestsbyId(id):
-    return Tests.update(finish_date_test=datetime.timestamp(datetime.now().utcnow())).where(Tests.id_tests==id).execute()
-    #print(datetime.timestamp(datetime.now().utcnow()))
+    return Tests.update(finish_date_test=datetime.timestamp(datetime.now())).where(Tests.id_tests==id).execute()
+    #print(datetime.timestamp(datetime.now()))
     #time.sleep(2)
     #return timetest
 
@@ -679,15 +679,15 @@ def SelectTestbyId(id):
     .where(Tests.id_tests==id).dicts().get())
 
 #def UpdateFinishTestsMethods(cod_method_test):
-#    return Tests_Methods.update(finish_date_test_methods=datetime.now().utcnow()).where(Tests_Methods.id_tests_methods==cod_method_test).execute()
+#    return Tests_Methods.update(finish_date_test_methods=datetime.now()).where(Tests_Methods.id_tests_methods==cod_method_test).execute()
 
 #def UpdateFinishDateTestsbyId(id):
-#    return Tests.update(finish_date_test=datetime.now().utcnow()).where(Tests.id_tests==id).execute()
+#    return Tests.update(finish_date_test=datetime.now()).where(Tests.id_tests==id).execute()
 
 def InsertJob(userip0, nsd_name0,cod_fkuser,cod_status, cod_test):
     return Jobs.insert(
         userip_job = userip0,
-        start_date_job = datetime.now().utcnow(),
+        start_date_job = datetime.now(),
         nsd_name_job=nsd_name0,
         fk_user = cod_fkuser,
         fk_status = cod_status,
@@ -695,7 +695,7 @@ def InsertJob(userip0, nsd_name0,cod_fkuser,cod_status, cod_test):
     ).execute()
 
 def UpdateJob(job_id, job_status):
-    Jobs.update(fk_status = job_status,finish_date_job = datetime.now().utcnow()).where(Jobs.id_job==job_id).execute()
+    Jobs.update(fk_status = job_status,finish_date_job = datetime.now()).where(Jobs.id_job==job_id).execute()
     return "ExecutedUpdate"
 
 def insertJobVnfCloud(cost_vnf,id_fk_job,id_fk_vnf,id_fk_cloud,vnf_threshold,vnf_threshold_type,degradation_monitoring_value):
@@ -707,13 +707,13 @@ def insertJobVnfCloud(cost_vnf,id_fk_job,id_fk_vnf,id_fk_cloud,vnf_threshold,vnf
         degradation_threshold_jobs_vnfs_clouds = vnf_threshold,
         fk_degradation_vnfs_clouds_types = vnf_threshold_type,
         degradation_monitoring_value_now_jobs_vnfs_clouds = degradation_monitoring_value,
-        creation_date = datetime.now().utcnow()
+        creation_date = datetime.now()
     ).execute()
 
 def InsertStatusNsInstanced(name):
     return Status_NS_Instanciateds.insert(
         name_osm_status_ns_instanciated = name,
-        creation_date_status_ns_instanciated = datetime.now().utcnow()
+        creation_date_status_ns_instanciated = datetime.now()
     ).execute()  
 
 def InsertNsInstanciated(name0,id_osm0,id_status0,id_job0):
@@ -722,17 +722,17 @@ def InsertNsInstanciated(name0,id_osm0,id_status0,id_job0):
         id_osm_ns_instanciated = id_osm0,
         fk_status = id_status0,
         fk_job = id_job0,
-        creation_date_ns_instanciated = datetime.now().utcnow()
+        creation_date_ns_instanciated = datetime.now()
     ).execute()
 
 def UpdateNsInstanciated(id_osm0,id_status0,id_job0):
-    NS_Instanciateds.update(fk_status = id_status0,finish_date_ns_instanciated=datetime.now().utcnow()).where((NS_Instanciateds.id_osm_ns_instanciated == id_osm0)&(NS_Instanciateds.fk_job==id_job0)).execute()
+    NS_Instanciateds.update(fk_status = id_status0,finish_date_ns_instanciated=datetime.now()).where((NS_Instanciateds.id_osm_ns_instanciated == id_osm0)&(NS_Instanciateds.fk_job==id_job0)).execute()
     return "ExecutedUpdate"
 
 def InsertStatusVnfInstanced(name):
     return Status_Vnf_Instanciateds.insert(
         name_osm_status_vnf_instanciated = name,
-        creation_date_status_vnf_instanciated = datetime.now().utcnow()
+        creation_date_status_vnf_instanciated = datetime.now()
     ).execute()  
 
 def InsertVnfInstanciated(id_osm0,name_osm,id_fk_cloud,id_status,id_ns_instanciated):
@@ -742,7 +742,7 @@ def InsertVnfInstanciated(id_osm0,name_osm,id_fk_cloud,id_status,id_ns_instancia
         fk_cloud = id_fk_cloud,
         fk_status = id_status,
         fk_ns_instanciated = id_ns_instanciated,
-        creation_date_vnf_instanciated = datetime.now().utcnow()
+        creation_date_vnf_instanciated = datetime.now()
     ).execute()
 
 def SelectVnfInstanciated(cod):
@@ -870,7 +870,7 @@ def InsertCloud(name0, ip0, external_ip0,cod_degradation_cloud_type,threshold_va
             fk_degradation_cloud_type = cod_degradation_cloud_type,
             threshold_degradation = threshold_value,
             vim_id_osm = vim_id_osm0,
-            creation_date=datetime.now().utcnow()
+            creation_date=datetime.now()
         ).execute()
     else:
         return -1
@@ -892,7 +892,7 @@ def insertMetric(name_metric):
     if TestMetric is None:
         return Metrics.insert(
             name = name_metric,
-            creation_date = datetime.now().utcnow()
+            creation_date = datetime.now()
         ).execute()
     else:
         return GetIdMetric(name_metric)
@@ -901,7 +901,7 @@ def insertMetricCloud(fk_cloud0, fk_metric0):
     Metrics_Clouds.insert(
         fk_cloud = fk_cloud0,
         fk_metric = fk_metric0,
-        creation_date = datetime.now().utcnow()
+        creation_date = datetime.now()
     ).execute()
 
 def GetIdMetric(NAME_METRIC):
@@ -916,7 +916,7 @@ def InsertVnf(name_vnf):
     if TestVnf is None:
         Vnfs.insert(
             name=name_vnf,
-            creation_date=datetime.now().utcnow()
+            creation_date=datetime.now()
         ).execute()
     else:
         -1
@@ -941,7 +941,7 @@ def insertMetricsVnf(metric_data, weight0,  cod_metric,cod_job_vnf_cloud):
         #fk_vnf = cod_vnf,
         fk_metric = cod_metric,
         fk_job_vnf_cloud = cod_job_vnf_cloud,
-        creation_date = datetime.now().utcnow()
+        creation_date = datetime.now()
     ).execute()
 
 def GetMetricsVnf(metric_vnf_id):
@@ -961,13 +961,13 @@ def GetMetricsVnf(metric_vnf_id):
 def InsertStatusJobs(nameStatus):
     Status_Jobs.insert(
         name_status_jobs = nameStatus,
-        creation_date_status_jobs = datetime.now().utcnow()
+        creation_date_status_jobs = datetime.now()
     ).execute()
 
 def InsertDegradationsCloudsTypes(name_type):
     Degradations_Clouds_Types.insert(
         name = name_type,
-        creation_date = datetime.now().utcnow()
+        creation_date = datetime.now()
     ).execute()
 
 def InsertDegradations_Clouds(id_fk_cloud, status_degradation_cloud, current_value_degradation0):
@@ -975,7 +975,7 @@ def InsertDegradations_Clouds(id_fk_cloud, status_degradation_cloud, current_val
         status_degradation_cloud = status_degradation_cloud, #1 if degration start, and 0 if stoped
         current_value_degradation = current_value_degradation0,
         fk_cloud = id_fk_cloud,
-        creation_date = datetime.now().utcnow()
+        creation_date = datetime.now()
     ).execute()
 
 def SelectStatusDegradationCloud(CLOUD_ID):
@@ -1309,7 +1309,7 @@ def main():
     @app.route('/copydatatests/',methods=['GET'])
     def copydatatest():
         OSM.check_token_valid(token)
-        now=datetime.now().utcnow()
+        now=datetime.now()
         intervalo=240
         delta = timedelta(seconds=intervalo)
         time_past=now-delta
@@ -1654,7 +1654,7 @@ def main():
                 cloud2.setStatus(0)  
             UpdateFinishTestsMethods(METHOD_2_CL2)
 
-            now=datetime.now().utcnow()
+            now=datetime.now()
             intervalo=60
             delta = timedelta(seconds=intervalo)
             #deltagm= timedelta(seconds=10600)
@@ -1950,7 +1950,7 @@ def main():
                                     if (i['vim-account-id']=="6ba02d24-6320-4322-9177-eb4987ad9465"):
                                         UpdateFinishTestsMethodsifNone(METHOD_12_CL2) #CL2
                                     print(i['_admin']['nsState'])
-                        InsertActionsTests(TEST_ID,1,datetime.timestamp(datetime.now().utcnow()))
+                        InsertActionsTests(TEST_ID,1,datetime.timestamp(datetime.now()))
                         UpdateNsInstanciated(id_ns_scheduled,2,JOB_COD)
                         out=True
                 timeout=timeout+1
