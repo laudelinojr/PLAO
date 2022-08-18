@@ -663,7 +663,7 @@ def UpdateFinishTestsMethods(cod_method_test):
     #return timetestmethod
 
 def UpdateFinishTestsMethodsifNone(cod_method_test):
-    return Tests_Methods.update(finish_date_test_methods=datetime.timestamp(datetime.now().utcnow())).where((Tests_Methods.id_tests_methods==cod_method_test)&(Tests_Methods.finish_date_test_methods==None)).execute()
+    return Tests_Methods.update(finish_date_test_methods=datetime.timestamp(datetime.now().utcnow())).where((Tests_Methods.id_tests_methods==cod_method_test)&(Tests_Methods.finish_date_test_methods=="")).execute()
     #print(datetime.timestamp(datetime.now()))
     #time.sleep(2)
     #return timetestmethod
