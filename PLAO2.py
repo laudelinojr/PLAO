@@ -1973,7 +1973,7 @@ def main():
                 print(STOP_TEST)
 
                 OSM.check_token_valid(token)
-                return "ok"
+
                 #print(datetime.fromtimestamp(START_TEST))
                 #print(datetime.fromtimestamp(STOP_TEST))
 
