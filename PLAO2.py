@@ -195,7 +195,7 @@ class OSM_Auth():
                 "vimAccountId": vimAccountId,
                 "wimAccountId": False,
                 "placement-engine": "PLA",
-                "placement-constraints": {"vld-constraints": [{"id": constraint_vld_id, "link-constraints": False }]},
+                "placement-constraints": {"vld-constraints": [{"id": constraint_vld_id, "link-constraints": {"latency": constraint_latency} }]},
             }
         if constraint_operacao == 3:
             payload = {
