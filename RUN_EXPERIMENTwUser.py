@@ -114,7 +114,7 @@ def reglog(typemensage):
 #reglog('cabconfig')
 print(DATEHOURS())
 print("### Cenario 1###")
-ExecuteCommand("ssh laudelinoas@200.137.82.21 'ssh laudelinoas@172.16.112.58 'for pid in $(ps -ef | grep 'stress-ng' | awk '\\''{print $2}'\\''); do sudo kill -9 $pid; done''")
+ExecuteCommand("ssh laudelinoas@200.137.82.21 'ssh laudelinoas@172.16.112.58 'for pid in $(ps -ef | grep 'stress-ng' | awk '''{print $2}'\\''); do sudo kill -9 $pid; done''")
 #ExecuteCommand("ssh laudelinoas@200.137.75.159 'for pid in $(ps -ef | grep 'stress-ng' | awk '\\''{print $2}'\\''); do sudo kill -9 $pid; done'")
 #ExecuteCommand("ssh laudelinoas@200.137.82.21 'sudo stress-ng -c 4 -l 10 > /dev/null 2>&1 &'")
 #ExecuteCommand("ssh laudelinoas@200.137.75.159 'sudo stress-ng -c 4 -l 20 > /dev/null 2>&1 &'")
