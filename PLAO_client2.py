@@ -807,6 +807,10 @@ class CreateThread():
 
     def ThreadIperf(self,TARGET,TARGET_INTERNAL,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI):
         print ("funcaoThreadIperf")
+
+        if TARGET_INTERNAL == "10.50.0.159":
+            TARGET_INTERNAL = "10.50.0.160"
+
         self.ExecJitter = Jitter()
         self.thread_iperf = threading.Thread(target=self.ExecJitter.execJitter,args=(TARGET,TARGET_INTERNAL,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI))
         self.thread_iperf.start()
