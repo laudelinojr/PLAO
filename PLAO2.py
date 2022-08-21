@@ -509,7 +509,7 @@ def Collector_Metrics_Links_cl1(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile
         Jitter_to_cloud2=cloud1_gnocchi.get_last_measure("Jit_To_"+cloud2.getExternalIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
         print("JittertoCloud2: "+str(Jitter_to_cloud2))
         PILFile.SearchChangePriceLatencyJitterPIL(Latencia_to_cloud2,Latencia_to_cloud2,Jitter_to_cloud2,CLOUD_FROM,CLOUD_TO,0)
-        time.sleep(10)
+        time.sleep(5)
 
 def Collector_Metrics_Links_Demand_Interval_cl1(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,CLOUD_FROM,CLOUD_TO,interval,metric_name):
     now=datetime.now()
@@ -2005,8 +2005,8 @@ def main():
                 START_TEST=TestTimes.get('start_date_test')
                 STOP_TEST=TestTimes.get('finish_date_test')
 
-                START_TEST=datetime.fromtimestamp(START_TEST)
-                STOP_TEST=datetime.fromtimestamp(STOP_TEST)
+                START_TEST=datetime.fromtimestamp(float(START_TEST))
+                STOP_TEST=datetime.fromtimestamp(float(STOP_TEST))
 
                 print ("start test")
                 print(START_TEST)
