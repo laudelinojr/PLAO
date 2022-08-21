@@ -1677,7 +1677,7 @@ def main():
                 cloud2.setStatus(0)  
             UpdateFinishTestsMethods(METHOD_2_CL2)
 
-            time.sleep(20)
+            time.sleep(60)
 
             now=datetime.now()
             print("horario atual")
