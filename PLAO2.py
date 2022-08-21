@@ -1506,6 +1506,27 @@ def main():
             return str(result)
         return "ok"
 
+    @app.route('/selecttest/',methods=['GET'])
+    def selectsest():
+        if request.method == "GET":
+
+
+            now=datetime.now()
+            intervalo=60
+            delta = timedelta(seconds=intervalo)
+            #deltagm= timedelta(seconds=10600)
+            time_past=now-delta
+            START=time_past
+            STOP=now
+            GRANULARITY=60
+
+            Latencia_to_cloud2=cloud2_gnocchi.get_last_measure("Lat_To_"+cloud1.getExternalIp(),cloud2_resource_id,None,GRANULARITY,START,STOP)
+            print("LatenciatoCloud2: "+str(Latencia_to_cloud2))
+            Jitter_to_cloud2=cloud2_gnocchi.get_last_measure("Jit_To_"+cloud1.getExternalIp(),cloud2_resource_id,None,GRANULARITY,START,STOP)
+            print("JittertoCloud2: "+str(Jitter_to_cloud2))
+
+        return "ok"
+
     #Latency between clouds and user
     @app.route("/userlatency/", methods=['POST', 'GET', 'DELETE'])
     def latencia_user_plao():
@@ -1657,7 +1678,7 @@ def main():
             UpdateFinishTestsMethods(METHOD_2_CL2)
 
             now=datetime.now()
-            intervalo=120
+            intervalo=60
             delta = timedelta(seconds=intervalo)
             #deltagm= timedelta(seconds=10600)
             time_past=now-delta
