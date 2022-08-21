@@ -1,5 +1,5 @@
 #!/bin/bash
 
-chmod 755 /opt/PLAO/linux/crontab_plao_client.sh
-cd /opt/PLAO
+chmod 755 /home/laudelinoas/PLAO/linux/crontab_plao_client.sh
+cd /home/laudelinoas/PLAO
 git pull
