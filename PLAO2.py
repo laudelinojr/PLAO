@@ -1552,7 +1552,7 @@ def main():
         if request.method == "POST":
 
             OSM.check_token_valid(token)
-            
+
             TEST_ID=InsertTests("Teste_send_job")
             ret_status = 0 #status of return cloud
             request_data = request.get_json()
@@ -1680,6 +1680,7 @@ def main():
             #print(" id nova compute cloud2 ")
             #print(str(cloud2_resource_ids_nova))    
 
+
             if(cloud1.getStatus()==1):
                 METHOD_3_CL1=InsertTestsMethods(TEST_ID,3,1)
                 #####Test#####Start#####get_last_measure()
@@ -1687,6 +1688,15 @@ def main():
                 DATA_METRIC2_CL1=getLastMeasureClouds(METRIC2_NAME,cloud1_gnocchi,cloud1_resource_ids_nova,cloud1_resource_id,GRANULARITY,START,STOP)
                 DATA_METRIC_DEGRADATION_VNF1_CL1=getLastMeasureClouds(DEGRADATION_VNF1_METRIC_NAME,cloud1_gnocchi,cloud1_resource_ids_nova,cloud1_resource_id,GRANULARITY,START,STOP)
                 DATA_METRIC_DEGRADATION_VNF2_CL1=getLastMeasureClouds(DEGRADATION_VNF2_METRIC_NAME,cloud1_gnocchi,cloud1_resource_ids_nova,cloud1_resource_id,GRANULARITY,START,STOP)
+
+
+                Latencia_to_cloud2=cloud1_gnocchi.get_last_measure("Lat_To_"+cloud2.getExternalIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
+                print("LatenciatoCloud2: "+str(Latencia_to_cloud2))
+                Jitter_to_cloud2=cloud1_gnocchi.get_last_measure("Jit_To_"+cloud2.getExternalIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
+                print("JittertoCloud2: "+str(Jitter_to_cloud2))
+                PILFile.SearchChangePriceLatencyJitterPIL(Latencia_to_cloud2,Latencia_to_cloud2,Jitter_to_cloud2,"openstackSerra","openstackAracruz2",TEST_ID)
+
+
                 UpdateFinishTestsMethods(METHOD_3_CL1)
 
             if(cloud2.getStatus()==1):
