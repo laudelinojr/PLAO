@@ -1719,7 +1719,7 @@ def main():
                 #print("JittertoCloud2: "+str(Jitter_to_cloud2))
                 
 
-                PILFile.SearchChangePriceLatencyJitterPIL(Latencia_to_cloud2,Latencia_to_cloud2,Jitter_to_cloud2,"openstackSerra","openstackAracruz2",TEST_ID)
+                #PILFile.SearchChangePriceLatencyJitterPIL(Latencia_to_cloud2,Latencia_to_cloud2,Jitter_to_cloud2,"openstackSerra","openstackAracruz2",TEST_ID)
                 time.sleep(20)
                 return "saiu"
 
