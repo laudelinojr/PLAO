@@ -572,6 +572,8 @@ class Servers():
                 for i in range(self.LIST_GETALLIP_LEN):
                     if (item.address == self.B["servers"][i]["ip"]):
                         self.ipserver=self.B["servers"][i]["ip"]
+                        print("ip local interno")
+                        print (self.ipserver)
         return self.ipserver
 
 #Class to Cloud
@@ -803,10 +805,10 @@ class CreateThread():
         self.thread_ping = threading.Thread(target=self.ExecPing.execLatency,args=(TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI))
         self.thread_ping.start()
 
-    def ThreadIperf(self,TARGET,INTERNAL_TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI):
+    def ThreadIperf(self,TARGET,TARGET_INTERNAL,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI):
         print ("funcaoThreadIperf")
         self.ExecJitter = Jitter()
-        self.thread_iperf = threading.Thread(target=self.ExecJitter.execJitter,args=(TARGET,INTERNAL_TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI))
+        self.thread_iperf = threading.Thread(target=self.ExecJitter.execJitter,args=(TARGET,TARGET_INTERNAL,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI))
         self.thread_iperf.start()
 
     def ThreadNVNF(self,TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI):
