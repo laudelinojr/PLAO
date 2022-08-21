@@ -170,7 +170,7 @@ def startApp():
     for i in IpOthersServers:
         #to create thread for Latency
         Thread_Jitt = CreateThread()
-        Thread_Jitt.ThreadIperf(IpOthersServers.get(i).get('external_ip'),"5","1",resource_id,gnocchi)
+        Thread_Jitt.ThreadIperf(IpOthersServers.get(i).get('external_ip'),IpOthersServers.get(i).get('ip'),"5","1",resource_id,gnocchi)
 
     print("Creating NVNF Thread...")
     #to create thread for NVNF
@@ -691,7 +691,7 @@ class Jitter():
     def __init__(self):
         pass
 
-    def execJitter(self,TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI):
+    def execJitter(self,TARGET, TARGET_INTERNAL, QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI):
         Metric_Name="Jit_To_"+TARGET
         Metric_ID=GNOCCHI.get_metric_id(Metric_Name,RESOURCE_ID)
         print ("metric ID in execJitter: "+ Metric_ID)
@@ -700,7 +700,7 @@ class Jitter():
             if platform.system().lower() == "linux":
                 if (ExecuteCommand("ps ax | grep 'iperf3 -s -D'  | grep -v grep | wc -l")==0):
                     print("executing iperf Daemon loop 0")          
-                    subprocess.run(["iperf3", "-s", "-D"])
+                    subprocess.run(["iperf3", "-s", "-D","-B",TARGET_INTERNAL])
                 try:
                     self.iperf2 = subprocess.check_output(["iperf3", "-c", TARGET,"-u", "-t", QUANTITY_PCK])
                 except:
@@ -730,7 +730,7 @@ class Jitter():
                 if platform.system().lower() == "linux":
                     if (ExecuteCommand("ps ax | grep 'iperf3 -s -D'  | grep -v grep | wc -l")==0):
                         print("executing iperf Daemon loop 1")            
-                        subprocess.run(["iperf3", "-s", "-D"])
+                        subprocess.run(["iperf3", "-s", "-D","-B",TARGET_INTERNAL])
                     try:
                         print("executing iperf to: "+TARGET)
                         self.iperf2 = subprocess.check_output(["iperf3", "-c", TARGET,"-u", "-t", QUANTITY_PCK])
@@ -803,10 +803,10 @@ class CreateThread():
         self.thread_ping = threading.Thread(target=self.ExecPing.execLatency,args=(TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI))
         self.thread_ping.start()
 
-    def ThreadIperf(self,TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI):
+    def ThreadIperf(self,TARGET,INTERNAL_TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI):
         print ("funcaoThreadIperf")
         self.ExecJitter = Jitter()
-        self.thread_iperf = threading.Thread(target=self.ExecJitter.execJitter,args=(TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI))
+        self.thread_iperf = threading.Thread(target=self.ExecJitter.execJitter,args=(TARGET,INTERNAL_TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI))
         self.thread_iperf.start()
 
     def ThreadNVNF(self,TARGET,QUANTITY_PCK,LOOP,RESOURCE_ID,GNOCCHI):
