@@ -1721,7 +1721,7 @@ def main():
                 print("JittertoCloud2: "+str(Jitter_to_cloud2))
                 
                 PILFile.SearchChangePriceLatencyJitterPIL(Latencia_to_cloud2,Latencia_to_cloud2,Jitter_to_cloud2,"openstackSerra","openstackAracruz2",TEST_ID)
-                return "ok"
+                #return "ok"
                 UpdateFinishTestsMethods(METHOD_3_CL1)
 
             if(cloud2.getStatus()==1):
