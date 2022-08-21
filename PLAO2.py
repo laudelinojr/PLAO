@@ -1679,7 +1679,7 @@ def main():
 
             time.sleep(30)
 
-            now=datetime.now()
+            now=datetime.now().utcnow()
             print("horario atual")
             print(now)
             intervalo=600
