@@ -1677,7 +1677,7 @@ def main():
                 cloud2.setStatus(0)  
             UpdateFinishTestsMethods(METHOD_2_CL2)
 
-            time.sleep(60)
+            time.sleep(30)
 
             now=datetime.now()
             print("horario atual")
@@ -1715,14 +1715,14 @@ def main():
                 DATA_METRIC_DEGRADATION_VNF2_CL1=getLastMeasureClouds(DEGRADATION_VNF2_METRIC_NAME,cloud1_gnocchi,cloud1_resource_ids_nova,cloud1_resource_id,GRANULARITY,START,STOP)
 
                 #Invertido p funcionar enquando resolve regra em aracruz
-                Latencia_to_cloud2=cloud1_gnocchi.get_last_measure2("Lat_To_"+cloud2.getExternalIp(),cloud1_resource_id,None,GRANULARITY,START,STOP,cloud1_gnocchi)
+                Latencia_to_cloud2=cloud1_gnocchi.get_last_measure2("Lat_To_"+cloud2.getExternalIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
                 print("LatenciatoCloud2: "+str(Latencia_to_cloud2))
-                Jitter_to_cloud2=cloud1_gnocchi.get_last_measure2("Jit_To_"+cloud2.getExternalIp(),cloud1_resource_id,None,5,START,STOP,cloud1_gnocchi)
+                Jitter_to_cloud2=cloud1_gnocchi.get_last_measure2("Jit_To_"+cloud2.getExternalIp(),cloud1_resource_id,None,5,START,STOP)
                 print("JittertoCloud2: "+str(Jitter_to_cloud2))
                 
 
                 #PILFile.SearchChangePriceLatencyJitterPIL(Latencia_to_cloud2,Latencia_to_cloud2,Jitter_to_cloud2,"openstackSerra","openstackAracruz2",TEST_ID)
-                time.sleep(20)
+                time.sleep(10)
                 return "saiu"
 
                 UpdateFinishTestsMethods(METHOD_3_CL1)
