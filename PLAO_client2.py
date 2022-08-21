@@ -438,6 +438,7 @@ class Gnocchi():
         print(str(name_metric)+"-"+str(resource_id)+"-"+ str(aggregation)+"-"+str(granularity)+"-"+str(start)+"-"+str(stop))
 
         dados=self.gnocchi_client.metric.get_measures(name_metric,start,stop, aggregation, granularity,resource_id)
+        print(dados)
         df = pd.DataFrame(dados, columns =['timestamp', 'granularity', ''])
         print(df)
         if (df.__len__() == 0):
