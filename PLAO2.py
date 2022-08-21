@@ -1703,6 +1703,7 @@ def main():
 
                 PILFile.SearchChangePriceLatencyJitterPIL(Latencia_to_cloud2,Latencia_to_cloud2,Jitter_to_cloud2,"openstackSerra","openstackAracruz2",TEST_ID)
                 time.sleep(20)
+                return "saiu"
 
                 UpdateFinishTestsMethods(METHOD_3_CL1)
 
