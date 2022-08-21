@@ -1,6 +1,6 @@
 #!/bin/bash
 
-chmod 755 /home/laudelinoas/PLAO/linux/crontab_plao_client.sh
+#chmod 755 /home/laudelinoas/PLAO/linux/crontab_plao_client.sh
 cd /home/laudelinoas/PLAO
 git stash
 git stash clear
