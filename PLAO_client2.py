@@ -323,6 +323,8 @@ class Gnocchi():
     #return resource id
     def get_resource_id(self,name):
         try:
+            print("procurando id resource")
+            print (name)
             self.resource=self.gnocchi_client.resource.search(resource_type=name,limit=1,details=True)
             if(len(self.resource))==0:
                 return -1
@@ -715,7 +717,8 @@ class Jitter():
             else:
                 try:
                     self.iperf2 = subprocess.check_output(["utils/iperf/iperf3", "-c", TARGET,"-u", "-t", QUANTITY_PCK])
-                except:
+                except Exception as e:
+                    print(e)
                     return -1
                 #print (self.iperf2)
                 self.jitter = self.iperf2.split()[-11]
@@ -740,7 +743,8 @@ class Jitter():
                         self.resp = str(self.jitter, 'utf-8')
                         GNOCCHI.set_add_measures_metric(Metric_ID,self.resp)
                         print("jitter: "+TARGET+" "+self.resp)
-                    except:
+                    except Exception as e:
+                        print(e)
                         print ("Error in iperf client")
                         #return
                 else:
