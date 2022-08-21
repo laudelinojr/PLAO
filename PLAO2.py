@@ -2004,6 +2004,10 @@ def main():
                 TestTimes=SelectTestbyId(TEST_ID)
                 START_TEST=TestTimes.get('start_date_test')
                 STOP_TEST=TestTimes.get('finish_date_test')
+
+                START_TEST=datetime.fromtimestamp(START_TEST)
+                STOP_TEST=datetime.fromtimestamp(STOP_TEST)
+
                 print ("start test")
                 print(START_TEST)
                 print("stop test")
