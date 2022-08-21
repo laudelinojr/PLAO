@@ -1512,13 +1512,13 @@ def main():
 
 
             now=datetime.now()
-            intervalo=60
+            intervalo=600
             delta = timedelta(seconds=intervalo)
             #deltagm= timedelta(seconds=10600)
             time_past=now-delta
             START=time_past
             STOP=now
-            GRANULARITY=600
+            GRANULARITY=60
             print (cloud1_gnocchi)
             Latencia_to_cloud2=cloud1_gnocchi.get_last_measure("Lat_To_"+cloud2.getExternalIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
             print("LatenciatoCloud2: "+str(Latencia_to_cloud2))
