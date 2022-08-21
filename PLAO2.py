@@ -1551,6 +1551,8 @@ def main():
     def send_job():
         if request.method == "POST":
 
+            OSM.check_token_valid(token)
+            
             TEST_ID=InsertTests("Teste_send_job")
             ret_status = 0 #status of return cloud
             request_data = request.get_json()
