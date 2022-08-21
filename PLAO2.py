@@ -1677,6 +1677,8 @@ def main():
                 cloud2.setStatus(0)  
             UpdateFinishTestsMethods(METHOD_2_CL2)
 
+            time.sleep(20)
+
             now=datetime.now()
             print("horario atual")
             print(now)
@@ -1692,7 +1694,7 @@ def main():
             CLOUD2_COD=GetIdCloud(NAME_CLOUD2)
             COD_VNF1=GetIdVNF(VNF1_NAME)
             COD_VNF2=GetIdVNF(VNF2_NAME)
-            time.sleep(5)
+
             #time.sleep(4) #Waiting collects
             #print("horarioInicio: "+str(START))
             #print("hoarioFinal: "+str(STOP))
