@@ -452,10 +452,10 @@ class File_PIL_Price():
                 if debug == 1: print ("File pil_price not changed")
 
     def ChangePriceLatencyJitterPIL(self, CLOUD_COD,PRICE,LATENCY,JITTER):
-        #if debug == 1: print ("entrei dentro de ChangePriceLatencyJitterPIL")
-        #if debug == 1: print(PRICE)
-        #if debug == 1: print(LATENCY)
-        #if debug == 1: print(JITTER)
+        if debug == 1: print ("entrei dentro de ChangePriceLatencyJitterPIL")
+        if debug == 1: print(PRICE)
+        if debug == 1: print(LATENCY)
+        if debug == 1: print(JITTER)
         PRICE=round(float(PRICE))
         LATENCY=round(float(LATENCY))
         JITTER=round(float(JITTER))
@@ -1702,7 +1702,7 @@ def main():
                 
 
                 PILFile.SearchChangePriceLatencyJitterPIL(Latencia_to_cloud2,Latencia_to_cloud2,Jitter_to_cloud2,"openstackSerra","openstackAracruz2",TEST_ID)
-
+                time.sleep(20)
 
                 UpdateFinishTestsMethods(METHOD_3_CL1)
 
