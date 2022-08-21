@@ -1512,7 +1512,7 @@ def main():
 
 
             now=datetime.now()
-            intervalo=60
+            intervalo=6000
             delta = timedelta(seconds=intervalo)
             #deltagm= timedelta(seconds=10600)
             time_past=now-delta
