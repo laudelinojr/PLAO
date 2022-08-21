@@ -312,7 +312,7 @@ class File_VNF_Price():
         if (CLOUD_STATUS_DEGRADATION == 1):
             #print ("PRICE BEFORE DEGRADATION_STATUS: "+ str(PRICE))
             PRICE=int(PRICE)+DOWN_UP_PRICE
-            InsertActionsTests(COD_TEST,4,datetime.timestamp(datetime.now()))
+            InsertActionsTests(COD_TEST,4,datetime.timestamp(datetime.now().utcnow()))
             #print ("PRICE AFTER DEGRADATION_STATUS: "+ str(PRICE))
             #print("Add value because is in degradation status.") 
         for i in range(C):
@@ -329,7 +329,7 @@ class File_VNF_Price():
                     #    print("no else")
                     #    self.B[COD_VNFD]['prices'][i]['price']=int(PRICE) #Change the VNF Price
                     self.B[COD_VNFD]['prices'][i]['price']=int(PRICE) #Change the VNF Price
-                    InsertActionsTests(COD_TEST,3,datetime.timestamp(datetime.now()))
+                    InsertActionsTests(COD_TEST,3,datetime.timestamp(datetime.now().utcnow()))
                     return i
                 else:
                     return -1
@@ -402,7 +402,7 @@ class File_VNF_Price():
             with open(FILE_VNF_PRICE, 'w') as file:
                 documents = yaml.dump(self.B, file, sort_keys=False) #Export changes to file without order, equal original file
             print ("CPU CHANGE: File pil_price changed because High CPU.")
-            #InsertActionsTests(fk_test,4,datetime.timestamp(datetime.now()))
+            #InsertActionsTests(fk_test,4,datetime.timestamp(datetime.now().utcnow()))
             nomearquivo5=PATH_LOG+'CPU_TRIGGER_'+ Cloud.getName() +'_history.txt' #write data in file
             with open(nomearquivo5, 'a') as arquivo:
                 arquivo.write(DATEHOURS() + ','+ Cloud.getName() + ","+ Cloud.getIP() +","+ str(STATUS_CPU_NOW)+'\n')
@@ -438,7 +438,7 @@ class File_PIL_Price():
             if (self.ChangePriceLatencyJitterPIL(CLOUD_COD,PRICE,LATENCY,JITTER)) != -1: #Change Price Latency and Jitter
                 with open(FILE_PIL_PRICE, 'w') as file:
                     documents = yaml.dump(self.B, file, sort_keys=False) #Export changes to file without order, equal original file
-                InsertActionsTests(COD_TEST,2,datetime.timestamp(datetime.now()))
+                InsertActionsTests(COD_TEST,2,datetime.timestamp(datetime.now().utcnow()))
                 print("lembrar descomentar linha para docker fazer copia pil")
                 ExecuteCommand('docker cp '+FILE_PIL_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
                 try:
@@ -626,7 +626,7 @@ def c(date, id_test, id_data_test_type, id_cloud ):
 def InsertTests(desc):
     return Tests.insert(
         description = desc,
-        start_date_test = datetime.timestamp(datetime.now())
+        start_date_test = datetime.timestamp(datetime.now().utcnow())
     ).execute()
 
 def InsertActionsTestsTypes(name_test_type):
@@ -658,19 +658,19 @@ def InsertDegradationVnfType(nametype):
 
 def UpdateFinishTestsMethods(cod_method_test):
     return Tests_Methods.update(finish_date_test_methods=datetime.timestamp(datetime.now().utcnow())).where(Tests_Methods.id_tests_methods==cod_method_test).execute()
-    #print(datetime.timestamp(datetime.now()))
+    #print(datetime.timestamp(datetime.now().utcnow()))
     #time.sleep(2)
     #return timetestmethod
 
 def UpdateFinishTestsMethodsifNone(cod_method_test):
     return Tests_Methods.update(finish_date_test_methods=datetime.timestamp(datetime.now().utcnow())).where((Tests_Methods.id_tests_methods==cod_method_test)&(Tests_Methods.finish_date_test_methods=="")).execute()
-    #print(datetime.timestamp(datetime.now()))
+    #print(datetime.timestamp(datetime.now().utcnow()))
     #time.sleep(2)
     #return timetestmethod
 
 def UpdateFinishDateTestsbyId(id):
     return Tests.update(finish_date_test=datetime.timestamp(datetime.now().utcnow())).where(Tests.id_tests==id).execute()
-    #print(datetime.timestamp(datetime.now()))
+    #print(datetime.timestamp(datetime.now().utcnow()))
     #time.sleep(2)
     #return timetest
 
@@ -679,10 +679,10 @@ def SelectTestbyId(id):
     .where(Tests.id_tests==id).dicts().get())
 
 #def UpdateFinishTestsMethods(cod_method_test):
-#    return Tests_Methods.update(finish_date_test_methods=datetime.now()).where(Tests_Methods.id_tests_methods==cod_method_test).execute()
+#    return Tests_Methods.update(finish_date_test_methods=datetime.now().utcnow()).where(Tests_Methods.id_tests_methods==cod_method_test).execute()
 
 #def UpdateFinishDateTestsbyId(id):
-#    return Tests.update(finish_date_test=datetime.now()).where(Tests.id_tests==id).execute()
+#    return Tests.update(finish_date_test=datetime.now().utcnow()).where(Tests.id_tests==id).execute()
 
 def InsertJob(userip0, nsd_name0,cod_fkuser,cod_status, cod_test):
     return Jobs.insert(
@@ -695,7 +695,7 @@ def InsertJob(userip0, nsd_name0,cod_fkuser,cod_status, cod_test):
     ).execute()
 
 def UpdateJob(job_id, job_status):
-    Jobs.update(fk_status = job_status,finish_date_job = datetime.now()).where(Jobs.id_job==job_id).execute()
+    Jobs.update(fk_status = job_status,finish_date_job = datetime.now().utcnow()).where(Jobs.id_job==job_id).execute()
     return "ExecutedUpdate"
 
 def insertJobVnfCloud(cost_vnf,id_fk_job,id_fk_vnf,id_fk_cloud,vnf_threshold,vnf_threshold_type,degradation_monitoring_value):
@@ -726,7 +726,7 @@ def InsertNsInstanciated(name0,id_osm0,id_status0,id_job0):
     ).execute()
 
 def UpdateNsInstanciated(id_osm0,id_status0,id_job0):
-    NS_Instanciateds.update(fk_status = id_status0,finish_date_ns_instanciated=datetime.now()).where((NS_Instanciateds.id_osm_ns_instanciated == id_osm0)&(NS_Instanciateds.fk_job==id_job0)).execute()
+    NS_Instanciateds.update(fk_status = id_status0,finish_date_ns_instanciated=datetime.now().utcnow()).where((NS_Instanciateds.id_osm_ns_instanciated == id_osm0)&(NS_Instanciateds.fk_job==id_job0)).execute()
     return "ExecutedUpdate"
 
 def InsertStatusVnfInstanced(name):
@@ -1717,11 +1717,11 @@ def main():
                 #Invertido p funcionar enquando resolve regra em aracruz
                 Latencia_to_cloud2=cloud1_gnocchi.get_last_measure2("Lat_To_"+cloud2.getExternalIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
                 print("LatenciatoCloud2: "+str(Latencia_to_cloud2))
-                Jitter_to_cloud2=cloud1_gnocchi.get_last_measure2("Jit_To_"+cloud2.getExternalIp(),cloud1_resource_id,None,5,START,STOP)
+                Jitter_to_cloud2=cloud1_gnocchi.get_last_measure2("Jit_To_"+cloud2.getExternalIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
                 print("JittertoCloud2: "+str(Jitter_to_cloud2))
                 
                 PILFile.SearchChangePriceLatencyJitterPIL(Latencia_to_cloud2,Latencia_to_cloud2,Jitter_to_cloud2,"openstackSerra","openstackAracruz2",TEST_ID)
-
+                return "ok"
                 UpdateFinishTestsMethods(METHOD_3_CL1)
 
             if(cloud2.getStatus()==1):
