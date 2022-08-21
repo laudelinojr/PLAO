@@ -170,7 +170,7 @@ def startApp():
     for i in IpOthersServers:
         #to create thread for Latency
         Thread_Jitt = CreateThread()
-        Thread_Jitt.ThreadIperf(IpOthersServers.get(i).get('external_ip'),IpOthersServers.get(i).get('ip'),"5","1",resource_id,gnocchi)
+        Thread_Jitt.ThreadIperf(IpOthersServers.get(i).get('external_ip'),IPServerLocal,"5","1",resource_id,gnocchi)
 
     print("Creating NVNF Thread...")
     #to create thread for NVNF
