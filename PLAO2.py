@@ -1657,7 +1657,7 @@ def main():
             UpdateFinishTestsMethods(METHOD_2_CL2)
 
             now=datetime.now()
-            intervalo=60
+            intervalo=120
             delta = timedelta(seconds=intervalo)
             #deltagm= timedelta(seconds=10600)
             time_past=now-delta
