@@ -433,7 +433,14 @@ class File_PIL_Price():
     #Search cloud combination and change the price, latency and jitter
     def SearchChangePriceLatencyJitterPIL(self, PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENSTACK_TO,COD_TEST):
         CLOUD_COD=self.SearchChangePILPrice(OPENSTACK_FROM,OPENSTACK_TO)
-        #if debug == 1: print("CLOUD_COD: "+str(CLOUD_COD))
+        if debug == 1: print("CLOUD_COD: "+str(CLOUD_COD))
+        if debug == 1: print("PRICE: "+str(PRICE))
+        if debug == 1: print("PRICE: "+str(LATENCY))
+        if debug == 1: print("PRICE: "+str(JITTER))        
+        if debug == 1: print("PRICE: "+str(OPENSTACK_FROM))
+        if debug == 1: print("PRICE: "+str(OPENSTACK_TO))
+        if debug == 1: print("PRICE: "+str(COD_TEST))
+
         if CLOUD_COD != -1:
             if (self.ChangePriceLatencyJitterPIL(CLOUD_COD,PRICE,LATENCY,JITTER)) != -1: #Change Price Latency and Jitter
                 with open(FILE_PIL_PRICE, 'w') as file:
@@ -1721,7 +1728,7 @@ def main():
                 print("JittertoCloud2: "+str(Jitter_to_cloud2))
                 
                 PILFile.SearchChangePriceLatencyJitterPIL(Latencia_to_cloud2,Latencia_to_cloud2,Jitter_to_cloud2,"openstackSerra","openstackAracruz2",TEST_ID)
-                return "ok"
+                time.sleep(20)
                 UpdateFinishTestsMethods(METHOD_3_CL1)
 
             if(cloud2.getStatus()==1):
