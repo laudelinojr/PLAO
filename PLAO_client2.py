@@ -451,6 +451,23 @@ class Gnocchi():
         return (last_row)
 
     #If dont data, return -1, else return data
+    def get_last_measure2(self, name_metric, resource_id, aggregation, granularity, start, stop):
+
+        #df3=(self.gnocchi_client.metric.list())
+        #df4 = pd.DataFrame(df3)
+        #print(df4.to_csv("teste.txt"))
+        print(str(name_metric)+"-"+str(resource_id)+"-"+ str(aggregation)+"-"+str(granularity)+"-"+str(start)+"-"+str(stop))
+
+        dados=self.gnocchi_client.metric.get_measures(name_metric,start,stop, aggregation, granularity,resource_id)
+        print(dados)
+        df = pd.DataFrame(dados, columns =['timestamp', 'granularity', ''])
+        print(df)
+        if (df.__len__() == 0):
+            return -1
+        last_row = df.iloc[0,2] #colect the last register
+        return (last_row)
+
+    #If dont data, return -1, else return data
     def get_last_measure_Data_Test(self, name_metric, resource_id, aggregation, granularity, start, stop):
 
         #df3=(self.gnocchi_client.metric.list())
