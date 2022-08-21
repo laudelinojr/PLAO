@@ -1720,10 +1720,7 @@ def main():
                 Jitter_to_cloud2=cloud1_gnocchi.get_last_measure2("Jit_To_"+cloud2.getExternalIp(),cloud1_resource_id,None,5,START,STOP)
                 print("JittertoCloud2: "+str(Jitter_to_cloud2))
                 
-
-                #PILFile.SearchChangePriceLatencyJitterPIL(Latencia_to_cloud2,Latencia_to_cloud2,Jitter_to_cloud2,"openstackSerra","openstackAracruz2",TEST_ID)
-                time.sleep(10)
-                return "saiu"
+                PILFile.SearchChangePriceLatencyJitterPIL(Latencia_to_cloud2,Latencia_to_cloud2,Jitter_to_cloud2,"openstackSerra","openstackAracruz2",TEST_ID)
 
                 UpdateFinishTestsMethods(METHOD_3_CL1)
 
