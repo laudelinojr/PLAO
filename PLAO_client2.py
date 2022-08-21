@@ -327,6 +327,8 @@ class Gnocchi():
             if(len(self.resource))==0:
                 return -1
             else:
+                print(self.resource)
+                print(self.resource[0]["id"])
                 return self.resource[0]["id"]
         except ResourceTypeNotFound:
             return ""
