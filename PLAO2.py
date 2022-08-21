@@ -1519,7 +1519,7 @@ def main():
             START=time_past
             STOP=now
             GRANULARITY=60
-
+            print (cloud1_gnocchi)
             Latencia_to_cloud2=cloud1_gnocchi.get_last_measure("Lat_To_"+cloud2.getExternalIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
             print("LatenciatoCloud2: "+str(Latencia_to_cloud2))
             Jitter_to_cloud2=cloud1_gnocchi.get_last_measure("Jit_To_"+cloud2.getExternalIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
