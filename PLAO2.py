@@ -1684,7 +1684,7 @@ def main():
                 cloud2.setStatus(0)  
             UpdateFinishTestsMethods(METHOD_2_CL2)
 
-            time.sleep(30)
+            #time.sleep(30)
 
             now=datetime.now().utcnow()
             print("horario atual")
@@ -1728,7 +1728,7 @@ def main():
                 print("JittertoCloud2: "+str(Jitter_to_cloud2))
                 
                 PILFile.SearchChangePriceLatencyJitterPIL(Latencia_to_cloud2,Latencia_to_cloud2,Jitter_to_cloud2,"openstackSerra","openstackAracruz2",TEST_ID)
-                time.sleep(20)
+                #time.sleep(20)
                 UpdateFinishTestsMethods(METHOD_3_CL1)
 
             if(cloud2.getStatus()==1):
