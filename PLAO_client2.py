@@ -245,29 +245,29 @@ class OpenStack_Auth():
         stats = self.nova.hypervisor_stats.statistics()._info
         print(stats)
         #running_vms=stats['running_vms']
-        #return str(round(running_vms))
+        #return str(int(running_vms))
 
         if PARAMETER == "memory_use_percent":
             memory_mb_used=stats['memory_mb_used']
             memory_mb=stats['memory_mb']
             memory_use_percent=(memory_mb_used*100)/memory_mb
-            return str(round(memory_use_percent))
+            return str(int(memory_use_percent))
 
         if PARAMETER == "vcpu_use_percent":
             vcpus=stats['vcpus']
             vcpus_used=stats['vcpus_used']        
             vcpu_use_percent=(vcpus_used*100)/vcpus
-            return str(round(vcpu_use_percent))
+            return str(int(vcpu_use_percent))
 
         if PARAMETER == "local_gb_percent":
             local_gb=stats['local_gb']
             local_gb_used=stats['local_gb_used']       
             local_gb_percent=(local_gb_used*100)/local_gb
-            return str(round(local_gb_percent))
+            return str(int(local_gb_percent))
 
         if PARAMETER == "running_vms":
             running_vms=stats['running_vms']
-            return str(round(running_vms))
+            return str(int(running_vms))
 
     # Return authentication session
     def get_session(self):
