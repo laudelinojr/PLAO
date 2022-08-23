@@ -1721,7 +1721,6 @@ def main():
                 DATA_METRIC_DEGRADATION_VNF1_CL1=getLastMeasureClouds(DEGRADATION_VNF1_METRIC_NAME,cloud1_gnocchi,cloud1_resource_ids_nova,cloud1_resource_id,GRANULARITY,START,STOP)
                 DATA_METRIC_DEGRADATION_VNF2_CL1=getLastMeasureClouds(DEGRADATION_VNF2_METRIC_NAME,cloud1_gnocchi,cloud1_resource_ids_nova,cloud1_resource_id,GRANULARITY,START,STOP)
 
-                #Invertido p funcionar enquando resolve regra em aracruz
                 Latencia_to_cloud2=cloud1_gnocchi.get_last_measure("Lat_To_"+cloud2.getExternalIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
                 print("LatenciatoCloud2: "+str(Latencia_to_cloud2))
                 Jitter_to_cloud2=cloud1_gnocchi.get_last_measure("Jit_To_"+cloud2.getExternalIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
@@ -2158,7 +2157,7 @@ def main():
                 CLOUD_GNOCCHI=cloud1_gnocchi
                 CLOUD_RESOURCE=cloud1_resource_id
                 GRANULARITY=5.0
-                METRIC="Lat_To_146.164.84.216" #UFRJ ufrj.br
+                METRIC="Lat_To_200.137.82.11"
                 AGGREGATION="mean"
                 COD_DATA_TYPE=9 #Latencia to User
                 COD_CLOUD=1
@@ -2176,7 +2175,7 @@ def main():
                 CLOUD_GNOCCHI=cloud2_gnocchi
                 CLOUD_RESOURCE=cloud2_resource_id
                 GRANULARITY=5.0
-                METRIC="Lat_To_146.164.84.216" #UFRJ ufrj.br
+                METRIC="Lat_To_200.137.82.11"
                 AGGREGATION="mean"
                 COD_DATA_TYPE=10 #Latencia to User
                 COD_CLOUD=2
