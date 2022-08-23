@@ -2294,6 +2294,7 @@ def main():
 def getMetricsVnfApplyWeight(VNF_CL_M):
     #Calc VNF CL M
     print("- - - -")
+    print (VNF_CL_M)
     VNF_CL_M_BD=GetMetricsVnf(VNF_CL_M)
     VNF_CL_M_BD=VNF_CL_M_BD.split(':')
     VNF_CL_M_BD_VALUE=VNF_CL_M_BD[0]
@@ -2301,6 +2302,7 @@ def getMetricsVnfApplyWeight(VNF_CL_M):
     VNF_CL_M_CALC=(float(VNF_CL_M_BD_VALUE)*float(VNF_CL_M_BD_WEIGHT))
     print("Metric x Weigth")
     print (str(VNF_CL_M_BD_VALUE) + "x" +str(VNF_CL_M_BD_WEIGHT) + "=" +str(VNF_CL_M_CALC))
+    
     return VNF_CL_M_CALC
 
 
