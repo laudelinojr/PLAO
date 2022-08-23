@@ -38,8 +38,8 @@ logger.setLevel(logging.DEBUG)
 
 #FILE_VNF_PRICE="/opt/PLAO/osm/vnf_price_list.yaml"
 #FILE_PIL_PRICE="/opt/PLAO/osm/pil_price_list.yaml"
-FILE_VNF_PRICE="teste/vnf_price_list.yaml"
-FILE_PIL_PRICE="teste/pil_price_list.yaml"
+FILE_VNF_PRICE="/opt/PLAO/teste/vnf_price_list.yaml"
+FILE_PIL_PRICE="/opt/PLAO/teste/pil_price_list.yaml"
 THRESHOLD=90 #THRESHOLD of CPU to apply rate in Cloud's price
 PATH_LOG='log/'
 #PATH_LOG='/opt/PLAO/log/'
