@@ -1,0 +1,11 @@
+
+Cristina Klippel Dominicini08:41
+https://stackoverflow.com/questions/3777861/setting-y-axis-limit-in-matplotlib
+Cristina Klippel Dominicini08:50
+df = df_interface_total.reset_index(drop=True)
+ax.plot(df.index, dados1, color=colors[0], marker=markers[0], linestyle='dotted', label='interface total')
+Cristina Klippel Dominicini08:51
+dados1 = df['taxa_total_Mbps']
+ax.plot(df.index, dados1, color=colors[0], marker=markers[0], linestyle='dotted', label='interface total')
+Gilmar Luiz Vassoler09:14
+https://www.rnp.br/sistema-rnp/ferramentas/panorama-de-trafego
