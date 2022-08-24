@@ -1596,10 +1596,10 @@ def main():
             VNF2_NAME="VNFB" #request_data['vnf2name']   
             NAME_CLOUD1="Serra" #request_data['cloudname1']
             NAME_CLOUD2="Aracruz" #request_data['cloudname2']
-            WEIGHT_METRIC1_VNF1=0.2 #['weight_metric1_vnf1']
-            WEIGHT_METRIC2_VNF1=0.8 #['weight_metric2_vnf1']
-            WEIGHT_METRIC1_VNF2=0.9 #['weight_metric1_vnf2']
-            WEIGHT_METRIC2_VNF2=0.1 #['weight_metric2_vnf2']
+            WEIGHT_METRIC1_VNF1=0.7 #['weight_metric1_vnf1']
+            WEIGHT_METRIC2_VNF1=0.3 #['weight_metric2_vnf1']
+            WEIGHT_METRIC1_VNF2=0.1 #['weight_metric1_vnf2']
+            WEIGHT_METRIC2_VNF2=0.9 #['weight_metric2_vnf2']
             COD_STATUS_JOB=1 #(1-Started,2-Finish)
             VIMACCOUNTID="9f104eee-5470-4e23-a8dd-3f64a53aa547"#fixo por enquanto
             CONSTRAINT_OPERACAO=int(request_data['constraint_operation'])
