@@ -33,8 +33,6 @@ import logging
 #logger.addHandler(logging.StreamHandler())
 #logger.setLevel(logging.DEBUG)
 
-#Teste para servidor requisicoes
-#from PLAO2_w_routes import app
 
 #FILE_VNF_PRICE="/opt/PLAO/osm/vnf_price_list.yaml"
 #FILE_PIL_PRICE="/opt/PLAO/osm/pil_price_list.yaml"
@@ -45,16 +43,10 @@ PATH_LOG='log/'
 #PATH_LOG='/opt/PLAO/log/'
 PATH='/opt/PLAO/'
 #Debug mode is 1
-debug=1
+debug=0
 debug_file = 0 #keep 0
 #requisites for change all price of specif VIM (Cloud)
 DOWN_UP_PRICE=10 #Number to add vnf Price
-
-#classe arquivo vnfd
-
-#Classe monitorar arquivo entrada_comandos_legado
-
-#classe enviar ip para controladores clientes
 
 class OSM_Auth():
     def __init__(self, IP):
@@ -1720,7 +1712,7 @@ def main():
                 DATA_METRIC2_CL1=getLastMeasureClouds(METRIC2_NAME,cloud1_gnocchi,cloud1_resource_ids_nova,cloud1_resource_id,GRANULARITY,START,STOP)
                 DATA_METRIC_DEGRADATION_VNF1_CL1=getLastMeasureClouds(DEGRADATION_VNF1_METRIC_NAME,cloud1_gnocchi,cloud1_resource_ids_nova,cloud1_resource_id,GRANULARITY,START,STOP)
                 DATA_METRIC_DEGRADATION_VNF2_CL1=getLastMeasureClouds(DEGRADATION_VNF2_METRIC_NAME,cloud1_gnocchi,cloud1_resource_ids_nova,cloud1_resource_id,GRANULARITY,START,STOP)
-                time.sleep(20)
+                #time.sleep(20)
                 Latencia_to_cloud2=cloud1_gnocchi.get_last_measure("Lat_To_"+cloud2.getExternalIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
                 print("LatenciatoCloud2: "+str(Latencia_to_cloud2))
                 Jitter_to_cloud2=cloud1_gnocchi.get_last_measure("Jit_To_"+cloud2.getExternalIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
