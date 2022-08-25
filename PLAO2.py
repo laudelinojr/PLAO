@@ -2308,12 +2308,16 @@ def getMetricsVnfApplyWeight(VNF_CL_M):
 def getLastMeasureClouds(METRIC2_NAME,cloud1_gnocchi,cloud1_resource_ids_nova,cloud1_resource_id,GRANULARITY,START,STOP):
     if (METRIC2_NAME.__contains__("Lat_To_")):
         if (METRIC2_NAME.__contains__("200.137.82.11")):
+            print("if ip 200.137.82.11")
             DATA_METRIC2_CL2=cloud1_gnocchi.get_last_measure2(METRIC2_NAME,cloud1_resource_id,None,GRANULARITY,START,STOP)
+            print(DATA_METRIC2_CL2)
             return DATA_METRIC2_CL2
         else:
             DATA_METRIC2_CL2=cloud1_gnocchi.get_last_measure(METRIC2_NAME,cloud1_resource_id,None,GRANULARITY,START,STOP)
+            print(DATA_METRIC2_CL2)
             return DATA_METRIC2_CL2
     else:
+        print("if cpu")
         INDEX=0
         DATA_METRIC2_CL2=0
         DATA_METRIC2_CL2_TOT=0
@@ -2322,6 +2326,8 @@ def getLastMeasureClouds(METRIC2_NAME,cloud1_gnocchi,cloud1_resource_ids_nova,cl
             DATA_METRIC2_CL2_TOT=DATA_METRIC2_CL2_TOT+DATA_METRIC2_CL2_PRE1
             INDEX=INDEX+1
         DATA_METRIC2_CL2=DATA_METRIC2_CL2_TOT/INDEX
+        print(DATA_METRIC2_CL2_TOT)
+        print(DATA_METRIC2_CL2)
         return DATA_METRIC2_CL2
 
 if __name__ == "__main__":
