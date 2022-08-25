@@ -29,9 +29,9 @@ import openpyxl
 
 #Block to active log
 import logging
-logger = logging.getLogger('peewee')
-logger.addHandler(logging.StreamHandler())
-logger.setLevel(logging.DEBUG)
+#logger = logging.getLogger('peewee')
+#logger.addHandler(logging.StreamHandler())
+#logger.setLevel(logging.DEBUG)
 
 #Teste para servidor requisicoes
 #from PLAO2_w_routes import app
