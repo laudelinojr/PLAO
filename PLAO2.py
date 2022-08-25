@@ -1305,91 +1305,6 @@ def main():
     #Return resultado de check token user
     #Inserir em todas as rotas um check do usuario e seu respectivo token
 
-    @app.route('/copydatatests/',methods=['GET'])
-    def copydatatest():
-        OSM.check_token_valid(token)
-        now=datetime.now()
-        intervalo=240
-        delta = timedelta(seconds=intervalo)
-        time_past=now-delta
-        #START = "2021-08-01 13:30:33+00:00"
-        #STOP = "2021-08-01 13:35:36+00:00"
-        START=time_past
-        STOP=now
-
-        START2=1660205102.1287
-        STOP2=1660205137.468756
-        print("convertido para start2")
-        print(datetime.fromtimestamp(START2))
-        print("convertido para stop 2")
-        print(datetime.fromtimestamp(STOP2))
-
-        CLOUD_GNOCCHI=cloud1_gnocchi
-        CLOUD_RESOURCE=cloud1_resource_id
-        GRANULARITY=5.0
-        METRIC="NVNF"
-        AGGREGATION="max"
-        COD_TEST=8
-        COD_DATA_TYPE=1
-        COD_CLOUD=1
-        get_data=CLOUD_GNOCCHI.get_last_measure_Date(METRIC,CLOUD_RESOURCE,AGGREGATION,GRANULARITY,START,STOP,COD_TEST,COD_CLOUD,COD_DATA_TYPE)
-        print(get_data)
-        if get_data == -1:
-            return "ok" 
-        metrics_test=json.loads(get_data)
-        print(metrics_test)
-        Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
-
-        CLOUD_GNOCCHI=cloud2_gnocchi
-        CLOUD_RESOURCE=cloud2_resource_id
-        GRANULARITY=5.0
-        METRIC="NVNF"
-        AGGREGATION="max"
-        COD_TEST=8
-        COD_DATA_TYPE=1
-        COD_CLOUD=1
-        get_data=CLOUD_GNOCCHI.get_last_measure_Date(METRIC,CLOUD_RESOURCE,AGGREGATION,GRANULARITY,START,STOP,COD_TEST,COD_CLOUD,COD_DATA_TYPE)
-        print(get_data)
-        if get_data == -1:
-            return "ok" 
-        metrics_test=json.loads(get_data)
-        print(metrics_test)
-        get_data=CLOUD_GNOCCHI.get_last_measure_Date(METRIC,CLOUD_RESOURCE,AGGREGATION,GRANULARITY,START,STOP,COD_TEST,COD_CLOUD,COD_DATA_TYPE)
-        Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
-
-        return "ok"
-
-    @app.route('/copydatatests2/',methods=['GET'])
-    def copydatatest2():
-        TEST_ID=2
-        TestTimes=SelectTestbyId(TEST_ID)
-        START_TEST=TestTimes.get('start_date_test')
-        STOP_TEST=TestTimes.get('finish_date_test')
-        print ("start test")
-        print(START_TEST)
-        print("stop test")
-        print(STOP_TEST)
-        START_TEST=float(START_TEST)-50000
-        OSM.check_token_valid(token)
-        print("vai comecar latencia n1 to n2")
-        ###DADOS Latencia
-        CLOUD_GNOCCHI=cloud1_gnocchi
-        CLOUD_RESOURCE=cloud1_resource_id
-        GRANULARITY=5.0
-        METRIC="Lat_To_200.137.82.21"
-        AGGREGATION="mean"
-        COD_DATA_TYPE=5 #Latency Serra to Aracruz
-        COD_CLOUD=1
-        get_data=CLOUD_GNOCCHI.get_last_measure_Date(METRIC,CLOUD_RESOURCE,AGGREGATION,GRANULARITY,START_TEST,STOP_TEST,TEST_ID,COD_CLOUD,COD_DATA_TYPE)
-        print(get_data)
-        if get_data == -1:
-            print ("Error-Latencia Cloud 1 5")
-        else:
-            metrics_test=json.loads(get_data)
-            print(metrics_test)
-            Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
-        return "ok"
-
     @app.route('/selectidtest/',methods=['GET'])
     def SelectIdTests():
         test=SelectTestbyId(2)
@@ -1595,7 +1510,7 @@ def main():
             COD_STATUS_JOB=1 #(1-Started,2-Finish)
             VIMACCOUNTID="9f104eee-5470-4e23-a8dd-3f64a53aa547"#fixo por enquanto
             CONSTRAINT_OPERACAO=int(request_data['constraint_operation'])
-            print(CONSTRAINT_OPERACAO)
+            #print(CONSTRAINT_OPERACAO)
             CONSTRAINT_LATENCY=2 #['constraint_latency']
             CONSTRAINT_JITTER=20 #['constraint_jitter']
             CONSTRAINT_VLD_ID="ns_vl_2mlm" #['constraint_vld_id']
