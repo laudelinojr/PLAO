@@ -302,11 +302,11 @@ class File_VNF_Price():
         if COD_VNFD < 0:
             return -1  
         if (CLOUD_STATUS_DEGRADATION == 1):
-            #print ("PRICE BEFORE DEGRADATION_STATUS: "+ str(PRICE))
+            print ("PRICE BEFORE DEGRADATION_STATUS: "+ str(PRICE))
             PRICE=int(PRICE)+DOWN_UP_PRICE
             InsertActionsTests(COD_TEST,4,datetime.timestamp(datetime.now().utcnow()))
-            #print ("PRICE AFTER DEGRADATION_STATUS: "+ str(PRICE))
-            #print("Add value because is in degradation status.") 
+            print ("PRICE AFTER DEGRADATION_STATUS: "+ str(PRICE))
+            print("Add value because is in degradation status.") 
         for i in range(C):
             if self.B[COD_VNFD]['prices'][i]['vim_url'] == VIMURL: #Compare VIMURL between YAML and the new
                 if self.B[COD_VNFD]['prices'][i]['price'] != int(PRICE):  #Compare new PRICE with actual Price, if equal, no change
