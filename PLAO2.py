@@ -1646,6 +1646,7 @@ def main():
                 #####Test#####Stop#####get_last_measure()
                 UpdateFinishTestsMethods(METHOD_3_CL2)
             
+            return "ok"
 
             METHOD_4_CL1=InsertTestsMethods(TEST_ID,4,1)
             METHOD_4_CL2=InsertTestsMethods(TEST_ID,4,2)
