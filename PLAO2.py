@@ -2301,7 +2301,7 @@ def getLastMeasureClouds(METRIC2_NAME,cloud1_gnocchi,cloud1_resource_ids_nova,cl
     if (METRIC2_NAME.__contains__("Lat_To_")):
         if (METRIC2_NAME.__contains__("200.137.82.11")):
             print("if ip 200.137.82.11")
-            DATA_METRIC2_CL2=cloud1_gnocchi.get_last_measure(METRIC2_NAME,cloud1_resource_id,None,GRANULARITY,START,STOP)
+            DATA_METRIC2_CL2=cloud1_gnocchi.get_last_measure(METRIC2_NAME,cloud1_resource_id,None,5,START,STOP)
             print(DATA_METRIC2_CL2)
             return DATA_METRIC2_CL2
         else:
