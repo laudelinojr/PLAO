@@ -893,6 +893,28 @@ def main():
         CommandUPLatency(IPSOURCE,INCREASE,INTERFACE)
         return "LatencyUp"
 
+    @appc.route('/uplatencytouser/',methods=['POST'])
+    def uplatency():
+        INTERFACE=""
+        IPSOURCE=""
+        request_data = request.get_json()
+        IPCLOUD = request_data['IPCLOUD']
+        IPCLOUD=str(IPCLOUD)
+        IPUSERTEST = request_data['IPUSERTEST']
+        IPUSERTEST=str(IPUSERTEST)            
+        INCREASE = request_data['INCREASE']
+        INCREASE=str(INCREASE)
+        if IPServerLocal =="10.50.0.159": 
+            INTERFACE="eno1np0"
+            IPSOURCE=IPUSERTEST
+            INCREASE=INCREASE
+        if IPServerLocal == "172.16.112.60":
+            INTERFACE="eth0"
+            IPSOURCE=IPUSERTEST
+            INCREASE=INCREASE
+        CommandUPLatency(IPSOURCE,INCREASE,INTERFACE)
+        return "LatencyUp"
+
     @appc.route('/resetlatency/',methods=['POST'])
     def resetlatency():
         INTERFACE=""

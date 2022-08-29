@@ -1236,7 +1236,6 @@ def main():
                 return "Started"
 
 
-    #Start aplication in server and clients, and start Thread of collector links metrics.
     @app.route('/uplatencylink/',methods=['POST'])
     def uplatency2():
         if request.method == "POST":
@@ -1272,6 +1271,47 @@ def main():
                 print("Someone closed the program")
             else:
                 return "Started"
+
+
+    @app.route('/uplatencytouser/',methods=['POST'])
+    def uplatency2():
+        if request.method == "POST":
+
+            request_data = request.get_json()
+            IPCLOUD = request_data['IPCLOUD']
+            IPUSERTEST = request_data['IPUSERTEST']
+            INCREASE = request_data['INCREASE']
+
+            payload = {"IPCLOUD" : str(IPCLOUD),"IPUSERTEST" : str(IPUSERTEST),"INCREASE" : str(INCREASE)}            
+            try:
+                requests.request(
+                    method="POST", url='http://'+nuvem1+':3333/uplatencytouser/', json=payload)
+
+            except requests.ConnectionError:
+                print("OOPS!! Connection Error. Make sure you are connected to Internet.\n")           
+            except requests.Timeout:
+                print("OOPS!! Timeout Error")
+            except requests.RequestException:
+                print("OOPS!! General Error")
+            except KeyboardInterrupt:
+                print("Someone closed the program")
+
+            try:
+                requests.request(
+                    method="POST", url='http://'+nuvem2+':3333/uplatencytouser/', json=payload)
+
+            except requests.ConnectionError:
+                print("OOPS!! Connection Error. Make sure you are connected to Internet.\n")
+                return ""            
+            except requests.Timeout:
+                print("OOPS!! Timeout Error")
+            except requests.RequestException:
+                print("OOPS!! General Error")
+            except KeyboardInterrupt:
+                print("Someone closed the program")
+            else:
+                return "Started"
+
 
 
     #Start aplication in server and clients, and start Thread of collector links metrics.
