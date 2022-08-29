@@ -47,6 +47,7 @@ debug=0
 debug_file = 0 #keep 0
 #requisites for change all price of specif VIM (Cloud)
 DOWN_UP_PRICE=10 #Number to add vnf Price
+COMMAND_MON_PLAO=0
 
 class OSM_Auth():
     def __init__(self, IP):
@@ -510,6 +511,38 @@ def Collector_Metrics_Links_cl1(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile
         PILFile.SearchChangePriceLatencyJitterPIL(Latencia_to_cloud2,Latencia_to_cloud2,Jitter_to_cloud2,CLOUD_FROM,CLOUD_TO,0)
         time.sleep(5)
 
+#Collect CPU in PLAO Server
+def Collector_CPU_PLAO_Server(tempo_coleta,id_test):
+    #comando: 1 start / 0 stop
+    #tempo_coleta: 1.0 / 5.0
+    #TEST_ID
+    GRANULARITY=tempo_coleta
+    COD_DATA_TYPE=1 #CPU
+    COD_CLOUD=3
+    while True:
+        cpuso = psutil.cpu_percent(interval=0.5)
+        cpuso2 = round(cpuso)
+        InsertDataTests(datetime.now().utcnow(),cpuso2,id_test,GRANULARITY,COD_DATA_TYPE,COD_CLOUD)
+        if (COMMAND_MON_PLAO == 0):
+            break
+        time.sleep(tempo_coleta)
+
+#Collect Memory in PLAO Server
+def Collector_Memory_PLAO_Server(tempo_coleta,id_test):
+    #comando: 1 start / 0 stop
+    #tempo_coleta: 1.0 / 5.0
+    #TEST_ID
+    GRANULARITY=tempo_coleta
+    COD_DATA_TYPE=1 #CPU
+    COD_CLOUD=4
+    while True:
+        mem = psutil.virtual_memory()
+        memoryso = round(mem.percent)
+        InsertDataTests(datetime.now().utcnow(),memoryso,id_test,GRANULARITY,COD_DATA_TYPE,COD_CLOUD)
+        if (COMMAND_MON_PLAO == 0):
+            break
+        time.sleep(tempo_coleta)
+
 def Collector_Metrics_Links_Demand_Interval_cl1(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile,CLOUD_FROM,CLOUD_TO,interval,metric_name):
     now=datetime.now()
     delta = timedelta(seconds=interval)
@@ -614,13 +647,21 @@ def InsertDataTestsTypes(name):
         name_data_tests = name
     ).execute()
 
-def c(date, id_test, id_data_test_type, id_cloud ):
+def InsertDataTests(date, id_test, value, granularity, id_data_test_type, id_cloud ):
     return Data_Tests.insert(
         date_data_tests = date,
         fk_tests = id_test,
+        value_data_tests = value,
+        granularity_data_tests = granularity,
         fk_data_tests_types = id_data_test_type,
         fk_cloud = id_cloud
     ).execute()
+
+    id_data_tests=BigIntegerField( unique=True, primary_key=True,
+            constraints=[SQL('AUTO_INCREMENT')])
+    granularity_data_tests = CharField(max_length=100)
+
+
 
 def InsertTests(desc):
     return Tests.insert(
@@ -999,16 +1040,18 @@ def FirstLoadBD():
     #InsertMethods("SetProcessModel()")
     InsertMethods("configVNFsCostsOSM()")
     InsertMethods("createNSInstanceOSM()")
-    InsertActionsTestsTypes("Instanciação de NS.")
+    InsertActionsTestsTypes("Start Instanciação de NS.")
     InsertActionsTestsTypes("Alteração do custo do link, considerando latência e jitter entre nuvens.")
     InsertActionsTestsTypes("Alteração do custo das VNFDs de acordo com a latência para o usuário final e percentual de uso de CPU da nuvem.")
     InsertActionsTestsTypes("Aumento dos custos de todos os VNFDs da nuvem após degradação do uso de CPU.")
+    InsertActionsTestsTypes("Finish Instanciação de NS.")
     InsertDegradationVnfType("CPU")
     InsertDegradationVnfType("Memoria")
     InsertDegradationsCloudsTypes("CPU")
     InsertDegradationsCloudsTypes("Memoria")
     InsertCloud("Serra","10.50.0.159","200.137.75.160",1,90,"9f104eee-5470-4e23-a8dd-3f64a53aa547")
     InsertCloud("Aracruz","172.16.112.60","200.137.82.21",2,91,"6ba02d24-6320-4322-9177-eb4987ad9465")
+    InsertCloud("PLAOServerOSM","127.0.0.1","127.0.0.1",2,91,"0")
     InsertDegradations_Clouds(1,1,98)
     InsertDataTestsTypes("CPU1")
     InsertDataTestsTypes("CPU2")
@@ -1189,6 +1232,12 @@ def main():
     def cargabd():
         FirstLoadBD()
         return "LoadedBase"
+
+    #Load BD after to create BD
+    @app.route('/stopcoletaplao/',methods=['POST'])
+    def stopcoletaplao():
+        COMMAND_MON_PLAO=0
+        return "StopColetaPlao"
 
     #Load BD after to create BD
     @app.route('/selecttestes/',methods=['GET'])
@@ -1486,9 +1535,13 @@ def main():
     def send_job():
         if request.method == "POST":
 
+
             OSM.check_token_valid(token)
 
             TEST_ID=InsertTests("Teste_send_job")
+
+            CriaThreadColetaCPU_Memoria(1,TEST_ID)
+
             ret_status = 0 #status of return cloud
             request_data = request.get_json()
             IP_USER=request_data['ipuser']
@@ -1860,7 +1913,7 @@ def main():
             OSM.check_token_valid(token)
 
             OSM.osm_create_instance_ns_scheduled((token['id']),NS_NAME_INSTANCIATED,str(id_ns_scheduled['id']),VIMACCOUNTID,NSDID,CONSTRAINT_OPERACAO,CONSTRAINT_LATENCY,CONSTRAINT_JITTER,CONSTRAINT_VLD_ID)
-
+            InsertActionsTests(TEST_ID,1,datetime.timestamp(datetime.now().utcnow())) #Instaciating VNF
             #criar metodo passar o codigo osm da nuvem e retorar o codigo primary key nele na tabela Cloud
             #out=False
             #while out==False:
@@ -1901,7 +1954,7 @@ def main():
                                     if (i['vim-account-id']=="6ba02d24-6320-4322-9177-eb4987ad9465"):
                                         UpdateFinishTestsMethodsifNone(METHOD_12_CL2) #CL2
                                     print(i['_admin']['nsState'])
-                        InsertActionsTests(TEST_ID,1,datetime.timestamp(datetime.now().utcnow()))
+                        InsertActionsTests(TEST_ID,5,datetime.timestamp(datetime.now().utcnow())) #Registrar acao ao ser executado/Criar outro tipo para finalizado
                         UpdateNsInstanciated(id_ns_scheduled,2,JOB_COD)
                         out=True
                 timeout=timeout+1
@@ -1913,6 +1966,7 @@ def main():
                 UpdateJob(JOB_COD,2) #Finished the job
                 UpdateFinishTestsMethodsifNone(METHOD_12_CL1)
                 UpdateFinishTestsMethodsifNone(METHOD_12_CL2)
+                DesativaThreadColetaCPU_Memoria() #Desativa coleta cpu e memoria
                 UpdateFinishDateTestsbyId(TEST_ID)
 
                 TestTimes=SelectTestbyId(TEST_ID)
@@ -2197,6 +2251,15 @@ def main():
     IPServerLocal="127.0.0.1"
     #Alterar para IP do servidor do PLAO
     app.run(IPServerLocal, '3332',debug=True)
+
+def CriaThreadColetaCPU_Memoria(tempo_coleta,id_test):
+    thread_MonitorCPUPlaoServer = threading.Thread(target=Collector_CPU_PLAO_Server,args=(tempo_coleta,id_test))
+    thread_MonitorCPUPlaoServer.start()
+    thread_MonitorMemoriaPlaoServer = threading.Thread(target=Collector_Memory_PLAO_Server,args=(tempo_coleta,id_test))
+    thread_MonitorMemoriaPlaoServer.start()
+
+def DesativaThreadColetaCPU_Memoria():
+    COMMAND_MON_PLAO=0
 
 def getMetricsVnfApplyWeight(VNF_CL_M):
     #Calc VNF CL M
