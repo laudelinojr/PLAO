@@ -1,6 +1,6 @@
 #!/bin/bash
 #CENARIO 1
-python3 PLAO2_test_to_PLAOServer.py 127.0.0.1 POST uplatencytouser 200.137.75.159 200.137.82.11 12;
+python3 PLAO2_test_to_PLAOServer.py 127.0.0.1 POST uplatencytouser 200.137.75.159 200.137.82.11 10;
 sleep 5
 python3 PLAO2_test_to_PLAOServer.py 127.0.0.1 POST start;
 sleep 5
@@ -15,7 +15,7 @@ sleep 20
 
 #CENARIO 2
 python3 PLAO2_test_to_PLAOServer.py 127.0.0.1 POST uplatencylink 15;
-python3 PLAO2_test_to_PLAOServer.py 127.0.0.1 POST uplatencytouser 200.137.75.159 200.137.82.11 12;
+python3 PLAO2_test_to_PLAOServer.py 127.0.0.1 POST uplatencytouser 200.137.75.159 200.137.82.11 10;
 sleep 5
 python3 PLAO2_test_to_PLAOServer.py 127.0.0.1 POST start;
 sleep 5
@@ -29,7 +29,7 @@ python3 PLAO2_test_to_PLAOServer.py 127.0.0.1 POST deleteallns;
 python3 PLAO2_test_to_PLAOServer.py 127.0.0.1 POST stop;
 
 sleep 20
-python3 PLAO2_test_to_PLAOServer.py 127.0.0.1 POST uplatencytouser 200.137.75.159 200.137.82.11 12;
+python3 PLAO2_test_to_PLAOServer.py 127.0.0.1 POST uplatencytouser 200.137.75.159 200.137.82.11 10;
 sleep 5
 #CENARIO 3
 python3 PLAO2_test_to_PLAOServer.py 127.0.0.1 POST start;
@@ -44,7 +44,7 @@ python3 PLAO2_test_to_PLAOServer.py 127.0.0.1 POST stop;
 sleep 20
 
 #CENARIO 4
-python3 PLAO2_test_to_PLAOServer.py 127.0.0.1 POST uplatencytouser 200.137.75.159 200.137.82.11 12;
+python3 PLAO2_test_to_PLAOServer.py 127.0.0.1 POST uplatencytouser 200.137.75.159 200.137.82.11 10;
 sleep 5
 python3 PLAO2_test_to_PLAOServer.py 127.0.0.1 POST start;
 sleep 5
@@ -58,7 +58,7 @@ python3 PLAO2_test_to_PLAOServer.py 127.0.0.1 POST stop;
 sleep 20
 
 #CENARIO 5
-python3 PLAO2_test_to_PLAOServer.py 127.0.0.1 POST uplatencytouser 200.137.75.159 200.137.82.11 12;
+python3 PLAO2_test_to_PLAOServer.py 127.0.0.1 POST uplatencytouser 200.137.75.159 200.137.82.11 10;
 sleep 5
 python3 PLAO2_test_to_PLAOServer.py 127.0.0.1 POST start;
 sleep 5

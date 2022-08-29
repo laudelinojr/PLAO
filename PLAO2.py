@@ -1900,13 +1900,13 @@ def main():
                 VNF1_CL1_M2_CALC=getMetricsVnfApplyWeight(VNF1_CL1_M2)#Calc VNF1 CL1 M2
                 VNF1_CL1_CALC=VNF1_CL1_M1_CALC+VNF1_CL1_M2_CALC#Sum for Calc VNF1 in CL1
                 VNF1_CL1_CALC=round(VNF1_CL1_CALC) #round
-                print ("Cost of VNF1 CL1 is "+str(VNF1_CL1_CALC))
+                print ("Cost of VNF1 CL1 (VNFA SERRA) is "+str(VNF1_CL1_CALC))
                 ############################
                 VNF2_CL1_M1_CALC=getMetricsVnfApplyWeight(VNF2_CL1_M1)#Calc VNF2 CL1 M1
                 VNF2_CL1_M2_CALC=getMetricsVnfApplyWeight(VNF2_CL1_M2)#Calc VNF2 CL1 M2
                 VNF2_CL1_CALC=VNF2_CL1_M1_CALC+VNF2_CL1_M2_CALC#Sum for Calc VNF2 in CL1
                 VNF2_CL1_CALC=round(VNF2_CL1_CALC) #round
-                print ("Cost of VNF2 CL1 is "+str(VNF2_CL1_CALC))
+                print ("Cost of VNF2 CL1 (VNFB SERRA) is "+str(VNF2_CL1_CALC))
                 UpdateFinishTestsMethods(METHOD_8_CL1)
 
             if(cloud2.getStatus()==1):
@@ -1916,13 +1916,13 @@ def main():
                 VNF1_CL2_M2_CALC=getMetricsVnfApplyWeight(VNF1_CL2_M2)#Calc VNF1 CL2 M2
                 VNF1_CL2_CALC=VNF1_CL2_M1_CALC+VNF1_CL2_M2_CALC #Sum for Calc VNF1 in CL2
                 VNF1_CL2_CALC=round(VNF1_CL2_CALC) #round
-                print ("Cost of VNF1 CL2 is "+str(VNF1_CL2_CALC))
+                print ("Cost of VNF1 CL2 (VNFA Aracruz) is "+str(VNF1_CL2_CALC))
                 ############################    
                 VNF2_CL2_M1_CALC=getMetricsVnfApplyWeight(VNF2_CL2_M1)#Calc VNF2 CL2 M1   
                 VNF2_CL2_M2_CALC=getMetricsVnfApplyWeight(VNF2_CL2_M2)#Calc VNF2 CL2 M2
                 VNF2_CL2_CALC=VNF2_CL2_M1_CALC+VNF2_CL2_M2_CALC#Sum for Calc VNF2 in CL2
                 VNF2_CL2_CALC=round(VNF2_CL2_CALC) #round
-                print ("Cost of VNF2 CL2 is "+str(VNF2_CL2_CALC))
+                print ("Cost of VNF2 CL2 (VNFB Aracruz) is "+str(VNF2_CL2_CALC))
                 ############################
                 UpdateFinishTestsMethods(METHOD_8_CL2)
 
