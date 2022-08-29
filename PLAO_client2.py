@@ -904,11 +904,11 @@ def main():
         IPUSERTEST=str(IPUSERTEST)            
         INCREASE = request_data['INCREASE']
         INCREASE=str(INCREASE)
-        if IPServerLocal =="10.50.0.159": 
+        if IPServerLocal =="10.50.0.159" and IPCLOUD == "200.137.75.159": 
             INTERFACE="eno1np0"
             IPSOURCE=IPUSERTEST
             INCREASE=INCREASE
-        if IPServerLocal == "172.16.112.60":
+        if IPServerLocal == "172.16.112.60" and IPCLOUD == "200.137.82.21":
             INTERFACE="eth0"
             IPSOURCE=IPUSERTEST
             INCREASE=INCREASE
