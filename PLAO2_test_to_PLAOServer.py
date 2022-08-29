@@ -9,6 +9,11 @@ METRIC_NAME=''
 CLOUD_COD=''
 TYPE=''
 CONSTRAINT_OPERATION=''
+INCREASE=''
+IPCLOUD = ''
+IPUSERTEST =''
+VALUEUPLATENCY = ''
+VALUEUPCPU=''
 
 IP_PLASERVER = sys.argv[1] #Address Server PLAO SERVER IP
 if sys.argv[1] == '':
@@ -31,6 +36,42 @@ if sys.argv[3] == "userlatency":
     #Future: to valid the ip in third parameter
     if sys.argv[4] == '': 
         print ("Invalido: We need the user ip.")
+        exit()
+
+if sys.argv[3] == "uplatencylink":
+    print ("Invalido: We need the Operation.")
+    INCREASE = sys.argv[4] #ms to up latency
+    #Future: to valid the ip in third parameter
+    if sys.argv[4] == '': 
+        print ("Invalido: latency value to up.")
+        exit()
+
+if sys.argv[3] == "uplatencytouser":
+    print ("Invalido: We need the Operation.")
+    IPCLOUD = sys.argv[4] #IPCLOUD
+    IPUSERTEST = sys.argv[5] #Send operational
+    VALUEUPLATENCY=sys.argv[6] #Send operational
+    #Future: to valid the ip in third parameter
+    if sys.argv[4] == '': 
+        print ("Invalido: We need the user ip.")
+        exit()
+    if sys.argv[5] == '': 
+        print ("Invalido: We need the user ip test.")
+        exit()
+    if sys.argv[6] == '': 
+        print ("Invalido: We need value up latency.")
+        exit()
+
+if sys.argv[3] == "upcpu":
+    print ("Invalido: We need the Operation.")
+    IPCLOUD = sys.argv[4] #IPCLOUD
+    VALUEUPCPU=sys.argv[5] #Send operational
+    #Future: to valid the ip in third parameter
+    if sys.argv[4] == '': 
+        print ("Invalido: We need the user ip.")
+        exit()
+    if sys.argv[5] == '': 
+        print ("Invalido: We value cpu up.")
         exit()
 
 if sys.argv[3] == "sendjob":
@@ -69,7 +110,7 @@ print(URL)
 
 #Future: Send in payload the parametrs of operations. for example the number packets latency and others
 # The payload is the user ip address.
-payload = {"ipuser" : str(IPUSER) , "constraint_operation" : str(CONSTRAINT_OPERATION),"startdate" : str(START_DATE), "stopdate" : str(STOP_DATE), "metricname" : str(METRIC_NAME), "cloudcod" : CLOUD_COD}
+payload = {"ipuser" : str(IPUSER) ,"VALUEUPCPU": str(VALUEUPCPU), "IPCLOUD" : str(IPCLOUD) ,"IPUSERTEST" : str(IPUSERTEST) ,"INCREASE" : str(INCREASE) ,"VALUEUPLATENCY" : str(VALUEUPLATENCY) , "constraint_operation" : str(CONSTRAINT_OPERATION),"startdate" : str(START_DATE), "stopdate" : str(STOP_DATE), "metricname" : str(METRIC_NAME), "cloudcod" : CLOUD_COD}
 #vnf1, vnf2, pesovnf1, pesovnf2, metrlimite, valmetrlimite, metrrestricao, valmetrrestricao, nsnome
 # Request to start the application agent betwen clouds (ping and jitter). The server will request for the all clouds in enviroment.
 a = requests.request(

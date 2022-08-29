@@ -875,11 +875,13 @@ def main():
             return "System_Stoped"
         return "System_Already_Stoped"
 
-    @appc.route('/uplatency/',methods=['POST'])
+    @appc.route('/uplatencylink/',methods=['POST'])
     def uplatency():
         INTERFACE=""
         IPSOURCE=""
-        INCREASE=""
+        request_data = request.get_json()
+        INCREASE = request_data['INCREASE']
+        INCREASE=str(INCREASE)
         if IPServerLocal =="10.50.0.159": 
             INTERFACE="eno1np0"
             IPSOURCE="200.137.82.21"

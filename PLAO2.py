@@ -1237,16 +1237,16 @@ def main():
 
 
     #Start aplication in server and clients, and start Thread of collector links metrics.
-    @app.route('/uplatency/',methods=['POST'])
+    @app.route('/uplatencylink/',methods=['POST'])
     def uplatency2():
         if request.method == "POST":
 
-            #request_data = request.get_json()
-            #payload = request_data['ipuser']
-            
+            request_data = request.get_json()
+            INCREASE = request_data['INCREASE']
+            payload = {"INCREASE" : str(INCREASE)}            
             try:
                 requests.request(
-                    method="POST", url='http://'+nuvem1+':3333/uplatency/')#, json=payload)
+                    method="POST", url='http://'+nuvem1+':3333/uplatencylink/', json=payload)
 
             except requests.ConnectionError:
                 print("OOPS!! Connection Error. Make sure you are connected to Internet.\n")           
@@ -1259,7 +1259,7 @@ def main():
 
             try:
                 requests.request(
-                    method="POST", url='http://'+nuvem2+':3333/uplatency/')#, json=payload)
+                    method="POST", url='http://'+nuvem2+':3333/uplatencylink/', json=payload)
 
             except requests.ConnectionError:
                 print("OOPS!! Connection Error. Make sure you are connected to Internet.\n")
