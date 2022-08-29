@@ -521,7 +521,6 @@ def Collector_CPU_PLAO_Server(tempo_coleta,id_test):
     GRANULARITY=tempo_coleta
     COD_DATA_TYPE=1 #CPU
     COD_CLOUD=3
-    global COMMAND_MON_PLAO
     while True:
         cpuso = psutil.cpu_percent(interval=0.5)
         cpuso2 = round(cpuso)
@@ -537,7 +536,6 @@ def Collector_Memory_PLAO_Server(tempo_coleta,id_test):
     #comando: 1 start / 0 stop
     #tempo_coleta: 1.0 / 5.0
     #TEST_ID
-    global COMMAND_MON_PLAO
     dt_obj = datetime.utcnow()  # input datetime object
     unixstime=int(float(dt_obj.strftime('%s.%f')) * 1e3)
     GRANULARITY=tempo_coleta
@@ -1551,7 +1549,7 @@ def main():
     def send_job():
         if request.method == "POST":
             global COMMAND_MON_PLAO
-            COMMAND_MON_PLAO=0
+            COMMAND_MON_PLAO=1
 
             OSM.check_token_valid(token)
 
@@ -2270,7 +2268,6 @@ def main():
     app.run(IPServerLocal, '3332',debug=True)
 
 def CriaThreadColetaCPU_Memoria(tempo_coleta,id_test):
-    COMMAND_MON_PLAO=1
     thread_MonitorCPUPlaoServer = threading.Thread(target=Collector_CPU_PLAO_Server,args=(tempo_coleta,id_test))
     thread_MonitorCPUPlaoServer.start()
     thread_MonitorMemoriaPlaoServer = threading.Thread(target=Collector_Memory_PLAO_Server,args=(tempo_coleta,id_test))
