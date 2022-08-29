@@ -1250,6 +1250,12 @@ def main():
         return "StopColetaPlao"
 
     #Load BD after to create BD
+    @app.route('/startcoletaplao/',methods=['POST'])
+    def startcoletaplao():
+        
+        return "StopColetaPlao"
+
+    #Load BD after to create BD
     @app.route('/selecttestes/',methods=['GET'])
     def selecttests():
         SelectTests()
@@ -1544,7 +1550,8 @@ def main():
     @app.route("/sendjob/", methods=['POST', 'GET', 'DELETE'])
     def send_job():
         if request.method == "POST":
-
+            global COMMAND_MON_PLAO
+            COMMAND_MON_PLAO=0
 
             OSM.check_token_valid(token)
 
