@@ -220,6 +220,16 @@ def ExecuteCommand(exec_command):
   print("ERROR - " + ret)
   return ret.returncode
 
+def CommandUPLatency(IPDST,INCREASE,INTERFACE):
+    ExecuteCommand("sudo tc qdisc del dev "+INTERFACE+" root")
+    ExecuteCommand("sudo tc qdisc add dev "+INTERFACE+" root handle 1: prio")
+    ExecuteCommand("sudo tc filter add dev "+ INTERFACE +" parent 1:0 protocol ip prio 1 u32 match ip dst "+IPDST+" flowid 2:1")
+    ExecuteCommand("sudo tc qdisc add dev " + INTERFACE + " parent 1:1 handle 2: netem delay "+INCREASE+" 20ms")
+
+
+def CommandResetLatency(INTERFACE):
+    ExecuteCommand("sudo tc qdisc del dev " + INTERFACE + " root")
+
 # Class to autenticate on OpenStack and return authentication session
 class OpenStack_Auth():
     def __init__(self, cloud_name):
@@ -865,6 +875,32 @@ def main():
             novo = stopApp()
             return "System_Stoped"
         return "System_Already_Stoped"
+
+    @appc.route('/uplatency/',methods=['POST'])
+    def uplatency():
+        INTERFACE=""
+        IPSOURCE=""
+        INCREASE=0
+        if IPServerLocal =="10.50.0.159": 
+            INTERFACE="eno1np0"
+            IPSOURCE="200.137.82.21"
+            INCREASE=16
+        if IPServerLocal == "172.16.112.60":
+            INTERFACE="eth0"
+            IPSOURCE="200.137.75.159"
+            INCREASE=16
+        CommandUPLatency(IPSOURCE,INCREASE,INTERFACE)
+        return "LatencyUp"
+
+    @appc.route('/resetlatency/',methods=['POST'])
+    def resetlatency():
+        INTERFACE=""
+        if IPServerLocal =="10.50.0.159": 
+            INTERFACE="eno1np0"
+        if IPServerLocal == "172.16.112.60":
+            INTERFACE="eth0"
+        CommandResetLatency(INTERFACE)
+        return "LatencyReset"
 
     #Command to start ping from cloud to user
     @appc.route("/userlatency/", methods=['POST', 'GET', 'DELETE'])
