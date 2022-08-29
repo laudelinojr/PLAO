@@ -885,11 +885,11 @@ def main():
         if IPServerLocal =="10.50.0.159": 
             INTERFACE="eno1np0"
             IPSOURCE="200.137.82.21"
-            INCREASE="16"
+            INCREASE=INCREASE
         if IPServerLocal == "172.16.112.60":
             INTERFACE="eth0"
             IPSOURCE="200.137.75.159"
-            INCREASE="16"
+            INCREASE=INCREASE
         CommandUPLatency(IPSOURCE,INCREASE,INTERFACE)
         return "LatencyUp"
 
