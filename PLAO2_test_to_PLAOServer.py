@@ -50,7 +50,7 @@ if sys.argv[3] == "uplatencytouser":
     print ("Invalido: We need the Operation.")
     IPCLOUD = sys.argv[4] #IPCLOUD
     IPUSERTEST = sys.argv[5] #Send operational
-    VALUEUPLATENCY=sys.argv[6] #Send operational
+    INCREASE=sys.argv[6] #Send operational
     #Future: to valid the ip in third parameter
     if sys.argv[4] == '': 
         print ("Invalido: We need the user ip.")
