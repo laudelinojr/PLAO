@@ -533,12 +533,12 @@ def Collector_Memory_PLAO_Server(tempo_coleta,id_test):
     #tempo_coleta: 1.0 / 5.0
     #TEST_ID
     GRANULARITY=tempo_coleta
-    COD_DATA_TYPE=1 #CPU
-    COD_CLOUD=4
+    COD_DATA_TYPE=4 #MEMORY
+    COD_CLOUD=3
     while True:
         mem = psutil.virtual_memory()
         memoryso = round(mem.percent)
-        InsertDataTests(datetime.now().utcnow(),memoryso,id_test,GRANULARITY,COD_DATA_TYPE,COD_CLOUD)
+        InsertDataTests(datetime.timestamp(datetime.now().utcnow()),memoryso,id_test,GRANULARITY,COD_DATA_TYPE,COD_CLOUD)
         if (COMMAND_MON_PLAO == 0):
             break
         time.sleep(tempo_coleta)
@@ -1540,7 +1540,7 @@ def main():
 
             TEST_ID=InsertTests("Teste_send_job")
 
-            CriaThreadColetaCPU_Memoria(1,TEST_ID)
+            CriaThreadColetaCPU_Memoria(1.0,TEST_ID)
 
             ret_status = 0 #status of return cloud
             request_data = request.get_json()
