@@ -1399,9 +1399,6 @@ def main():
     @app.route('/getns/',methods=['GET'])
     def OSMgetns():
         OSM.check_token_valid(token)
-        #coletarNSid
-        #coletarNSVIM_1
-        #Falta inserir constraint PLA no ns scheduled, e tb restricao de jitter e latencia
         #id_ns_scheduled=(OSM.osm_create_instance_ns((token['id']),"teste_metrado_plao","de0bf24c-a3b4-4b7f-9066-61b4cb90f883","9f104eee-5470-4e23-a8dd-3f64a53aa547"))
         #OSM.osm_create_instance_ns_scheduled((token['id']),"teste_metrado_plao",str(id_ns_scheduled['id']),"9f104eee-5470-4e23-a8dd-3f64a53aa547")
         for i in OSM.osm_get_instance_ns(token['id']):
