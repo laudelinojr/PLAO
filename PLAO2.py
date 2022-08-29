@@ -522,7 +522,7 @@ def Collector_CPU_PLAO_Server(tempo_coleta,id_test):
     while True:
         cpuso = psutil.cpu_percent(interval=0.5)
         cpuso2 = round(cpuso)
-        InsertDataTests(datetime.now().utcnow(),cpuso2,id_test,GRANULARITY,COD_DATA_TYPE,COD_CLOUD)
+        InsertDataTests(datetime.timestamp(datetime.now().utcnow()),cpuso2,id_test,GRANULARITY,COD_DATA_TYPE,COD_CLOUD)
         if (COMMAND_MON_PLAO == 0):
             break
         time.sleep(tempo_coleta)
@@ -1966,7 +1966,7 @@ def main():
                 UpdateJob(JOB_COD,2) #Finished the job
                 UpdateFinishTestsMethodsifNone(METHOD_12_CL1)
                 UpdateFinishTestsMethodsifNone(METHOD_12_CL2)
-                DesativaThreadColetaCPU_Memoria() #Desativa coleta cpu e memoria
+                DesativaThreadColetaCPU_Memoria() #Desativa coleta cpu e memoria # SE FOR TER VARIOS JOBS AO MESMO TEMPOS, REPENSAR
                 UpdateFinishDateTestsbyId(TEST_ID)
 
                 TestTimes=SelectTestbyId(TEST_ID)
@@ -2253,6 +2253,7 @@ def main():
     app.run(IPServerLocal, '3332',debug=True)
 
 def CriaThreadColetaCPU_Memoria(tempo_coleta,id_test):
+    COMMAND_MON_PLAO=1
     thread_MonitorCPUPlaoServer = threading.Thread(target=Collector_CPU_PLAO_Server,args=(tempo_coleta,id_test))
     thread_MonitorCPUPlaoServer.start()
     thread_MonitorMemoriaPlaoServer = threading.Thread(target=Collector_Memory_PLAO_Server,args=(tempo_coleta,id_test))
