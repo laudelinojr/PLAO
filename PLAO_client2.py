@@ -221,16 +221,10 @@ def ExecuteCommand(exec_command):
   return ret.returncode
 
 def CommandUPLatency(IPDST,INCREASE,INTERFACE):
-    INTERFACE="OI"
-    try:
-        subprocess.check_output(["ping", "-c", QUANTITY_PCK, TARGET])
-    except:
-        return "" #if return with error, return empty
-    ExecuteCommand("sudo tc qdisc del dev "+{INTERFACE}+" root")
+    ExecuteCommand("sudo tc qdisc del dev "+INTERFACE+" root")
     ExecuteCommand("sudo tc qdisc add dev "+INTERFACE+" root handle 1: prio")
     ExecuteCommand("sudo tc filter add dev "+ INTERFACE +" parent 1:0 protocol ip prio 1 u32 match ip dst "+IPDST+" flowid 2:1")
     ExecuteCommand("sudo tc qdisc add dev " + INTERFACE + " parent 1:1 handle 2: netem delay "+INCREASE+"ms")
-
 
 def CommandResetLatency(INTERFACE):
     ExecuteCommand("sudo tc qdisc del dev " + INTERFACE + " root")
