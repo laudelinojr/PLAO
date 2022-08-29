@@ -894,7 +894,7 @@ def main():
         return "LatencyUp"
 
     @appc.route('/uplatencytouser/',methods=['POST'])
-    def uplatency():
+    def uplatencytouser():
         INTERFACE=""
         IPSOURCE=""
         request_data = request.get_json()

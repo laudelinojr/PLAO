@@ -1274,7 +1274,7 @@ def main():
 
 
     @app.route('/uplatencytouser/',methods=['POST'])
-    def uplatency2():
+    def uplatencytouser():
         if request.method == "POST":
 
             request_data = request.get_json()
