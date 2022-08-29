@@ -1235,6 +1235,83 @@ def main():
             else:
                 return "Started"
 
+
+    #Start aplication in server and clients, and start Thread of collector links metrics.
+    @app.route('/uplatency/',methods=['POST'])
+    def uplatency2():
+        if request.method == "POST":
+
+            #request_data = request.get_json()
+            #payload = request_data['ipuser']
+            
+            try:
+                requests.request(
+                    method="POST", url='http://'+nuvem1+':3333/uplatency/')#, json=payload)
+
+            except requests.ConnectionError:
+                print("OOPS!! Connection Error. Make sure you are connected to Internet.\n")           
+            except requests.Timeout:
+                print("OOPS!! Timeout Error")
+            except requests.RequestException:
+                print("OOPS!! General Error")
+            except KeyboardInterrupt:
+                print("Someone closed the program")
+
+            try:
+                requests.request(
+                    method="POST", url='http://'+nuvem2+':3333/uplatency/')#, json=payload)
+
+            except requests.ConnectionError:
+                print("OOPS!! Connection Error. Make sure you are connected to Internet.\n")
+                return ""            
+            except requests.Timeout:
+                print("OOPS!! Timeout Error")
+            except requests.RequestException:
+                print("OOPS!! General Error")
+            except KeyboardInterrupt:
+                print("Someone closed the program")
+            else:
+                return "Started"
+
+
+    #Start aplication in server and clients, and start Thread of collector links metrics.
+    @app.route('/resetlatency/',methods=['POST'])
+    def resetlatency2():
+        if request.method == "POST":
+
+            #request_data = request.get_json()
+            #payload = request_data['ipuser']
+            
+            try:
+                requests.request(
+                    method="POST", url='http://'+nuvem1+':3333/resetlatency/')#, json=payload)
+
+            except requests.ConnectionError:
+                print("OOPS!! Connection Error. Make sure you are connected to Internet.\n")           
+            except requests.Timeout:
+                print("OOPS!! Timeout Error")
+            except requests.RequestException:
+                print("OOPS!! General Error")
+            except KeyboardInterrupt:
+                print("Someone closed the program")
+
+            try:
+                requests.request(
+                    method="POST", url='http://'+nuvem2+':3333/resetlatency/')#, json=payload)
+
+            except requests.ConnectionError:
+                print("OOPS!! Connection Error. Make sure you are connected to Internet.\n")
+                return ""            
+            except requests.Timeout:
+                print("OOPS!! Timeout Error")
+            except requests.RequestException:
+                print("OOPS!! General Error")
+            except KeyboardInterrupt:
+                print("Someone closed the program")
+            else:
+                return "Started"
+
+
     #Load BD after to create BD
     @app.route('/firstloadbd/',methods=['POST'])
     def cargabd():
