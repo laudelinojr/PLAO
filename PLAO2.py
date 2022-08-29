@@ -2274,6 +2274,7 @@ def CriaThreadColetaCPU_Memoria(tempo_coleta,id_test):
     thread_MonitorMemoriaPlaoServer.start()
 
 def DesativaThreadColetaCPU_Memoria():
+    global COMMAND_MON_PLAO
     COMMAND_MON_PLAO=0
 
 def getMetricsVnfApplyWeight(VNF_CL_M):
