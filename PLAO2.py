@@ -88,17 +88,17 @@ class OSM_Auth():
         return response.json()
 
     def osm_delete_vim(self,token,vimID):
-        print ("vai")
+        #print ("vai")
         headers = {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
             "Authorization": 'Bearer ' + str(token)
         }
-        print(str(token))
+        #print(str(token))
         payload = {
         }
         response = requests.request("DELETE", url=str(self.geturls('url_vim')+"/"+vimID), headers=headers,verify=False)
-        print(response.json())
+        #print(response.json())
         return response.json()
 
     def osm_delete_instance_ns(self, token, nsId_instance):
@@ -120,7 +120,7 @@ class OSM_Auth():
             'Accept': 'application/json',
             "Authorization": 'Bearer ' + str(token)
         }
-        print(str(self.geturls('url_vnf_instances')))
+        #print(str(self.geturls('url_vnf_instances')))
         response = requests.request(method="GET", url=str(self.geturls('url_vnf_instances')), headers=headers,
                                      verify=False)
         return response.json()
@@ -131,7 +131,7 @@ class OSM_Auth():
             'Accept': 'application/json',
             "Authorization": 'Bearer ' + str(token)
         }
-        print(str(self.geturls('url_ns_instances')))
+        #print(str(self.geturls('url_ns_instances')))
         response = requests.request(method="GET", url=str(self.geturls('url_ns_instances')), headers=headers,
                                      verify=False)
         return response.json()
@@ -252,21 +252,21 @@ class OSM_Auth():
             "Authorization": 'Bearer '+str(token)
         }
         response = requests.request("GET", url, headers=headers, data=payload,verify=False)
-        print(response.json())
+        #print(response.json())
         for i in (response.json()):
-            print(type(i['name']))
-            print(type(name0))
+            #print(type(i['name']))
+            #print(type(name0))
             if i['name'] == name0:
                 return i['_id']
         return "-1"
 
     def check_token_valid(self,token):
         #Compara unixtimestemp e se for o caso gera outro invocando o osm_create_token
-        print ("Checking token")
+        #print("Checking token")
         actual=time.time()
-        print(actual)
+        #print(actual)
         to_expire=token['expires']
-        print(to_expire)
+        #print(to_expire)
         if (to_expire < actual):
             print ("Unixtimestamp atual:")
             print(actual)
@@ -338,7 +338,7 @@ class File_VNF_Price():
             with open(FILE_VNF_PRICE, 'w') as file:
                 documents = yaml.dump(self.B, file, sort_keys=False) #Export changes to file without order, equal original file
             if debug == 1: print("going to copy to SearchChangeVNFDPrice ")
-            print("lembrar descomentar linha para docker fazer copia vnf")
+            #print("lembrar descomentar linha para docker fazer copia vnf")
             ExecuteCommand('docker cp '+FILE_VNF_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')  
 
             try:
@@ -426,20 +426,20 @@ class File_PIL_Price():
     #Search cloud combination and change the price, latency and jitter
     def SearchChangePriceLatencyJitterPIL(self, PRICE,LATENCY,JITTER,OPENSTACK_FROM,OPENSTACK_TO,COD_TEST):
         CLOUD_COD=self.SearchChangePILPrice(OPENSTACK_FROM,OPENSTACK_TO)
-        if debug == 1: print("CLOUD_COD: "+str(CLOUD_COD))
-        if debug == 1: print("PRICE: "+str(PRICE))
-        if debug == 1: print("PRICE: "+str(LATENCY))
-        if debug == 1: print("PRICE: "+str(JITTER))        
-        if debug == 1: print("PRICE: "+str(OPENSTACK_FROM))
-        if debug == 1: print("PRICE: "+str(OPENSTACK_TO))
-        if debug == 1: print("PRICE: "+str(COD_TEST))
+        #if debug == 1: print("CLOUD_COD: "+str(CLOUD_COD))
+        #if debug == 1: print("PRICE: "+str(PRICE))
+        #if debug == 1: print("PRICE: "+str(LATENCY))
+        #if debug == 1: print("PRICE: "+str(JITTER))        
+        #if debug == 1: print("PRICE: "+str(OPENSTACK_FROM))
+        #if debug == 1: print("PRICE: "+str(OPENSTACK_TO))
+        #if debug == 1: print("PRICE: "+str(COD_TEST))
 
         if CLOUD_COD != -1:
             if (self.ChangePriceLatencyJitterPIL(CLOUD_COD,PRICE,LATENCY,JITTER)) != -1: #Change Price Latency and Jitter
                 with open(FILE_PIL_PRICE, 'w') as file:
                     documents = yaml.dump(self.B, file, sort_keys=False) #Export changes to file without order, equal original file
                 InsertActionsTests(COD_TEST,2,datetime.timestamp(datetime.now().utcnow()))
-                print("lembrar descomentar linha para docker fazer copia pil")
+                #print("lembrar descomentar linha para docker fazer copia pil")
                 ExecuteCommand('docker cp '+FILE_PIL_PRICE+' '+'$(docker ps -qf name=osm_pla):/placement/')
                 try:
                     nomearquivo8=PATH_LOG+'CONFIG_OSM_history.txt' #write data in file
@@ -502,12 +502,12 @@ def Collector_Metrics_Links_cl1(cloud1_gnocchi,cloud1_resource_id,cloud2,PILFile
         START=time_past
         STOP=now
         GRANULARITY=60.0
-        print("horarioInicio: "+str(START))
-        print("hoarioFinal: "+str(STOP))
+        #print("horarioInicio: "+str(START))
+        #print("hoarioFinal: "+str(STOP))
         Latencia_to_cloud2=cloud1_gnocchi.get_last_measure("Lat_To_"+cloud2.getExternalIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
-        print("LatenciatoCloud2: "+str(Latencia_to_cloud2))
+        #print("LatenciatoCloud2: "+str(Latencia_to_cloud2))
         Jitter_to_cloud2=cloud1_gnocchi.get_last_measure("Jit_To_"+cloud2.getExternalIp(),cloud1_resource_id,None,GRANULARITY,START,STOP)
-        print("JittertoCloud2: "+str(Jitter_to_cloud2))
+        #print("JittertoCloud2: "+str(Jitter_to_cloud2))
         PILFile.SearchChangePriceLatencyJitterPIL(Latencia_to_cloud2,Latencia_to_cloud2,Jitter_to_cloud2,CLOUD_FROM,CLOUD_TO,0)
         time.sleep(5)
 
@@ -524,7 +524,7 @@ def Collector_CPU_PLAO_Server(tempo_coleta,id_test):
     while True:
         cpuso = psutil.cpu_percent(interval=1)
         cpuso2 = round(cpuso)
-        print("cpu")
+        #print("cpu")
         #print(cpuso2)
         InsertDataTests(unixstime,id_test,cpuso2,GRANULARITY,COD_DATA_TYPE,COD_CLOUD)
         if (COMMAND_MON_PLAO == 0):
@@ -544,7 +544,7 @@ def Collector_Memory_PLAO_Server(tempo_coleta,id_test):
     while True:
         mem = psutil.virtual_memory()
         memoryso = round(mem.percent)
-        print("memory")
+        #print("memory")
         #print(memoryso)
         InsertDataTests(unixstime,id_test,memoryso,GRANULARITY,COD_DATA_TYPE,COD_CLOUD)
         if (COMMAND_MON_PLAO == 0):
@@ -993,8 +993,8 @@ def insertMetricsVnf(metric_data, weight0,  cod_metric,cod_job_vnf_cloud):
     ).execute()
 
 def GetMetricsVnf(metric_vnf_id):
-    print("metric vnf id:")
-    print(metric_vnf_id)
+    #print("metric vnf id:")
+    #print(metric_vnf_id)
     TestMetricsVnf=Metrics_Vnfs.get_or_none(Metrics_Vnfs.id_metric_vnf==metric_vnf_id)
     if TestMetricsVnf is None:
         return -1
@@ -1926,18 +1926,6 @@ def main():
                 ############################
                 UpdateFinishTestsMethods(METHOD_8_CL2)
 
-                print("coletas")
-                print("latencia to user Serra")
-                print(DATA_METRIC1_CL1)
-                print("cpu Serra")
-                print(DATA_METRIC2_CL1)
-                print("latencia to user Aracruz")
-                print(DATA_METRIC1_CL2)
-                print("cpu Aracruz")
-                print(DATA_METRIC2_CL2)
-                print("Lantencia entre Serra e Aracruz")
-                print(Latencia_to_cloud2)
-
             if(cloud1.getStatus()==1):
                 METHOD_9_CL1=InsertTestsMethods(TEST_ID,9,1)
                 ############################
@@ -2380,6 +2368,20 @@ def main():
                     print(metrics_test)
                     Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
 
+
+                print("coletas")
+                print("latencia to user Serra")
+                print(DATA_METRIC1_CL1)
+                print("cpu Serra")
+                print(DATA_METRIC2_CL1)
+                print("latencia to user Aracruz")
+                print(DATA_METRIC1_CL2)
+                print("cpu Aracruz")
+                print(DATA_METRIC2_CL2)
+                print("Lantencia entre Serra e Aracruz")
+                print(Latencia_to_cloud2)
+                print(OSMgetvnf3())
+                
                 return str(JOB_COD)
             else:
                 print("Problem Instanciation")
