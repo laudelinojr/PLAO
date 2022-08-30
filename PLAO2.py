@@ -2024,6 +2024,20 @@ def main():
             if (NSDID) == "-1":
                 return "NSD not exits"
 
+
+            print("coletas")
+            print("latencia to user Serra")
+            print(DATA_METRIC1_CL1)
+            print("cpu Serra")
+            print(DATA_METRIC2_CL1)
+            print("latencia to user Aracruz")
+            print(DATA_METRIC1_CL2)
+            print("cpu Aracruz")
+            print(DATA_METRIC2_CL2)
+            print("Lantencia entre Serra e Aracruz")
+            print(Latencia_to_cloud2)
+            print(OSMgetvnf3())
+
             id_ns_scheduled=(OSM.osm_create_instance_ns((token['id']),NS_NAME_INSTANCIATED,NSDID,VIMACCOUNTID))
 
             id_ns_instanciated=InsertNsInstanciated(NS_NAME_INSTANCIATED,id_ns_scheduled['id'],1,JOB_COD)
@@ -2370,20 +2384,6 @@ def main():
                     metrics_test=json.loads(get_data)
                     print(metrics_test)
                     Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
-
-
-                print("coletas")
-                print("latencia to user Serra")
-                print(DATA_METRIC1_CL1)
-                print("cpu Serra")
-                print(DATA_METRIC2_CL1)
-                print("latencia to user Aracruz")
-                print(DATA_METRIC1_CL2)
-                print("cpu Aracruz")
-                print(DATA_METRIC2_CL2)
-                print("Lantencia entre Serra e Aracruz")
-                print(Latencia_to_cloud2)
-                print(OSMgetvnf3())
                 
                 return str(JOB_COD)
             else:
