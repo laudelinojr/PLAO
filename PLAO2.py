@@ -522,10 +522,10 @@ def Collector_CPU_PLAO_Server(tempo_coleta,id_test):
     COD_DATA_TYPE=1 #CPU
     COD_CLOUD=3
     while True:
-        cpuso = psutil.cpu_percent(interval=0.5)
+        cpuso = psutil.cpu_percent(interval=1)
         cpuso2 = round(cpuso)
         print("cpu")
-        print(cpuso2)
+        #print(cpuso2)
         InsertDataTests(unixstime,id_test,cpuso2,GRANULARITY,COD_DATA_TYPE,COD_CLOUD)
         if (COMMAND_MON_PLAO == 0):
             break
@@ -545,7 +545,7 @@ def Collector_Memory_PLAO_Server(tempo_coleta,id_test):
         mem = psutil.virtual_memory()
         memoryso = round(mem.percent)
         print("memory")
-        print(memoryso)
+        #print(memoryso)
         InsertDataTests(unixstime,id_test,memoryso,GRANULARITY,COD_DATA_TYPE,COD_CLOUD)
         if (COMMAND_MON_PLAO == 0):
             break
