@@ -1926,6 +1926,18 @@ def main():
                 ############################
                 UpdateFinishTestsMethods(METHOD_8_CL2)
 
+                print("coletas")
+                print("cpu Serra")
+                print(DATA_METRIC1_CL1)
+                print("latencia to user Serra")
+                print(DATA_METRIC2_CL1)
+                print("cpu Aracruz")
+                print(DATA_METRIC1_CL2)
+                print("latencia to user Aracruz")
+                print(DATA_METRIC2_CL2)
+                print("Lantencia entre Serra e Aracruz")
+                print(Latencia_to_cloud2)
+
             if(cloud1.getStatus()==1):
                 METHOD_9_CL1=InsertTestsMethods(TEST_ID,9,1)
                 ############################
