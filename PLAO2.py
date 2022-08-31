@@ -2098,9 +2098,8 @@ def main():
 
                 TestTimes=SelectTestbyId(TEST_ID)
                 START_TEST_CHECK=TestTimes.get('start_date_test')
-                START_TEST_CHECKF=float(START_TEST_CHECK)
                 TEST_NOW = float(datetime.timestamp(datetime.now().utcnow()))
-                LEN_TEST=TEST_NOW-START_TEST_CHECKF
+                LEN_TEST=TEST_NOW-float(START_TEST_CHECK)
                 print("falta para os 210 segundos")
                 print(round(LEN_TEST))
                 if (LEN_TEST <= 210):
