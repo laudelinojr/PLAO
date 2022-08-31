@@ -2100,9 +2100,10 @@ def main():
                 START_TEST=float(TestTimes.get('start_date_test'))
                 TEST_NOW = float(datetime.timestamp(datetime.now().utcnow()))
                 LEN_TEST=TEST_NOW-START_TEST
+                print(LEN_TEST)
                 if (LEN_TEST <= 210):
                     ESPERAR=(210-LEN_TEST)
-                    time.sleep(int(ESPERAR))
+                    time.sleep(round(ESPERAR))
 
                 #Update Status Jobs
                 UpdateJob(JOB_COD,2) #Finished the job
