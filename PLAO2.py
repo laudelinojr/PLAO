@@ -2114,7 +2114,7 @@ def main():
                 UpdateFinishDateTestsbyId(TEST_ID)
 
                 #TestTimes=SelectTestbyId(TEST_ID)
-                #START_TEST=TestTimes.get('start_date_test')
+                START_TEST=TestTimes.get('start_date_test')
                 STOP_TEST=TestTimes.get('finish_date_test')
 
                 START_TEST=datetime.fromtimestamp(float(START_TEST))
