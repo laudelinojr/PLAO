@@ -1801,6 +1801,8 @@ def main():
             #print(" id nova compute cloud2 ")
             #print(str(cloud2_resource_ids_nova))    
 
+            #Para seguir script do teste do artigo
+            time.sleep(30)
 
             if(cloud1.getStatus()==1):
                 METHOD_3_CL1=InsertTestsMethods(TEST_ID,3,1)
@@ -1856,7 +1858,6 @@ def main():
             insertMetricCloud(CLOUD2_COD,COD_METRIC2)
             #####Test#####Stop#####InsertMetricCloud()
             UpdateFinishTestsMethods(METHOD_5_CL2)
-
 
             
             if(cloud1.getStatus()==1):
@@ -2094,6 +2095,15 @@ def main():
                     out=True
 
             if (timeout != 60000) :
+
+                TestTimes=SelectTestbyId(TEST_ID)
+                START_TEST=float(TestTimes.get('start_date_test'))
+                TEST_NOW = float(datetime.timestamp(datetime.now().utcnow()))
+                LEN_TEST=TEST_NOW-START_TEST
+                if (LEN_TEST <= 210):
+                    ESPERAR=(210-LEN_TEST)
+                    time.sleep(int(ESPERAR))
+
                 #Update Status Jobs
                 UpdateJob(JOB_COD,2) #Finished the job
                 UpdateFinishTestsMethodsifNone(METHOD_12_CL1)
@@ -2101,8 +2111,8 @@ def main():
                 DesativaThreadColetaCPU_Memoria() #Desativa coleta cpu e memoria # SE FOR TER VARIOS JOBS AO MESMO TEMPOS, REPENSAR
                 UpdateFinishDateTestsbyId(TEST_ID)
 
-                TestTimes=SelectTestbyId(TEST_ID)
-                START_TEST=TestTimes.get('start_date_test')
+                #TestTimes=SelectTestbyId(TEST_ID)
+                #START_TEST=TestTimes.get('start_date_test')
                 STOP_TEST=TestTimes.get('finish_date_test')
 
                 START_TEST=datetime.fromtimestamp(float(START_TEST))
