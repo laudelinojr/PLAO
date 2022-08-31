@@ -2096,8 +2096,8 @@ def main():
 
             if (timeout != 60000) :
 
-                TestTimes=SelectTestbyId(TEST_ID)
-                START_TEST_CHECK=TestTimes.get('start_date_test')
+                TestTimes_check=SelectTestbyId(TEST_ID)
+                START_TEST_CHECK=TestTimes_check.get('start_date_test')
                 TEST_NOW = float(datetime.timestamp(datetime.now().utcnow()))
                 LEN_TEST=TEST_NOW-float(START_TEST_CHECK)
                 print("falta para os 210 segundos")
@@ -2113,7 +2113,7 @@ def main():
                 DesativaThreadColetaCPU_Memoria() #Desativa coleta cpu e memoria # SE FOR TER VARIOS JOBS AO MESMO TEMPOS, REPENSAR
                 UpdateFinishDateTestsbyId(TEST_ID)
 
-                #TestTimes=SelectTestbyId(TEST_ID)
+                TestTimes=SelectTestbyId(TEST_ID)
                 START_TEST=TestTimes.get('start_date_test')
                 STOP_TEST=TestTimes.get('finish_date_test')
 
