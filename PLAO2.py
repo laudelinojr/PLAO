@@ -2083,6 +2083,12 @@ def main():
 
                             if i['nsr-id-ref'] == id_ns_scheduled['id']:
                                 if i['_admin']['nsState'] == 'INSTANTIATED':
+
+
+                                    with open('log.txt', 'a') as f:
+                                        f.write('\n'.join(i))
+
+
                                     print(i['vim-account-id'])
                                     InsertVnfInstanciated(i['_id'],i['vnfd-ref'],GetIdCloudbyvimidosm(i['vim-account-id']),1,id_ns_instanciated)
                                     print(i)
