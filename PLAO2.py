@@ -2073,22 +2073,8 @@ def main():
                         print('NS pronto, registrando VNFs')
                         for i in OSM.osm_get_instance_vnf(token['id']):
                             #time.sleep(1)
-
-
-
-                            with open('log.txt', 'a') as f:
-                                f.write('\n' (i))
-
-
-
                             if i['nsr-id-ref'] == id_ns_scheduled['id']:
                                 if i['_admin']['nsState'] == 'INSTANTIATED':
-
-
-                                    with open('log.txt', 'a') as f:
-                                        f.write('\n'(i['vim-account-id']))
-
-
                                     print(i['vim-account-id'])
                                     InsertVnfInstanciated(i['_id'],i['vnfd-ref'],GetIdCloudbyvimidosm(i['vim-account-id']),1,id_ns_instanciated)
                                     print(i)
@@ -2097,8 +2083,10 @@ def main():
                                     print("vim account id")
                                     print(i['vim-account-id'])
                                     if (i['vim-account-id']=="9f104eee-5470-4e23-a8dd-3f64a53aa547"):
+                                        print("eh este 9f104eee-5470-4e23-a8dd-3f64a53aa547")
                                         UpdateFinishTestsMethodsifNone(METHOD_12_CL1) #CL1                                    
                                     if (i['vim-account-id']=="6ba02d24-6320-4322-9177-eb4987ad9465"):
+                                        print("eh este 6ba02d24-6320-4322-9177-eb4987ad9465")
                                         UpdateFinishTestsMethodsifNone(METHOD_12_CL2) #CL2
                                     print(i['_admin']['nsState'])
                         InsertActionsTests(TEST_ID,5,datetime.timestamp(datetime.now().utcnow())) #Registrar acao ao ser executado/Criar outro tipo para finalizado
@@ -2107,10 +2095,11 @@ def main():
                 timeout=timeout+1
                 if(timeout==60000):
                     out=True
-
+            return "ok"
             if (timeout != 60000) :
 
                 TestTimes_check=SelectTestbyId(TEST_ID)
+                return("ok")
                 START_TEST_CHECK=TestTimes_check.get('start_date_test')
                 TEST_NOW = float(datetime.timestamp(datetime.now().utcnow()))
                 LEN_TEST=TEST_NOW-float(START_TEST_CHECK)
