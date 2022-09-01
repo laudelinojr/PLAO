@@ -2093,13 +2093,14 @@ def main():
                         UpdateNsInstanciated(id_ns_scheduled,2,JOB_COD)
                         out=True
                 timeout=timeout+1
+                print(str(timeout))
                 if(timeout==60000):
                     out=True
-            return "ok"
+            #return "ok"
             if (timeout != 60000) :
 
                 TestTimes_check=SelectTestbyId(TEST_ID)
-                return("ok")
+                #return("ok")
                 START_TEST_CHECK=TestTimes_check.get('start_date_test')
                 TEST_NOW = float(datetime.timestamp(datetime.now().utcnow()))
                 LEN_TEST=TEST_NOW-float(START_TEST_CHECK)
@@ -2123,10 +2124,10 @@ def main():
                 START_TEST=datetime.fromtimestamp(float(START_TEST))
                 STOP_TEST=datetime.fromtimestamp(float(STOP_TEST))
 
-                print ("start test")
-                print(START_TEST)
-                print("stop test")
-                print(STOP_TEST)
+                #print ("start test")
+                #print(START_TEST)
+                #print("stop test")
+                #print(STOP_TEST)
 
                 OSM.check_token_valid(token)
 
@@ -2147,7 +2148,7 @@ def main():
                     print ("Error-NVNF Cloud 1") 
                 else:
                     metrics_test=json.loads(get_data)
-                    print(metrics_test)
+                    #print(metrics_test)
                     Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
 
 
@@ -2182,7 +2183,7 @@ def main():
                     print ("Error-CPU Cloud 1 60")
                 else:
                     metrics_test=json.loads(get_data)
-                    print(metrics_test)
+                    #print(metrics_test)
                     Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
 
 
@@ -2201,7 +2202,7 @@ def main():
                     print ("Error-Latencia Cloud 1 5")
                 else:
                     metrics_test=json.loads(get_data)
-                    print(metrics_test)
+                    #print(metrics_test)
                     Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
 
 
@@ -2220,7 +2221,7 @@ def main():
                     print ("Error-Jitter Cloud 1 to n2 5")
                 else:
                     metrics_test=json.loads(get_data)
-                    print(metrics_test)
+                    #print(metrics_test)
                     Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
 
 
@@ -2239,7 +2240,7 @@ def main():
                     print ("Error-Latencia Cloud 2 5")
                 else:
                     metrics_test=json.loads(get_data)
-                    print(metrics_test)
+                    #print(metrics_test)
                     Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
 
                 print("vai comecar Jitter n2 to n1")
@@ -2257,7 +2258,7 @@ def main():
                     print ("Error-Latencia Cloud 2 5")
                 else:
                     metrics_test=json.loads(get_data)
-                    print(metrics_test)
+                    #print(metrics_test)
                     Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
 
 
@@ -2276,7 +2277,7 @@ def main():
                     print ("Error-latencia Cloud 1 to user 5")
                 else:
                     metrics_test=json.loads(get_data)
-                    print(metrics_test)
+                    #print(metrics_test)
                     Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
 
                 print("vai comecar latencia n2 to user")
@@ -2294,7 +2295,7 @@ def main():
                     print ("Error-latencia Cloud 2 to user 5")
                 else:
                     metrics_test=json.loads(get_data)
-                    print(metrics_test)
+                    #print(metrics_test)
                     Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
 
                 print("vai comecar cpu n1")
@@ -2309,9 +2310,9 @@ def main():
                 get_data=CLOUD_GNOCCHI.get_last_measure_Date(METRIC,CLOUD_RESOURCE,AGGREGATION,GRANULARITY,START_TEST,STOP_TEST,TEST_ID,COD_CLOUD,COD_DATA_TYPE)
                 #print(get_data)
                 if get_data == -1:
-                    print ("Error-CPU Cloud 1 cpu1 5")   
-                metrics_test=json.loads(get_data)
-                print(metrics_test)
+                    #print ("Error-CPU Cloud 1 cpu1 5")   
+                    metrics_test=json.loads(get_data)
+                #print(metrics_test)
                 Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
 
                 print("vai comecar cpu cloud2")
@@ -2329,7 +2330,7 @@ def main():
                     print ("Error-CPU Cloud 2 cpu1 c1 60")  
                 else:
                     metrics_test=json.loads(get_data)
-                    print(metrics_test)
+                    #print(metrics_test)
                     Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
 
                 #print("vai comecar cpu cloud2")
@@ -2347,7 +2348,7 @@ def main():
                     print ("Error-CPU Cloud 2 cpu2 c1 5") 
                 else: 
                     metrics_test=json.loads(get_data)
-                    print(metrics_test)
+                    #print(metrics_test)
                     Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
 
                 print("vai comecar cpu cloud2 60")
@@ -2365,7 +2366,7 @@ def main():
                     print ("Error-CPU Cloud 2 cpu2 c2 60")  
                 else:
                     metrics_test=json.loads(get_data)
-                    print(metrics_test)
+                    #print(metrics_test)
                     Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
 
                 print("vai comecar cpu cloud2 5")
@@ -2383,7 +2384,7 @@ def main():
                     print ("Error-CPU Cloud 1 c2 5")  
                 else:
                     metrics_test=json.loads(get_data)
-                    print(metrics_test)
+                    #print(metrics_test)
                     Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
 
 
