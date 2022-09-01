@@ -2094,11 +2094,13 @@ def main():
                         out=True
                 timeout=timeout+1
                 print(str(timeout))
-                if(timeout==60000):
+                if(timeout==90000):
+                    print("saiu por timeout")
                     out=True
             #return "ok"
-            if (timeout != 60000) :
-
+            if (timeout != 80000) :
+                UpdateFinishTestsMethodsifNone(METHOD_12_CL1)
+                UpdateFinishTestsMethodsifNone(METHOD_12_CL2)
                 TestTimes_check=SelectTestbyId(TEST_ID)
                 #return("ok")
                 START_TEST_CHECK=TestTimes_check.get('start_date_test')
@@ -2112,8 +2114,7 @@ def main():
 
                 #Update Status Jobs
                 UpdateJob(JOB_COD,2) #Finished the job
-                UpdateFinishTestsMethodsifNone(METHOD_12_CL1)
-                UpdateFinishTestsMethodsifNone(METHOD_12_CL2)
+
                 DesativaThreadColetaCPU_Memoria() #Desativa coleta cpu e memoria # SE FOR TER VARIOS JOBS AO MESMO TEMPOS, REPENSAR
                 UpdateFinishDateTestsbyId(TEST_ID)
 
