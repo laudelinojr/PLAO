@@ -2067,12 +2067,20 @@ def main():
             while out==False:
                 test=OSM.osm_get_instance_ns_byid(token['id'],id_ns_scheduled['id'])
                 #print("dentro while")
-                if test['nsState']:
+                if 'nsState' in test:
                     #print("condicao test ok")
                     if test['nsState'] == "READY": #BUILDING whilen making
                         print('NS pronto, registrando VNFs')
                         for i in OSM.osm_get_instance_vnf(token['id']):
                             #time.sleep(1)
+
+
+
+                            with open('log.txt', 'a') as f:
+                                f.write('\n'.join(i))
+
+
+
                             if i['nsr-id-ref'] == id_ns_scheduled['id']:
                                 if i['_admin']['nsState'] == 'INSTANTIATED':
                                     print(i['vim-account-id'])
