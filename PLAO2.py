@@ -2069,26 +2069,26 @@ def main():
                 #print("dentro while")
                 if 'nsState' in test:
                     #print("condicao test ok")
-                    #if test['nsState'] == "READY": #BUILDING whilen making
-                    print('NS pronto, registrando VNFs')
-                    for i in OSM.osm_get_instance_vnf(token['id']):
-                        #time.sleep(1)
-                        if i['nsr-id-ref'] == id_ns_scheduled['id']:
-                            if i['_admin']['nsState'] == 'INSTANTIATED':
-                                print(i['vim-account-id'])
-                                InsertVnfInstanciated(i['_id'],i['vnfd-ref'],GetIdCloudbyvimidosm(i['vim-account-id']),1,id_ns_instanciated)
-                                print(i)
-                                print("id vnf")
-                                print (i['_id'])
-                                print("vim account id")
-                                print(i['vim-account-id'])
-                                if (i['vim-account-id']=="9f104eee-5470-4e23-a8dd-3f64a53aa547"):
-                                    print("eh este 9f104eee-5470-4e23-a8dd-3f64a53aa547")
-                                    UpdateFinishTestsMethodsifNone(METHOD_12_CL1) #CL1                                    
-                                if (i['vim-account-id']=="6ba02d24-6320-4322-9177-eb4987ad9465"):
-                                    print("eh este 6ba02d24-6320-4322-9177-eb4987ad9465")
-                                    UpdateFinishTestsMethodsifNone(METHOD_12_CL2) #CL2
-                                print(i['_admin']['nsState'])
+                    if test['nsState'] == "READY": #BUILDING whilen making
+                        print('NS pronto, registrando VNFs')
+                        for i in OSM.osm_get_instance_vnf(token['id']):
+                            #time.sleep(1)
+                            if i['nsr-id-ref'] == id_ns_scheduled['id']:
+                                if i['_admin']['nsState'] == 'INSTANTIATED':
+                                    print(i['vim-account-id'])
+                                    InsertVnfInstanciated(i['_id'],i['vnfd-ref'],GetIdCloudbyvimidosm(i['vim-account-id']),1,id_ns_instanciated)
+                                    print(i)
+                                    print("id vnf")
+                                    print (i['_id'])
+                                    print("vim account id")
+                                    print(i['vim-account-id'])
+                                    if (i['vim-account-id']=="9f104eee-5470-4e23-a8dd-3f64a53aa547"):
+                                        print("eh este 9f104eee-5470-4e23-a8dd-3f64a53aa547")
+                                        UpdateFinishTestsMethodsifNone(METHOD_12_CL1) #CL1                                    
+                                    if (i['vim-account-id']=="6ba02d24-6320-4322-9177-eb4987ad9465"):
+                                        print("eh este 6ba02d24-6320-4322-9177-eb4987ad9465")
+                                        UpdateFinishTestsMethodsifNone(METHOD_12_CL2) #CL2
+                                    print(i['_admin']['nsState'])
                         InsertActionsTests(TEST_ID,5,datetime.timestamp(datetime.now().utcnow())) #Registrar acao ao ser executado/Criar outro tipo para finalizado
                         UpdateNsInstanciated(id_ns_scheduled,2,JOB_COD)
                         out=True
