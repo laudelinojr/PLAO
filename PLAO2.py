@@ -2165,7 +2165,7 @@ def main():
                     print ("Error-NVNF Cloud 2") 
                 else:
                     metrics_test=json.loads(get_data)
-                    print(metrics_test)
+                    #print(metrics_test)
                     Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
 
                 print("vai comecar cpu n1")
