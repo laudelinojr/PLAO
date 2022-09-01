@@ -2086,7 +2086,7 @@ def main():
 
 
                                     with open('log.txt', 'a') as f:
-                                        f.write('\n'.join(i))
+                                        f.write('\n'.join(i['vim-account-id']))
 
 
                                     print(i['vim-account-id'])
