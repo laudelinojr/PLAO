@@ -2064,6 +2064,7 @@ def main():
             VNF_ALREADY=[]
 
             out=False
+            out2=False
             timeout=0
             while out==False:
                 test=OSM.osm_get_instance_ns_byid(token['id'],id_ns_scheduled['id'])
@@ -2071,7 +2072,7 @@ def main():
                 if 'nsState' in test:
                     #print("condicao test ok")
                     #if test['nsState'] == "READY": #BUILDING whilen making
-                    while True:
+                    while out2==False:
                         time.sleep(2)
                         print('NS pronto, registrando VNFs')
                         for i in OSM.osm_get_instance_vnf(token['id']):
@@ -2105,11 +2106,13 @@ def main():
                                                 UpdateFinishTestsMethodsifNone(METHOD_12_CL2) #CL2
                                     print(VNF_ALREADY)
                                     print(i['_admin']['nsState'])
-                        if(len(VNF_ALREADY)==2 and test['nsState'] == "READY"):
-                            print("VNFS ALREADY and nState READY")
-                            InsertActionsTests(TEST_ID,5,datetime.timestamp(datetime.now().utcnow())) #Registrar acao ao ser executado/Criar outro tipo para finalizado
-                            UpdateNsInstanciated(id_ns_scheduled,2,JOB_COD)
-                            out=True
+                        if(len(VNF_ALREADY)==2):
+                            out2=True
+                    if(test['nsState'] == "READY"):
+                        print("VNFS ALREADY and nState READY")
+                        InsertActionsTests(TEST_ID,5,datetime.timestamp(datetime.now().utcnow())) #Registrar acao ao ser executado/Criar outro tipo para finalizado
+                        UpdateNsInstanciated(id_ns_scheduled,2,JOB_COD)
+                        out=True
                 timeout=timeout+1
                 print(str(timeout))
                 if(timeout==90000):
