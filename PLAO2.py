@@ -2090,7 +2090,7 @@ def main():
                                     print("vim account id")
                                     print(i['vim-account-id'])
                                     print(VNF_ALREADY)
-                                    if i['ip-address'] is not "None":
+                                    if not i['ip-address']:
                                         print("entrei")
                                         print(i['ip-address'])
                                         if not (VNF_ALREADY.__contains__(i['ip-address'])):
