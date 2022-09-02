@@ -2061,6 +2061,7 @@ def main():
             #                print(i['vim-account-id'])
             #                print(i['_admin']['nsState'])
             #                out=True
+            VNF_ALREADY=[]
 
             out=False
             timeout=0
@@ -2079,21 +2080,30 @@ def main():
                                 if i['_admin']['nsState'] == 'INSTANTIATED':
                                     print(i['vim-account-id'])
                                     InsertVnfInstanciated(i['_id'],i['vnfd-ref'],GetIdCloudbyvimidosm(i['vim-account-id']),1,id_ns_instanciated)
+                                    print(test)
                                     print(i)
                                     print("id vnf")
                                     print (i['_id'])
+                                    print(i['ip-address'])
                                     print("vim account id")
                                     print(i['vim-account-id'])
-                                    if (i['vim-account-id']=="9f104eee-5470-4e23-a8dd-3f64a53aa547"):
-                                        print("eh este 9f104eee-5470-4e23-a8dd-3f64a53aa547")
-                                        UpdateFinishTestsMethodsifNone(METHOD_12_CL1) #CL1                                    
-                                    if (i['vim-account-id']=="6ba02d24-6320-4322-9177-eb4987ad9465"):
-                                        print("eh este 6ba02d24-6320-4322-9177-eb4987ad9465")
-                                        UpdateFinishTestsMethodsifNone(METHOD_12_CL2) #CL2
+                                    print(VNF_ALREADY)
+                                    if (i['ip-address'] != "None") and not (VNF_ALREADY.__contains__(i['ip-address']) ):
+                                        if (i['vim-account-id']=="9f104eee-5470-4e23-a8dd-3f64a53aa547"):
+                                            VNF_ALREADY.append(i['ip-address'])
+                                            print("eh este 9f104eee-5470-4e23-a8dd-3f64a53aa547")
+                                            UpdateFinishTestsMethodsifNone(METHOD_12_CL1) #CL1                                    
+                                        if (i['vim-account-id']=="6ba02d24-6320-4322-9177-eb4987ad9465"):
+                                            VNF_ALREADY.append(i['ip-address'])
+                                            print("eh este 6ba02d24-6320-4322-9177-eb4987ad9465")
+                                            UpdateFinishTestsMethodsifNone(METHOD_12_CL2) #CL2
+                                    print(VNF_ALREADY)
                                     print(i['_admin']['nsState'])
-                        InsertActionsTests(TEST_ID,5,datetime.timestamp(datetime.now().utcnow())) #Registrar acao ao ser executado/Criar outro tipo para finalizado
-                        UpdateNsInstanciated(id_ns_scheduled,2,JOB_COD)
-                        out=True
+                        if(len(VNF_ALREADY)==2 and test['nsState'] == "READY"):
+                            print("VNFS ALREADY and nState READY")
+                            InsertActionsTests(TEST_ID,5,datetime.timestamp(datetime.now().utcnow())) #Registrar acao ao ser executado/Criar outro tipo para finalizado
+                            UpdateNsInstanciated(id_ns_scheduled,2,JOB_COD)
+                            out=True
                 timeout=timeout+1
                 print(str(timeout))
                 if(timeout==90000):
