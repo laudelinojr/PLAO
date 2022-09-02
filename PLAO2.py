@@ -2073,7 +2073,7 @@ def main():
                     #print("condicao test ok")
                     #if test['nsState'] == "READY": #BUILDING whilen making
                     while out2==False:
-                        time.sleep(2)
+                        #time.sleep(2)
                         print('NS pronto, registrando VNFs')
                         for i in OSM.osm_get_instance_vnf(token['id']):
                             #time.sleep(1)
