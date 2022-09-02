@@ -2080,7 +2080,9 @@ def main():
                                 if i['_admin']['nsState'] == 'INSTANTIATED':
                                     print(i['vim-account-id'])
                                     InsertVnfInstanciated(i['_id'],i['vnfd-ref'],GetIdCloudbyvimidosm(i['vim-account-id']),1,id_ns_instanciated)
+                                    print("imprimindo teste")
                                     print(test)
+                                    print("imprimindo VNFs")
                                     print(i)
                                     print("id vnf")
                                     print (i['_id'])
