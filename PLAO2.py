@@ -2091,19 +2091,18 @@ def main():
                                     print(i['vim-account-id'])
                                     print(VNF_ALREADY)
                                     if i['ip-address'] is not None:
-                                        print("entrei")
                                         print(i['ip-address'])
                                         if not (VNF_ALREADY.__contains__(i['ip-address'])):
                                             if (i['vim-account-id']=="9f104eee-5470-4e23-a8dd-3f64a53aa547"):
                                                 VNF_ALREADY.append(i['ip-address'])
+                                                print("registrando cloud 1")
                                                 print("eh este 9f104eee-5470-4e23-a8dd-3f64a53aa547")
                                                 UpdateFinishTestsMethodsifNone(METHOD_12_CL1) #CL1                                    
                                             if (i['vim-account-id']=="6ba02d24-6320-4322-9177-eb4987ad9465"):
                                                 VNF_ALREADY.append(i['ip-address'])
+                                                print("registrando cloud 2")
                                                 print("eh este 6ba02d24-6320-4322-9177-eb4987ad9465")
                                                 UpdateFinishTestsMethodsifNone(METHOD_12_CL2) #CL2
-                                    if (len(VNF_ALREADY)==3):
-                                        return "ok"
                                     print(VNF_ALREADY)
                                     print(i['_admin']['nsState'])
                         if(len(VNF_ALREADY)==2 and test['nsState'] == "READY"):
