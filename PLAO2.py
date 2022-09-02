@@ -2088,7 +2088,7 @@ def main():
                                     print("vim account id")
                                     print(i['vim-account-id'])
                                     print(VNF_ALREADY)
-                                    if (i['ip-address'] != "None") and not (VNF_ALREADY.__contains__(i['ip-address']) ):
+                                    if (i['ip-address'] != "None") and (not VNF_ALREADY.__contains__(i['ip-address']) ):
                                         if (i['vim-account-id']=="9f104eee-5470-4e23-a8dd-3f64a53aa547"):
                                             VNF_ALREADY.append(i['ip-address'])
                                             print("eh este 9f104eee-5470-4e23-a8dd-3f64a53aa547")
