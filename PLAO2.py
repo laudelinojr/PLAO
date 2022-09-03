@@ -1053,6 +1053,8 @@ def FirstLoadBD():
     InsertActionsTestsTypes("Alteração do custo das VNFDs de acordo com a latência para o usuário final e percentual de uso de CPU da nuvem.")
     InsertActionsTestsTypes("Aumento dos custos de todos os VNFDs da nuvem após degradação do uso de CPU.")
     InsertActionsTestsTypes("Finish Instanciação de NS.")
+    InsertActionsTestsTypes("Finish Instanciação de VNF Cloud 1.")
+    InsertActionsTestsTypes("Finish Instanciação de VNF Cloud 2.")
     InsertDegradationVnfType("CPU")
     InsertDegradationVnfType("Memoria")
     InsertDegradationsCloudsTypes("CPU")
@@ -2098,12 +2100,15 @@ def main():
                                                 VNF_ALREADY.append(i['ip-address'])
                                                 print("registrando cloud 1")
                                                 print("eh este 9f104eee-5470-4e23-a8dd-3f64a53aa547")
+                                                InsertActionsTests(TEST_ID,6,datetime.timestamp(datetime.now().utcnow())) #Registrar Instanciado nuvem 1
                                                 UpdateFinishTestsMethodsifNone(METHOD_12_CL1) #CL1                                    
                                             if (i['vim-account-id']=="6ba02d24-6320-4322-9177-eb4987ad9465"):
                                                 VNF_ALREADY.append(i['ip-address'])
                                                 print("registrando cloud 2")
                                                 print("eh este 6ba02d24-6320-4322-9177-eb4987ad9465")
+                                                InsertActionsTests(TEST_ID,7,datetime.timestamp(datetime.now().utcnow())) #Registrar instanciado nuvem 2
                                                 UpdateFinishTestsMethodsifNone(METHOD_12_CL2) #CL2
+                                                
                                     print(VNF_ALREADY)
                                     print(i['_admin']['nsState'])
                         if(len(VNF_ALREADY)==2):
@@ -2120,8 +2125,8 @@ def main():
                     out=True
             #return "ok"
             if (timeout != 80000) :
-                UpdateFinishTestsMethodsifNone(METHOD_12_CL1)
-                UpdateFinishTestsMethodsifNone(METHOD_12_CL2)
+                # UpdateFinishTestsMethodsifNone(METHOD_12_CL1)
+                # UpdateFinishTestsMethodsifNone(METHOD_12_CL2)
                 TestTimes_check=SelectTestbyId(TEST_ID)
                 #return("ok")
                 START_TEST_CHECK=TestTimes_check.get('start_date_test')
