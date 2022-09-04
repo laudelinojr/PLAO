@@ -1700,9 +1700,9 @@ def main():
             CONSTRAINT_VLD_ID="ns_vl_2mlm" #['constraint_vld_id']
             #['threshold_metric_cloud']
             #['threshold_cloud']
-            DEGRADATION_THRESHOLD_VNF1=80 #['degradation_threshold_vnf1']
+            DEGRADATION_THRESHOLD_VNF1=70 #['degradation_threshold_vnf1']
             DEGRADATION_THRESHOLD_TYPE_VNF1=1 #['degradation_threshold_type_vnf1']
-            DEGRADATION_THRESHOLD_VNF2=90 #['degradation_threshold_vnf2']
+            DEGRADATION_THRESHOLD_VNF2=70 #['degradation_threshold_vnf2']
             DEGRADATION_THRESHOLD_TYPE_VNF2=1 #['degradation_threshold_type_vnf2']
             DEGRADATION_VNF1_METRIC_NAME="compute.node.cpu.percent"
             DEGRADATION_VNF2_METRIC_NAME="compute.node.cpu.percent"
