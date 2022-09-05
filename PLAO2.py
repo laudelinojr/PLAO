@@ -2338,10 +2338,11 @@ def main():
                 get_data=CLOUD_GNOCCHI.get_last_measure_Date(METRIC,CLOUD_RESOURCE,AGGREGATION,GRANULARITY,START_TEST,STOP_TEST,TEST_ID,COD_CLOUD,COD_DATA_TYPE)
                 #print(get_data)
                 if get_data == -1:
-                    #print ("Error-CPU Cloud 1 cpu1 5")   
+                    print ("Error-CPU Cloud 1 cpu1 5")
+                else:   
                     metrics_test=json.loads(get_data)
-                #print(metrics_test)
-                Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
+                    #print(metrics_test)
+                    Data_Tests.insert_many(metrics_test, fields=[Data_Tests.date_data_tests, Data_Tests.granularity_data_tests, Data_Tests.value_data_tests, Data_Tests.fk_tests, Data_Tests.fk_data_tests_types, Data_Tests.fk_cloud]).execute()
 
                 print("vai comecar cpu cloud2")
                 ###DADOS CPU
