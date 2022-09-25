@@ -1103,9 +1103,9 @@ def main():
     VNFFile = File_VNF_Price()
     PILFile = File_PIL_Price()
 
-    IP_OSM="10.159.205.10"
+    #IP_OSM="10.159.205.10"
     #IP_OSM="200.137.82.24"
-    #IP_OSM="127.0.0.1"
+    IP_OSM="127.0.0.1"
     OSM = OSM_Auth(IP_OSM)
     token=OSM.osm_create_token()
 
@@ -1122,7 +1122,8 @@ def main():
 
     cloud2 = Cloud(servers.getbyIndexIP(1),servers.getbyIndexExternalIP(1))
     cloud2.setName(servers.getServerName(cloud2.getIp()))
-    cloud2.setVimURL("http://200.137.82.21:5000/v3")
+    #cloud2.setVimURL("http://200.137.82.21:5000/v3")
+    cloud2.setVimURL("http://200.137.75.159:5000/v3")
     print(cloud2.getIp())
     print(cloud2.getVimURL())
     print(cloud2.getName())    
@@ -1173,7 +1174,8 @@ def main():
     #nuvem1="10.159.205.11"
     nuvem1="200.137.75.159"
     #nuvem2="10.159.205.8"
-    nuvem2="200.137.82.21"
+    #nuvem2="200.137.82.21"
+    nuvem2="200.137.75.159"
 
     #Start aplication in server and clients, and start Thread of collector links metrics.
     @app.route('/start/',methods=['POST'])
