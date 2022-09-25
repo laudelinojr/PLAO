@@ -80,7 +80,7 @@ class OSM_Auth():
         }
         payload = {
             "username": 'admin',
-            "password": 'admin',
+            "password": '@Baze190AX',
             "project_id": project_id
         }
         response = requests.request(method="POST", url=str(self.geturls('url_token_osm')), headers=headers,
