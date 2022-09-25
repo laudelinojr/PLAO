@@ -30,8 +30,8 @@ import openpyxl
 #Block to active log
 import logging
 #logger = logging.getLogger('peewee')
-logger.addHandler(logging.StreamHandler())
-logger.setLevel(logging.DEBUG)
+#logger.addHandler(logging.StreamHandler())
+#logger.setLevel(logging.DEBUG)
 
 
 #FILE_VNF_PRICE="/opt/PLAO/osm/vnf_price_list.yaml"
