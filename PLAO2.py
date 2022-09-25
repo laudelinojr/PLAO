@@ -2441,7 +2441,8 @@ def main():
 
     #servers = Servers()
     #IPServerLocal="10.159.205.10"
-    IPServerLocal="127.0.0.1"
+    #IPServerLocal="127.0.0.1"
+    IPServerLocal="172.16.112.56"
     #Alterar para IP do servidor do PLAO
     app.run(IPServerLocal, '3332',debug=True)
 
