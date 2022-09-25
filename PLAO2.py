@@ -1461,8 +1461,14 @@ def main():
     #Get NS Join VNF Instanciated All
     @app.route('/getnsjoinvnfall/',methods=['GET'])
     def OSMgetvnf2():
+
+        request_data = request.get_json()
+        payload = request_data['job_number']
+        #ver se tem metodo que pelo job_retorna o id_ns_scheduled
+        print(payload)
+    
         OSM.check_token_valid(token)
-        id_ns_scheduled="fe97314c-df28-4477-8b23-97f7778ebdc6"
+        id_ns_scheduled="f250c9db-0978-4fd4-9242-3f2904701339"
         LIST=(SelectNsjoinVNFInstanciated(id_ns_scheduled))
         df = pd.DataFrame(LIST)
         if (df.__len__() == 0):
