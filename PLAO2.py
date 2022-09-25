@@ -1174,7 +1174,7 @@ def main():
     #nuvem1="10.159.205.11"
     nuvem1="200.137.75.159"
     #nuvem2="10.159.205.8"
-    #nuvem2="200.137.82.21"
+    ##nuvem2="200.137.82.21"
     nuvem2="200.137.75.159"
 
     #Start aplication in server and clients, and start Thread of collector links metrics.
