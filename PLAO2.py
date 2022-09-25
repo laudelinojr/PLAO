@@ -263,6 +263,7 @@ class OSM_Auth():
     def check_token_valid(self,token):
         #Compara unixtimestemp e se for o caso gera outro invocando o osm_create_token
         #print("Checking token")
+        print(token)
         actual=time.time()
         print(actual)
         to_expire=token['expires']
