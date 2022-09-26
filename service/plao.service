@@ -2,9 +2,9 @@
 Description=PLAO
 
 [Service]
-User=laudelinoas
+User=mano
 WorkingDirectory=/opt/PLAO
-ExecStart=/usr/bin/python3 /opt/PLAO/PLAO2.py
+ExecStart="/usr/bin/python3 /opt/PLAO/PLAO2.py"
 Restart=always
 
 [Install]
