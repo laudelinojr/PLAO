@@ -1453,16 +1453,19 @@ def main():
     @app.route('/getuser/',methods=['GET'])
     def OSMgetuser():
         request_data = request.get_json()
-        LOGIN_USER=request_data['login_user']
-        PASS_USER=request_data['pass_user']
-        #Consulta no BD usuario e senha, e retorna um token
-        TOKEN_USER='fe97314cdf284477'
 
-        print(LOGIN_USER)
-        print(PASS_USER)
-        print(TOKEN_USER)
-        
-        return TOKEN_USER #token com 16 numeros
+        if ('login_user' or 'pass_user')  in request_data:
+
+            LOGIN_USER=request_data['login_user']
+            PASS_USER=request_data['pass_user']
+            #Consulta no BD usuario e senha, e retorna um token
+            TOKEN_USER='fe97314cdf284477'
+
+            print(LOGIN_USER)
+            print(PASS_USER)
+            print(TOKEN_USER)
+            
+            return TOKEN_USER #token com 16 numeros
 
     @app.route('/getnsbd/',methods=['GET'])
     def OSMgetnsbd():
