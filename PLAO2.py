@@ -1466,6 +1466,8 @@ def main():
             print(TOKEN_USER)
             
             return TOKEN_USER #token com 16 numeros
+        else:
+            return "-1"
 
     @app.route('/getnsbd/',methods=['GET'])
     def OSMgetnsbd():
