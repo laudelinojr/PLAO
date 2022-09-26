@@ -4,7 +4,7 @@ Description=PLAO
 [Service]
 User=mano
 WorkingDirectory=/opt/PLAO
-ExecStart="/usr/bin/python3 /opt/PLAO/PLAO2.py"
+ExecStart=/usr/bin/python3 /opt/PLAO/PLAO2.py
 #Restart=always
 Restart=on-failure
 RestartSec=5s
