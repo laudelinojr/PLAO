@@ -4,7 +4,7 @@ Description=PLAO
 [Service]
 User=laudelinoas
 WorkingDirectory=/opt/PLAO
-ExecStart=PLAO2.py
+ExecStart=python3 PLAO2.py
 Restart=always
 
 [Install]
