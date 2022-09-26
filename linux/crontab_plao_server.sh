@@ -4,7 +4,7 @@
 cd /opt/PLAO
 git pull
 
-if [ `ps ax | grep PLAO.py | grep -v grep | wc -l` ==  0 ] ; then
- cd /opt/PLAO/
- python3 PLAO2.py
-fi
+#if [ `ps ax | grep PLAO.py | grep -v grep | wc -l` ==  0 ] ; then
+# cd /opt/PLAO/
+# python3 PLAO2.py
+#fi

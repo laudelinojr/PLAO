@@ -6,7 +6,7 @@ git stash
 git stash clear
 git pull
 
-if [ `ps ax | grep PLAO_client2.py | grep -v grep | wc -l` ==  0 ] ; then
- cd /home/laudelinoas/PLAO
- python3 PLAO_client2.py
-fi
+#if [ `ps ax | grep PLAO_client2.py | grep -v grep | wc -l` ==  0 ] ; then
+# cd /home/laudelinoas/PLAO
+# python3 PLAO_client2.py
+#fi
