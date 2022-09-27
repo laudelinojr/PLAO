@@ -48,6 +48,7 @@ debug_file = 0 #keep 0
 #requisites for change all price of specif VIM (Cloud)
 DOWN_UP_PRICE=10 #Number to add vnf Price
 COMMAND_MON_PLAO=0
+token=0
 
 class OSM_Auth():
     def __init__(self, IP):
@@ -55,6 +56,9 @@ class OSM_Auth():
         self.token = ''
         self.name = ''
         self.port= 9999
+
+    def get_token(self):
+        return self.token
 
     def geturls(self,url):   
         urls = { 'url_projects'  : '/osm/admin/v1/projects',  
@@ -85,6 +89,7 @@ class OSM_Auth():
         }
         response = requests.request(method="POST", url=str(self.geturls('url_token_osm')), headers=headers,
                                     json=payload, verify=False)
+        self.token=response.json()
         return response.json()
 
     def osm_delete_vim(self,token,vimID):
@@ -1107,7 +1112,9 @@ def main():
     #IP_OSM="200.137.82.24"
     IP_OSM="127.0.0.1"
     OSM = OSM_Auth(IP_OSM)
-    token=OSM.osm_create_token()
+    OSM.osm_create_token()
+    print("token get token")
+    print(OSM.get_token())
 
     servers = Servers()
     print("Loading Cloud Class with Clouds")
@@ -1444,6 +1451,7 @@ def main():
 
     @app.route('/get_user_token/',methods=['GET'])
     def OSMgetuser():
+        token=OSM.get_token()
         token=OSM.check_token_valid(token)
 
         request_data = request.get_json()
