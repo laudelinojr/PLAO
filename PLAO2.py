@@ -1401,6 +1401,7 @@ def main():
 
     @app.route('/getvnf3/',methods=['GET'])
     def OSMgetvnf3():
+        token=OSM.get_token()
         token=OSM.check_token_valid(token)
         for i in OSM.osm_get_instance_vnf(token['id']):
             print (i)
