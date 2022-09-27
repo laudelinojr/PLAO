@@ -1712,6 +1712,7 @@ def main():
             global COMMAND_MON_PLAO
             COMMAND_MON_PLAO=1
 
+            token=OSM.get_token()
             token=OSM.check_token_valid(token)
 
             TEST_ID=InsertTests("Teste_send_job")
