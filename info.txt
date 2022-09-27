@@ -3,3 +3,5 @@ https://stackoverflow.com/questions/3777861/setting-y-axis-limit-in-matplotlib
 https://www.rnp.br/sistema-rnp/ferramentas/panorama-de-trafego
 
 ssh -o ServerAliveInterval=5 -o ServerAliveCountMax=1 mano@200.137.82.24
+python3 PLAO2_test_to_PLAOServer.py 200.137.82.24 POST firstloadbd
+python3 PLAO2_test_to_PLAOServer.py 200.137.82.24 POST sendjob 200.137.82.11 1

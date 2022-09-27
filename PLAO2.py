@@ -1144,24 +1144,24 @@ def main():
         cloud1_resource_ids_nova=""
         cloud1.setStatus(0)
     
-    # try:
-    #     print("Creating session in Openstack2...")
-    #     #Creating session OpenStack
-    #     #auth_session = OpenStack_Auth(cloud_name=VarCloudName)
-    #     print(cloud2.getName())
-    #     cloud2_auth_session = OpenStack_Auth(cloud_name=cloud2.getName())
-    #     cloud2_sess = cloud2_auth_session.get_session()
-    #     print("Creating object and using session in Gnocchi...")
-    #     #Insert Session in Gnocchi object   
-    #     cloud2_gnocchi = Gnocchi(session=cloud2_sess)
-    #     cloud2_resource_id=cloud2_gnocchi.get_resource_id("plao")
-    #     cloud2_resource_ids_nova=cloud2_gnocchi.get_resource_ids("nova_compute")
-    #     cloud2.setStatus(1)
-    # except:
-    #     print ("Problema ao acessar Cloud 2!!!")
-    #     cloud2_resource_id=""
-    #     cloud2_resource_ids_nova=""
-    #     cloud1.setStatus(0)
+    try:
+        print("Creating session in Openstack2...")
+        #Creating session OpenStack
+        #auth_session = OpenStack_Auth(cloud_name=VarCloudName)
+        print(cloud2.getName())
+        cloud2_auth_session = OpenStack_Auth(cloud_name=cloud2.getName())
+        cloud2_sess = cloud2_auth_session.get_session()
+        print("Creating object and using session in Gnocchi...")
+        #Insert Session in Gnocchi object   
+        cloud2_gnocchi = Gnocchi(session=cloud2_sess)
+        cloud2_resource_id=cloud2_gnocchi.get_resource_id("plao")
+        cloud2_resource_ids_nova=cloud2_gnocchi.get_resource_ids("nova_compute")
+        cloud2.setStatus(1)
+    except:
+        print ("Problema ao acessar Cloud 2!!!")
+        cloud2_resource_id=""
+        cloud2_resource_ids_nova=""
+        cloud1.setStatus(0)
         
     #File in Clouds
     app = Flask(__name__)
@@ -1452,7 +1452,7 @@ def main():
             PASS_USER=request_data['pass_user']
             #Consulta no BD usuario e senha, e retorna um token
 
-            
+
 
 
 
