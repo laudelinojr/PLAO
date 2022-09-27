@@ -1440,7 +1440,7 @@ def main():
         id_ns_scheduled="fe97314c-df28-4477-8b23-97f7778ebdc6"
         return OSM.osm_get_instance_ns_byid(token['id'],id_ns_scheduled)['nsState']
 
-    @app.route('/getuser/',methods=['GET'])
+    @app.route('/get_user_token/',methods=['GET'])
     def OSMgetuser():
         OSM.check_token_valid(token)
 
@@ -1451,6 +1451,11 @@ def main():
             LOGIN_USER=request_data['login_user']
             PASS_USER=request_data['pass_user']
             #Consulta no BD usuario e senha, e retorna um token
+
+            
+
+
+
             TOKEN_USER='fe97314cdf284477'
 
             print(LOGIN_USER)
