@@ -1135,9 +1135,7 @@ def main():
     print(cloud2.getVimURL())
     print(cloud2.getName())    
     print(cloud2.getCpu())
-
-    #Para anular a nuvem1
-    cloud2.setStatus(0)
+    cloud2.setStatus(0)#Para anular a nuvem2
 
     if (cloud1.getStatus() != 0):
         try:
