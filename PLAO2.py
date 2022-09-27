@@ -1501,6 +1501,7 @@ def main():
     #Return NS packages and VNFS pakages of OSMs
     @app.route('/listnsvnfpackage/',methods=['GET'])
     def OSMlistNSVNF():
+        token=OSM.get_token()
         token=OSM.check_token_valid(token)
         print("printing token")
         print(token)
