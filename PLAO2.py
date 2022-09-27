@@ -2471,16 +2471,18 @@ def main():
 
 
                 print("coletas")
-                print("latencia to user Serra")
-                print(DATA_METRIC1_CL1)
-                print("cpu Serra")
-                print(DATA_METRIC2_CL1)
-                print("latencia to user Aracruz")
-                print(DATA_METRIC1_CL2)
-                print("cpu Aracruz")
-                print(DATA_METRIC2_CL2)
-                print("Lantencia entre Serra e Aracruz")
-                print(Latencia_to_cloud2)
+                if(cloud1.getStatus()==1):
+                    print("latencia to user Serra")
+                    print(DATA_METRIC1_CL1)
+                    print("cpu Serra")
+                    print(DATA_METRIC2_CL1)
+                if(cloud2.getStatus()==1):
+                    print("latencia to user Aracruz")
+                    print(DATA_METRIC1_CL2)
+                    print("cpu Aracruz")
+                    print(DATA_METRIC2_CL2)
+                    print("Lantencia entre Serra e Aracruz")
+                    print(Latencia_to_cloud2)
                 print(OSMgetvnf3())
                 
                 return str(JOB_COD)
