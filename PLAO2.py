@@ -263,18 +263,22 @@ class OSM_Auth():
     def check_token_valid(self,token):
         #Compara unixtimestemp e se for o caso gera outro invocando o osm_create_token
         #print("Checking token")
-        print(token)
-        actual=time.time()
-        print(actual)
-        to_expire=token['expires']
-        #print(to_expire)
-        if (to_expire < actual):
-            print ("Unixtimestamp atual:")
+        if 'id' in token:
+            print(token)
+            actual=time.time()
             print(actual)
-            print("Unixtimestamp do token")
-            print (to_expire)
-            print("Renovando token...")
-            self.osm_create_token()
+            to_expire=token['expires']
+            #print(to_expire)
+            if (to_expire < actual):
+                print ("Unixtimestamp atual:")
+                print(actual)
+                print("Unixtimestamp do token")
+                print (to_expire)
+                print("Renovando token...")
+                return self.osm_create_token()
+            return token
+        else:
+            return self.osm_create_token()
 
 class File_VNF_Price():
     def __init__(self):
@@ -1144,24 +1148,22 @@ def main():
         cloud1_resource_ids_nova=""
         cloud1.setStatus(0)
     
-    try:
-        print("Creating session in Openstack2...")
-        #Creating session OpenStack
-        #auth_session = OpenStack_Auth(cloud_name=VarCloudName)
-        print(cloud2.getName())
-        cloud2_auth_session = OpenStack_Auth(cloud_name=cloud2.getName())
-        cloud2_sess = cloud2_auth_session.get_session()
-        print("Creating object and using session in Gnocchi...")
-        #Insert Session in Gnocchi object   
-        cloud2_gnocchi = Gnocchi(session=cloud2_sess)
-        cloud2_resource_id=cloud2_gnocchi.get_resource_id("plao")
-        cloud2_resource_ids_nova=cloud2_gnocchi.get_resource_ids("nova_compute")
-        cloud2.setStatus(1)
-    except:
-        print ("Problema ao acessar Cloud 2!!!")
-        cloud2_resource_id=""
-        cloud2_resource_ids_nova=""
-        cloud1.setStatus(0)
+    # try:
+    #     print("Creating session in Openstack2...")
+    #     print(cloud2.getName())
+    #     cloud2_auth_session = OpenStack_Auth(cloud_name=cloud2.getName())
+    #     cloud2_sess = cloud2_auth_session.get_session()
+    #     print("Creating object and using session in Gnocchi...")
+    #     #Insert Session in Gnocchi object   
+    #     cloud2_gnocchi = Gnocchi(session=cloud2_sess)
+    #     cloud2_resource_id=cloud2_gnocchi.get_resource_id("plao")
+    #     cloud2_resource_ids_nova=cloud2_gnocchi.get_resource_ids("nova_compute")
+    #     cloud2.setStatus(1)
+    # except:
+    #     print ("Problema ao acessar Cloud 2!!!")
+    #     cloud2_resource_id=""
+    #     cloud2_resource_ids_nova=""
+    #     cloud1.setStatus(0)
         
     #File in Clouds
     app = Flask(__name__)
@@ -1374,26 +1376,26 @@ def main():
 
     @app.route('/deletevims/',methods=['GET'])
     def getvims():
-        OSM.check_token_valid(token)
+        token=OSM.check_token_valid(token)
         OSM.osm_delete_vim(token['id'],"59ea6654-25f4-4196-a362-9745498721e1")
         return "ok"
 
     @app.route('/getOSMlistvim/',methods=['GET'])
     def OSMlistvim():
-        OSM.check_token_valid(token)
+        token=OSM.check_token_valid(token)
         print(OSM.osm_get_vim_accounts(token['id']))
         return "ok"
 
     @app.route('/getvnf3/',methods=['GET'])
     def OSMgetvnf3():
-        OSM.check_token_valid(token)
+        token=OSM.check_token_valid(token)
         for i in OSM.osm_get_instance_vnf(token['id']):
             print (i)
         return "ok"
 
     @app.route('/getns/',methods=['GET'])
     def OSMgetns():
-        OSM.check_token_valid(token)
+        token=OSM.check_token_valid(token)
         #id_ns_scheduled=(OSM.osm_create_instance_ns((token['id']),"teste_metrado_plao","de0bf24c-a3b4-4b7f-9066-61b4cb90f883","9f104eee-5470-4e23-a8dd-3f64a53aa547"))
         #OSM.osm_create_instance_ns_scheduled((token['id']),"teste_metrado_plao",str(id_ns_scheduled['id']),"9f104eee-5470-4e23-a8dd-3f64a53aa547")
         for i in OSM.osm_get_instance_ns(token['id']):
@@ -1405,7 +1407,7 @@ def main():
     #Delete rows in database
     @app.route('/deleteallbdns/',methods=['POST'])
     def OSMdeleteallbdns():
-        OSM.check_token_valid(token)
+        token=OSM.check_token_valid(token)
         for i in OSM.osm_get_instance_ns(token['id']):
             OSM.osm_delete_instance_ns(token['id'],i['_id'])
             Vnf_Instanciateds.delete().execute()
@@ -1416,7 +1418,7 @@ def main():
     #Change de status to deleted, but not delete the row
     @app.route('/deleteallns/',methods=['POST'])
     def OSMdeleteallns():
-        OSM.check_token_valid(token)
+        token=OSM.check_token_valid(token)
         for i in OSM.osm_get_instance_ns(token['id']):
             OSM.osm_delete_instance_ns(token['id'],i['_id'])
             Vnf_Instanciateds.update(fk_status=2).where(Vnf_Instanciateds.fk_ns_instanciated==i['_id']).execute()
@@ -1426,7 +1428,7 @@ def main():
 
     @app.route('/setns/',methods=['POST'])
     def OSMsetns():
-        OSM.check_token_valid(token)
+        token=OSM.check_token_valid(token)
         #coletarNSid
         #coletarNSVIM_1
         #Falta inserir constraint PLA no ns scheduled, e tb restricao de jitter e latencia
@@ -1436,13 +1438,13 @@ def main():
 
     @app.route('/getnsbyid/',methods=['GET'])
     def OSMsetns2():
-        OSM.check_token_valid(token)
+        token=OSM.check_token_valid(token)
         id_ns_scheduled="fe97314c-df28-4477-8b23-97f7778ebdc6"
         return OSM.osm_get_instance_ns_byid(token['id'],id_ns_scheduled)['nsState']
 
     @app.route('/get_user_token/',methods=['GET'])
     def OSMgetuser():
-        OSM.check_token_valid(token)
+        token=OSM.check_token_valid(token)
 
         request_data = request.get_json()
 
@@ -1451,10 +1453,6 @@ def main():
             LOGIN_USER=request_data['login_user']
             PASS_USER=request_data['pass_user']
             #Consulta no BD usuario e senha, e retorna um token
-
-
-
-
 
             TOKEN_USER='fe97314cdf284477'
 
@@ -1468,7 +1466,7 @@ def main():
 
     @app.route('/getnsbd/',methods=['GET'])
     def OSMgetnsbd():
-        OSM.check_token_valid(token)
+        token=OSM.check_token_valid(token)
         id_ns_scheduled="fe97314c-df28-4477-8b23-97f7778ebdc6"
         for i in SelectNsjoinVNFInstanciated(id_ns_scheduled):
             print (i)
@@ -1477,12 +1475,12 @@ def main():
     #Get NS Join VNF Instanciated All
     @app.route('/getnsjoinvnfall/',methods=['GET'])
     def OSMgetvnf2():
-        OSM.check_token_valid(token)
+        token=token=OSM.check_token_valid(token)
         request_data = request.get_json()
         payload = request_data['job_number']
         #ver se tem metodo que pelo job_retorna o id_ns_scheduled
         print(payload)
-        OSM.check_token_valid(token)
+        token=OSM.check_token_valid(token)
         id_ns_scheduled="f250c9db-0978-4fd4-9242-3f2904701339"
         LIST=(SelectNsjoinVNFInstanciated(id_ns_scheduled))
         df = pd.DataFrame(LIST)
@@ -1494,7 +1492,7 @@ def main():
     #Return NS packages and VNFS pakages of OSMs
     @app.route('/listnsvnfpackage/',methods=['GET'])
     def OSMlistNSVNF():
-        OSM.check_token_valid(token)
+        token=OSM.check_token_valid(token)
         print("printing token")
         print(token)
         if 'id' in token:
@@ -1520,7 +1518,7 @@ def main():
     @app.route('/deletensinstanciated/',methods=['POST'])
     ########################Falta coletar informacao com id e usar no metodo
     def OSMdeletensbyjob():
-        OSM.check_token_valid(token)
+        token=OSM.check_token_valid(token)
         ID_JOB=1
         ID_NS_INSTANCIATED=NS_Instanciateds.select(NS_Instanciateds.id_osm_ns_instanciated).where(NS_Instanciateds.fk_job==ID_JOB)
         OSM.osm_delete_instance_ns((token['id']),ID_NS_INSTANCIATED)
@@ -1696,7 +1694,7 @@ def main():
             global COMMAND_MON_PLAO
             COMMAND_MON_PLAO=1
 
-            OSM.check_token_valid(token)
+            token=OSM.check_token_valid(token)
 
             TEST_ID=InsertTests("Teste_send_job")
 
@@ -2048,7 +2046,7 @@ def main():
             METHOD_12_CL1=InsertTestsMethods(TEST_ID,12,1)
             METHOD_12_CL2=InsertTestsMethods(TEST_ID,12,2)
             #Instanciate NS in OSM
-            OSM.check_token_valid(token)
+            token=OSM.check_token_valid(token)
             #print(token['id'])
             print("nsd name")
             print(NSD_NAME)
@@ -2075,7 +2073,7 @@ def main():
             #    finish_date_vnf_instanciated = DateTimeField()
 
             #insert table BD as informacoes vnf
-            OSM.check_token_valid(token)
+            token=OSM.check_token_valid(token)
 
             OSM.osm_create_instance_ns_scheduled((token['id']),NS_NAME_INSTANCIATED,str(id_ns_scheduled['id']),VIMACCOUNTID,NSDID,CONSTRAINT_OPERACAO,CONSTRAINT_LATENCY,CONSTRAINT_JITTER,CONSTRAINT_VLD_ID)
             InsertActionsTests(TEST_ID,1,datetime.timestamp(datetime.now().utcnow())) #Instaciating VNF
@@ -2186,7 +2184,7 @@ def main():
                 #print("stop test")
                 #print(STOP_TEST)
 
-                OSM.check_token_valid(token)
+                token=OSM.check_token_valid(token)
 
                 #print(datetime.fromtimestamp(START_TEST))
                 #print(datetime.fromtimestamp(STOP_TEST))
