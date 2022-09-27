@@ -1136,7 +1136,10 @@ def main():
     print(cloud2.getName())    
     print(cloud2.getCpu())
 
-    if (nuvem1 != 0):
+    #Para anular a nuvem1
+    cloud2.setStatus(0)
+
+    if (cloud1.getStatus() != 0):
         try:
             print("Creating session in Openstack1...")
             #Creating session OpenStack
@@ -1157,7 +1160,7 @@ def main():
     else:
         cloud1.setStatus(0)
     
-    if (nuvem2 != 0):
+    if (cloud2.getStatus() != 0):
         try:
             print("Creating session in Openstack2...")
             print(cloud2.getName())
@@ -1185,8 +1188,7 @@ def main():
     nuvem1="200.137.75.159"
     #nuvem2="10.159.205.8"
     ##nuvem2="200.137.82.21"
-    ####nuvem2="200.137.75.159" #Comentado pois problema rota entre OSMM Aracruz e Nuvem Aracruz
-    nuvem2=0
+    nuvem2="200.137.75.159"
 
     #Start aplication in server and clients, and start Thread of collector links metrics.
     @app.route('/start/',methods=['POST'])
