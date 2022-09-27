@@ -583,7 +583,6 @@ def Collector_Metrics_Demand_Date(cloud,cloud1_gnocchi,cloud1_resource_id,cloud2
         print ("passei cloud 2")
         return cloud2_gnocchi.get_last_measure_Date(metric_name,cloud2_resource_id,None,GRANULARITY,START,STOP,1,1,1)
 
-
 #Collect metric links from cloud1 to cloud2
 def Monitor_Request_LatencyUser_Cloud1(cloud1_gnocchi,cloud1_resource_id,VNFFile,CLOUD_FROM):
     while True:
@@ -633,7 +632,6 @@ def Collector_Metrics_Disaggregated_cl1(cloud1_gnocchi,cloud1_resource_id_nova,C
         ##### FALTA CRIAR RESOURCE NOVA NOS OPENSTACK E POPULAR, BAIXAR TEMPO DE COLETA TB, ENTENDER...
         time.sleep(5)
 
-
 def InsertUser(name0, username0, password0):
     TestUsers=Users.get_or_none(Users.username_user==username0)
     if TestUsers is None:
@@ -670,8 +668,6 @@ def InsertDataTests(date, id_test, value, granularity, id_data_test_type, id_clo
             constraints=[SQL('AUTO_INCREMENT')])
     granularity_data_tests = CharField(max_length=100)
 
-
-
 def InsertTests(desc):
     return Tests.insert(
         description = desc,
@@ -703,7 +699,6 @@ def InsertDegradationVnfType(nametype):
         creation_date_degradations_vnfs_clouds_types=datetime.now(),
         name_degradations_vnfs_clouds_types = nametype
     ).execute()
-
 
 def UpdateFinishTestsMethods(cod_method_test):
     return Tests_Methods.update(finish_date_test_methods=datetime.timestamp(datetime.now().utcnow())).where(Tests_Methods.id_tests_methods==cod_method_test).execute()
@@ -1240,7 +1235,6 @@ def main():
             else:
                 return "Started"
 
-
     @app.route('/uplatencylink/',methods=['POST'])
     def uplatency2():
         if request.method == "POST":
@@ -1276,7 +1270,6 @@ def main():
                 print("Someone closed the program")
             else:
                 return "Started"
-
 
     @app.route('/uplatencytouser/',methods=['POST'])
     def uplatencytouser():
@@ -1316,8 +1309,6 @@ def main():
                 print("Someone closed the program")
             else:
                 return "Started"
-
-
 
     #Start aplication in server and clients, and start Thread of collector links metrics.
     @app.route('/resetlatency/',methods=['POST'])
@@ -1393,7 +1384,6 @@ def main():
         print(OSM.osm_get_vim_accounts(token['id']))
         return "ok"
 
-
     @app.route('/getvnf3/',methods=['GET'])
     def OSMgetvnf3():
         OSM.check_token_valid(token)
@@ -1452,6 +1442,8 @@ def main():
 
     @app.route('/getuser/',methods=['GET'])
     def OSMgetuser():
+        OSM.check_token_valid(token)
+
         request_data = request.get_json()
 
         if ('login_user' or 'pass_user')  in request_data:
@@ -1480,12 +1472,11 @@ def main():
     #Get NS Join VNF Instanciated All
     @app.route('/getnsjoinvnfall/',methods=['GET'])
     def OSMgetvnf2():
-
+        OSM.check_token_valid(token)
         request_data = request.get_json()
         payload = request_data['job_number']
         #ver se tem metodo que pelo job_retorna o id_ns_scheduled
         print(payload)
-    
         OSM.check_token_valid(token)
         id_ns_scheduled="f250c9db-0978-4fd4-9242-3f2904701339"
         LIST=(SelectNsjoinVNFInstanciated(id_ns_scheduled))
@@ -1494,6 +1485,31 @@ def main():
             return -1
         df2=json.dumps(json.loads(df.to_json(orient = 'records')), indent=2)
         return df2
+
+    #Return NS packages and VNFS pakages of OSMs
+    @app.route('/listnsvnfpackage/',methods=['GET'])
+    def OSMlistNSVNF():
+        OSM.check_token_valid(token)
+        print("printing token")
+        print(token)
+        if 'id' in token:
+            listnsvnf=OSM.osm_get_nsvnf(token['id'])
+            VNFDLISTSUM={}
+            for i in (listnsvnf):
+                ID=i['id']
+                VNFDLIST=[]
+                
+                VLD=(i['vld'])
+                for i in VLD:
+                    VNFD=(i['vnfd-connection-point-ref'])
+                    for i in VNFD:
+                        NEWVNFD=i['vnfd-id-ref']
+                        if (not VNFDLIST.__contains__(NEWVNFD)):
+                            VNFDLIST.append(i['vnfd-id-ref'])
+                VNFDLISTSUM.update({ID:VNFDLIST})
+            return (json.dumps(VNFDLISTSUM, indent=2))
+        else:
+            return "-1"
 
     #Mark wifh flag Delete specific ns instanciated
     @app.route('/deletensinstanciated/',methods=['POST'])
@@ -1519,27 +1535,6 @@ def main():
         print (test.get('start_date_test'))
         print (test.get('finish_date_test'))       
         return "ok"
-
-    #Return NS packages and VNFS pakages of OSMs
-    @app.route('/listnsvnfpackage/',methods=['GET'])
-    def OSMlistNSVNF():
-        OSM.check_token_valid(token)
-        print(token)
-        listnsvnf=OSM.osm_get_nsvnf(token['id'])
-        VNFDLISTSUM={}
-        for i in (listnsvnf):
-            ID=i['id']
-            VNFDLIST=[]
-            
-            VLD=(i['vld'])
-            for i in VLD:
-                VNFD=(i['vnfd-connection-point-ref'])
-                for i in VNFD:
-                    NEWVNFD=i['vnfd-id-ref']
-                    if (not VNFDLIST.__contains__(NEWVNFD)):
-                        VNFDLIST.append(i['vnfd-id-ref'])
-            VNFDLISTSUM.update({ID:VNFDLIST})
-        return (json.dumps(VNFDLISTSUM, indent=2))
 
     @app.route('/stop/',methods=['POST'])
     def stop():
@@ -2496,7 +2491,6 @@ def getMetricsVnfApplyWeight(VNF_CL_M):
     print (str(VNF_CL_M_BD_VALUE) + "x" +str(VNF_CL_M_BD_WEIGHT) + "=" +str(VNF_CL_M_CALC))
     
     return VNF_CL_M_CALC
-
 
 def getLastMeasureClouds(METRIC2_NAME,cloud1_gnocchi,cloud1_resource_ids_nova,cloud1_resource_id,GRANULARITY,START,STOP):
     if (METRIC2_NAME.__contains__("Lat_To_")):
