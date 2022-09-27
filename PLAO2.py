@@ -1451,6 +1451,7 @@ def main():
 
     @app.route('/get_user_token/',methods=['GET'])
     def OSMgetuser():
+        #teste
         token=OSM.get_token()
         token=OSM.check_token_valid(token)
 
