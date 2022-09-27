@@ -1524,6 +1524,7 @@ def main():
     @app.route('/listnsvnfpackage/',methods=['GET'])
     def OSMlistNSVNF():
         OSM.check_token_valid(token)
+        print(token)
         listnsvnf=OSM.osm_get_nsvnf(token['id'])
         VNFDLISTSUM={}
         for i in (listnsvnf):
