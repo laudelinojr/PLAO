@@ -883,7 +883,7 @@ def SelectNsjoinVNFInstanciated(cod):
 def SelectNsInstanciatedbyJob(job):
     print("print job in SelectNsInstanciatedbyJob")
     print(job)
-    selectbyjob=(NS_Instanciateds.select(NS_Instanciateds.id_osm_ns_instanciated).where(NS_Instanciateds.id_job==job).execute())#.dicts())
+    selectbyjob=(NS_Instanciateds.select(NS_Instanciateds.id_osm_ns_instanciated).where(NS_Instanciateds.id_job==job))#.dicts())
     print (selectbyjob)
     return selectbyjob 
 
