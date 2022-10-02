@@ -883,9 +883,10 @@ def SelectNsjoinVNFInstanciated(cod):
 def SelectNsInstanciatedbyJob(job):
     print("print job in SelectNsInstanciatedbyJob")
     print(job)
-    selectbyjob=(NS_Instanciateds.select(NS_Instanciateds.id_osm_ns_instanciated).where(NS_Instanciateds.id_job==job).get())#.dicts())
-    print (selectbyjob)
-    return selectbyjob 
+    selectbyjob=(NS_Instanciateds.select(NS_Instanciateds.id_osm_ns_instanciated).where(NS_Instanciateds.id_job==job))#.dicts())
+    for row in selectbyjob:
+        return str(row.id_osm_ns_instanciated)
+    return "-1"
 
 def updateCostJobVnfCloud(id_jobs_vnf_cloud0, cost_vnf):
     Jobs_Vnfs_Clouds.update(cost = cost_vnf).where(Jobs_Vnfs_Clouds.id_jobs_vnf_cloud==id_jobs_vnf_cloud0).execute()
