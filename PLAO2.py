@@ -872,8 +872,8 @@ def SelectNsjoinVNFInstanciated(cod):
     #.join(Status_Vnf_Instanciateds) 
     #.join(Status_NS_Instanciateds)
     .join(Clouds)
-    .where(NS_Instanciateds.id_osm_ns_instanciated==str(cod))           
-    .dicts().get())
+    .where(NS_Instanciateds.id_osm_ns_instanciated==cod)           
+    .dicts())
 
 
 def SelectNsInstanciatedbyJob(job):
@@ -1506,6 +1506,7 @@ def main():
         token=OSM.check_token_valid(token)
         #id_ns_scheduled="f250c9db-0978-4fd4-9242-3f2904701339"
         LIST=(SelectNsjoinVNFInstanciated(id_ns_scheduled))
+        print(LIST)
         df = pd.DataFrame(LIST)
         if (df.__len__() == 0):
             return -1
