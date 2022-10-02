@@ -876,7 +876,7 @@ def SelectNsjoinVNFInstanciated(cod):
     .join(Clouds)
     .where(NS_Instanciateds.id_osm_ns_instanciated==cod)           
     .dicts())
-    print(consultajob)
+    #print(consultajob)
     return consultajob
 
 
