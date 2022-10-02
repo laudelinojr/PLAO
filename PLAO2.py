@@ -1495,9 +1495,10 @@ def main():
     #Get NS Join VNF Instanciated All
     @app.route('/getnsjoinvnfall/',methods=['GET'])
     def OSMgetvnf2():
-        token=token=OSM.check_token_valid(token)
+        token=OSM.get_token()
+        token=OSM.check_token_valid(token)
         request_data = request.get_json()
-        payload = request_data['job_number']
+        payload = request_data['job']
         print(payload)
         id_ns_scheduled=str(SelectNsInstanciatedbyJob(payload))
         print(id_ns_scheduled)
