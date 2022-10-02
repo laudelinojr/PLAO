@@ -849,7 +849,7 @@ def SelectTests():
     return 1
 
 def SelectNsjoinVNFInstanciated(cod):
-    return (Jobs.select(
+    consultajob=(Jobs.select(
                                     Jobs.id_job,
                                     Jobs.fk_user,
                                     NS_Instanciateds.name_ns_instanciated,
@@ -874,6 +874,8 @@ def SelectNsjoinVNFInstanciated(cod):
     .join(Clouds)
     .where(NS_Instanciateds.id_osm_ns_instanciated==cod)           
     .dicts())
+    print(consultajob)
+    return consultajob
 
 
 def SelectNsInstanciatedbyJob(job):
