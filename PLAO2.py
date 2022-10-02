@@ -849,6 +849,8 @@ def SelectTests():
     return 1
 
 def SelectNsjoinVNFInstanciated(cod):
+    print(type(cod))
+    print(cod)
     consultajob=(Jobs.select(
                                     Jobs.id_job,
                                     Jobs.fk_user,
