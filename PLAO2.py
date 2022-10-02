@@ -874,6 +874,10 @@ def SelectNsjoinVNFInstanciated(cod):
     .join(Clouds)                            
     .dicts())
 
+
+def SelectNsInstanciatedbyJob(job):
+    return (NS_Instanciateds.select(NS_Instanciateds.id_osm_ns_instanciated).where(NS_Instanciateds.id_job==job))#.dicts())
+
 def updateCostJobVnfCloud(id_jobs_vnf_cloud0, cost_vnf):
     Jobs_Vnfs_Clouds.update(cost = cost_vnf).where(Jobs_Vnfs_Clouds.id_jobs_vnf_cloud==id_jobs_vnf_cloud0).execute()
     return "ExecutedUpdate"
@@ -1494,10 +1498,11 @@ def main():
         token=token=OSM.check_token_valid(token)
         request_data = request.get_json()
         payload = request_data['job_number']
-        #ver se tem metodo que pelo job_retorna o id_ns_scheduled
         print(payload)
+        id_ns_scheduled=str(SelectNsInstanciatedbyJob(payload))
+        print(id_ns_scheduled)
         token=OSM.check_token_valid(token)
-        id_ns_scheduled="f250c9db-0978-4fd4-9242-3f2904701339"
+        #id_ns_scheduled="f250c9db-0978-4fd4-9242-3f2904701339"
         LIST=(SelectNsjoinVNFInstanciated(id_ns_scheduled))
         df = pd.DataFrame(LIST)
         if (df.__len__() == 0):
@@ -2485,7 +2490,7 @@ def main():
                     print("Lantencia entre Serra e Aracruz")
                     print(Latencia_to_cloud2)
                 print(OSMgetvnf3())
-                
+
                 return str(JOB_COD)
             else:
                 print("Problem Instanciation")
