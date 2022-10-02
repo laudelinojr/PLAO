@@ -873,7 +873,7 @@ def SelectNsjoinVNFInstanciated(cod):
     #.join(Status_NS_Instanciateds)
     .join(Clouds)
     .where(NS_Instanciateds.id_osm_ns_instanciated==str(cod))           
-    .dicts())
+    .dicts().get())
 
 
 def SelectNsInstanciatedbyJob(job):
