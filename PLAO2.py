@@ -881,6 +881,7 @@ def SelectNsjoinVNFInstanciated(cod):
 
 
 def SelectNsInstanciatedbyJob(job):
+    print("print job in SelectNsInstanciatedbyJob")
     print(job)
     selectbyjob=(NS_Instanciateds.select(NS_Instanciateds.id_osm_ns_instanciated).where(NS_Instanciateds.id_job==job).execute())#.dicts())
     print (selectbyjob)
@@ -1509,6 +1510,7 @@ def main():
         payload = request_data['job']
         print(payload)
         id_ns_scheduled=str(SelectNsInstanciatedbyJob(payload))
+        print("id_ns_scheduled in route")
         print(id_ns_scheduled)
         token=OSM.check_token_valid(token)
         #id_ns_scheduled="f250c9db-0978-4fd4-9242-3f2904701339"
