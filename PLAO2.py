@@ -814,17 +814,17 @@ def SelectVnfInstanciatedExists(cod,vnf):
     # else:
     #     print("0")
     # return 1 #selectifExists[0]
-    for row in selectifExists:
-        if (len(selectifExists)>0):
-            print (selectifExists)
-            print('dentro if 0 ')
-            time.sleep(10)   
-            return 0
-        else:
-            print (selectifExists)
-            print('dentro if -1 ')
-            time.sleep(10)   
-            return -1
+    # for row in selectifExists:
+    #     if (len(selectifExists)>0):
+    #         print (selectifExists)
+    #         print('dentro if 0 ')
+    #         time.sleep(10)   
+    #         return 0
+    #     else:
+    #         print (selectifExists)
+    #         print('dentro if -1 ')
+    #         time.sleep(10)   
+    #         return -1
 
 
 
