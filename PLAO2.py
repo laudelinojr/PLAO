@@ -1409,6 +1409,16 @@ def main():
         
         return "StopColetaPlao"
 
+
+    @app.route('/teste2/',methods=['GET'])
+    def startcoletaplao2():
+        cod='23d446ae-6a80-49ea-8c53-b8c3ce9de46d'
+        vnf='VNFA'
+        SelectVnfInstanciatedExists(cod,vnf)
+        return "StopColetaPlao"
+
+
+
     #Load BD after to create BD
     @app.route('/selecttestes/',methods=['GET'])
     def selecttests():
