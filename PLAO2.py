@@ -802,6 +802,8 @@ def SelectVnfInstanciatedExists(cod,vnf):
     selectifExists=Vnf_Instanciateds.select().dicts().get()
     #.where((Vnf_Instanciateds.fk_ns_instanciated==cod)&(Vnf_Instanciateds.name_osm_vnf_instanciated==vnf)).dicts().get()
     print(selectifExists)
+    print(type(selectifExists))
+    print(len(selectifExists))
     return 1 #selectifExists[0]
     for row in selectifExists:
         if (len(selectifExists)>0):
