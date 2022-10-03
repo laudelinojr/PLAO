@@ -802,8 +802,14 @@ def SelectVnfInstanciatedExists(cod,vnf):
     selectifExists=Vnf_Instanciateds.select().join(Status_Vnf_Instanciateds).where((Vnf_Instanciateds.id_osm_vnf_instanciated==cod)&(Vnf_Instanciateds.name_osm_vnf_instanciated==vnf))
     print (selectifExists)
     if (len(selectifExists)>0):
+        print (selectifExists)
+        print('dentro if 0 ')
+        time.sleep(10)   
         return 0
     else:
+        print (selectifExists)
+        print('dentro if -1 ')
+        time.sleep(10)   
         return -1
 
 def SelectVnfInstanciated(cod):
