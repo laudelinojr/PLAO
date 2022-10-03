@@ -798,6 +798,14 @@ def InsertVnfInstanciated(id_osm0,name_osm,id_fk_cloud,id_status,id_ns_instancia
         creation_date_vnf_instanciated = datetime.now()
     ).execute()
 
+def SelectVnfInstanciatedExists(cod,vnf):
+    selectifExists=Vnf_Instanciateds.select().join(Status_Vnf_Instanciateds).where((Vnf_Instanciateds.id_osm_vnf_instanciated==cod)&(Vnf_Instanciateds.name_osm_vnf_instanciated==vnf))
+    print (selectifExists)
+    if (len(selectifExists)>0):
+        return 0
+    else:
+        return -1
+
 def SelectVnfInstanciated(cod):
     return (Vnf_Instanciateds.select()
     .join(Status_Vnf_Instanciateds)
@@ -2146,7 +2154,8 @@ def main():
                             if i['nsr-id-ref'] == id_ns_scheduled['id']:
                                 if i['_admin']['nsState'] == 'INSTANTIATED':
                                     ####print(i['vim-account-id'])
-                                    InsertVnfInstanciated(i['_id'],i['vnfd-ref'],GetIdCloudbyvimidosm(i['vim-account-id']),1,id_ns_instanciated)
+                                    if (SelectVnfInstanciatedExists==-1):
+                                        InsertVnfInstanciated(i['_id'],i['vnfd-ref'],GetIdCloudbyvimidosm(i['vim-account-id']),1,id_ns_instanciated)
                                     ####print("imprimindo teste")
                                     ###print(test)
                                     ###print("imprimindo VNFs")
