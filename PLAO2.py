@@ -800,17 +800,22 @@ def InsertVnfInstanciated(id_osm0,name_osm,id_fk_cloud,id_status,id_ns_instancia
 
 def SelectVnfInstanciatedExists(cod,vnf):
     selectifExists=Vnf_Instanciateds.select().where((Vnf_Instanciateds.fk_ns_instanciated==cod)&(Vnf_Instanciateds.name_osm_vnf_instanciated==vnf)).dicts().get()
-    print (selectifExists)
-    if (len(selectifExists)>0):
-        print (selectifExists)
-        print('dentro if 0 ')
-        time.sleep(10)   
-        return 0
-    else:
-        print (selectifExists)
-        print('dentro if -1 ')
-        time.sleep(10)   
-        return -1
+    print(len(selectifExists))
+    return selectifExists[0]
+    for row in selectifExists:
+        if (len(selectifExists)>0):
+            print (selectifExists)
+            print('dentro if 0 ')
+            time.sleep(10)   
+            return 0
+        else:
+            print (selectifExists)
+            print('dentro if -1 ')
+            time.sleep(10)   
+            return -1
+
+
+
 
 def SelectVnfInstanciated(cod):
     return (Vnf_Instanciateds.select()
