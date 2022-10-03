@@ -2154,7 +2154,7 @@ def main():
                             if i['nsr-id-ref'] == id_ns_scheduled['id']:
                                 if i['_admin']['nsState'] == 'INSTANTIATED':
                                     ####print(i['vim-account-id'])
-                                    if (SelectVnfInstanciatedExists==-1):
+                                    if (SelectVnfInstanciatedExists(id_ns_instanciated,i['vnfd-ref']) == -1):
                                         InsertVnfInstanciated(i['_id'],i['vnfd-ref'],GetIdCloudbyvimidosm(i['vim-account-id']),1,id_ns_instanciated)
                                     ####print("imprimindo teste")
                                     ###print(test)
