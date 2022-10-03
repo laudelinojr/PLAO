@@ -820,7 +820,7 @@ def SelectVnfInstanciated(cod):
 def SelectNsInstanciated(cod):
     return (NS_Instanciateds.select()
     .join(Status_NS_Instanciateds)
-    .where((NS_Instanciateds.id_osm_ns_instanciated==cod)&(Vnf_Instanciateds.fk_status==Status_Vnf_Instanciateds.id_status)).dicts().get())
+    .where((NS_Instanciateds.id_osm_ns_instanciated==cod)&(Vnf_Instanciateds.fk_status==Status_Vnf_Instanciateds.id_status)).dicts())
 
 def SelectTests():
     result = (Tests.select(
