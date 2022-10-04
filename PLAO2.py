@@ -801,9 +801,13 @@ def InsertVnfInstanciated(id_osm0,name_osm,id_fk_cloud,id_status,id_ns_instancia
 
 def SelectVnfInstanciatedExists(cod,vnf):
     try:
+        print(cod)
+        print(type(cod))
+        print(type(vnf))
+        print(vnf)
         (NS_Instanciateds.select(Vnf_Instanciateds.fk_ns_instanciated)
         .join(Vnf_Instanciateds)
-        .where((NS_Instanciateds.id_osm_ns_instanciated==cod)&(Vnf_Instanciateds.name_osm_vnf_instanciated==vnf)).dicts().get())
+        .where((NS_Instanciateds.id_osm_ns_instanciated==str(cod))&(Vnf_Instanciateds.name_osm_vnf_instanciated==str(vnf))).dicts().get())
     except DoesNotExist:
         return -1
     return 1
