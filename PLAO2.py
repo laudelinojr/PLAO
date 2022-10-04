@@ -860,8 +860,8 @@ def SelectTests():
     return 1
 
 def SelectNsjoinVNFInstanciated(cod):
-    print(type(cod))
-    print(cod)
+    #print(type(cod))
+    #print(cod)
     consultajob=(Jobs.select(
                                     Jobs.id_job,
                                     Jobs.fk_user,
@@ -892,8 +892,8 @@ def SelectNsjoinVNFInstanciated(cod):
 
 
 def SelectNsInstanciatedbyJob(job):
-    print("print job in SelectNsInstanciatedbyJob")
-    print(job)
+    #print("print job in SelectNsInstanciatedbyJob")
+    #print(job)
     selectbyjob=(NS_Instanciateds.select(NS_Instanciateds.id_osm_ns_instanciated).where(NS_Instanciateds.id_job==job))#.dicts())
     for row in selectbyjob:
         return str(row.id_osm_ns_instanciated)
@@ -1528,14 +1528,14 @@ def main():
         token=OSM.check_token_valid(token)
         request_data = request.get_json()
         payload = request_data['job']
-        print(payload)
+        #print(payload)
         id_ns_scheduled=str(SelectNsInstanciatedbyJob(payload))
-        print("id_ns_scheduled in route")
-        print(id_ns_scheduled)
+        #print("id_ns_scheduled in route")
+        #print(id_ns_scheduled)
         token=OSM.check_token_valid(token)
         #id_ns_scheduled="f250c9db-0978-4fd4-9242-3f2904701339"
         LIST=(SelectNsjoinVNFInstanciated(id_ns_scheduled))
-        print(LIST)
+        #print(LIST)
         df = pd.DataFrame(LIST)
         if (df.__len__() == 0):
             return -1
