@@ -802,10 +802,10 @@ def SelectVnfInstanciatedExists(cod,vnf):
     selectifExists=""
     selectifExists=(NS_Instanciateds.select(Vnf_Instanciateds.fk_ns_instanciated)
     .join(Vnf_Instanciateds)
-    .where((NS_Instanciateds.id_osm_ns_instanciated==cod)&(Vnf_Instanciateds.name_osm_vnf_instanciated==vnf)).dicts().get())
+    .where((NS_Instanciateds.id_osm_ns_instanciated==cod)&(Vnf_Instanciateds.name_osm_vnf_instanciated=='ss')).dicts().get())
     
     print (selectifExists)
-    
+
     #.where((Vnf_Instanciateds.fk_ns_instanciated==cod)&(Vnf_Instanciateds.name_osm_vnf_instanciated==vnf)).dicts().get()
     if 'id_vnf_instanciated' in selectifExists:
         print("ok")
