@@ -804,11 +804,13 @@ def SelectVnfInstanciatedExists(cod,vnf):
     .join(Vnf_Instanciateds)
     .where((NS_Instanciateds.id_osm_ns_instanciated==cod)&(Vnf_Instanciateds.name_osm_vnf_instanciated==vnf)).dicts().get())
     
+    print (selectifExists)
+    
     #.where((Vnf_Instanciateds.fk_ns_instanciated==cod)&(Vnf_Instanciateds.name_osm_vnf_instanciated==vnf)).dicts().get()
-    # if 'id_vnf_instanciated' in selectifExists:
-    #     print("ok")
-    # else:
-    #     print("nao ok")
+    if 'id_vnf_instanciated' in selectifExists:
+        print("ok")
+    else:
+        print("nao ok")
     return 1
 
     # if (len(selectifExists)) > 0 :
