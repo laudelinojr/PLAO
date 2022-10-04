@@ -801,42 +801,12 @@ def InsertVnfInstanciated(id_osm0,name_osm,id_fk_cloud,id_status,id_ns_instancia
 
 def SelectVnfInstanciatedExists(cod,vnf):
     try:
-        selectifExists=""
         selectifExists=(NS_Instanciateds.select(Vnf_Instanciateds.fk_ns_instanciated)
         .join(Vnf_Instanciateds)
-        .where((NS_Instanciateds.id_osm_ns_instanciated==cod)&(Vnf_Instanciateds.name_osm_vnf_instanciated=='ss')).dicts().get())
+        .where((NS_Instanciateds.id_osm_ns_instanciated==cod)&(Vnf_Instanciateds.name_osm_vnf_instanciated==vnf)).dicts().get())
     except DoesNotExist:
         return -1
-    
-    print (selectifExists)
-
-    #.where((Vnf_Instanciateds.fk_ns_instanciated==cod)&(Vnf_Instanciateds.name_osm_vnf_instanciated==vnf)).dicts().get()
-    if 'id_vnf_instanciated' in selectifExists:
-        print("ok")
-    else:
-        print("nao ok")
     return 1
-
-    # if (len(selectifExists)) > 0 :
-    #     print(selectifExists)
-    #     print(type(selectifExists))
-    #     print(len(selectifExists))
-    # else:
-    #     print("0")
-    # return 1 #selectifExists[0]
-    # for row in selectifExists:
-    #     if (len(selectifExists)>0):
-    #         print (selectifExists)
-    #         print('dentro if 0 ')
-    #         time.sleep(10)   
-    #         return 0
-    #     else:
-    #         print (selectifExists)
-    #         print('dentro if -1 ')
-    #         time.sleep(10)   
-    #         return -1
-
-
 
 
 def SelectVnfInstanciated(cod):
@@ -1443,8 +1413,6 @@ def main():
         vnf="VNFA"
         retorno=str(SelectVnfInstanciatedExists(cod,vnf))
         return retorno
-
-
 
     #Load BD after to create BD
     @app.route('/selecttestes/',methods=['GET'])
