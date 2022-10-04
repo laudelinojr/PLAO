@@ -806,7 +806,7 @@ def SelectVnfInstanciatedExists(cod,vnf):
         .join(Vnf_Instanciateds)
         .where((NS_Instanciateds.id_osm_ns_instanciated==cod)&(Vnf_Instanciateds.name_osm_vnf_instanciated=='ss')).dicts().get())
     except DoesNotExist:
-        return json.loads({'error' : 'that set does not exist'})
+        return -1
     
     print (selectifExists)
 
