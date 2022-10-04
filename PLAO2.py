@@ -801,7 +801,7 @@ def InsertVnfInstanciated(id_osm0,name_osm,id_fk_cloud,id_status,id_ns_instancia
 
 def SelectVnfInstanciatedExists(cod,vnf):
     try:
-        selectifExists=(NS_Instanciateds.select(Vnf_Instanciateds.fk_ns_instanciated)
+        (NS_Instanciateds.select(Vnf_Instanciateds.fk_ns_instanciated)
         .join(Vnf_Instanciateds)
         .where((NS_Instanciateds.id_osm_ns_instanciated==cod)&(Vnf_Instanciateds.name_osm_vnf_instanciated==vnf)).dicts().get())
     except DoesNotExist:
