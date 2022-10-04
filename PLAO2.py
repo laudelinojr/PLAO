@@ -1441,8 +1441,8 @@ def main():
     def startcoletaplao2():
         cod="23d446ae-6a80-49ea-8c53-b8c3ce9de46d"
         vnf="VNFA"
-        SelectVnfInstanciatedExists(cod,vnf)
-        return "StopColetaPlao"
+        retorno=SelectVnfInstanciatedExists(cod,vnf)
+        return retorno
 
 
 
