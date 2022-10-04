@@ -1413,7 +1413,7 @@ def main():
 
     @app.route('/teste2/',methods=['GET'])
     def startcoletaplao2():
-        cod="23d446ae-6a80-49ea-8c53-b8c3ce9de46d"
+        cod="13"
         vnf="VNFA"
         retorno=str(SelectVnfInstanciatedExists(cod,vnf))
         return retorno
