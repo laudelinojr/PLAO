@@ -809,8 +809,8 @@ def SelectVnfInstanciatedExists(cod,vnf):
         .join(Vnf_Instanciateds)
         .where((NS_Instanciateds.id_ns_instanciated==str(cod))&(Vnf_Instanciateds.name_osm_vnf_instanciated==str(vnf))).dicts().get())
     except DoesNotExist:
-        return -1
-    return 1
+        return str('-1')
+    return str('1')
 
 
 def SelectVnfInstanciated(cod):
@@ -2169,7 +2169,7 @@ def main():
                             if i['nsr-id-ref'] == id_ns_scheduled['id']:
                                 if i['_admin']['nsState'] == 'INSTANTIATED':
                                     ####print(i['vim-account-id'])
-                                    if (SelectVnfInstanciatedExists(id_ns_instanciated,i['vnfd-ref']) == -1):
+                                    if (SelectVnfInstanciatedExists(id_ns_instanciated,i['vnfd-ref']) == "-1"):
                                         InsertVnfInstanciated(i['_id'],i['vnfd-ref'],GetIdCloudbyvimidosm(i['vim-account-id']),1,id_ns_instanciated)
                                     ####print("imprimindo teste")
                                     ###print(test)
