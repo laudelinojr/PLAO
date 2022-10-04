@@ -805,8 +805,8 @@ def SelectVnfInstanciatedExists(cod,vnf):
         .join(Vnf_Instanciateds)
         .where((NS_Instanciateds.id_ns_instanciated==str(cod))&(Vnf_Instanciateds.name_osm_vnf_instanciated==str(vnf))).dicts().get())
     except DoesNotExist:
-        return -1
-    return 1
+        return str('-1')
+    return str('1')
 
 
 def SelectVnfInstanciated(cod):
