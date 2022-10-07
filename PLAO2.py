@@ -28,6 +28,10 @@ import time
 import openpyxl
 from database.models import DoesNotExist
 
+
+from flask import Flask
+from flask_cors import CORS
+
 #Block to active log
 import logging
 #logger = logging.getLogger('peewee')
@@ -1205,6 +1209,7 @@ def main():
         
     #File in Clouds
     app = Flask(__name__)
+    CORS(app) #adicionado 06/10 p resolver problemas CORS
 
     # The payload is the user ip address.
     #nuvem1="10.159.205.11"
