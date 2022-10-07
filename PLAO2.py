@@ -1508,10 +1508,34 @@ def main():
             print(LOGIN_USER)
             print(PASS_USER)
             print(TOKEN_USER)
-            
-            return TOKEN_USER #token com 16 numeros
+
+            VNF_LIST=[TOKEN_USER]
+            df = pd.DataFrame(VNF_LIST, columns =['user_token'])
+            if (df.__len__() == 0):
+                return -1
+            df2=json.dumps(json.loads(df.to_json(orient = 'records')), indent=2)
+            return (df2) 
+
         else:
             return "-1"
+
+
+    def listmetricsvnf():
+        if request.method == "GET":
+            #CHECK_VNF=Vnfs.get_or_none()   
+            #if CHECK_VNF is not None: 
+            VNF_LIST=['TOKEN_USER']
+            df = pd.DataFrame(VNF_LIST, columns =['user_token'])
+            if (df.__len__() == 0):
+                return -1
+            df2=json.dumps(json.loads(df.to_json(orient = 'records')), indent=2)
+            return (df2) 
+
+
+
+
+
+
 
     @app.route('/getnsbd/',methods=['GET'])
     def OSMgetnsbd():
