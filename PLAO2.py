@@ -21,7 +21,7 @@ import subprocess
 from datetime import date,timedelta
 from PLAO_client2 import *
 #from PLAO2_w_routes import app
-from flask import Flask, request
+from flask import Flask, request, jsonify
 import requests
 from database.models import *
 import time
@@ -1514,12 +1514,13 @@ def main():
             #print(PASS_USER)
             #print(TOKEN_USER)
 
-            VNF_LIST=[TOKEN_USER]
-            df = pd.DataFrame(VNF_LIST, columns =['user_token'])
-            if (df.__len__() == 0):
-                return -1
-            df2=json.dumps(json.loads(df.to_json(orient = 'records')), indent=1)
-            return (df2) 
+            # VNF_LIST=[TOKEN_USER]
+            # df = pd.DataFrame(VNF_LIST, columns =['user_token'])
+            # if (df.__len__() == 0):
+            #     return -1
+            # df2=json.dumps(json.loads(df.to_json(orient = 'records')), indent=2)
+            return jsonify(user_token=TOKEN_USER) # Returns HTTP Response with {"hello": "world"}
+            #return (df2) 
 
         else:
             return "-1"
