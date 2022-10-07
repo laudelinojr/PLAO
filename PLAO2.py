@@ -1510,15 +1510,15 @@ def main():
 
             TOKEN_USER='fe97314cdf284477'
 
-            print(LOGIN_USER)
-            print(PASS_USER)
-            print(TOKEN_USER)
+            #print(LOGIN_USER)
+            #print(PASS_USER)
+            #print(TOKEN_USER)
 
             VNF_LIST=[TOKEN_USER]
             df = pd.DataFrame(VNF_LIST, columns =['user_token'])
             if (df.__len__() == 0):
                 return -1
-            df2=json.dumps(json.loads(df.to_json(orient = 'records')), indent=2)
+            df2=json.dumps(json.loads(df.to_json(orient = 'records')), indent=1)
             return (df2) 
 
         else:
