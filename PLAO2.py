@@ -1489,7 +1489,7 @@ def main():
         id_ns_scheduled="fe97314c-df28-4477-8b23-97f7778ebdc6"
         return OSM.osm_get_instance_ns_byid(token['id'],id_ns_scheduled)['nsState']
 
-    @app.route('/get_user_token/',methods=['POST'])
+    @app.route('/get_user_token/',methods=['GET'])
     def OSMgetuser():
         #teste
         token=OSM.get_token()
@@ -1530,12 +1530,6 @@ def main():
                 return -1
             df2=json.dumps(json.loads(df.to_json(orient = 'records')), indent=2)
             return (df2) 
-
-
-
-
-
-
 
     @app.route('/getnsbd/',methods=['GET'])
     def OSMgetnsbd():
