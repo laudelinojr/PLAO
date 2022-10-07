@@ -1748,8 +1748,22 @@ def main():
         if request.method == "GET":
             #CHECK_VNF=Vnfs.get_or_none()   
             #if CHECK_VNF is not None: 
-            VNF_LIST=['CPU','LATENCIA PARA USUÁRIO ']
-            df = pd.DataFrame(VNF_LIST, columns =['name_metric_vnf'])
+            VNF_LIST=['CPU','LATENCIA PARA USUARIO ']
+            df = pd.DataFrame(VNF_LIST, columns =['metric_vnf_x_name'])
+            if (df.__len__() == 0):
+                return -1
+            df2=json.dumps(json.loads(df.to_json(orient = 'records')), indent=2)
+            return (df2) 
+            #return "NO VNFS IN BD"
+
+    #List Metrics to VNF
+    @app.route("/listmetricsslasvnf/", methods=['GET'])
+    def listmetricsslasvnf():
+        if request.method == "GET":
+            #CHECK_VNF=Vnfs.get_or_none()   
+            #if CHECK_VNF is not None: 
+            VNF_LIST=['CPU']
+            df = pd.DataFrame(VNF_LIST, columns =['metric_degradation_threshold_vnf_x'])
             if (df.__len__() == 0):
                 return -1
             df2=json.dumps(json.loads(df.to_json(orient = 'records')), indent=2)
@@ -1763,7 +1777,7 @@ def main():
             #CHECK_VNF=Vnfs.get_or_none()   
             #if CHECK_VNF is not None: 
             VNF_LIST=['LATENCIA','JITTER']
-            df = pd.DataFrame(VNF_LIST, columns =['name_metric_vnf'])
+            df = pd.DataFrame(VNF_LIST, columns =['vnf_x_name'])
             if (df.__len__() == 0):
                 return -1
             df2=json.dumps(json.loads(df.to_json(orient = 'records')), indent=2)
