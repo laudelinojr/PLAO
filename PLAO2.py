@@ -1742,6 +1742,34 @@ def main():
                 #return "ok"
             return "NO VNFS IN BD"
 
+    #List Metrics to VNF
+    @app.route("/listmetricsvnf/", methods=['GET'])
+    def listmetricsvnf():
+        if request.method == "GET":
+            #CHECK_VNF=Vnfs.get_or_none()   
+            #if CHECK_VNF is not None: 
+            VNF_LIST=['CPU','LATENCIA PARA USUÁRIO ']
+            df = pd.DataFrame(VNF_LIST, columns =['name_metric_vnf'])
+            if (df.__len__() == 0):
+                return -1
+            df2=json.dumps(json.loads(df.to_json(orient = 'records')), indent=2)
+            return (df2) 
+            #return "NO VNFS IN BD"
+
+    #List Metrics to VNF
+    @app.route("/listmetricsbetweencloud/", methods=['GET'])
+    def listmetricsbetweencloud():
+        if request.method == "GET":
+            #CHECK_VNF=Vnfs.get_or_none()   
+            #if CHECK_VNF is not None: 
+            VNF_LIST=['LATENCIA','JITTER']
+            df = pd.DataFrame(VNF_LIST, columns =['name_metric_vnf'])
+            if (df.__len__() == 0):
+                return -1
+            df2=json.dumps(json.loads(df.to_json(orient = 'records')), indent=2)
+            return (df2) 
+            #return "NO VNFS IN BD"
+
     @app.route("/sendjob/", methods=['POST', 'GET', 'DELETE'])
     def send_job():
         if request.method == "POST":
