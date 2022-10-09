@@ -1503,39 +1503,13 @@ def main():
         request_data = request.get_json()
 
         if ('login_user' or 'pass_user')  in request_data:
-
             LOGIN_USER=request_data['login_user']
             PASS_USER=request_data['pass_user']
-            #Consulta no BD usuario e senha, e retorna um token
-
+            #Utilizar LOGIN_USER e PASS_USER e retornar token
             TOKEN_USER='fe97314cdf284477'
-
-            #print(LOGIN_USER)
-            #print(PASS_USER)
-            #print(TOKEN_USER)
-
-            # VNF_LIST=[TOKEN_USER]
-            # df = pd.DataFrame(VNF_LIST, columns =['user_token'])
-            # if (df.__len__() == 0):
-            #     return -1
-            # df2=json.dumps(json.loads(df.to_json(orient = 'records')), indent=2)
-            return jsonify(user_token=TOKEN_USER) # Returns HTTP Response with {"hello": "world"}
-            #return (df2) 
-
+            return jsonify(user_token=TOKEN_USER)
         else:
             return "-1"
-
-
-    def listmetricsvnf():
-        if request.method == "GET":
-            #CHECK_VNF=Vnfs.get_or_none()   
-            #if CHECK_VNF is not None: 
-            VNF_LIST=['TOKEN_USER']
-            df = pd.DataFrame(VNF_LIST, columns =['user_token'])
-            if (df.__len__() == 0):
-                return -1
-            df2=json.dumps(json.loads(df.to_json(orient = 'records')), indent=2)
-            return (df2) 
 
     @app.route('/getnsbd/',methods=['GET'])
     def OSMgetnsbd():
